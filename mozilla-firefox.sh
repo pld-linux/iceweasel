@@ -9,8 +9,8 @@ fi
 
 MOZILLA_FIVE_HOME=$LIBDIR
 
-MOZLOCALE="$(/usr/bin/locale | grep "^LC_MESSAGES=" | sed "s|LC_MESSAGES=||g")"
-eval MOZLOCALE="$(echo $MOZLOCALE | sed "s|_\([^.]*\).*|-\1|g")"
+MOZLOCALE="$(/usr/bin/locale | grep "^LC_MESSAGES=" | sed -e "s|LC_MESSAGES=||g" -e "s|\"||g" )"
+eval MOZLOCALE="$(echo $MOZLOCALE | sed -e "s|_\([^.]*\).*|-\1|g")"
 
 [ -f $MOZILLA_FIVE_HOME/chrome/$MOZLOCALE.jar ] && MOZARGS="-UILocale $MOZLOCALE"
 
