@@ -9,7 +9,19 @@ fi
 
 MOZILLA_FIVE_HOME=$LIBDIR
 
-MOZLOCALE=`echo $LANG | sed "s|_\([^.]*\).*|-\1|g"`
+if [ -z "$LC_ALL" ]; then
+	if [ -z "$LC_MESSAGES" ]; then
+		if [ -z "$LANG" ]; then
+			MOZLOCALE="en-US"
+		else
+			MOZLOCALE=`echo $LANG | sed "s|_\([^.]*\).*|-\1|g"`
+		fi
+	else
+		MOZLOCALE=`echo $LC_MESSAGES | sed "s|_\([^.]*\).*|-\1|g"`
+	fi
+else
+        MOZLOCALE=`echo $LC_ALL | sed "s|_\([^.]*\).*|-\1|g"`
+fi
 
 [ -f $MOZILLA_FIVE_HOME/chrome/$MOZLOCALE.jar ] && MOZARGS="-UILocale $MOZLOCALE"
 
