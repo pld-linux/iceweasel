@@ -7,6 +7,6 @@ Exec=mozilla-firefox
 Icon=mozilla-firefox.png
 Terminal=false
 Type=Application
-Categories=Network;X-WWW;
+Categories=GTK;Network;WebBrowser;
 Encoding=UTF-8
 # vi: encoding=utf-8
