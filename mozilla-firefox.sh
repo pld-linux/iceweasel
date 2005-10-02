@@ -9,10 +9,31 @@ fi
 
 MOZILLA_FIVE_HOME=$LIBDIR
 
-MOZLOCALE="$(/usr/bin/locale | grep "^LC_MESSAGES=" | sed -e "s|LC_MESSAGES=||g" -e "s|\"||g" )"
-eval MOZLOCALE="$(echo $MOZLOCALE | sed -e "s|_\([^.]*\).*|-\1|g")"
+MOZLOCALE="$(/usr/bin/locale | grep "^LC_MESSAGES=" | \
+		sed -e "s|LC_MESSAGES=||g" -e "s|\"||g" )"
+for MOZLANG in $(echo $LANGUAGE | tr ":" " ") $MOZLOCALE; do
+	eval MOZLANG="$(echo $MOZLANG | sed -e "s|_\([^.]*\).*|-\1|g")"
 
-[ -f $MOZILLA_FIVE_HOME/chrome/$MOZLOCALE.jar ] && MOZARGS="-UILocale $MOZLOCALE"
+	if [ -f $MOZILLA_FIVE_HOME/chrome/$MOZLANG.jar ]; then
+		MOZARGS="-UILocale $MOZLANG"
+		break
+	fi
+done
+
+if [ -z "$MOZARGS" ]; then
+	# try harder
+for MOZLANG in $(echo $LANGUAGE | tr ":" " ") $MOZLOCALE; do
+	eval MOZLANG="$(echo $MOZLANG | sed -e "s|_.*||g")"
+
+	LANGFILE=$(echo ${MOZILLA_FIVE_HOME}/chrome/${MOZLANG}*.jar \
+			| sed 's/\s.*//g' )
+	if [ -f "$LANGFILE" ]; then
+		MOZLANG=$(basename "$LANGFILE" | sed 's/\.jar//')
+		MOZARGS="-UILocale $MOZLANG"
+		break
+	fi
+done
+fi
 
 if [ -n "$MOZARGS" ]; then
 	FIREFOX="$LIBDIR/firefox $MOZARGS"
