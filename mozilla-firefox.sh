@@ -51,22 +51,22 @@ else
 fi
 
 if [ "$1" == "-remote" ]; then
-	$FIREFOX "$@"
+	exec $FIREFOX "$@"
 else
 	PING=`$FIREFOX -remote 'ping()' 2>&1 >/dev/null`
 	if [ -n "$PING" ]; then
 		if [ -f "`pwd`/$1" ]; then
-			$FIREFOX "file://`pwd`/$1"
+			exec $FIREFOX "file://`pwd`/$1"
 		else
-			$FIREFOX "$@"
+			exec $FIREFOX "$@"
 		fi
 	else
 		if [ -z "$1" ]; then
-			$FIREFOX -remote 'xfeDoCommand (openBrowser)'
+			exec $FIREFOX -remote 'xfeDoCommand (openBrowser)'
 		elif [ "$1" == "-mail" ]; then
-			$FIREFOX -remote 'xfeDoCommand (openInbox)'
+			exec $FIREFOX -remote 'xfeDoCommand (openInbox)'
 		elif [ "$1" == "-compose" ]; then
-			$FIREFOX -remote 'xfeDoCommand (composeMessage)'
+			exec $FIREFOX -remote 'xfeDoCommand (composeMessage)'
 		else
 			if [ -f "`pwd`/$1" ]; then
 				URL="file://`pwd`/$1"
@@ -75,9 +75,9 @@ else
 			fi
 			grep browser.tabs.opentabfor.middleclick ~/.mozilla/firefox/*/prefs.js | grep true > /dev/null
 			if [ 0 -eq 0 ]; then
-				$FIREFOX -remote "OpenUrl($URL,new-tab)"
+				exec $FIREFOX -remote "OpenUrl($URL,new-tab)"
 			else
-				$FIREFOX -remote "OpenUrl($URL,new-window)"
+				exec $FIREFOX -remote "OpenUrl($URL,new-window)"
 			fi
 		fi
 	fi
