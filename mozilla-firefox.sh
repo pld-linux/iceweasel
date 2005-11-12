@@ -22,17 +22,17 @@ done
 
 if [ -z "$MOZARGS" ]; then
 	# try harder
-for MOZLANG in $(echo $LANGUAGE | tr ":" " ") $MOZLOCALE; do
-	eval MOZLANG="$(echo $MOZLANG | sed -e "s|_.*||g")"
+	for MOZLANG in $(echo $LANGUAGE | tr ":" " ") $MOZLOCALE; do
+		eval MOZLANG="$(echo $MOZLANG | sed -e "s|_.*||g")"
 
-	LANGFILE=$(echo ${MOZILLA_FIVE_HOME}/chrome/${MOZLANG}*.jar \
-			| sed 's/\s.*//g' )
-	if [ -f "$LANGFILE" ]; then
-		MOZLANG=$(basename "$LANGFILE" | sed 's/\.jar//')
-		MOZARGS="-UILocale $MOZLANG"
-		break
-	fi
-done
+		LANGFILE=$(echo ${MOZILLA_FIVE_HOME}/chrome/${MOZLANG}*.jar \
+				| sed 's/\s.*//g' )
+		if [ -f "$LANGFILE" ]; then
+			MOZLANG=$(basename "$LANGFILE" | sed 's/\.jar//')
+			MOZARGS="-UILocale $MOZLANG"
+			break
+		fi
+	done
 fi
 
 if [ -n "$MOZARGS" ]; then
