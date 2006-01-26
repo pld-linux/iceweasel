@@ -62,11 +62,11 @@ else
 		fi
 	else
 		if [ -z "$1" ]; then
-			exec $FIREFOX -remote 'xfeDoCommand (openBrowser)'
+			exec $FIREFOX -remote 'xfeDoCommand(openBrowser)'
 		elif [ "$1" == "-mail" ]; then
-			exec $FIREFOX -remote 'xfeDoCommand (openInbox)'
+			exec $FIREFOX -remote 'xfeDoCommand(openInbox)'
 		elif [ "$1" == "-compose" ]; then
-			exec $FIREFOX -remote 'xfeDoCommand (composeMessage)'
+			exec $FIREFOX -remote 'xfeDoCommand(composeMessage)'
 		else
 			if [ -f "`pwd`/$1" ]; then
 				URL="file://`pwd`/$1"
