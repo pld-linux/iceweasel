@@ -1,11 +1,7 @@
 #!/bin/sh
 # based on script by (c) vip at linux.pl, wolf at pld-linux.org
 
-if [ `arch` == "x86_64" ]; then
-	LIBDIR="/usr/lib64/mozilla-firefox"
-else
-	LIBDIR="/usr/lib/mozilla-firefox"
-fi
+LIBDIR="@LIBDIR@/mozilla-firefox"
 
 MOZILLA_FIVE_HOME=$LIBDIR
 
