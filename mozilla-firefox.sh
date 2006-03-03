@@ -5,6 +5,7 @@ LIBDIR="@LIBDIR@/mozilla-firefox"
 
 MOZILLA_FIVE_HOME=$LIBDIR
 
+MOZARGS=
 MOZLOCALE="$(/usr/bin/locale | grep "^LC_MESSAGES=" | \
 		sed -e "s|LC_MESSAGES=||g" -e "s|\"||g" )"
 for MOZLANG in $(echo $LANGUAGE | tr ":" " ") $MOZLOCALE; do
