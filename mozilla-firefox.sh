@@ -72,9 +72,9 @@ else
 			fi
 			grep browser.tabs.opentabfor.middleclick ~/.mozilla/firefox/*/prefs.js | grep true > /dev/null
 			if [ 0 -eq 0 ]; then
-				exec $FIREFOX -remote "OpenUrl($URL,new-tab)"
+				exec $FIREFOX -new-tab "$URL"
 			else
-				exec $FIREFOX -remote "OpenUrl($URL,new-window)"
+				exec $FIREFOX -new-window "$URL"
 			fi
 		fi
 	fi
