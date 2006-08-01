@@ -51,96 +51,90 @@
  
  pref("font.name.serif.zh-CN", "serif");
  pref("font.name.sans-serif.zh-CN", "sans-serif");
-@@ -1988,64 +1988,64 @@
- #endif
+@@ -1989,63 +1989,63 @@
  
  pref("font.default.ar", "sans-serif");
--pref("font.size.variable.ar", 16);
-+pref("font.size.variable.ar", 12);
- pref("font.size.fixed.ar", 12);
+ pref("font.size.variable.ar", 16);
+-pref("font.size.fixed.ar", 12);
++pref("font.size.fixed.ar", 14);
  
 -pref("font.default.el", "serif");
--pref("font.size.variable.el", 16);
 +pref("font.default.el", "sans-serif");
-+pref("font.size.variable.el", 12);
- pref("font.size.fixed.el", 12);
+ pref("font.size.variable.el", 16);
+-pref("font.size.fixed.el", 12);
++pref("font.size.fixed.el", 14);
  
  pref("font.default.he", "sans-serif");
--pref("font.size.variable.he", 16);
-+pref("font.size.variable.he", 12);
- pref("font.size.fixed.he", 12);
+ pref("font.size.variable.he", 16);
+-pref("font.size.fixed.he", 12);
++pref("font.size.fixed.he", 14);
  
  pref("font.default.ja", "sans-serif");
--pref("font.size.variable.ja", 16);
+ pref("font.size.variable.ja", 16);
 -pref("font.size.fixed.ja", 16);
-+pref("font.size.variable.ja", 12);
-+pref("font.size.fixed.ja", 12);
++pref("font.size.fixed.ja", 14);
  
  pref("font.default.ko", "sans-serif");
--pref("font.size.variable.ko", 16);
+ pref("font.size.variable.ko", 16);
 -pref("font.size.fixed.ko", 16);
-+pref("font.size.variable.ko", 12);
-+pref("font.size.fixed.ko", 12);
++pref("font.size.fixed.ko", 14);
  
 -pref("font.default.th", "serif");
--pref("font.size.variable.th", 16);
 +pref("font.default.th", "sans-serif");
-+pref("font.size.variable.th", 12);
- pref("font.size.fixed.th", 12);
+ pref("font.size.variable.th", 16);
+-pref("font.size.fixed.th", 12);
++pref("font.size.fixed.th", 14);
  
 -pref("font.default.tr", "serif");
--pref("font.size.variable.tr", 16);
 +pref("font.default.tr", "sans-serif");
-+pref("font.size.variable.tr", 12);
- pref("font.size.fixed.tr", 12);
+ pref("font.size.variable.tr", 16);
+-pref("font.size.fixed.tr", 12);
++pref("font.size.fixed.tr", 14);
  
 -pref("font.default.x-baltic", "serif");
--pref("font.size.variable.x-baltic", 16);
 +pref("font.default.x-baltic", "sans-serif");
-+pref("font.size.variable.x-baltic", 12);
- pref("font.size.fixed.x-baltic", 12);
+ pref("font.size.variable.x-baltic", 16);
+-pref("font.size.fixed.x-baltic", 12);
++pref("font.size.fixed.x-baltic", 14);
  
 -pref("font.default.x-central-euro", "serif");
--pref("font.size.variable.x-central-euro", 16);
 +pref("font.default.x-central-euro", "sans-serif");
-+pref("font.size.variable.x-central-euro", 12);
- pref("font.size.fixed.x-central-euro", 12);
+ pref("font.size.variable.x-central-euro", 16);
+-pref("font.size.fixed.x-central-euro", 12);
++pref("font.size.fixed.x-central-euro", 14);
  
 -pref("font.default.x-cyrillic", "serif");
--pref("font.size.variable.x-cyrillic", 16);
 +pref("font.default.x-cyrillic", "sans-serif");
-+pref("font.size.variable.x-cyrillic", 12);
- pref("font.size.fixed.x-cyrillic", 12);
+ pref("font.size.variable.x-cyrillic", 16);
+-pref("font.size.fixed.x-cyrillic", 12);
++pref("font.size.fixed.x-cyrillic", 14);
  
 -pref("font.default.x-unicode", "serif");
--pref("font.size.variable.x-unicode", 16);
 +pref("font.default.x-unicode", "sans-serif");
-+pref("font.size.variable.x-unicode", 12);
- pref("font.size.fixed.x-unicode", 12);
+ pref("font.size.variable.x-unicode", 16);
+-pref("font.size.fixed.x-unicode", 12);
++pref("font.size.fixed.x-unicode", 14);
  
 -pref("font.default.x-western", "serif");
--pref("font.size.variable.x-western", 16);
 +pref("font.default.x-western", "sans-serif");
-+pref("font.size.variable.x-western", 12);
- pref("font.size.fixed.x-western", 12);
+ pref("font.size.variable.x-western", 16);
+-pref("font.size.fixed.x-western", 12);
++pref("font.size.fixed.x-western", 14);
  
  pref("font.default.zh-CN", "sans-serif");
--pref("font.size.variable.zh-CN", 16);
+ pref("font.size.variable.zh-CN", 16);
 -pref("font.size.fixed.zh-CN", 16);
-+pref("font.size.variable.zh-CN", 12);
-+pref("font.size.fixed.zh-CN", 12);
++pref("font.size.fixed.zh-CN", 14);
  
  pref("font.default.zh-TW", "sans-serif");
--pref("font.size.variable.zh-TW", 16);
+ pref("font.size.variable.zh-TW", 16);
 -pref("font.size.fixed.zh-TW", 16);
-+pref("font.size.variable.zh-TW", 12);
-+pref("font.size.fixed.zh-TW", 12);
++pref("font.size.fixed.zh-TW", 14);
  
  pref("font.default.zh-HK", "sans-serif");
--pref("font.size.variable.zh-HK", 16);
+ pref("font.size.variable.zh-HK", 16);
 -pref("font.size.fixed.zh-HK", 16);
-+pref("font.size.variable.zh-HK", 12);
-+pref("font.size.fixed.zh-HK", 12);
++pref("font.size.fixed.zh-HK", 14);
  
  // below a certian pixel size outline scaled fonts produce poor results
  pref("font.scale.outline.min",      6);
