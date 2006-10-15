@@ -3,7 +3,6 @@
 # - %files
 # - make it install in /usr/lib/iceweasel and so on (not mozilla-firefox)
 # - change patches to iceweasel (in sources)
-# - make it use mozilla-launcher
 # - check all other firefox todos:
 #
 # - with new gcc version (it is possible that)
@@ -323,7 +322,7 @@ sed -i -e 's#firefox-nspr =.*#mozilla-nspr#g' -e 's#irefox-nss =.*#mozilla-nss#g
 sed -i -e '/Cflags:/{/{includedir}\/dom/!s,$, -I${includedir}/dom,}' \
 	$RPM_BUILD_ROOT%{_pkgconfigdir}/firefox-plugin.pc
 
-cat << 'EOF' > $RPM_BUILD_ROOT%{_sbindir}/firefox-chrome+xpcom-generate
+cat << 'EOF' > $RPM_BUILD_ROOT%{_sbindir}/%{name}-chrome+xpcom-generate
 #!/bin/sh
 umask 022
 rm -f %{_iceweaseldir}/chrome/{chrome.rdf,overlayinfo/*/*/*.rdf}
