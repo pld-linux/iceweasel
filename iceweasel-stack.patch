@@ -1,0 +1,31 @@
+--- iceweasel-1.5.0-g1/xpcom/base/nsStackFrameUnix.cpp	2006-03-06 20:56:38.000000000 +0100
++++ mozilla/xpcom/base/nsStackFrameUnix.cpp	2006-02-24 06:45:20.000000000 +0100
+@@ -83,25 +83,15 @@
+ }
+ 
+ 
+-#if defined(linux) && defined(__GLIBC__) && (defined(__i386) || defined(PPC)) // i386 or PPC Linux stackwalking code
++#if defined(linux) && defined(__GNUC__) && (defined(__i386) || defined(PPC)) // i386 or PPC Linux stackwalking code
+ 
+-#include <setjmp.h>
+-//
+ 
+ void DumpStackToFile(FILE* aStream)
+ {
+-  jmp_buf jb;
+-  setjmp(jb);
+-
+   // Stack walking code courtesy Kipp's "leaky".
+ 
+-  // Get the frame pointer out of the jmp_buf
+-  void **bp = (void**)
+-#if defined(__i386) 
+-    (jb[0].__jmpbuf[JB_BP]);
+-#elif defined(PPC)
+-    (jb[0].__jmpbuf[JB_GPR1]);
+-#endif
++  // Get the frame pointer
++  void **bp = (void**) __builtin_frame_address(0);
+ 
+   int skip = 2;
+   for ( ; (void**)*bp > bp; bp = (void**)*bp) {
