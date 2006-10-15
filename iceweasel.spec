@@ -31,8 +31,8 @@ License:	MPL/LGPL
 Group:		X11/Applications/Networking
 Source0:	http://gnuzilla.gnu.org/download/%{name}-%{_sourceversion}-%{_rel}.tar.bz2
 # Source0-md5:	c7dd4d099bd9acdea0d16c601f359017
-Source1:	mozilla-firefox.desktop
-Source2:	mozilla-firefox.sh
+Source1:	%{name}.desktop
+Source2:	%{name}.sh
 Patch0:		%{name}-nss.patch
 Patch1:		mozilla-firefox-lib_path.patch
 Patch2:		mozilla-firefox-nss-system-nspr.patch
@@ -70,13 +70,14 @@ BuildRequires:	zip
 BuildRequires:	zlib-devel >= 1.2.3
 Requires(post):	mktemp >= 1.5-18
 Requires:	%{name}-lang-resources = %{version}
+Requires:	mozilla-launcher
 Requires:	nspr >= 1:4.6.1-2
 Requires:	nss >= 1:3.11.3
 Provides:	wwwbrowser
-Obsoletes:	mozilla-firebird
+#Obsoletes:	mozilla-firebird
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_firefoxdir	%{_libdir}/iceweasel
+%define		_iceweaseldir	%{_libdir}/iceweasel
 # mozilla and firefox provide their own versions
 %define		_noautoreqdep		libgkgfx.so libgtkembedmoz.so libgtkxtbin.so libjsj.so libmozjs.so libxpcom.so libxpcom_compat.so
 
@@ -106,8 +107,28 @@ Fredrik Hubbe's web site can be used test plugins
 (http://fredrik.hubbe.net/plugger.html?free=1).
 
 %description -l pl
-Mozilla Firefox jest open sourcow± przegl±dark± sieci WWW, stworzon± z
-my¶l± o zgodno¶ci ze standardami, wydajno¶ci± i przeno¶no¶ci±.
+IceWeasel jest wersj± GNU przegl±darki Firefox. Jej g³own± zaleta jest
+etyczna: jest ca³kowicie wolnym oprogramowaniem. Podczas gdy kod ¼ród³owy
+z projektu Mozilla jest wolnym oprogramowaniem, binaria, które wypuszczaj±
+zawieraj± dodatkowe nie wolne oprogramowanie. Dodatkowo dystrybuuj± nie
+wolne oprogramowanie jako wtyczki. (IceWeasel utrzymuje potrójne
+licencjonowanie u¿ywane przez Firefoxa by zaznaczyæ wtóre u¿ycie kodu.)
+
+IceWeasel zawiera równie¿ kilka cech s³u¿±cyc ochronie prywatno¶ci:
+Niektóre strony odwo³uj± siê do obrazków o zerowym rozmiarze na innym
+komputerze, by zarz±dzaæ ciasteczkami. Gdy IceWeasel wykryje ten mechanizm,
+blokuje ciasteczka ze strony zawieraj±cej obrazki zerowego rozmiaru.
+(Mo¿liwe jset w³±czenie obs³ugi ciasteczek dla takiej strony poprzez
+usuniêcie jej z listy blokowanych stron.)
+
+Inne strony modyfikuj± nazwê hosta w linkach, przekierowuj±c u¿ytkownika
+na inn± stronê, g³ównie by "¶ledziæ" klikniêcia. Gdy takie zachowanie
+zostanie wykryte, IceWeasel wy¶wietla wiadomo¶æ alarmuj±c u¿ytkownika.
+
+Be zobaczyæ nowe cechy w akcji, udostêpniono klika stron
+(http://gnuzilla.gnu.org/test).
+Strona Fredrika Hubbe mo¿e byæ u¿yta do przetestowania wtyczek
+(http://fredrik.hubbe.net/lugger.html?free=1).
 
 %package devel
 Summary:	Headers for developing programs that will use Iceweasel
@@ -115,7 +136,7 @@ Summary(pl):	Iceweasel - pliki nag³ówkowe
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 Requires:	nspr-devel >= 1:4.6.1-2
-Obsoletes:	mozilla-devel
+#Obsoletes:	mozilla-devel
 
 %description devel
 Iceweasel development package.
@@ -245,7 +266,7 @@ EOF
 
 %configure2_13
 
-%{__make} -j1
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -261,10 +282,10 @@ install -d \
 	MOZILLA_BIN="\$(DIST)/bin/iceweasel" \
 	EXCLUDE_NSPR_LIBS=1
 
-sed 's,@LIBDIR@,%{_libdir},' %{SOURCE2} > $RPM_BUILD_ROOT%{_bindir}/iceweasel
+sed 's,@LIBDIR@,%{_libdir},; s,@APPNAME@,%{name},' %{SOURCE2} > $RPM_BUILD_ROOT%{_bindir}/iceweasel
 
-#install -m0644 bookmarks.html $RPM_BUILD_ROOT%{_firefoxdir}/defaults/profile/
-#install -m0644 bookmarks.html $RPM_BUILD_ROOT%{_firefoxdir}/defaults/profile/US/
+#install -m0644 bookmarks.html $RPM_BUILD_ROOT%{_iceweaseldir}/defaults/profile/
+#install -m0644 bookmarks.html $RPM_BUILD_ROOT%{_iceweaseldir}/defaults/profile/US/
 
 install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
 
@@ -284,7 +305,7 @@ install dist/bin/xpt_link $RPM_BUILD_ROOT%{_bindir}
 #	$RPM_BUILD_ROOT%{_includedir}/mozilla-firefox/nsIURI.h
 
 # CA certificates
-ln -s %{_libdir}/libnssckbi.so $RPM_BUILD_ROOT%{_firefoxdir}/libnssckbi.so
+ln -s %{_libdir}/libnssckbi.so $RPM_BUILD_ROOT%{_iceweaseldir}/libnssckbi.so
 
 # pkgconfig files
 for f in build/unix/*.pc ; do
@@ -305,23 +326,23 @@ sed -i -e '/Cflags:/{/{includedir}\/dom/!s,$, -I${includedir}/dom,}' \
 cat << 'EOF' > $RPM_BUILD_ROOT%{_sbindir}/firefox-chrome+xpcom-generate
 #!/bin/sh
 umask 022
-rm -f %{_firefoxdir}/chrome/{chrome.rdf,overlayinfo/*/*/*.rdf}
-rm -f %{_firefoxdir}/components/{compreg,xpti}.dat
-MOZILLA_FIVE_HOME=%{_firefoxdir}
+rm -f %{_iceweaseldir}/chrome/{chrome.rdf,overlayinfo/*/*/*.rdf}
+rm -f %{_iceweaseldir}/components/{compreg,xpti}.dat
+MOZILLA_FIVE_HOME=%{_iceweaseldir}
 export MOZILLA_FIVE_HOME
 
 # PATH
-PATH=%{_firefoxdir}:$PATH
+PATH=%{_iceweaseldir}:$PATH
 export PATH
 
 # added %{_prefix}/lib : don't load your local library
-LD_LIBRARY_PATH=%{_firefoxdir}${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
+LD_LIBRARY_PATH=%{_iceweaseldir}${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
 export LD_LIBRARY_PATH
 
 unset TMPDIR TMP || :
 export HOME=$(mktemp -d)
-MOZILLA_FIVE_HOME=%{_firefoxdir} %{_firefoxdir}/regxpcom
-MOZILLA_FIVE_HOME=%{_firefoxdir} %{_firefoxdir}/firefox -register
+MOZILLA_FIVE_HOME=%{_iceweaseldir} %{_iceweaseldir}/regxpcom
+MOZILLA_FIVE_HOME=%{_iceweaseldir} %{_iceweaseldir}/firefox -register
 rm -rf $HOME
 EOF
 
@@ -333,10 +354,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %postun
 if [ "$1" = "0" ]; then
-	rm -rf %{_firefoxdir}/chrome/overlayinfo
-	rm -f  %{_firefoxdir}/chrome/*.rdf
-	rm -rf %{_firefoxdir}/components
-	rm -rf %{_firefoxdir}/extensions
+	rm -rf %{_iceweaseldir}/chrome/overlayinfo
+	rm -f  %{_iceweaseldir}/chrome/*.rdf
+	rm -rf %{_iceweaseldir}/components
+	rm -rf %{_iceweaseldir}/extensions
 fi
 
 #%triggerpostun -- %{name} < 1.5
@@ -350,41 +371,41 @@ fi
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) %{_sbindir}/*
-%dir %{_firefoxdir}
-%{_firefoxdir}/res
-%dir %{_firefoxdir}/components
-%attr(755,root,root) %{_firefoxdir}/components/*.so
-%{_firefoxdir}/components/*.js
-%{_firefoxdir}/components/*.xpt
-%dir %{_firefoxdir}/plugins
-%attr(755,root,root) %{_firefoxdir}/plugins/*.so
-%{_firefoxdir}/searchplugins
-%{_firefoxdir}/icons
-%{_firefoxdir}/defaults
-%{_firefoxdir}/greprefs
-%dir %{_firefoxdir}/extensions
-%dir %{_firefoxdir}/init.d
-%attr(755,root,root) %{_firefoxdir}/*.so
-%attr(755,root,root) %{_firefoxdir}/*.sh
-%attr(755,root,root) %{_firefoxdir}/m*
-%attr(755,root,root) %{_firefoxdir}/f*
-%attr(755,root,root) %{_firefoxdir}/reg*
-%attr(755,root,root) %{_firefoxdir}/x*
+%dir %{_iceweaseldir}
+%{_iceweaseldir}/res
+%dir %{_iceweaseldir}/components
+%attr(755,root,root) %{_iceweaseldir}/components/*.so
+%{_iceweaseldir}/components/*.js
+%{_iceweaseldir}/components/*.xpt
+%dir %{_iceweaseldir}/plugins
+%attr(755,root,root) %{_iceweaseldir}/plugins/*.so
+%{_iceweaseldir}/searchplugins
+%{_iceweaseldir}/icons
+%{_iceweaseldir}/defaults
+%{_iceweaseldir}/greprefs
+%dir %{_iceweaseldir}/extensions
+%dir %{_iceweaseldir}/init.d
+%attr(755,root,root) %{_iceweaseldir}/*.so
+%attr(755,root,root) %{_iceweaseldir}/*.sh
+%attr(755,root,root) %{_iceweaseldir}/m*
+%attr(755,root,root) %{_iceweaseldir}/f*
+%attr(755,root,root) %{_iceweaseldir}/reg*
+%attr(755,root,root) %{_iceweaseldir}/x*
 %{_pixmapsdir}/*
 %{_desktopdir}/*
 
-%dir %{_firefoxdir}/chrome
-%{_firefoxdir}/chrome/*.jar
-%{_firefoxdir}/chrome/*.manifest
+%dir %{_iceweaseldir}/chrome
+%{_iceweaseldir}/chrome/*.jar
+%{_iceweaseldir}/chrome/*.manifest
 # -chat subpackage?
-#%{_firefoxdir}/chrome/chatzilla.jar
-#%{_firefoxdir}/chrome/content-packs.jar
-%dir %{_firefoxdir}/chrome/icons
-%{_firefoxdir}/chrome/icons/default
+#%{_iceweaseldir}/chrome/chatzilla.jar
+#%{_iceweaseldir}/chrome/content-packs.jar
+%dir %{_iceweaseldir}/chrome/icons
+%{_iceweaseldir}/chrome/icons/default
 
 # -dom-inspector subpackage?
-%dir %{_firefoxdir}/extensions/inspector@mozilla.org
-%{_firefoxdir}/extensions/inspector@mozilla.org/*
+%dir %{_iceweaseldir}/extensions/inspector@mozilla.org
+%{_iceweaseldir}/extensions/inspector@mozilla.org/*
 
 %files devel
 %defattr(644,root,root,755)
@@ -397,5 +418,5 @@ fi
 
 %files lang-en
 %defattr(644,root,root,755)
-%{_firefoxdir}/chrome/en-US.jar
-%{_firefoxdir}/chrome/en-US.manifest
+%{_iceweaseldir}/chrome/en-US.jar
+%{_iceweaseldir}/chrome/en-US.manifest
