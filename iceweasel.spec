@@ -20,13 +20,13 @@
 %bcond_with	tests	# enable tests (whatever they check)
 %bcond_without	gnome	# disable all GNOME components (gnomevfs, gnome, gnomeui)
 #
-Summary:	Iceweasel web browser
-Summary(pl):	Iceweasel - przegl±darka WWW
-Name:		iceweasel	
 %define		_sourceversion		1.5.0
 %define		_rel			g1
+Summary:	Iceweasel web browser
+Summary(pl):	Iceweasel - przegl±darka WWW
+Name:		iceweasel
 Version:	1.5.0.7
-Release:	0.1	
+Release:	0.1
 License:	MPL/LGPL
 Group:		X11/Applications/Networking
 Source0:	http://gnuzilla.gnu.org/download/%{name}-%{_sourceversion}-%{_rel}.tar.bz2
@@ -37,13 +37,13 @@ Patch0:		%{name}-nss.patch
 Patch1:		mozilla-firefox-lib_path.patch
 Patch2:		mozilla-firefox-nss-system-nspr.patch
 Patch3:		mozilla-firefox-nopangoxft.patch
-#Patch4:		mozilla-firefox-name.patch
+#Patch4: mozilla-firefox-name.patch
 Patch5:		mozilla-firefox-fonts.patch
 Patch6:		%{name}-build.patch
 Patch7:		%{name}-stack.patch
 # UPDATE or DROP?
-#PatchX:	%{name}-searchplugins.patch
-URL:		http://www.gnu.org/software/gnuzilla/			
+#PatchX: %{name}-searchplugins.patch
+URL:		http://www.gnu.org/software/gnuzilla/
 %{?with_gnome:BuildRequires:	GConf2-devel >= 1.2.1}
 BuildRequires:	automake
 BuildRequires:	cairo-devel >= 1.0.0
@@ -68,10 +68,10 @@ BuildRequires:	xorg-lib-libXp-devel
 BuildRequires:	xorg-lib-libXt-devel
 BuildRequires:	zip
 BuildRequires:	zlib-devel >= 1.2.3
+Requires(post):	mktemp >= 1.5-18
 Requires:	%{name}-lang-resources = %{version}
 Requires:	nspr >= 1:4.6.1-2
 Requires:	nss >= 1:3.11.3
-Requires(post):	mktemp >= 1.5-18
 Provides:	wwwbrowser
 Obsoletes:	mozilla-firebird
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -83,12 +83,27 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		specflags	-fno-strict-aliasing -funswitch-loops -funroll-loops
 
 %description
-IceWeasel is the GNU version of the Firefox browser. Its main advantage is an ethical one: it is entirely free software. While the source code from the Mozilla project is free software, the binaries that they release include additional non-free software. Also, they distribute non-free software as plug-ins. (IceWeasel does keep the triple licensing used by Firefox to facilitate the reuse of code.) 
+IceWeasel is the GNU version of the Firefox browser. Its main advantage
+is an ethical one: it is entirely free software. While the source code
+from the Mozilla project is free software, the binaries that they release
+include additional non-free software. Also, they distribute non-free
+software as plug-ins. (IceWeasel does keep the triple licensing used by
+Firefox to facilitate the reuse of code.)
 
-IceWeasel also includes some privacy protection features: 
-Some sites refer to zero-size images on other hosts to keep track of cookies. When IceWeasel detects this mechanism it blocks cookies from the site hosting the zero-length image file. (It is possible to re-enable such a site by removing it from the blocked hosts list.) 
-Other sites rewrite the host name in links redirecting the user to another site, mainly to "spy" on clicks. When this behavior is detected, IceWeasel shows a message alerting the user. 
-To see these new features in action, some test pages are available. Fredrik Hubbe's web site can be used test plugins.
+IceWeasel also includes some privacy protection features:
+Some sites refer to zero-size images on other hosts to keep track of
+cookies. When IceWeasel detects this mechanism it blocks cookies from
+the site hosting the zero-length image file. (It is possible to
+re-enable such a site by removing it from the blocked hosts list.)
+
+Other sites rewrite the host name in links redirecting the user to
+another site, mainly to "spy" on clicks. When this behavior is detected,
+IceWeasel shows a message alerting the user.
+
+To see these new features in action, some test pages are available
+(http://gnuzilla.gnu.org/test/).
+Fredrik Hubbe's web site can be used test plugins
+(http://fredrik.hubbe.net/plugger.html?free=1).
 
 %description -l pl
 Mozilla Firefox jest open sourcow± przegl±dark± sieci WWW, stworzon± z
@@ -227,7 +242,7 @@ ac_add_options --with-system-zlib
 ac_cv_visibility_pragma=no
 EOF
 
-%configure2_13 
+%configure2_13
 
 %{__make} -j1
 
@@ -298,7 +313,7 @@ export MOZILLA_FIVE_HOME
 PATH=%{_firefoxdir}:$PATH
 export PATH
 
-# added /usr/lib : don't load your local library
+# added %{_prefix}/lib : don't load your local library
 LD_LIBRARY_PATH=%{_firefoxdir}${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
 export LD_LIBRARY_PATH
 
