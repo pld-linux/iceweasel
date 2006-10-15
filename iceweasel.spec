@@ -76,7 +76,7 @@ Provides:	wwwbrowser
 Obsoletes:	mozilla-firebird
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_firefoxdir	%{_libdir}/mozilla-firefox
+%define		_firefoxdir	%{_libdir}/iceweasel
 # mozilla and firefox provide their own versions
 %define		_noautoreqdep		libgkgfx.so libgtkembedmoz.so libgtkxtbin.so libjsj.so libmozjs.so libxpcom.so libxpcom_compat.so
 
@@ -207,6 +207,7 @@ ac_add_options --disable-jsd
 ac_add_options --disable-ldap
 ac_add_options --disable-mailnews
 ac_add_options --disable-profilesharing
+ac_add_options --disable-strip
 ac_add_options --disable-xprint
 ac_add_options --enable-application=browser
 ac_add_options --enable-canvas
@@ -347,8 +348,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/mozilla*
-%attr(755,root,root) %{_bindir}/firefox
+%attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) %{_sbindir}/*
 %dir %{_firefoxdir}
 %{_firefoxdir}/res
