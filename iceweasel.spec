@@ -19,17 +19,17 @@
 %bcond_with	tests	# enable tests (whatever they check)
 %bcond_without	gnome	# disable all GNOME components (gnomevfs, gnome, gnomeui)
 #
-%define		_sourceversion		1.5.0
-%define		_rel			g1
+%define		_rc		g1
+%define		_rel	0.2
 Summary:	Iceweasel web browser
 Summary(pl):	Iceweasel - przegl±darka WWW
 Name:		iceweasel
 Version:	1.5.0.7
-Release:	0.1
+Release:	0.%{_rc}.%{_rel}
 License:	MPL/LGPL
 Group:		X11/Applications/Networking
-Source0:	http://gnuzilla.gnu.org/download/%{name}-%{_sourceversion}-%{_rel}.tar.bz2
-# Source0-md5:	c7dd4d099bd9acdea0d16c601f359017
+Source0:	http://gnuzilla.gnu.org/download/%{name}-%{version}-%{_rc}.tar.bz2
+# Source0-md5:	4bb1f1ac5a52662239a1d5ced177493d
 Source1:	%{name}.desktop
 Source2:	%{name}.sh
 Patch0:		%{name}-nss.patch
@@ -83,50 +83,51 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		specflags	-fno-strict-aliasing -funswitch-loops -funroll-loops
 
 %description
-IceWeasel is the GNU version of the Firefox browser. Its main advantage
-is an ethical one: it is entirely free software. While the source code
-from the Mozilla project is free software, the binaries that they release
-include additional non-free software. Also, they distribute non-free
-software as plug-ins. (IceWeasel does keep the triple licensing used by
-Firefox to facilitate the reuse of code.)
+IceWeasel is the GNU version of the Firefox browser. Its main
+advantage is an ethical one: it is entirely free software. While the
+source code from the Mozilla project is free software, the binaries
+that they release include additional non-free software. Also, they
+distribute non-free software as plug-ins. (IceWeasel does keep the
+triple licensing used by Firefox to facilitate the reuse of code.)
 
-IceWeasel also includes some privacy protection features:
-Some sites refer to zero-size images on other hosts to keep track of
-cookies. When IceWeasel detects this mechanism it blocks cookies from
-the site hosting the zero-length image file. (It is possible to
-re-enable such a site by removing it from the blocked hosts list.)
+IceWeasel also includes some privacy protection features: Some sites
+refer to zero-size images on other hosts to keep track of cookies.
+When IceWeasel detects this mechanism it blocks cookies from the site
+hosting the zero-length image file. (It is possible to re-enable such
+a site by removing it from the blocked hosts list.)
 
 Other sites rewrite the host name in links redirecting the user to
-another site, mainly to "spy" on clicks. When this behavior is detected,
-IceWeasel shows a message alerting the user.
+another site, mainly to "spy" on clicks. When this behavior is
+detected, IceWeasel shows a message alerting the user.
 
 To see these new features in action, some test pages are available
-(http://gnuzilla.gnu.org/test/).
-Fredrik Hubbe's web site can be used test plugins
-(http://fredrik.hubbe.net/plugger.html?free=1).
+(http://gnuzilla.gnu.org/test/). Fredrik Hubbe's web site can be used
+test plugins (http://fredrik.hubbe.net/plugger.html?free=1).
 
 %description -l pl
 IceWeasel jest wersj± GNU przegl±darki Firefox. Jej g³own± zaleta jest
-etyczna: jest ca³kowicie wolnym oprogramowaniem. Podczas gdy kod ¼ród³owy
-z projektu Mozilla jest wolnym oprogramowaniem, binaria, które wypuszczaj±
-zawieraj± dodatkowe nie wolne oprogramowanie. Dodatkowo dystrybuuj± nie
-wolne oprogramowanie jako wtyczki. (IceWeasel utrzymuje potrójne
-licencjonowanie u¿ywane przez Firefoxa by zaznaczyæ wtóre u¿ycie kodu.)
+etyczna: jest ca³kowicie wolnym oprogramowaniem. Podczas gdy kod
+¼ród³owy z projektu Mozilla jest wolnym oprogramowaniem, binaria,
+które wypuszczaj± zawieraj± dodatkowe nie wolne oprogramowanie.
+Dodatkowo dystrybuuj± nie wolne oprogramowanie jako wtyczki.
+(IceWeasel utrzymuje potrójne licencjonowanie u¿ywane przez Firefoxa
+by zaznaczyæ wtóre u¿ycie kodu.)
 
 IceWeasel zawiera równie¿ kilka cech s³u¿±cyc ochronie prywatno¶ci:
 Niektóre strony odwo³uj± siê do obrazków o zerowym rozmiarze na innym
-komputerze, by zarz±dzaæ ciasteczkami. Gdy IceWeasel wykryje ten mechanizm,
-blokuje ciasteczka ze strony zawieraj±cej obrazki zerowego rozmiaru.
-(Mo¿liwe jset w³±czenie obs³ugi ciasteczek dla takiej strony poprzez
-usuniêcie jej z listy blokowanych stron.)
+komputerze, by zarz±dzaæ ciasteczkami. Gdy IceWeasel wykryje ten
+mechanizm, blokuje ciasteczka ze strony zawieraj±cej obrazki zerowego
+rozmiaru. (Mo¿liwe jset w³±czenie obs³ugi ciasteczek dla takiej strony
+poprzez usuniêcie jej z listy blokowanych stron.)
 
-Inne strony modyfikuj± nazwê hosta w linkach, przekierowuj±c u¿ytkownika
-na inn± stronê, g³ównie by "¶ledziæ" klikniêcia. Gdy takie zachowanie
-zostanie wykryte, IceWeasel wy¶wietla wiadomo¶æ alarmuj±c u¿ytkownika.
+Inne strony modyfikuj± nazwê hosta w linkach, przekierowuj±c
+u¿ytkownika na inn± stronê, g³ównie by "¶ledziæ" klikniêcia. Gdy takie
+zachowanie zostanie wykryte, IceWeasel wy¶wietla wiadomo¶æ alarmuj±c
+u¿ytkownika.
 
 Be zobaczyæ nowe cechy w akcji, udostêpniono klika stron
-(http://gnuzilla.gnu.org/test).
-Strona Fredrika Hubbe mo¿e byæ u¿yta do przetestowania wtyczek
+(http://gnuzilla.gnu.org/test). Strona Fredrika Hubbe mo¿e byæ u¿yta
+do przetestowania wtyczek
 (http://fredrik.hubbe.net/lugger.html?free=1).
 
 %package devel
@@ -159,7 +160,7 @@ English resources for Iceweasel.
 Anglojêzyczne zasoby dla przegl±darki Iceweasel.
 
 %prep
-%setup -q -n %{name}-%{_sourceversion}-%{_rel}
+%setup -q -n %{name}-%{version}-%{_rc}
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -349,7 +350,7 @@ EOF
 rm -rf $RPM_BUILD_ROOT
 
 %post
-%{_sbindir}/firefox-chrome+xpcom-generate
+%{_sbindir}/%{name}-chrome+xpcom-generate
 
 %postun
 if [ "$1" = "0" ]; then
@@ -359,15 +360,9 @@ if [ "$1" = "0" ]; then
 	rm -rf %{_iceweaseldir}/extensions
 fi
 
-#%triggerpostun -- %{name} < 1.5
-#%banner %{name} -e <<EOF
-#NOTICE:
-#If you have problem with upgrade from old mozilla-firefox 1.0.x,
-#you should remove it first and reinstall %{name}-%{version}
-#EOF
-
 %files
 %defattr(644,root,root,755)
+%doc README.ICEWEASEL
 %attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) %{_sbindir}/*
 %dir %{_iceweaseldir}
