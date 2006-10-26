@@ -1,0 +1,13 @@
+--- configure.orig	2006-09-18 08:57:38.000000000 +0200
++++ configure	2006-10-26 15:04:31.000000000 +0200
+@@ -12626,8 +12626,8 @@
+   ;;
+ 
+ browser)
+-  MOZ_APP_NAME=firefox
+-  MOZ_APP_DISPLAYNAME=DeerPark
++  MOZ_APP_NAME=iceweasel
++  MOZ_APP_DISPLAYNAME=IceWeasel
+   MOZ_XUL_APP=1
+   MOZ_PHOENIX=1
+   MOZ_APP_VERSION=$FIREFOX_VERSION
