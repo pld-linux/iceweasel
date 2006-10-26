@@ -19,7 +19,7 @@
 %bcond_with	tests	# enable tests (whatever they check)
 %bcond_without	gnome	# disable all GNOME components (gnomevfs, gnome, gnomeui)
 #
-%define		_rc		g1
+%define		_rc		g2
 %define		_rel	0.2
 Summary:	Iceweasel web browser
 Summary(pl):	Iceweasel - przegl±darka WWW
@@ -29,19 +29,18 @@ Release:	0.%{_rc}.%{_rel}
 License:	MPL/LGPL
 Group:		X11/Applications/Networking
 Source0:	http://gnuzilla.gnu.org/download/%{name}-%{version}-%{_rc}.tar.bz2
-# Source0-md5:	4bb1f1ac5a52662239a1d5ced177493d
+# Source0-md5:	b9c3f12733132f6d35cd35ee1a7d5e07
 Source1:	%{name}.desktop
 Source2:	%{name}.sh
-Patch0:		%{name}-nss.patch
-Patch1:		mozilla-firefox-lib_path.patch
-Patch2:		mozilla-firefox-nss-system-nspr.patch
-Patch3:		mozilla-firefox-nopangoxft.patch
-#Patch4: mozilla-firefox-name.patch
-Patch5:		mozilla-firefox-fonts.patch
-Patch6:		%{name}-build.patch
-Patch7:		%{name}-stack.patch
-# UPDATE or DROP?
-#PatchX: %{name}-searchplugins.patch
+Patch0:		%{name}-autoconf.patch
+Patch1:		%{name}-build.patch
+Patch2:		mozilla-firefox-fonts.patch
+Patch3:		%{name}-lib_path.patch
+Patch4:		mozilla-firefox-nss-system-nspr.patch
+Patch5:		mozilla-firefox-nopangoxft.patch
+Patch6:		%{name}-name.patch
+Patch7:		%{name}-nss.patch
+Patch8:		%{name}-stack.patch
 URL:		http://www.gnu.org/software/gnuzilla/
 %{?with_gnome:BuildRequires:	GConf2-devel >= 1.2.1}
 BuildRequires:	automake
@@ -161,14 +160,15 @@ Anglojêzyczne zasoby dla przegl±darki Iceweasel.
 
 %prep
 %setup -q -n %{name}-%{version}-%{_rc}
-%patch0 -p1
-%patch1 -p1
+%patch0 -p0
+%patch1 -p0
 %patch2 -p1
 %patch3 -p1
-#%patch4 -p1
+%patch4 -p1
 %patch5 -p1
 %patch6 -p0
-%patch7 -p1
+#%patch7 -p1
+#%patch8 -p1
 
 sed -i 's/\(-lgss\)\(\W\)/\1disable\2/' configure
 
@@ -185,7 +185,7 @@ LIBIDL_CONFIG="%{_bindir}/libIDL-config-2"; export LIBIDL_CONFIG
 
 cat << 'EOF' > .mozconfig
 # That is evili, as we don't build default mozilla
-#. $topsrcdir/browser/config/mozconfig
+. $topsrcdir/browser/config/mozconfig
 
 ac_add_options --prefix=%{_prefix}
 ac_add_options --exec-prefix=%{_exec_prefix}
@@ -264,6 +264,9 @@ ac_add_options --with-system-zlib
 ac_cv_visibility_pragma=no
 EOF
 
+# configure.in defines MOZ_APP_NAME as iceweasel, wheres configure is old and defines it as firefox
+#%{__aclocal}
+#%{__autoconf}
 %configure2_13
 
 %{__make}
@@ -305,6 +308,7 @@ install dist/bin/xpt_link $RPM_BUILD_ROOT%{_bindir}
 #	$RPM_BUILD_ROOT%{_includedir}/mozilla-firefox/nsIURI.h
 
 # CA certificates
+rm $RPM_BUILD_ROOT%{_iceweaseldir}/libnssckbi.so
 ln -s %{_libdir}/libnssckbi.so $RPM_BUILD_ROOT%{_iceweaseldir}/libnssckbi.so
 
 # pkgconfig files
@@ -314,14 +318,14 @@ for f in build/unix/*.pc ; do
 done
 
 # already provided by standalone packages
-rm -f $RPM_BUILD_ROOT%{_pkgconfigdir}/firefox-{nss,nspr}.pc
+rm -f $RPM_BUILD_ROOT%{_pkgconfigdir}/iceweasel-{nss,nspr}.pc
 
 sed -i -e 's#firefox-nspr =.*#mozilla-nspr#g' -e 's#irefox-nss =.*#mozilla-nss#g' \
 	$RPM_BUILD_ROOT%{_pkgconfigdir}/*.pc
 
 # includedir/dom CFLAGS
 sed -i -e '/Cflags:/{/{includedir}\/dom/!s,$, -I${includedir}/dom,}' \
-	$RPM_BUILD_ROOT%{_pkgconfigdir}/firefox-plugin.pc
+	$RPM_BUILD_ROOT%{_pkgconfigdir}/iceweasel-plugin.pc
 
 cat << 'EOF' > $RPM_BUILD_ROOT%{_sbindir}/%{name}-chrome+xpcom-generate
 #!/bin/sh
@@ -342,7 +346,7 @@ export LD_LIBRARY_PATH
 unset TMPDIR TMP || :
 export HOME=$(mktemp -d)
 MOZILLA_FIVE_HOME=%{_iceweaseldir} %{_iceweaseldir}/regxpcom
-MOZILLA_FIVE_HOME=%{_iceweaseldir} %{_iceweaseldir}/firefox -register
+MOZILLA_FIVE_HOME=%{_iceweaseldir} %{_iceweaseldir}/iceweasel -register
 rm -rf $HOME
 EOF
 
@@ -382,10 +386,10 @@ fi
 %attr(755,root,root) %{_iceweaseldir}/*.so
 %attr(755,root,root) %{_iceweaseldir}/*.sh
 %attr(755,root,root) %{_iceweaseldir}/m*
-%attr(755,root,root) %{_iceweaseldir}/f*
+%attr(755,root,root) %{_iceweaseldir}/i*
 %attr(755,root,root) %{_iceweaseldir}/reg*
 %attr(755,root,root) %{_iceweaseldir}/x*
-%{_pixmapsdir}/*
+#%{_pixmapsdir}/*
 %{_desktopdir}/*
 
 %dir %{_iceweaseldir}/chrome
@@ -394,8 +398,8 @@ fi
 # -chat subpackage?
 #%{_iceweaseldir}/chrome/chatzilla.jar
 #%{_iceweaseldir}/chrome/content-packs.jar
-%dir %{_iceweaseldir}/chrome/icons
-%{_iceweaseldir}/chrome/icons/default
+#%dir %{_iceweaseldir}/chrome/icons
+#%{_iceweaseldir}/chrome/icons/default
 
 # -dom-inspector subpackage?
 %dir %{_iceweaseldir}/extensions/inspector@mozilla.org
