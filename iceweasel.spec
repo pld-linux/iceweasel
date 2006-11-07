@@ -390,7 +390,7 @@ fi
 %attr(755,root,root) %{_iceweaseldir}/reg*
 %attr(755,root,root) %{_iceweaseldir}/x*
 #%{_pixmapsdir}/*
-%{_desktopdir}/*
+%{_desktopdir}/*.desktop
 
 %dir %{_iceweaseldir}/chrome
 %{_iceweaseldir}/chrome/*.jar
