@@ -1,10 +1,10 @@
 [Desktop Entry]
-Name=Mozilla Firefox
-Name[pl]=Mozilla Firefox
-Comment=Web browser
-Comment[pl]=Przeglądarka WWW
+Name=Web Browser
+Name[pl]=Przeglądarka WWW
+Comment=Browse the Web powered by Mozilla technology
+Comment[pl]=Przeglądarka WWW oparta o technologię Mozilli
 Exec=mozilla-firefox
-Icon=mozilla-firefox.png
+Icon=mozilla-firefox
 Terminal=false
 Type=Application
 Categories=GTK;Network;WebBrowser;
