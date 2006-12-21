@@ -1,6 +1,8 @@
 [Desktop Entry]
-Name=Web Browser
-Name[pl]=Przeglądarka WWW
+Name=Bon Echo
+Name[pl]=Bon Echo
+GenericName=Web Browser
+GenericName[pl]=Przeglądarka WWW
 Comment=Browse the Web powered by Mozilla technology
 Comment[pl]=Przeglądarka WWW oparta o technologię Mozilli
 Exec=mozilla-firefox
