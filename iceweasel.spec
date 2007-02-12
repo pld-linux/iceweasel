@@ -22,7 +22,7 @@
 %define		_rc		g2
 %define		_rel	0.2
 Summary:	Iceweasel web browser
-Summary(pl):	Iceweasel - przegl±darka WWW
+Summary(pl.UTF-8):   Iceweasel - przeglÄ…darka WWW
 Name:		iceweasel
 Version:	1.5.0.7
 Release:	0.%{_rc}.%{_rel}
@@ -103,35 +103,35 @@ To see these new features in action, some test pages are available
 (http://gnuzilla.gnu.org/test/). Fredrik Hubbe's web site can be used
 test plugins (http://fredrik.hubbe.net/plugger.html?free=1).
 
-%description -l pl
-IceWeasel jest wersj± GNU przegl±darki Firefox. Jej g³own± zaleta jest
-etyczna: jest ca³kowicie wolnym oprogramowaniem. Podczas gdy kod
-¼ród³owy z projektu Mozilla jest wolnym oprogramowaniem, binaria,
-które wypuszczaj± zawieraj± dodatkowe nie wolne oprogramowanie.
-Dodatkowo dystrybuuj± nie wolne oprogramowanie jako wtyczki.
-(IceWeasel utrzymuje potrójne licencjonowanie u¿ywane przez Firefoxa
-by zaznaczyæ wtóre u¿ycie kodu.)
+%description -l pl.UTF-8
+IceWeasel jest wersjÄ… GNU przeglÄ…darki Firefox. Jej gÅ‚ownÄ… zaleta jest
+etyczna: jest caÅ‚kowicie wolnym oprogramowaniem. Podczas gdy kod
+ÅºrÃ³dÅ‚owy z projektu Mozilla jest wolnym oprogramowaniem, binaria,
+ktÃ³re wypuszczajÄ… zawierajÄ… dodatkowe nie wolne oprogramowanie.
+Dodatkowo dystrybuujÄ… nie wolne oprogramowanie jako wtyczki.
+(IceWeasel utrzymuje potrÃ³jne licencjonowanie uÅ¼ywane przez Firefoxa
+by zaznaczyÄ‡ wtÃ³re uÅ¼ycie kodu.)
 
-IceWeasel zawiera równie¿ kilka cech s³u¿±cyc ochronie prywatno¶ci:
-Niektóre strony odwo³uj± siê do obrazków o zerowym rozmiarze na innym
-komputerze, by zarz±dzaæ ciasteczkami. Gdy IceWeasel wykryje ten
-mechanizm, blokuje ciasteczka ze strony zawieraj±cej obrazki zerowego
-rozmiaru. (Mo¿liwe jset w³±czenie obs³ugi ciasteczek dla takiej strony
-poprzez usuniêcie jej z listy blokowanych stron.)
+IceWeasel zawiera rÃ³wnieÅ¼ kilka cech sÅ‚uÅ¼Ä…cyc ochronie prywatnoÅ›ci:
+NiektÃ³re strony odwoÅ‚ujÄ… siÄ™ do obrazkÃ³w o zerowym rozmiarze na innym
+komputerze, by zarzÄ…dzaÄ‡ ciasteczkami. Gdy IceWeasel wykryje ten
+mechanizm, blokuje ciasteczka ze strony zawierajÄ…cej obrazki zerowego
+rozmiaru. (MoÅ¼liwe jset wÅ‚Ä…czenie obsÅ‚ugi ciasteczek dla takiej strony
+poprzez usuniÄ™cie jej z listy blokowanych stron.)
 
-Inne strony modyfikuj± nazwê hosta w linkach, przekierowuj±c
-u¿ytkownika na inn± stronê, g³ównie by "¶ledziæ" klikniêcia. Gdy takie
-zachowanie zostanie wykryte, IceWeasel wy¶wietla wiadomo¶æ alarmuj±c
-u¿ytkownika.
+Inne strony modyfikujÄ… nazwÄ™ hosta w linkach, przekierowujÄ…c
+uÅ¼ytkownika na innÄ… stronÄ™, gÅ‚Ã³wnie by "Å›ledziÄ‡" klikniÄ™cia. Gdy takie
+zachowanie zostanie wykryte, IceWeasel wyÅ›wietla wiadomoÅ›Ä‡ alarmujÄ…c
+uÅ¼ytkownika.
 
-Be zobaczyæ nowe cechy w akcji, udostêpniono klika stron
-(http://gnuzilla.gnu.org/test). Strona Fredrika Hubbe mo¿e byæ u¿yta
+Be zobaczyÄ‡ nowe cechy w akcji, udostÄ™pniono klika stron
+(http://gnuzilla.gnu.org/test). Strona Fredrika Hubbe moÅ¼e byÄ‡ uÅ¼yta
 do przetestowania wtyczek
 (http://fredrik.hubbe.net/lugger.html?free=1).
 
 %package devel
 Summary:	Headers for developing programs that will use Iceweasel
-Summary(pl):	Iceweasel - pliki nag³ówkowe
+Summary(pl.UTF-8):   Iceweasel - pliki nagÅ‚Ã³wkowe
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 Requires:	nspr-devel >= 1:4.6.1-2
@@ -140,12 +140,12 @@ Requires:	nspr-devel >= 1:4.6.1-2
 %description devel
 Iceweasel development package.
 
-%description devel -l pl
-Pliki nag³ówkowe przegl±darki Iceweasel.
+%description devel -l pl.UTF-8
+Pliki nagÅ‚Ã³wkowe przeglÄ…darki Iceweasel.
 
 %package lang-en
 Summary:	English resources for Iceweasel
-Summary(pl):	Anglojêzyczne zasoby dla przegl±darki Iceweasel
+Summary(pl.UTF-8):   AnglojÄ™zyczne zasoby dla przeglÄ…darki Iceweasel
 Group:		X11/Applications/Networking
 Requires(post,postun):	%{name} = %{version}-%{release}
 Requires(post,postun):	textutils
@@ -155,8 +155,8 @@ Provides:	%{name}-lang-resources = %{version}-%{release}
 %description lang-en
 English resources for Iceweasel.
 
-%description lang-en -l pl
-Anglojêzyczne zasoby dla przegl±darki Iceweasel.
+%description lang-en -l pl.UTF-8
+AnglojÄ™zyczne zasoby dla przeglÄ…darki Iceweasel.
 
 %prep
 %setup -q -n %{name}-%{version}-%{_rc}
