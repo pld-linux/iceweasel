@@ -22,7 +22,7 @@
 %define		_rc		g2
 %define		_rel	0.2
 Summary:	Iceweasel web browser
-Summary(pl.UTF-8):   Iceweasel - przeglądarka WWW
+Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
 Version:	1.5.0.7
 Release:	0.%{_rc}.%{_rel}
@@ -131,7 +131,7 @@ do przetestowania wtyczek
 
 %package devel
 Summary:	Headers for developing programs that will use Iceweasel
-Summary(pl.UTF-8):   Iceweasel - pliki nagłówkowe
+Summary(pl.UTF-8):	Iceweasel - pliki nagłówkowe
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 Requires:	nspr-devel >= 1:4.6.1-2
@@ -145,7 +145,7 @@ Pliki nagłówkowe przeglądarki Iceweasel.
 
 %package lang-en
 Summary:	English resources for Iceweasel
-Summary(pl.UTF-8):   Anglojęzyczne zasoby dla przeglądarki Iceweasel
+Summary(pl.UTF-8):	Anglojęzyczne zasoby dla przeglądarki Iceweasel
 Group:		X11/Applications/Networking
 Requires(post,postun):	%{name} = %{version}-%{release}
 Requires(post,postun):	textutils
