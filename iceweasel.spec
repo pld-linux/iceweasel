@@ -20,7 +20,7 @@
 %bcond_without	gnome	# disable all GNOME components (gnomevfs, gnome, gnomeui)
 #
 %define		_rc		g2
-%define		_rel	0.2
+%define		_rel	0.3
 Summary:	Iceweasel web browser
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
@@ -47,7 +47,7 @@ BuildRequires:	automake
 BuildRequires:	cairo-devel >= 1.0.0
 %{?with_gnome:BuildRequires:	gnome-vfs2-devel >= 2.0}
 BuildRequires:	gtk+2-devel >= 1:2.0.0
-BuildRequires:	heimdal-devel >= 0.7.1
+BuildRequires:	krb5-devel
 BuildRequires:	libIDL-devel >= 0.8.0
 %{?with_gnome:BuildRequires:	libgnome-devel >= 2.0}
 %{?with_gnome:BuildRequires:	libgnomeui-devel >= 2.2.0}
@@ -169,8 +169,6 @@ Anglojęzyczne zasoby dla przeglądarki Iceweasel.
 %patch6 -p0
 #%patch7 -p1
 #%patch8 -p1
-
-sed -i 's/\(-lgss\)\(\W\)/\1disable\2/' configure
 
 %build
 rm -f .mozconfig
