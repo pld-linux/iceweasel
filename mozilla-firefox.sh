@@ -3,15 +3,13 @@
 
 LIBDIR="@LIBDIR@/mozilla-firefox"
 
-MOZILLA_FIVE_HOME=$LIBDIR
-
 MOZARGS=
 MOZLOCALE="$(/usr/bin/locale | grep "^LC_MESSAGES=" | \
 		sed -e "s|LC_MESSAGES=||g" -e "s|\"||g" )"
 for MOZLANG in $(echo $LANGUAGE | tr ":" " ") $MOZLOCALE; do
 	eval MOZLANG="$(echo $MOZLANG | sed -e "s|_\([^.]*\).*|-\1|g")"
 
-	if [ -f $MOZILLA_FIVE_HOME/chrome/$MOZLANG.jar ]; then
+	if [ -f $LIBDIR/chrome/$MOZLANG.jar ]; then
 		MOZARGS="-UILocale $MOZLANG"
 		break
 	fi
@@ -22,7 +20,7 @@ if [ -z "$MOZARGS" ]; then
 	for MOZLANG in $(echo $LANGUAGE | tr ":" " ") $MOZLOCALE; do
 		eval MOZLANG="$(echo $MOZLANG | sed -e "s|_.*||g")"
 
-		LANGFILE=$(echo ${MOZILLA_FIVE_HOME}/chrome/${MOZLANG}*.jar \
+		LANGFILE=$(echo $LIBDIR/chrome/${MOZLANG}*.jar \
 				| sed 's/\s.*//g' )
 		if [ -f "$LANGFILE" ]; then
 			MOZLANG=$(basename "$LANGFILE" | sed 's/\.jar//')
