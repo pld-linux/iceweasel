@@ -1,190 +1,160 @@
 #
 # TODO:
-# - %files
-# - make it install in /usr/lib/iceweasel and so on (not mozilla-firefox)
-# - change patches to iceweasel (in sources)
-# - check all other firefox todos:
-#
-# - with new gcc version (it is possible that)
-#   - -fvisibility=hiddenn and ac_cv_visibility_pragma=no can be removed
-# - with new firefox version (it is possible that)
-#   - -fno-strict-aliasing can be removed (needs to be tested carefuly,
-#      not to be fixed soon, imho)
 # - handle locales differently (runtime, since it's possible to do)
 # - see ftp://ftp.debian.org/debian/pool/main/m/mozilla-firefox/*diff*
-#   for hints how to make locales and other stuff like extensions working
-# - rpm upgrade is broken. First you need uninstall Firefox 1.0.x.
+#   for hints how to make locales
 #
 # Conditional build:
-%bcond_with	tests	# enable tests (whatever they check)
-%bcond_without	gnome	# disable all GNOME components (gnomevfs, gnome, gnomeui)
-#
-%define		_rc		g2
-%define		_rel	0.3
+%bcond_with	tests		# enable tests (whatever they check)
+%bcond_without	gnomeui		# disable gnomeui support
+%bcond_without	gnomevfs	# disable GNOME comp. (gconf+libgnome+gnomevfs) and gnomevfs ext.
+%bcond_without	gnome		# disable all GNOME components (gnome+gnomeui+gnomevfs)
+%bcond_without	kerberos	# disable krb5 support
+%bcond_without	xulrunner	# build with system xulrunner
+
+%if %{without gnome}
+%undefine	with_gnomeui
+%undefine	with_gnomevfs
+%endif
+
 Summary:	Iceweasel web browser
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
-Version:	1.5.0.7
-Release:	0.%{_rc}.%{_rel}
-License:	MPL/LGPL
+Version:	3.0
+Release:	1
+License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
-Source0:	http://gnuzilla.gnu.org/download/%{name}-%{version}-%{_rc}.tar.bz2
-# Source0-md5:	b9c3f12733132f6d35cd35ee1a7d5e07
-Source1:	%{name}.desktop
-Source2:	%{name}.sh
-Patch0:		%{name}-autoconf.patch
-Patch1:		%{name}-build.patch
-Patch2:		mozilla-firefox-fonts.patch
-Patch3:		%{name}-lib_path.patch
-Patch4:		mozilla-firefox-nss-system-nspr.patch
-Patch5:		mozilla-firefox-nopangoxft.patch
-Patch6:		%{name}-name.patch
-Patch7:		%{name}-nss.patch
-Patch8:		%{name}-stack.patch
-URL:		http://www.gnu.org/software/gnuzilla/
-%{?with_gnome:BuildRequires:	GConf2-devel >= 1.2.1}
+Source0:	ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}-source.tar.bz2
+# Source0-md5:	4210ae0801df2eb498408533010d97c1
+Source1:	%{name}-branding.tar.bz2
+# Source1-md5:	b49feae9f6434eca8a749776160c15a8
+Source2:	%{name}.desktop
+Source3:	%{name}.sh
+Patch0:		%{name}-branding.patch
+Patch1:		%{name}-install.patch
+Patch2:		%{name}-gcc3.patch
+Patch3:		%{name}-agent.patch
+Patch4:		%{name}-ac-agent.patch
+Patch5:		%{name}-ti-agent.patch
+Patch6:		%{name}-nss_cflags.patch
+Patch7:		%{name}-prefs.patch
+URL:		http://www.mozilla.org/projects/firefox/
+%{?with_gnomevfs:BuildRequires:	GConf2-devel >= 1.2.1}
 BuildRequires:	automake
-BuildRequires:	cairo-devel >= 1.0.0
-%{?with_gnome:BuildRequires:	gnome-vfs2-devel >= 2.0}
-BuildRequires:	gtk+2-devel >= 1:2.0.0
-BuildRequires:	krb5-devel
+BuildRequires:	cairo-devel >= 1.6.0
+BuildRequires:	glib2-devel
+%{?with_gnomevfs:BuildRequires:	gnome-vfs2-devel >= 2.0}
+BuildRequires:	gtk+2-devel >= 2:2.10
+%if "%{pld_release}" == "ac"
+%{?with_kerberos:BuildRequires:	heimdal-devel >= 0.7.1}
+%else
+%{?with_kerberos:BuildRequires:	krb5-devel}
+%endif
 BuildRequires:	libIDL-devel >= 0.8.0
-%{?with_gnome:BuildRequires:	libgnome-devel >= 2.0}
-%{?with_gnome:BuildRequires:	libgnomeui-devel >= 2.2.0}
+%{?with_gnomevfs:BuildRequires:	libgnome-devel >= 2.0}
+%{?with_gnomeui:BuildRequires:	libgnomeui-devel >= 2.2.0}
 BuildRequires:	libjpeg-devel >= 6b
+BuildRequires:	libpng(APNG)-devel >= 0.10
 BuildRequires:	libpng-devel >= 1.2.7
 BuildRequires:	libstdc++-devel
-BuildRequires:	nspr-devel >= 1:4.6.1-2
-BuildRequires:	nss-devel >= 1:3.11.3
+BuildRequires:	myspell-devel
+BuildRequires:	nspr-devel >= 1:4.7
+BuildRequires:	nss-devel >= 1:3.12-2
 BuildRequires:	pango-devel >= 1:1.6.0
 BuildRequires:	perl-modules >= 5.004
 BuildRequires:	pkgconfig
+BuildRequires:	rpm >= 4.4.9-56
+BuildRequires:	rpmbuild(macros) >= 1.453
+BuildRequires:	sqlite3-devel
+BuildRequires:	startup-notification-devel
 BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXft-devel >= 2.1
 BuildRequires:	xorg-lib-libXinerama-devel
 BuildRequires:	xorg-lib-libXp-devel
 BuildRequires:	xorg-lib-libXt-devel
+%if %{with xulrunner}
+BuildRequires:	xulrunner-devel >= 1.9-2
+%endif
 BuildRequires:	zip
 BuildRequires:	zlib-devel >= 1.2.3
 Requires(post):	mktemp >= 1.5-18
-Requires:	%{name}-lang-resources = %{version}
-Requires:	mozilla-launcher
-Requires:	nspr >= 1:4.6.1-2
-Requires:	nss >= 1:3.11.3
+%if %{without xulrunner}
+Requires:	browser-plugins >= 2.0
+%endif
+Requires:	cairo >= 1.6.0
+Requires:	libpng(APNG) >= 0.10
+Requires:	nspr >= 1:4.7
+Requires:	nss >= 1:3.12-2
+%if %{with xulrunner}
+%requires_eq_to	xulrunner xulrunner-devel
+%endif
 Provides:	wwwbrowser
-#Obsoletes:	mozilla-firebird
+Obsoletes:	mozilla-firebird
+Obsoletes:	mozilla-firefox
+Obsoletes:	mozilla-firefox-lang-en < 2.0.0.8-3
+Obsoletes:	mozilla-firefox-libs
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_iceweaseldir	%{_libdir}/iceweasel
-# mozilla and firefox provide their own versions
-%define		_noautoreqdep		libgkgfx.so libgtkembedmoz.so libgtkxtbin.so libjsj.so libmozjs.so libxpcom.so libxpcom_compat.so
+# iceweasel/icedove/iceape provide their own versions
+%define		_noautoreqdep		libgkgfx.so libgtkxtbin.so libjsj.so libxpcom_compat.so libxpcom_core.so
+%define		_noautoprovfiles	%{_libdir}/%{name}/components
+# we don't want these to satisfy xulrunner-devel
+%define		_noautoprov		libgtkembedmoz.so libmozjs.so libxpcom.so libxul.so
+# and as we don't provide them, don't require either
+%define		_noautoreq		libgtkembedmoz.so libmozjs.so libxpcom.so libxul.so
 
-%define		specflags	-fno-strict-aliasing -funswitch-loops -funroll-loops
+%if "%{cc_version}" >= "3.4"
+%define		specflags	-fno-strict-aliasing -fno-tree-vrp -fno-stack-protector
+%else
+%define		specflags	-fno-strict-aliasing
+%endif
 
 %description
-IceWeasel is the GNU version of the Firefox browser. Its main
-advantage is an ethical one: it is entirely free software. While the
-source code from the Mozilla project is free software, the binaries
-that they release include additional non-free software. Also, they
-distribute non-free software as plug-ins. (IceWeasel does keep the
-triple licensing used by Firefox to facilitate the reuse of code.)
-
-IceWeasel also includes some privacy protection features: Some sites
-refer to zero-size images on other hosts to keep track of cookies.
-When IceWeasel detects this mechanism it blocks cookies from the site
-hosting the zero-length image file. (It is possible to re-enable such
-a site by removing it from the blocked hosts list.)
-
-Other sites rewrite the host name in links redirecting the user to
-another site, mainly to "spy" on clicks. When this behavior is
-detected, IceWeasel shows a message alerting the user.
-
-To see these new features in action, some test pages are available
-(http://gnuzilla.gnu.org/test/). Fredrik Hubbe's web site can be used
-test plugins (http://fredrik.hubbe.net/plugger.html?free=1).
+Iceweasel is an open-source web browser, designed for standards
+compliance, performance and portability.
 
 %description -l pl.UTF-8
-IceWeasel jest wersją GNU przeglądarki Firefox. Jej głowną zaleta jest
-etyczna: jest całkowicie wolnym oprogramowaniem. Podczas gdy kod
-źródłowy z projektu Mozilla jest wolnym oprogramowaniem, binaria,
-które wypuszczają zawierają dodatkowe nie wolne oprogramowanie.
-Dodatkowo dystrybuują nie wolne oprogramowanie jako wtyczki.
-(IceWeasel utrzymuje potrójne licencjonowanie używane przez Firefoxa
-by zaznaczyć wtóre użycie kodu.)
-
-IceWeasel zawiera również kilka cech służącyc ochronie prywatności:
-Niektóre strony odwołują się do obrazków o zerowym rozmiarze na innym
-komputerze, by zarządzać ciasteczkami. Gdy IceWeasel wykryje ten
-mechanizm, blokuje ciasteczka ze strony zawierającej obrazki zerowego
-rozmiaru. (Możliwe jset włączenie obsługi ciasteczek dla takiej strony
-poprzez usunięcie jej z listy blokowanych stron.)
-
-Inne strony modyfikują nazwę hosta w linkach, przekierowując
-użytkownika na inną stronę, głównie by "śledzić" kliknięcia. Gdy takie
-zachowanie zostanie wykryte, IceWeasel wyświetla wiadomość alarmując
-użytkownika.
-
-Be zobaczyć nowe cechy w akcji, udostępniono klika stron
-(http://gnuzilla.gnu.org/test). Strona Fredrika Hubbe może być użyta
-do przetestowania wtyczek
-(http://fredrik.hubbe.net/lugger.html?free=1).
-
-%package devel
-Summary:	Headers for developing programs that will use Iceweasel
-Summary(pl.UTF-8):	Iceweasel - pliki nagłówkowe
-Group:		X11/Development/Libraries
-Requires:	%{name} = %{epoch}:%{version}-%{release}
-Requires:	nspr-devel >= 1:4.6.1-2
-#Obsoletes:	mozilla-devel
-
-%description devel
-Iceweasel development package.
-
-%description devel -l pl.UTF-8
-Pliki nagłówkowe przeglądarki Iceweasel.
-
-%package lang-en
-Summary:	English resources for Iceweasel
-Summary(pl.UTF-8):	Anglojęzyczne zasoby dla przeglądarki Iceweasel
-Group:		X11/Applications/Networking
-Requires(post,postun):	%{name} = %{version}-%{release}
-Requires(post,postun):	textutils
-Requires:	%{name} = %{version}-%{release}
-Provides:	%{name}-lang-resources = %{version}-%{release}
-
-%description lang-en
-English resources for Iceweasel.
-
-%description lang-en -l pl.UTF-8
-Anglojęzyczne zasoby dla przeglądarki Iceweasel.
+Iceweasel jest przeglądarką WWW rozpowszechnianą zgodnie z ideami
+ruchu otwartego oprogramowania oraz tworzoną z myślą o zgodności
+ze standardami, wydajnością i przenośnością.
 
 %prep
-%setup -q -n %{name}-%{version}-%{_rc}
-%patch0 -p0
-%patch1 -p0
-%patch2 -p1
+%setup -qc -a1
+cd mozilla
+%patch0 -p1
+
+%patch1 -p1
+
+%if "%{cc_version}" < "3.4"
+%patch2 -p2
+%endif
+
+%if "%{pld_release}" == "th"
 %patch3 -p1
+%endif
+
+%if "%{pld_release}" == "ac"
 %patch4 -p1
+%endif
+
+%if "%{pld_release}" == "ti"
 %patch5 -p1
-%patch6 -p0
-#%patch7 -p1
-#%patch8 -p1
+%endif
+
+%patch6 -p1
+%patch7 -p1
 
 %build
-rm -f .mozconfig
-export CFLAGS="%{rpmcflags} `%{_bindir}/pkg-config mozilla-nspr --cflags-only-I`"
-export CXXFLAGS="%{rpmcflags} `%{_bindir}/pkg-config mozilla-nspr --cflags-only-I`"
-
+cd mozilla
 cp -f %{_datadir}/automake/config.* build/autoconf
 cp -f %{_datadir}/automake/config.* nsprpub/build/autoconf
-cp -f %{_datadir}/automake/config.* directory/c-sdk/config/autoconf
-
-LIBIDL_CONFIG="%{_bindir}/libIDL-config-2"; export LIBIDL_CONFIG
 
 cat << 'EOF' > .mozconfig
-# That is evili, as we don't build default mozilla
 . $topsrcdir/browser/config/mozconfig
 
+mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/obj-%{_target_cpu}
+
+# Options for 'configure' (same as command-line options).
 ac_add_options --prefix=%{_prefix}
 ac_add_options --exec-prefix=%{_exec_prefix}
 ac_add_options --bindir=%{_bindir}
@@ -198,221 +168,307 @@ ac_add_options --localstatedir=%{_localstatedir}
 ac_add_options --sharedstatedir=%{_sharedstatedir}
 ac_add_options --mandir=%{_mandir}
 ac_add_options --infodir=%{_infodir}
-ac_add_options --enable-optimize="%{rpmcflags}"
 %if %{?debug:1}0
+ac_add_options --disable-optimize
 ac_add_options --enable-debug
 ac_add_options --enable-debug-modules
+ac_add_options --enable-debugger-info-modules
+ac_add_options --enable-crash-on-assert
 %else
 ac_add_options --disable-debug
 ac_add_options --disable-debug-modules
-%endif
-%if %{with gnome}
-ac_add_options --enable-gnomevfs
-ac_add_options --enable-gnomeui
-%else
-ac_add_options --disable-gnomevfs
-ac_add_options --disable-gnomeui
+ac_add_options --disable-logging
+ac_add_options --enable-optimize="%{rpmcflags} -Os"
 %endif
 %if %{with tests}
 ac_add_options --enable-tests
 %else
 ac_add_options --disable-tests
 %endif
-ac_add_options --disable-composer
-ac_add_options --disable-dtd-debug
-ac_add_options --disable-freetype2
+%if %{with gnomeui}
+ac_add_options --enable-gnomeui
+%else
+ac_add_options --disable-gnomeui
+%endif
+%if %{with gnomevfs}
+ac_add_options --enable-gnomevfs
+%else
+ac_add_options --disable-gnomevfs
+%endif
+ac_add_options --disable-crashreporter
 ac_add_options --disable-installer
-ac_add_options --disable-jsd
-ac_add_options --disable-ldap
-ac_add_options --disable-mailnews
-ac_add_options --disable-profilesharing
+ac_add_options --disable-javaxpcom
+ac_add_options --disable-updater
 ac_add_options --disable-strip
 ac_add_options --disable-xprint
-ac_add_options --enable-application=browser
-ac_add_options --enable-canvas
-ac_add_options --enable-cookies
-ac_add_options --enable-crypto
-ac_add_options --enable-default-toolkit=gtk2
-ac_add_options --enable-extensions=all
-ac_add_options --enable-image-encoder=all
-ac_add_options --enable-image-decoder=all
-ac_add_options --enable-mathml
-ac_add_options --enable-pango
-# This breaks mozilla start - don't know why
-#ac_add_options --enable-places
-ac_add_options --enable-postscript
-ac_add_options --enable-reorder
-ac_add_options --enable-safe-browsing
-ac_add_options --enable-single-profile
-ac_add_options --enable-storage
+ac_add_options --enable-startup-notification
 ac_add_options --enable-svg
 ac_add_options --enable-system-cairo
-ac_add_options --enable-url-classifier
-ac_add_options --enable-view-source
-ac_add_options --enable-xft
+ac_add_options --enable-system-myspell
+ac_add_options --enable-system-sqlite
+ac_add_options --enable-libxul
 ac_add_options --enable-xinerama
-ac_add_options --enable-xpctools
 ac_add_options --with-distribution-id=org.pld-linux
+ac_add_options --with-branding=iceweasel/branding
+%if %{with xulrunner}
+ac_add_options --with-libxul-sdk=%{_libdir}/xulrunner-sdk
+%endif
 ac_add_options --with-pthreads
 ac_add_options --with-system-jpeg
 ac_add_options --with-system-nspr
 ac_add_options --with-system-nss
 ac_add_options --with-system-png
 ac_add_options --with-system-zlib
-ac_cv_visibility_pragma=no
+ac_add_options --with-default-mozilla-five-home=%{_libdir}/%{name}
 EOF
 
-# configure.in defines MOZ_APP_NAME as iceweasel, wheres configure is old and defines it as firefox
-#%{__aclocal}
-#%{__autoconf}
-%configure2_13
-
-%{__make}
+%{__make} -j1 -f client.mk build \
+	STRIP="/bin/true" \
+	CC="%{__cc}" \
+	CXX="%{__cxx}"
 
 %install
 rm -rf $RPM_BUILD_ROOT
+cd mozilla
 install -d \
-	$RPM_BUILD_ROOT{%{_bindir},%{_sbindir},%{_libdir}{,extensions}} \
+	$RPM_BUILD_ROOT{%{_bindir},%{_sbindir},%{_libdir}} \
 	$RPM_BUILD_ROOT{%{_pixmapsdir},%{_desktopdir}} \
-	$RPM_BUILD_ROOT{%{_includedir}/%{name}/idl,%{_pkgconfigdir}}
-# extensions dir is needed (it can be empty)
+	$RPM_BUILD_ROOT%{_datadir}/%{name}
 
-%{__make} install \
-	DESTDIR=$RPM_BUILD_ROOT
-	MOZ_PKG_APPNAME="iceweasel"\
-	MOZILLA_BIN="\$(DIST)/bin/iceweasel" \
-	EXCLUDE_NSPR_LIBS=1
+%if %{without xulrunner}
+%browser_plugins_add_browser %{name} -p %{_libdir}/%{name}/plugins
+%endif
 
-sed 's,@LIBDIR@,%{_libdir},; s,@APPNAME@,%{name},' %{SOURCE2} > $RPM_BUILD_ROOT%{_bindir}/iceweasel
+%{__make} -C obj-%{_target_cpu}/browser/installer stage-package \
+	DESTDIR=$RPM_BUILD_ROOT \
+	MOZ_PKG_APPDIR=%{_libdir}/%{name} \
+	PKG_SKIP_STRIP=1
 
-#install -m0644 bookmarks.html $RPM_BUILD_ROOT%{_iceweaseldir}/defaults/profile/
-#install -m0644 bookmarks.html $RPM_BUILD_ROOT%{_iceweaseldir}/defaults/profile/US/
+# move arch independant ones to datadir
+mv $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome $RPM_BUILD_ROOT%{_datadir}/%{name}/chrome
+mv $RPM_BUILD_ROOT%{_libdir}/%{name}/defaults $RPM_BUILD_ROOT%{_datadir}/%{name}/defaults
+mv $RPM_BUILD_ROOT%{_libdir}/%{name}/extensions $RPM_BUILD_ROOT%{_datadir}/%{name}/extensions
+mv $RPM_BUILD_ROOT%{_libdir}/%{name}/icons $RPM_BUILD_ROOT%{_datadir}/%{name}/icons
+mv $RPM_BUILD_ROOT%{_libdir}/%{name}/modules $RPM_BUILD_ROOT%{_datadir}/%{name}/modules
+mv $RPM_BUILD_ROOT%{_libdir}/%{name}/searchplugins $RPM_BUILD_ROOT%{_datadir}/%{name}/searchplugins
+%if %{without xulrunner}
+mv $RPM_BUILD_ROOT%{_libdir}/%{name}/greprefs $RPM_BUILD_ROOT%{_datadir}/%{name}/greprefs
+mv $RPM_BUILD_ROOT%{_libdir}/%{name}/res $RPM_BUILD_ROOT%{_datadir}/%{name}/res
+%endif
+ln -s ../../share/%{name}/chrome $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome
+ln -s ../../share/%{name}/defaults $RPM_BUILD_ROOT%{_libdir}/%{name}/defaults
+ln -s ../../share/%{name}/extensions $RPM_BUILD_ROOT%{_libdir}/%{name}/extensions
+ln -s ../../share/%{name}/modules $RPM_BUILD_ROOT%{_libdir}/%{name}/modules
+ln -s ../../share/%{name}/icons $RPM_BUILD_ROOT%{_libdir}/%{name}/icons
+ln -s ../../share/%{name}/searchplugins $RPM_BUILD_ROOT%{_libdir}/%{name}/searchplugins
+%if %{without xulrunner}
+ln -s ../../share/%{name}/greprefs $RPM_BUILD_ROOT%{_libdir}/%{name}/greprefs
+ln -s ../../share/%{name}/res $RPM_BUILD_ROOT%{_libdir}/%{name}/res
+%endif
 
-install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
+%if %{without xulrunner}
+rm -rf $RPM_BUILD_ROOT%{_libdir}/%{name}/dictionaries
+ln -s %{_datadir}/myspell $RPM_BUILD_ROOT%{_libdir}/%{name}/dictionaries
+%endif
 
-rm -rf US classic comm embed-sample en-{US,mac,unix,win} modern pipnss pippki
-rm -f en-win.jar en-mac.jar embed-sample.jar modern.jar
+sed 's,@LIBDIR@,%{_libdir},' %{SOURCE3} > $RPM_BUILD_ROOT%{_bindir}/iceweasel
+ln -s iceweasel $RPM_BUILD_ROOT%{_bindir}/firefox
+ln -s iceweasel $RPM_BUILD_ROOT%{_bindir}/mozilla-firefox
 
-# header/developement files
-cp -rfL dist/include/*	$RPM_BUILD_ROOT%{_includedir}/%{name}
-cp -rfL dist/idl/*	$RPM_BUILD_ROOT%{_includedir}/%{name}/idl
+install iceweasel/branding/default64.png $RPM_BUILD_ROOT%{_pixmapsdir}/iceweasel.png
 
-install dist/bin/regxpcom $RPM_BUILD_ROOT%{_bindir}
-install dist/bin/xpidl $RPM_BUILD_ROOT%{_bindir}
-install dist/bin/xpt_dump $RPM_BUILD_ROOT%{_bindir}
-install dist/bin/xpt_link $RPM_BUILD_ROOT%{_bindir}
+install %{SOURCE2} $RPM_BUILD_ROOT%{_desktopdir}/%{name}.desktop
 
-#ln -sf %{_includedir}/mozilla-firefox/necko/nsIURI.h \
-#	$RPM_BUILD_ROOT%{_includedir}/mozilla-firefox/nsIURI.h
+# files created by regxpcom and iceweasel -register
+touch $RPM_BUILD_ROOT%{_libdir}/%{name}/components/compreg.dat
+touch $RPM_BUILD_ROOT%{_libdir}/%{name}/components/xpti.dat
 
-# CA certificates
-rm $RPM_BUILD_ROOT%{_iceweaseldir}/libnssckbi.so
-ln -s %{_libdir}/libnssckbi.so $RPM_BUILD_ROOT%{_iceweaseldir}/libnssckbi.so
-
-# pkgconfig files
-for f in build/unix/*.pc ; do
-        sed -e 's/firefox-%{version}/mozilla-firefox/' $f \
-	    > $RPM_BUILD_ROOT%{_pkgconfigdir}/$(basename $f)
-done
-
-# already provided by standalone packages
-rm -f $RPM_BUILD_ROOT%{_pkgconfigdir}/iceweasel-{nss,nspr}.pc
-
-sed -i -e 's#firefox-nspr =.*#mozilla-nspr#g' -e 's#irefox-nss =.*#mozilla-nss#g' \
-	$RPM_BUILD_ROOT%{_pkgconfigdir}/*.pc
-
-# includedir/dom CFLAGS
-sed -i -e '/Cflags:/{/{includedir}\/dom/!s,$, -I${includedir}/dom,}' \
-	$RPM_BUILD_ROOT%{_pkgconfigdir}/iceweasel-plugin.pc
+# what's this? it's content is invalid anyway.
+rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/dependentlibs.list
+rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/old-homepage-default.properties
 
 cat << 'EOF' > $RPM_BUILD_ROOT%{_sbindir}/%{name}-chrome+xpcom-generate
 #!/bin/sh
 umask 022
-rm -f %{_iceweaseldir}/chrome/{chrome.rdf,overlayinfo/*/*/*.rdf}
-rm -f %{_iceweaseldir}/components/{compreg,xpti}.dat
-MOZILLA_FIVE_HOME=%{_iceweaseldir}
-export MOZILLA_FIVE_HOME
+rm -f %{_libdir}/%{name}/components/{compreg,xpti}.dat
 
-# PATH
-PATH=%{_iceweaseldir}:$PATH
-export PATH
-
-# added %{_prefix}/lib : don't load your local library
-LD_LIBRARY_PATH=%{_iceweaseldir}${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
-export LD_LIBRARY_PATH
-
-unset TMPDIR TMP || :
+# it attempts to touch files in $HOME/.mozilla
+# beware if you run this with sudo!!!
 export HOME=$(mktemp -d)
-MOZILLA_FIVE_HOME=%{_iceweaseldir} %{_iceweaseldir}/regxpcom
-MOZILLA_FIVE_HOME=%{_iceweaseldir} %{_iceweaseldir}/iceweasel -register
+# also TMPDIR could be pointing to sudo user's homedir
+unset TMPDIR TMP || :
+
+%{_libdir}/%{name}/iceweasel -register
+
 rm -rf $HOME
 EOF
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%pretrans
+if [ -d %{_libdir}/%{name}/dictionaries ] && [ ! -L %{_libdir}/%{name}/dictionaries ]; then
+	mv -v %{_libdir}/%{name}/dictionaries{,.rpmsave}
+fi
+for d in chrome defaults extensions greprefs icons res searchplugins; do
+	if [ -d %{_libdir}/%{name}/$d ] && [ ! -L %{_libdir}/%{name}/$d ]; then
+		install -d %{_datadir}/%{name}
+		mv %{_libdir}/%{name}/$d %{_datadir}/%{name}/$d
+	fi
+done
+exit 0
+
 %post
 %{_sbindir}/%{name}-chrome+xpcom-generate
+%if %{without xulrunner}
+%update_browser_plugins
+%endif
 
 %postun
-if [ "$1" = "0" ]; then
-	rm -rf %{_iceweaseldir}/chrome/overlayinfo
-	rm -f  %{_iceweaseldir}/chrome/*.rdf
-	rm -rf %{_iceweaseldir}/components
-	rm -rf %{_iceweaseldir}/extensions
+%if %{without xulrunner}
+if [ "$1" = 0 ]; then
+	%update_browser_plugins
 fi
+%endif
 
 %files
 %defattr(644,root,root,755)
-%doc README.ICEWEASEL
-%attr(755,root,root) %{_bindir}/*
-%attr(755,root,root) %{_sbindir}/*
-%dir %{_iceweaseldir}
-%{_iceweaseldir}/res
-%dir %{_iceweaseldir}/components
-%attr(755,root,root) %{_iceweaseldir}/components/*.so
-%{_iceweaseldir}/components/*.js
-%{_iceweaseldir}/components/*.xpt
-%dir %{_iceweaseldir}/plugins
-%attr(755,root,root) %{_iceweaseldir}/plugins/*.so
-%{_iceweaseldir}/searchplugins
-%{_iceweaseldir}/icons
-%{_iceweaseldir}/defaults
-%{_iceweaseldir}/greprefs
-%dir %{_iceweaseldir}/extensions
-%dir %{_iceweaseldir}/init.d
-%attr(755,root,root) %{_iceweaseldir}/*.so
-%attr(755,root,root) %{_iceweaseldir}/*.sh
-%attr(755,root,root) %{_iceweaseldir}/m*
-%attr(755,root,root) %{_iceweaseldir}/i*
-%attr(755,root,root) %{_iceweaseldir}/reg*
-%attr(755,root,root) %{_iceweaseldir}/x*
-#%{_pixmapsdir}/*
-%{_desktopdir}/*.desktop
+%attr(755,root,root) %{_bindir}/%{name}
+%attr(755,root,root) %{_bindir}/firefox
+%attr(755,root,root) %{_bindir}/mozilla-firefox
+%attr(755,root,root) %{_sbindir}/%{name}-chrome+xpcom-generate
 
-%dir %{_iceweaseldir}/chrome
-%{_iceweaseldir}/chrome/*.jar
-%{_iceweaseldir}/chrome/*.manifest
-# -chat subpackage?
-#%{_iceweaseldir}/chrome/chatzilla.jar
-#%{_iceweaseldir}/chrome/content-packs.jar
-#%dir %{_iceweaseldir}/chrome/icons
-#%{_iceweaseldir}/chrome/icons/default
+%if %{without xulrunner}
+# browser plugins v2
+%{_browserpluginsconfdir}/browsers.d/%{name}.*
+%config(noreplace) %verify(not md5 mtime size) %{_browserpluginsconfdir}/blacklist.d/%{name}.*.blacklist
+%endif
 
+%dir %{_libdir}/%{name}
+%attr(755,root,root) %{_libdir}/%{name}/*.so
+%{_libdir}/%{name}/blocklist.xml
+
+%if %{with crashreporter}
+%{_libdir}/%{name}/crashreporter
+%{_libdir}/%{name}/crashreporter-override.ini
+%{_libdir}/%{name}/crashreporter.ini
+%{_libdir}/%{name}/Throbber-small.gif
+%endif
+
+# config?
+%{_libdir}/%{name}/.autoreg
+%{_libdir}/%{name}/application.ini
+
+%dir %{_libdir}/%{name}/components
+
+%{_libdir}/%{name}/components/aboutRobots.js
+%{_libdir}/%{name}/components/FeedConverter.js
+%{_libdir}/%{name}/components/FeedWriter.js
+%{_libdir}/%{name}/components/WebContentConverter.js
+%{_libdir}/%{name}/components/browser.xpt
+%{_libdir}/%{name}/components/fuelApplication.js
+%{_libdir}/%{name}/components/nsBrowserContentHandler.js
+%{_libdir}/%{name}/components/nsBrowserGlue.js
+%{_libdir}/%{name}/components/nsMicrosummaryService.js
+%{_libdir}/%{name}/components/nsPlacesTransactionsService.js
+%{_libdir}/%{name}/components/nsSafebrowsingApplication.js
+%{_libdir}/%{name}/components/nsSearchService.js
+%{_libdir}/%{name}/components/nsSearchSuggestions.js
+%{_libdir}/%{name}/components/nsSessionStartup.js
+%{_libdir}/%{name}/components/nsSessionStore.js
+%{_libdir}/%{name}/components/nsSetDefaultBrowser.js
+%{_libdir}/%{name}/components/nsSidebar.js
+%if %{without xulrunner}
+%{_libdir}/%{name}/platform.ini
+%{_libdir}/%{name}/components/FeedProcessor.js
+%{_libdir}/%{name}/components/jsconsole-clhandler.js
+%{_libdir}/%{name}/components/nsAddonRepository.js
+%{_libdir}/%{name}/components/nsBlocklistService.js
+%{_libdir}/%{name}/components/nsContentDispatchChooser.js
+%{_libdir}/%{name}/components/nsContentPrefService.js
+%{_libdir}/%{name}/components/nsDefaultCLH.js
+%{_libdir}/%{name}/components/nsDownloadManagerUI.js
+%{_libdir}/%{name}/components/nsExtensionManager.js
+%{_libdir}/%{name}/components/nsFilePicker.js
+%{_libdir}/%{name}/components/nsHandlerService.js
+%{_libdir}/%{name}/components/nsHelperAppDlg.js
+%{_libdir}/%{name}/components/nsLivemarkService.js
+%{_libdir}/%{name}/components/nsLoginInfo.js
+%{_libdir}/%{name}/components/nsLoginManager.js
+%{_libdir}/%{name}/components/nsLoginManagerPrompter.js
+%{_libdir}/%{name}/components/nsProxyAutoConfig.js
+%{_libdir}/%{name}/components/nsTaggingService.js
+%{_libdir}/%{name}/components/nsTryToClose.js
+%{_libdir}/%{name}/components/nsURLFormatter.js
+%{_libdir}/%{name}/components/nsUpdateService.js
+%{_libdir}/%{name}/components/nsUrlClassifierLib.js
+%{_libdir}/%{name}/components/nsUrlClassifierListManager.js
+%{_libdir}/%{name}/components/nsWebHandlerApp.js
+%{_libdir}/%{name}/components/pluginGlue.js
+%{_libdir}/%{name}/components/storage-Legacy.js
+%{_libdir}/%{name}/components/txEXSLTRegExFunctions.js
+%endif
+
+%attr(755,root,root) %{_libdir}/%{name}/components/libbrowsercomps.so
+%attr(755,root,root) %{_libdir}/%{name}/components/libbrowserdirprovider.so
+%if %{without xulrunner}
+%attr(755,root,root) %{_libdir}/%{name}/components/libdbusservice.so
+%attr(755,root,root) %{_libdir}/%{name}/components/libimgicon.so
+%endif
+
+%if %{with gnomevfs}
+%if %{without xulrunner}
+%attr(755,root,root) %{_libdir}/%{name}/components/libmozgnome.so
+%endif
+%attr(755,root,root) %{_libdir}/%{name}/components/libnkgnomevfs.so
+%endif
+
+%attr(755,root,root) %{_libdir}/%{name}/*.sh
+%attr(755,root,root) %{_libdir}/%{name}/iceweasel
+%if %{without xulrunner}
+%attr(755,root,root) %{_libdir}/%{name}/iceweasel-bin
+%dir %{_libdir}/%{name}/plugins
+%attr(755,root,root) %{_libdir}/%{name}/plugins/*.so
+%attr(755,root,root) %{_libdir}/%{name}/mozilla-xremote-client
+%endif
+%{_pixmapsdir}/iceweasel.png
+%{_desktopdir}/iceweasel.desktop
+
+# symlinks
+%{_libdir}/%{name}/chrome
+%{_libdir}/%{name}/defaults
+%{_libdir}/%{name}/extensions
+%{_libdir}/%{name}/icons
+%{_libdir}/%{name}/modules
+%{_libdir}/%{name}/searchplugins
+%if %{without xulrunner}
+%{_libdir}/%{name}/dictionaries
+%{_libdir}/%{name}/greprefs
+%{_libdir}/%{name}/res
+%endif
+
+# browserconfig
+%{_libdir}/%{name}/browserconfig.properties
+
+%{_libdir}/%{name}/README.txt
+
+%dir %{_datadir}/%{name}
+%{_datadir}/%{name}/chrome
+%{_datadir}/%{name}/defaults
+%{_datadir}/%{name}/icons
+%{_datadir}/%{name}/modules
+%{_datadir}/%{name}/searchplugins
+%if %{without xulrunner}
+%{_datadir}/%{name}/greprefs
+%{_datadir}/%{name}/res
+%endif
+
+%dir %{_datadir}/%{name}/extensions
 # -dom-inspector subpackage?
-%dir %{_iceweaseldir}/extensions/inspector@mozilla.org
-%{_iceweaseldir}/extensions/inspector@mozilla.org/*
+#%{_datadir}/%{name}/extensions/inspector@mozilla.org
+# the signature of the default theme
+%{_datadir}/%{name}/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}
 
-%files devel
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/regxpcom
-%attr(755,root,root) %{_bindir}/xpidl
-%attr(755,root,root) %{_bindir}/xpt_dump
-%attr(755,root,root) %{_bindir}/xpt_link
-%{_includedir}/%{name}
-%{_pkgconfigdir}/*
-
-%files lang-en
-%defattr(644,root,root,755)
-%{_iceweaseldir}/chrome/en-US.jar
-%{_iceweaseldir}/chrome/en-US.manifest
+# files created by regxpcom and iceweasel -register
+%ghost %{_libdir}/%{name}/components/compreg.dat
+%ghost %{_libdir}/%{name}/components/xpti.dat
