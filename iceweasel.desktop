@@ -1,8 +1,10 @@
 [Desktop Entry]
 Name=Iceweasel
 Name[pl]=Iceweasel
-Comment=Web browser
-Comment[pl]=Przeglądarka WWW
+GenericName=Web Browser
+GenericName[pl]=Przeglądarka WWW
+Comment=Browse the Web powered by Mozilla technology
+Comment[pl]=Przeglądarka WWW oparta o technologię Mozilli
 Exec=iceweasel
 Icon=iceweasel
 Terminal=false
