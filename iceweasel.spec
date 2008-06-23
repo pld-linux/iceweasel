@@ -30,6 +30,7 @@ Source1:	%{name}-branding.tar.bz2
 # Source1-md5:	b49feae9f6434eca8a749776160c15a8
 Source2:	%{name}.desktop
 Source3:	%{name}.sh
+Source4:	%{name}-rm_nonfree.sh
 Patch0:		%{name}-branding.patch
 Patch1:		%{name}-install.patch
 Patch2:		%{name}-gcc3.patch
@@ -122,8 +123,9 @@ ze standardami, wydajnością i przenośnością.
 %prep
 %setup -qc -a1
 cd mozilla
-%patch0 -p1
+/bin/sh %{SOURCE4}
 
+%patch0 -p1
 %patch1 -p1
 
 %if "%{cc_version}" < "3.4"
