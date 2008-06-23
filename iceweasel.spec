@@ -28,9 +28,9 @@ Source0:	ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/sourc
 # Source0-md5:	4210ae0801df2eb498408533010d97c1
 Source1:	%{name}-branding.tar.bz2
 # Source1-md5:	b49feae9f6434eca8a749776160c15a8
-Source2:	%{name}.desktop
-Source3:	%{name}.sh
-Source4:	%{name}-rm_nonfree.sh
+Source2:	%{name}-rm_nonfree.sh
+Source3:	%{name}.desktop
+Source4:	%{name}.sh
 Patch0:		%{name}-branding.patch
 Patch1:		%{name}-install.patch
 Patch2:		%{name}-gcc3.patch
@@ -123,7 +123,7 @@ ze standardami, wydajnością i przenośnością.
 %prep
 %setup -qc -a1
 cd mozilla
-/bin/sh %{SOURCE4}
+/bin/sh %{SOURCE2}
 
 %patch0 -p1
 %patch1 -p1
@@ -275,13 +275,13 @@ rm -rf $RPM_BUILD_ROOT%{_libdir}/%{name}/dictionaries
 ln -s %{_datadir}/myspell $RPM_BUILD_ROOT%{_libdir}/%{name}/dictionaries
 %endif
 
-sed 's,@LIBDIR@,%{_libdir},' %{SOURCE3} > $RPM_BUILD_ROOT%{_bindir}/iceweasel
+sed 's,@LIBDIR@,%{_libdir},' %{SOURCE4} > $RPM_BUILD_ROOT%{_bindir}/iceweasel
 ln -s iceweasel $RPM_BUILD_ROOT%{_bindir}/firefox
 ln -s iceweasel $RPM_BUILD_ROOT%{_bindir}/mozilla-firefox
 
 install iceweasel/branding/default64.png $RPM_BUILD_ROOT%{_pixmapsdir}/iceweasel.png
 
-install %{SOURCE2} $RPM_BUILD_ROOT%{_desktopdir}/%{name}.desktop
+install %{SOURCE3} $RPM_BUILD_ROOT%{_desktopdir}/%{name}.desktop
 
 # files created by regxpcom and iceweasel -register
 touch $RPM_BUILD_ROOT%{_libdir}/%{name}/components/compreg.dat
