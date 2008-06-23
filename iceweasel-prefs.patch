@@ -25,6 +25,15 @@ diff -ur mozilla.orig/browser/app/profile/firefox.js mozilla/browser/app/profile
  
  // 0 = blank, 1 = home (browser.startup.homepage), 2 = last visited page, 3 = resume previous browser session
  // The behavior of option 3 is detailed at: http://wiki.mozilla.org/Session_Restore
+@@ -445,7 +445,7 @@
+ pref("alerts.totalOpenTime", 4000);
+ 
+ pref("browser.xul.error_pages.enabled", true);
+-pref("browser.xul.error_pages.expert_bad_cert", false);
++pref("browser.xul.error_pages.expert_bad_cert", true);
+ 
+ // We want to make sure mail URLs are handled externally...
+ pref("network.protocol-handler.external.mailto", true); // for mail
 @@ -592,10 +592,10 @@
  
  #ifdef MOZ_SAFE_BROWSING
@@ -47,20 +56,6 @@ diff -ur mozilla.orig/browser/app/profile/firefox.js mozilla/browser/app/profile
  
  // Controls the display of domain in the identity box for SSL connections.
  // 0 - do not show domain
-diff -ur mozilla.orig/docshell/resources/content/netError.xhtml mozilla/docshell/resources/content/netError.xhtml
---- mozilla.orig/docshell/resources/content/netError.xhtml	2008-06-21 12:55:24.000000000 +0200
-+++ mozilla/docshell/resources/content/netError.xhtml	2008-06-22 13:08:20.000000000 +0200
-@@ -334,8 +334,8 @@
-         <!-- Override section - For ssl errors only.  Removed on init for other
-              error types.  -->
-         <div id="securityOverrideDiv">
--          <a id="securityOverrideLink" href="javascript:showSecuritySection();" >&securityOverride.linkText;</a>
--          <div id="securityOverrideContent" style="display: none;">&securityOverride.warningText;</div>
-+          <a id="securityOverrideLink" href="javascript:showSecuritySection();" style="display: none;">&securityOverride.linkText;</a>
-+          <div id="securityOverrideContent">&securityOverride.warningText;</div>
-         </div>
-       </div>
- 
 diff -ur mozilla.orig/browser/locales/en-US/chrome/overrides/netError.dtd mozilla/browser/locales/en-US/chrome/overrides/netError.dtd
 --- mozilla.orig/browser/locales/en-US/chrome/overrides/netError.dtd	2008-06-21 12:55:30.000000000 +0200
 +++ mozilla/browser/locales/en-US/chrome/overrides/netError.dtd	2008-06-22 13:52:26.000000000 +0200
