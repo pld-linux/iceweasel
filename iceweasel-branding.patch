@@ -21,7 +21,7 @@ diff -urN mozilla.orig/browser/app/firefox-branding.js mozilla/browser/app/firef
  pref("browser.search.param.yahoo-fr", "");
 diff -urN mozilla.orig/browser/app/profile/firefox.js mozilla/browser/app/profile/firefox.js
 --- mozilla.orig/browser/app/profile/firefox.js	2008-06-22 22:54:03.000000000 +0200
-+++ mozilla/browser/app/profile/firefox.js	2008-06-23 11:58:39.000000000 +0200
++++ mozilla/browser/app/profile/firefox.js	2008-06-25 22:30:43.000000000 +0200
 @@ -659,9 +659,7 @@
  // if we rev the EULA again, we should bump this so users agree to the new EULA
  pref("browser.EULA.version", 3);
@@ -87,6 +87,18 @@ diff -urN mozilla.orig/browser/base/content/credits.xhtml mozilla/browser/base/c
            U.S. GOVERNMENT END USERS. The Software is a &ldquo;commercial item,&rdquo;
            as that term is defined in 48 C.F.R. 2.101 (Oct. 1995), consisting of
            &ldquo;commercial computer software&rdquo; and &ldquo;commercial computer software
+diff -urN mozilla.orig/browser/components/nsBrowserContentHandler.js mozilla/browser/components/nsBrowserContentHandler.js
+--- mozilla.orig/browser/components/nsBrowserContentHandler.js	2008-06-22 22:54:03.000000000 +0200
++++ mozilla/browser/components/nsBrowserContentHandler.js	2008-06-25 19:25:33.000000000 +0200
+@@ -795,7 +795,7 @@
+   },
+ 
+   // XXX localize me... how?
+-  helpInfo : "Usage: firefox [-flags] [<url>]\n",
++  helpInfo : "Usage: iceweasel [-flags] [<url>]\n",
+ 
+   /* nsIFactory */
+   createInstance: function dch_CI(outer, iid) {
 diff -urN mozilla.orig/browser/components/nsBrowserGlue.js mozilla/browser/components/nsBrowserGlue.js
 --- mozilla.orig/browser/components/nsBrowserGlue.js	2008-06-22 22:54:03.000000000 +0200
 +++ mozilla/browser/components/nsBrowserGlue.js	2008-06-23 10:50:19.000000000 +0200
