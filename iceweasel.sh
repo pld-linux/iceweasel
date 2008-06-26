@@ -3,6 +3,15 @@
 
 LIBDIR="@LIBDIR@/iceweasel"
 
+# copy profile from Firefox if its available and if no Iceweasel
+# profile exists
+if [ ! -d $HOME/.iceweasel ]; then
+	if [ -d $HOME/.mozilla/firefox ]; then
+		echo "Copying profile from Firefox"
+		cp -rf $HOME/.mozilla/firefox $HOME/.iceweasel
+	fi
+fi
+
 # compreg.dat and/or chrome.rdf will screw things up if it's from an
 # older version.  http://bugs.gentoo.org/show_bug.cgi?id=63999
 for f in ~/{.,.mozilla/}iceweasel/*/{compreg.dat,chrome.rdf,XUL.mfasl}; do
