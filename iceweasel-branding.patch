@@ -1,3 +1,17 @@
+diff -urN mozilla.orig/browser/app/application.ini mozilla/browser/app/application.ini
+--- mozilla.orig/browser/app/application.ini	2008-06-22 22:54:03.000000000 +0200
++++ mozilla/browser/app/application.ini	2008-06-26 08:31:00.000000000 +0200
+@@ -37,8 +37,8 @@
+ 
+ #filter substitution
+ [App]
+-Vendor=Mozilla
+-Name=Firefox
++Vendor=
++Name=Iceweasel
+ Version=@APP_VERSION@
+ BuildID=@GRE_BUILDID@
+ Copyright=Copyright (c) 1998 - 2008 mozilla.org
 diff -urN mozilla.orig/browser/app/firefox-branding.js mozilla/browser/app/firefox-branding.js
 --- mozilla.orig/browser/app/firefox-branding.js	2008-06-22 22:54:03.000000000 +0200
 +++ mozilla/browser/app/firefox-branding.js	2008-06-23 10:52:40.000000000 +0200
@@ -150,6 +164,18 @@ diff -urN mozilla.orig/browser/components/safebrowsing/content/report-phishing-o
                observes="reportPhishingBroadcaster"
                oncommand="openUILink(safebrowsing.getReportURL('Phish'), event);"
                onclick="checkForMiddleClick(this, event);"/>
+diff -urN mozilla.orig/browser/components/shell/src/nsWindowsShellService.cpp mozilla/browser/components/shell/src/nsWindowsShellService.cpp
+--- mozilla.orig/browser/components/shell/src/nsWindowsShellService.cpp	2008-06-22 22:54:03.000000000 +0200
++++ mozilla/browser/components/shell/src/nsWindowsShellService.cpp	2008-06-25 23:24:46.000000000 +0200
+@@ -189,7 +189,7 @@
+   PRInt32 flags;
+ } SETTING;
+ 
+-#define APP_REG_NAME L"Firefox"
++#define APP_REG_NAME L"Iceweasel"
+ #define DI "\\DefaultIcon"
+ #define SOP "\\shell\\open\\command"
+ 
 diff -urN mozilla.orig/browser/confvars.sh mozilla/browser/confvars.sh
 --- mozilla.orig/browser/confvars.sh	2008-06-22 22:54:03.000000000 +0200
 +++ mozilla/browser/confvars.sh	2008-06-23 09:29:51.000000000 +0200
@@ -243,6 +269,15 @@ diff -urN mozilla.orig/browser/locales/en-US/searchplugins/google.xml mozilla/br
 -<SearchForm>http://www.google.com/firefox</SearchForm>
 +<SearchForm>http://www.google.com/</SearchForm>
  </SearchPlugin>
+diff -urN mozilla.orig/browser/locales/en-US/updater/updater.ini mozilla/browser/locales/en-US/updater/updater.ini
+--- mozilla.orig/browser/locales/en-US/updater/updater.ini	2008-06-22 22:54:03.000000000 +0200
++++ mozilla/browser/locales/en-US/updater/updater.ini	2008-06-26 08:31:30.000000000 +0200
+@@ -1,4 +1,4 @@
+ ; This file is in the UTF-8 encoding
+ [Strings]
+ Title=Software Update
+-Info=Firefox is installing your updates and will start in a few moments…
++Info=Iceweasel is installing your updates and will start in a few moments…
 diff -urN mozilla.orig/extensions/reporter/resources/content/reporter/reporterOverlay.xul mozilla/extensions/reporter/resources/content/reporter/reporterOverlay.xul
 --- mozilla.orig/extensions/reporter/resources/content/reporter/reporterOverlay.xul	2008-06-22 22:54:07.000000000 +0200
 +++ mozilla/extensions/reporter/resources/content/reporter/reporterOverlay.xul	2008-06-23 10:50:29.000000000 +0200
@@ -255,3 +290,16 @@ diff -urN mozilla.orig/extensions/reporter/resources/content/reporter/reporterOv
                observes="reporterItemsBroadcaster"
                oncommand="loadReporterWizard()"/>
    </menupopup>
+diff -urN mozilla.orig/toolkit/xre/nsAppRunner.cpp mozilla/toolkit/xre/nsAppRunner.cpp
+--- mozilla.orig/toolkit/xre/nsAppRunner.cpp	2008-06-22 22:54:10.000000000 +0200
++++ mozilla/toolkit/xre/nsAppRunner.cpp	2008-06-26 09:56:45.000000000 +0200
+@@ -1184,8 +1184,7 @@
+ static inline void
+ DumpVersion()
+ {
+-  printf("%s %s %s", 
+-         gAppData->vendor ? gAppData->vendor : "", gAppData->name, gAppData->version);
++  printf("%s %s", gAppData->name, gAppData->version);
+   if (gAppData->copyright)
+       printf(", %s", gAppData->copyright);
+   printf("\n");
