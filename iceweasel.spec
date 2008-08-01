@@ -97,6 +97,8 @@ Obsoletes:	mozilla-firefox-lang-en < 2.0.0.8-3
 Obsoletes:	mozilla-firefox-libs
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
+%define		filterout_cpp		-D_FORTIFY_SOURCE=[0-9]+
+
 # iceweasel/icedove/iceape provide their own versions
 %define		_noautoreqdep		libgkgfx.so libgtkxtbin.so libjsj.so libxpcom_compat.so libxpcom_core.so
 %define		_noautoprovfiles	%{_libdir}/%{name}/components
