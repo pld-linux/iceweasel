@@ -21,7 +21,7 @@ Summary:	Iceweasel web browser
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
 Version:	3.0.1
-Release:	2
+Release:	3
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}-source.tar.bz2
@@ -87,6 +87,7 @@ Requires:	cairo >= 1.6.0
 Requires:	libpng(APNG) >= 0.10
 Requires:	nspr >= 1:4.7
 Requires:	nss >= 1:3.12-2
+Requires:	myspell-common
 %if %{with xulrunner}
 %requires_eq_to	xulrunner xulrunner-devel
 %endif
