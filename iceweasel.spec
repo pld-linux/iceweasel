@@ -31,6 +31,7 @@ Source1:	%{name}-branding.tar.bz2
 Source2:	%{name}-rm_nonfree.sh
 Source3:	%{name}.desktop
 Source4:	%{name}.sh
+Source5:	%{name}-ti.sh
 Patch0:		%{name}-branding.patch
 Patch1:		%{name}-install.patch
 Patch2:		%{name}-gcc3.patch
@@ -278,7 +279,11 @@ rm -rf $RPM_BUILD_ROOT%{_libdir}/%{name}/dictionaries
 ln -s %{_datadir}/myspell $RPM_BUILD_ROOT%{_libdir}/%{name}/dictionaries
 %endif
 
+%if "%{pld_release}" == "ti"
+sed 's,@LIBDIR@,%{_libdir},' %{SOURCE5} > $RPM_BUILD_ROOT%{_bindir}/iceweasel
+%else
 sed 's,@LIBDIR@,%{_libdir},' %{SOURCE4} > $RPM_BUILD_ROOT%{_bindir}/iceweasel
+%endif
 ln -s iceweasel $RPM_BUILD_ROOT%{_bindir}/firefox
 ln -s iceweasel $RPM_BUILD_ROOT%{_bindir}/mozilla-firefox
 
