@@ -202,19 +202,6 @@ diff -urN mozilla.orig/browser/components/preferences/advanced.xul mozilla/brows
              <checkbox id="enableAddonUpdate"
                        label="&enableAddonsUpdate.label;"
                        accesskey="&enableAddonsUpdate.accesskey;"
-diff -urN mozilla.orig/browser/components/preferences/applications.js mozilla/browser/components/preferences/applications.js
---- mozilla.orig/browser/components/preferences/applications.js	2008-07-29 13:24:18.000000000 +0200
-+++ mozilla/browser/components/preferences/applications.js	2008-07-29 13:34:50.000000000 +0200
-@@ -538,8 +538,7 @@
- 
-   _shellSvc:
- #ifdef HAVE_SHELL_SERVICE
--    Cc["@mozilla.org/browser/shell-service;1"].
--    getService(Ci.nsIShellService),
-+    getShellService(),
- #else
-     null,
- #endif
 diff -urN mozilla.orig/browser/components/safebrowsing/content/report-phishing-overlay.xul mozilla/browser/components/safebrowsing/content/report-phishing-overlay.xul
 --- mozilla.orig/browser/components/safebrowsing/content/report-phishing-overlay.xul	2008-07-29 13:24:18.000000000 +0200
 +++ mozilla/browser/components/safebrowsing/content/report-phishing-overlay.xul	2008-07-29 13:34:50.000000000 +0200
