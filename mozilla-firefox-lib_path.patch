@@ -6,7 +6,7 @@ diff -ur firefox.orig/config/autoconf.mk.in firefox/config/autoconf.mk.in
  idldir		= @datadir@/idl/$(MOZ_APP_NAME)-$(MOZ_APP_VERSION)
  
 -mozappdir	= $(libdir)/$(MOZ_APP_NAME)-$(MOZ_APP_VERSION)
-+mozappdir	= $(libdir)/$(MOZ_APP_NAME)
++mozappdir	= $(libdir)/mozilla-$(MOZ_APP_NAME)
  mredir		= $(libdir)/mre/mre-$(MOZ_APP_VERSION)
  mrelibdir	= $(mredir)/lib
  
