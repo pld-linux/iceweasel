@@ -18,6 +18,7 @@
 %endif
 
 Summary:	Iceweasel web browser
+Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
 Version:	3.0.3
@@ -85,9 +86,9 @@ Requires:	browser-plugins >= 2.0
 %endif
 Requires:	cairo >= 1.6.0
 Requires:	libpng(APNG) >= 0.10
+Requires:	myspell-common
 Requires:	nspr >= 1:4.7
 Requires:	nss >= 1:3.12-2
-Requires:	myspell-common
 %if %{with xulrunner}
 %requires_eq_to	xulrunner xulrunner-devel
 %endif
@@ -118,10 +119,14 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Iceweasel is an open-source web browser, designed for standards
 compliance, performance and portability.
 
+%description -l hu.UTF-8
+Iceweasel egy nyílt forrású webböngésző, hatékonyságra és
+hordozhatóságra tervezve.
+
 %description -l pl.UTF-8
 Iceweasel jest przeglądarką WWW rozpowszechnianą zgodnie z ideami
-ruchu otwartego oprogramowania oraz tworzoną z myślą o zgodności
-ze standardami, wydajnością i przenośnością.
+ruchu otwartego oprogramowania oraz tworzoną z myślą o zgodności ze
+standardami, wydajnością i przenośnością.
 
 %prep
 %setup -qc -a1
