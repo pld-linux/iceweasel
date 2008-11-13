@@ -41,7 +41,7 @@ Patch5:		%{name}-ti-agent.patch
 Patch6:		%{name}-nss_cflags.patch
 Patch7:		%{name}-prefs.patch
 Patch8:		%{name}-pld-branding.patch
-URL:		http://www.mozilla.org/projects/firefox/
+URL:		http://www.pld-linux.org/Packages/Iceweasel
 %{?with_gnomevfs:BuildRequires:	GConf2-devel >= 1.2.1}
 BuildRequires:	automake
 BuildRequires:	cairo-devel >= 1.6.0
