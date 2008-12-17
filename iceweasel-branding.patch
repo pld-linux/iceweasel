@@ -70,12 +70,13 @@ diff -urN mozilla.orig/browser/app/profile/firefox.js mozilla/browser/app/profil
  pref("extensions.dss.enabled", false);          // Dynamic Skin Switching                                               
  pref("extensions.dss.switchPending", false);    // Non-dynamic switch pending after next
                                                  // restart.
-@@ -659,9 +659,7 @@
- // if we rev the EULA again, we should bump this so users agree to the new EULA
- pref("browser.EULA.version", 3);
+@@ -658,10 +658,8 @@
+ pref("browser.rights.version", 3);
+ pref("browser.rights.3.shown", false);
  
 -#ifdef DEBUG
- pref("browser.EULA.override", true);
+ // Don't show the about:rights notification in debug builds.
+ pref("browser.rights.override", true);
 -#endif
  
  pref("browser.sessionstore.enabled", true);
