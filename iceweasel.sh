@@ -14,7 +14,7 @@ fi
 
 # compreg.dat and/or chrome.rdf will screw things up if it's from an
 # older version.  http://bugs.gentoo.org/show_bug.cgi?id=63999
-for f in ~/{.,.mozilla/}iceweasel/*/{compreg.dat,chrome.rdf,XUL.mfasl}; do
+for f in ~/.iceweasel/*/{compreg.dat,chrome.rdf,XUL.mfasl}; do
 	if [[ -f ${f} && ${f} -ot /usr/bin/iceweasel ]]; then
 		echo "Removing ${f} leftover from older iceweasel"
 		rm -f "${f}"
@@ -46,7 +46,7 @@ else
 			else
 				URL="$1"
 			fi
-			grep browser.tabs.opentabfor.middleclick ~/.mozilla/iceweasel/*/prefs.js | grep false > /dev/null
+			grep browser.tabs.opentabfor.middleclick ~/.iceweasel/*/prefs.js | grep false > /dev/null
 			if [ $? -ne 0 ]; then
 				exec $ICEWEASEL -new-tab "$URL"
 			else
