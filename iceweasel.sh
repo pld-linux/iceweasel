@@ -22,14 +22,15 @@ for f in ~/.iceweasel/*/{compreg.dat,chrome.rdf,XUL.mfasl}; do
 done
 
 ICEWEASEL="$LIBDIR/iceweasel"
+PWD=${PWD:-$(pwd)}
 
 if [ "$1" == "-remote" ]; then
 	exec $ICEWEASEL "$@"
 else
-	PING=`$ICEWEASEL -remote 'ping()' 2>&1 >/dev/null`
+	PING=$($ICEWEASEL -remote 'ping()' 2>&1 >/dev/null)
 	if [ -n "$PING" ]; then
-		if [ -f "`pwd`/$1" ]; then
-			exec $ICEWEASEL "file://`pwd`/$1"
+		if [ -f "$PWD/$1" ]; then
+			exec $ICEWEASEL "file://$PWD/$1"
 		else
 			exec $ICEWEASEL "$@"
 		fi
@@ -41,13 +42,12 @@ else
 		elif [ "$1" == "-compose" ]; then
 			exec $ICEWEASEL -remote 'xfeDoCommand(composeMessage)'
 		else
-			if [ -f "`pwd`/$1" ]; then
-				URL="file://`pwd`/$1"
+			if [ -f "$PWD/$1" ]; then
+				URL="file://$PWD/$1"
 			else
 				URL="$1"
 			fi
-			grep browser.tabs.opentabfor.middleclick ~/.iceweasel/*/prefs.js | grep false > /dev/null
-			if [ $? -ne 0 ]; then
+			if grep -q browser.tabs.opentabfor.middleclick.*false ~/.iceweasel/*/prefs.js; then
 				exec $ICEWEASEL -new-tab "$URL"
 			else
 				exec $ICEWEASEL -new-window "$URL"
