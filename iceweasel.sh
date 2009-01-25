@@ -24,7 +24,7 @@ done
 ICEWEASEL="$LIBDIR/iceweasel"
 PWD=${PWD:-$(pwd)}
 
-if [ "$1" == "-remote" ]; then
+if [ "$1" = "-remote" ]; then
 	exec $ICEWEASEL "$@"
 else
 	if ! $ICEWEASEL -remote 'ping()' 2>/dev/null; then
@@ -36,9 +36,9 @@ else
 	else
 		if [ -z "$1" ]; then
 			exec $ICEWEASEL -remote 'xfeDoCommand(openBrowser)'
-		elif [ "$1" == "-mail" ]; then
+		elif [ "$1" = "-mail" ]; then
 			exec $ICEWEASEL -remote 'xfeDoCommand(openInbox)'
-		elif [ "$1" == "-compose" ]; then
+		elif [ "$1" = "-compose" ]; then
 			exec $ICEWEASEL -remote 'xfeDoCommand(composeMessage)'
 		else
 			if [ -f "$PWD/$1" ]; then
