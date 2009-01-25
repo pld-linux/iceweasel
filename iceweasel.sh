@@ -27,8 +27,7 @@ PWD=${PWD:-$(pwd)}
 if [ "$1" == "-remote" ]; then
 	exec $ICEWEASEL "$@"
 else
-	PING=$($ICEWEASEL -remote 'ping()' 2>&1 >/dev/null)
-	if [ -n "$PING" ]; then
+	if ! $ICEWEASEL -remote 'ping()' 2>/dev/null; then
 		if [ -f "$PWD/$1" ]; then
 			exec $ICEWEASEL "file://$PWD/$1"
 		else
