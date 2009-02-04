@@ -124,8 +124,8 @@ diff -urN mozilla.orig/browser/base/content/credits.xhtml mozilla/browser/base/c
          <p id="gecko" class="center">&credit.poweredByGeckoReg;</p>
  
          <p class="footnote">
--          &brandFullName;&trade; &license.part0; &copy;1998-2008 &license.part1;
-+          &brandFullName; &license.part0; &copy;1998-2008 &license.part1;
+-          &brandFullName;&trade; &license.part0; &copy;1998-2009 &license.part1;
++          &brandFullName; &license.part0; &copy;1998-2009 &license.part1;
            <a href="" link="about:credits" onclick="visitLink(event);">&license.contrib;</a>,
            &license.part2;
            <a href="" link="about:license" onclick="visitLink(event);">about:license</a>
@@ -246,10 +246,10 @@ diff -urN mozilla.orig/browser/locales/en-US/chrome/browser/aboutDialog.dtd mozi
  <!ENTITY aboutLink              "&lt; About &brandFullName;">
  <!ENTITY aboutLink.accesskey    "A">
  <!ENTITY aboutVersion           "version">
--<!ENTITY copyrightInfo          "&#169;1998-2008 Contributors. All Rights Reserved. Firefox and the 
+-<!ENTITY copyrightInfo          "&#169;1998-2009 Contributors. All Rights Reserved. Firefox and the 
 -                                 Firefox logos are trademarks of the Mozilla Foundation.  All rights 
 -                                 reserved.">
-+<!ENTITY copyrightInfo          "&#169;1998-2008 Contributors. All Rights Reserved.">
++<!ENTITY copyrightInfo          "&#169;1998-2009 Contributors. All Rights Reserved.">
 diff -urN mozilla.orig/browser/locales/en-US/chrome/overrides/appstrings.properties mozilla/browser/locales/en-US/chrome/overrides/appstrings.properties
 --- mozilla.orig/browser/locales/en-US/chrome/overrides/appstrings.properties	2008-07-29 13:24:18.000000000 +0200
 +++ mozilla/browser/locales/en-US/chrome/overrides/appstrings.properties	2008-07-29 13:34:50.000000000 +0200
