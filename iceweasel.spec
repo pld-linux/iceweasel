@@ -373,6 +373,7 @@ fi
 
 %dir %{_libdir}/%{name}/components
 
+%{_libdir}/%{name}/components/aboutRights.js
 %{_libdir}/%{name}/components/aboutRobots.js
 %{_libdir}/%{name}/components/FeedConverter.js
 %{_libdir}/%{name}/components/FeedWriter.js
