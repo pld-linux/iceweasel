@@ -46,7 +46,7 @@ else
 			else
 				URL="$1"
 			fi
-			if grep -q browser.tabs.opentabfor.middleclick.*false ~/.iceweasel/*/prefs.js; then
+			if ! grep -q browser.tabs.opentabfor.middleclick.*false ~/.iceweasel/*/prefs.js; then
 				exec $ICEWEASEL -new-tab "$URL"
 			else
 				exec $ICEWEASEL -new-window "$URL"
