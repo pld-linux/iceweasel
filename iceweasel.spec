@@ -21,12 +21,12 @@ Summary:	Iceweasel web browser
 Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
-Version:	3.0.7
-Release:	2
+Version:	3.0.8
+Release:	1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}-source.tar.bz2
-# Source0-md5:	9875c9237b532009df8e91c3785539a3
+# Source0-md5:	5fb6c6f3e973516df83a573348377a2f
 Source1:	%{name}-branding.tar.bz2
 # Source1-md5:	b49feae9f6434eca8a749776160c15a8
 Source2:	%{name}-rm_nonfree.sh
