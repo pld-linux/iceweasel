@@ -41,6 +41,7 @@ Patch5:		%{name}-ti-agent.patch
 Patch6:		%{name}-nss_cflags.patch
 Patch7:		%{name}-prefs.patch
 Patch8:		%{name}-pld-branding.patch
+Patch9:		%{name}-gcc44.patch
 URL:		http://www.pld-linux.org/Packages/Iceweasel
 %{?with_gnomevfs:BuildRequires:	GConf2-devel >= 1.2.1}
 BuildRequires:	automake
@@ -155,6 +156,10 @@ cd mozilla
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
+
+%if "%{cc_version}" > "4.3.3"
+%patch9 -p1
+%endif
 
 %build
 cd mozilla
