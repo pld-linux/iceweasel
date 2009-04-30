@@ -156,10 +156,7 @@ cd mozilla
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
-
-%if "%{cc_version}" > "4.3.3"
 %patch9 -p1
-%endif
 
 %build
 cd mozilla
