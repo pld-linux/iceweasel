@@ -1,0 +1,5 @@
+# TODO:
+- handle locales differently (runtime, since it's possible to do)
+- see ftp://ftp.debian.org/debian/pool/main/m/mozilla-firefox/*diff*
+  for hints how to make locales
+

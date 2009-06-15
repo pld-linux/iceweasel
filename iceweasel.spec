@@ -1,9 +1,4 @@
 #
-# TODO:
-# - handle locales differently (runtime, since it's possible to do)
-# - see ftp://ftp.debian.org/debian/pool/main/m/mozilla-firefox/*diff*
-#   for hints how to make locales
-#
 # Conditional build:
 %bcond_with	tests		# enable tests (whatever they check)
 %bcond_without	gnomeui		# disable gnomeui support
