@@ -86,8 +86,8 @@ Requires:	browser-plugins >= 2.0
 Requires:	cairo >= 1.6.0
 Requires:	libpng(APNG) >= 0.10
 Requires:	myspell-common
-Requires:	nspr >= 1:4.7
-Requires:	nss >= 1:3.12-2
+Requires:	nspr >= 1:4.8
+Requires:	nss >= 1:3.12.3
 %if %{with xulrunner}
 %requires_eq_to	xulrunner xulrunner-devel
 %endif
