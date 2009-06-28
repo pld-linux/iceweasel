@@ -376,18 +376,23 @@ fi
 
 %dir %{_libdir}/%{name}/components
 
+%{_libdir}/%{name}/components/aboutCertError.js
+%{_libdir}/%{name}/components/aboutPrivateBrowsing.js
 %{_libdir}/%{name}/components/aboutRights.js
 %{_libdir}/%{name}/components/aboutRobots.js
+%{_libdir}/%{name}/components/aboutSessionRestore.js
+%{_libdir}/%{name}/components/browser.xpt
 %{_libdir}/%{name}/components/FeedConverter.js
 %{_libdir}/%{name}/components/FeedWriter.js
-%{_libdir}/%{name}/components/WebContentConverter.js
-%{_libdir}/%{name}/components/browser.xpt
 %{_libdir}/%{name}/components/fuelApplication.js
+%{_libdir}/%{name}/components/NetworkGeolocationProvider.js
 %{_libdir}/%{name}/components/nsBadCertHandler.js
 %{_libdir}/%{name}/components/nsBrowserContentHandler.js
 %{_libdir}/%{name}/components/nsBrowserGlue.js
 %{_libdir}/%{name}/components/nsMicrosummaryService.js
+%{_libdir}/%{name}/components/nsPlacesDBFlush.js
 %{_libdir}/%{name}/components/nsPlacesTransactionsService.js
+%{_libdir}/%{name}/components/nsPrivateBrowsingService.js
 %{_libdir}/%{name}/components/nsSafebrowsingApplication.js
 %{_libdir}/%{name}/components/nsSearchService.js
 %{_libdir}/%{name}/components/nsSearchSuggestions.js
@@ -395,6 +400,8 @@ fi
 %{_libdir}/%{name}/components/nsSessionStore.js
 %{_libdir}/%{name}/components/nsSetDefaultBrowser.js
 %{_libdir}/%{name}/components/nsSidebar.js
+%{_libdir}/%{name}/components/storage-mozStorage.js
+%{_libdir}/%{name}/components/WebContentConverter.js
 %if %{without xulrunner}
 %{_libdir}/%{name}/platform.ini
 %{_libdir}/%{name}/components/FeedProcessor.js
