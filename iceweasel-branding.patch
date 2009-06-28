@@ -93,6 +93,17 @@ diff -urN mozilla-1.9.1.orig/browser/app/profile/firefox.js mozilla-1.9.1/browse
  
  // Name of alternate about: page for certificate errors (when undefined, defaults to about:neterror)
  pref("security.alternate_certificate_error_page", "certerror");
+diff -urN mozilla-1.9.1.orig/browser/base/content/aboutDialog.xul mozilla-1.9.1/browser/base/content/aboutDialog.xul
+--- mozilla-1.9.1.orig/browser/base/content/aboutDialog.xul	2009-06-24 10:20:27.000000000 +0200
++++ mozilla-1.9.1/browser/base/content/aboutDialog.xul	2009-06-28 17:29:14.000000000 +0200
+@@ -87,7 +87,6 @@
+         &copyrightInfo1;<label 
+         class="text-link" href="&licenseLink;"
+         >&licenseLinkText;</label>&copyrightInfo2;
+-        &logoCopyright;
+       </description>
+       <textbox id="userAgent" multiline="true" readonly="true" flex="1"/>
+     </vbox>
 diff -urN mozilla-1.9.1.orig/browser/base/content/baseMenuOverlay.xul mozilla-1.9.1/browser/base/content/baseMenuOverlay.xul
 --- mozilla-1.9.1.orig/browser/base/content/baseMenuOverlay.xul	2009-06-24 10:20:27.000000000 +0200
 +++ mozilla-1.9.1/browser/base/content/baseMenuOverlay.xul	2009-06-28 14:24:47.000000000 +0200
