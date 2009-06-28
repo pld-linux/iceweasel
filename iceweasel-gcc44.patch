@@ -1,15 +1,3 @@
-diff -Naurp mozilla-orig/toolkit/xre/nsAppRunner.cpp mozilla/toolkit/xre/nsAppRunner.cpp
---- mozilla-orig/toolkit/xre/nsAppRunner.cpp 2008-11-17 08:36:43.000000000 -0600
-+++ mozilla/toolkit/xre/nsAppRunner.cpp 2009-03-01 20:35:11.000000000 -0600
-@@ -1459,7 +1459,7 @@ XRE_GetBinaryPath(const char* argv0, nsI
-   if (NS_FAILED(rv))
-     return rv;
- 
--#elif
-+#else
- #error Oops, you need platform-specific code here
- #endif
-
 diff -burNp mozilla/toolkit/crashreporter/google-breakpad/src/common/linux/dump_symbols.cc mozilla-dud/toolkit/crashreporter/google-breakpad/src/common/linux/dump_symbols.cc
 --- mozilla/toolkit/crashreporter/google-breakpad/src/common/linux/dump_symbols.cc	2008-02-25 19:18:09.000000000 +0100
 +++ mozilla-dud/toolkit/crashreporter/google-breakpad/src/common/linux/dump_symbols.cc	2009-04-29 14:30:50.481579531 +0200
