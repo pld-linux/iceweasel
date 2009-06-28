@@ -55,15 +55,6 @@ diff -ur mozilla.orig/browser/app/profile/firefox.js mozilla/browser/app/profile
  
  // Non-enhanced mode (local url lists) URL list to check for updates
  pref("browser.safebrowsing.provider.0.updateURL", "http://safebrowsing.clients.google.com/safebrowsing/downloads?client={moz:client}&appver={moz:version}&pver=2.1");
-@@ -739,7 +739,7 @@
- // 0 - don't pre-populate anything
- // 1 - pre-populate site URL, but don't fetch certificate
- // 2 - pre-populate site URL and pre-fetch certificate
--pref("browser.ssl_override_behavior", 1);
-+pref("browser.ssl_override_behavior", 2);
- 
- // Controls the display of domain in the identity box for SSL connections.
- // 0 - do not show domain
 diff -ur mozilla.orig/browser/locales/en-US/chrome/overrides/netError.dtd mozilla/browser/locales/en-US/chrome/overrides/netError.dtd
 --- mozilla.orig/browser/locales/en-US/chrome/overrides/netError.dtd	2008-06-21 12:55:30.000000000 +0200
 +++ mozilla/browser/locales/en-US/chrome/overrides/netError.dtd	2008-06-22 13:52:26.000000000 +0200
