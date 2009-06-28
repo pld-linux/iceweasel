@@ -75,7 +75,7 @@ BuildRequires:	xorg-lib-libXinerama-devel
 BuildRequires:	xorg-lib-libXp-devel
 BuildRequires:	xorg-lib-libXt-devel
 %if %{with xulrunner}
-BuildRequires:	xulrunner-devel >= 1.9-2
+BuildRequires:	xulrunner-devel >= 1.9.1
 %endif
 BuildRequires:	zip
 BuildRequires:	zlib-devel >= 1.2.3
@@ -360,7 +360,9 @@ fi
 %endif
 
 %dir %{_libdir}/%{name}
+%if %{without xulrunner}
 %attr(755,root,root) %{_libdir}/%{name}/*.so
+%endif
 %{_libdir}/%{name}/blocklist.xml
 
 %if %{with crashreporter}
@@ -385,28 +387,24 @@ fi
 %{_libdir}/%{name}/components/FeedConverter.js
 %{_libdir}/%{name}/components/FeedWriter.js
 %{_libdir}/%{name}/components/fuelApplication.js
-%{_libdir}/%{name}/components/NetworkGeolocationProvider.js
-%{_libdir}/%{name}/components/nsBadCertHandler.js
 %{_libdir}/%{name}/components/nsBrowserContentHandler.js
 %{_libdir}/%{name}/components/nsBrowserGlue.js
 %{_libdir}/%{name}/components/nsMicrosummaryService.js
-%{_libdir}/%{name}/components/nsPlacesDBFlush.js
 %{_libdir}/%{name}/components/nsPlacesTransactionsService.js
 %{_libdir}/%{name}/components/nsPrivateBrowsingService.js
 %{_libdir}/%{name}/components/nsSafebrowsingApplication.js
-%{_libdir}/%{name}/components/nsSearchService.js
-%{_libdir}/%{name}/components/nsSearchSuggestions.js
 %{_libdir}/%{name}/components/nsSessionStartup.js
 %{_libdir}/%{name}/components/nsSessionStore.js
 %{_libdir}/%{name}/components/nsSetDefaultBrowser.js
 %{_libdir}/%{name}/components/nsSidebar.js
-%{_libdir}/%{name}/components/storage-mozStorage.js
 %{_libdir}/%{name}/components/WebContentConverter.js
 %if %{without xulrunner}
 %{_libdir}/%{name}/platform.ini
 %{_libdir}/%{name}/components/FeedProcessor.js
 %{_libdir}/%{name}/components/jsconsole-clhandler.js
+%{_libdir}/%{name}/components/NetworkGeolocationProvider.js
 %{_libdir}/%{name}/components/nsAddonRepository.js
+%{_libdir}/%{name}/components/nsBadCertHandler.js
 %{_libdir}/%{name}/components/nsBlocklistService.js
 %{_libdir}/%{name}/components/nsContentDispatchChooser.js
 %{_libdir}/%{name}/components/nsContentPrefService.js
@@ -420,7 +418,10 @@ fi
 %{_libdir}/%{name}/components/nsLoginInfo.js
 %{_libdir}/%{name}/components/nsLoginManager.js
 %{_libdir}/%{name}/components/nsLoginManagerPrompter.js
+%{_libdir}/%{name}/components/nsPlacesDBFlush.js
 %{_libdir}/%{name}/components/nsProxyAutoConfig.js
+%{_libdir}/%{name}/components/nsSearchService.js
+%{_libdir}/%{name}/components/nsSearchSuggestions.js
 %{_libdir}/%{name}/components/nsTaggingService.js
 %{_libdir}/%{name}/components/nsTryToClose.js
 %{_libdir}/%{name}/components/nsURLFormatter.js
@@ -430,6 +431,7 @@ fi
 %{_libdir}/%{name}/components/nsWebHandlerApp.js
 %{_libdir}/%{name}/components/pluginGlue.js
 %{_libdir}/%{name}/components/storage-Legacy.js
+%{_libdir}/%{name}/components/storage-mozStorage.js
 %{_libdir}/%{name}/components/txEXSLTRegExFunctions.js
 %endif
 
