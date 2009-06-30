@@ -65,7 +65,7 @@ BuildRequires:	perl-modules >= 5.004
 BuildRequires:	pkgconfig
 BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	rpmbuild(macros) >= 1.453
-BuildRequires:	sqlite3-devel
+BuildRequires:	sqlite3-devel >= 3.6.16
 BuildRequires:	startup-notification-devel
 BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXft-devel >= 2.1
