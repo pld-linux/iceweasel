@@ -65,7 +65,7 @@ BuildRequires:	perl-modules >= 5.004
 BuildRequires:	pkgconfig
 BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	rpmbuild(macros) >= 1.453
-BuildRequires:	sqlite3-devel >= 3.6.16
+BuildRequires:	sqlite3-devel >= 3.6.15
 BuildRequires:	startup-notification-devel
 BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXft-devel >= 2.1
@@ -82,7 +82,7 @@ Requires(post):	mktemp >= 1.5-18
 Requires:	browser-plugins >= 2.0
 %endif
 Requires:	cairo >= 1.6.0
-Requires:	sqlite3 >= 3.6.16
+Requires:	sqlite3 >= 3.6.15
 Requires:	libpng(APNG) >= 0.10
 Requires:	myspell-common
 Requires:	nspr >= 1:4.8
