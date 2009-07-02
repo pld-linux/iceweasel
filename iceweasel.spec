@@ -82,11 +82,11 @@ Requires(post):	mktemp >= 1.5-18
 Requires:	browser-plugins >= 2.0
 %endif
 Requires:	cairo >= 1.6.0
-Requires:	sqlite3 >= 3.6.15
 Requires:	libpng(APNG) >= 0.10
 Requires:	myspell-common
 Requires:	nspr >= 1:4.8
 Requires:	nss >= 1:3.12.3
+Requires:	sqlite3 >= 3.6.15
 %if %{with xulrunner}
 %requires_eq_to	xulrunner xulrunner-devel
 %endif
@@ -95,6 +95,7 @@ Obsoletes:	mozilla-firebird
 Obsoletes:	mozilla-firefox
 Obsoletes:	mozilla-firefox-lang-en < 2.0.0.8-3
 Obsoletes:	mozilla-firefox-libs
+Conflicts:	iceweasel-lang-resources < %{version}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		filterout_cpp		-D_FORTIFY_SOURCE=[0-9]+
