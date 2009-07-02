@@ -1,0 +1,17 @@
+--- mozilla/xpcom/glue/nsTArray.h~	2009-06-29 18:15:32.000000000 +0200
++++ mozilla/xpcom/glue/nsTArray.h	2009-07-02 09:49:47.623908821 +0200
+@@ -43,7 +43,14 @@
+ #include "nsQuickSort.h"
+ #include "nsDebug.h"
+ #include "nsTraceRefcnt.h"
++#ifdef inline
++#define crappy_inline inline
++#undef inline
++#endif
+ #include NEW_H
++#ifdef crappy_inline
++#define inline crappy_inline
++#endif
+ 
+ //
+ // This class serves as a base class for nsTArray.  It shouldn't be used

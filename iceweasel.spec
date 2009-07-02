@@ -38,6 +38,7 @@ Patch7:		%{name}-prefs.patch
 Patch8:		%{name}-pld-branding.patch
 Patch9:		%{name}-gcc44.patch
 Patch10:	%{name}-no-subshell.patch
+Patch11:	%{name}-ppc.patch
 URL:		http://www.pld-linux.org/Packages/Iceweasel
 %{?with_gnomevfs:BuildRequires:	GConf2-devel >= 1.2.1}
 BuildRequires:	automake
@@ -158,6 +159,7 @@ cd mozilla
 %patch8 -p1
 %patch9 -p1
 %patch10 -p2
+%patch11 -p1
 
 %build
 cd mozilla
