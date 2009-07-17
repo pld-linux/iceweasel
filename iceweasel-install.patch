@@ -57,7 +57,7 @@
  	cp -RL $(DIST)/branding/document.icns $(DIST)/$(APP_NAME).app/Contents/Resources/document.icns
 -	cp -RL $(LIBXUL_DIST)/package/mozillaSuite.rsrc $(DIST)/$(APP_NAME).app/Contents/Resources/firefox-bin.rsrc
 +	cp -RL $(LIBXUL_DIST)/package/mozillaSuite.rsrc $(DIST)/$(APP_NAME).app/Contents/Resources/$(MOZ_APP_NAME)-bin.rsrc
- 	echo -n APPLMOZB > $(DIST)/$(APP_NAME).app/Contents/PkgInfo
+ 	printf APPLMOZB > $(DIST)/$(APP_NAME).app/Contents/PkgInfo
  #       remove CVS dirs from packaged app
  	find $(DIST)/$(APP_NAME).app -type d -name "CVS" -prune -exec rm -rf {} \;
 @@ -415,7 +415,7 @@
