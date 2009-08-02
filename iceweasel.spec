@@ -106,9 +106,9 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_noautoreq		libgtkembedmoz.so libmozjs.so libxpcom.so libxul.so
 
 %if "%{cc_version}" >= "3.4"
-%define		specflags	-fno-strict-aliasing -fno-tree-vrp -fno-stack-protector
+%define		specflags	-fno-strict-aliasing -fomit-frame-pointer -fno-tree-vrp -fno-stack-protector
 %else
-%define		specflags	-fno-strict-aliasing
+%define		specflags	-fno-strict-aliasing -fomit-frame-pointer
 %endif
 
 %description
@@ -214,12 +214,14 @@ ac_add_options --disable-javaxpcom
 ac_add_options --disable-updater
 ac_add_options --disable-strip
 ac_add_options --disable-xprint
+ac_add_options --enable-canvas
+ac_add_options --enable-libxul
+ac_add_options --enable-pango
 ac_add_options --enable-startup-notification
 ac_add_options --enable-svg
 ac_add_options --enable-system-cairo
 ac_add_options --enable-system-myspell
 ac_add_options --enable-system-sqlite
-ac_add_options --enable-libxul
 ac_add_options --enable-xinerama
 ac_add_options --with-distribution-id=org.pld-linux
 ac_add_options --with-branding=iceweasel/branding
@@ -447,9 +449,9 @@ fi
 %attr(755,root,root) %{_libdir}/%{name}/components/libnkgnomevfs.so
 %endif
 
-%attr(755,root,root) %{_libdir}/%{name}/*.sh
 %attr(755,root,root) %{_libdir}/%{name}/iceweasel
 %if %{without xulrunner}
+%attr(755,root,root) %{_libdir}/%{name}/run-mozilla.sh
 %attr(755,root,root) %{_libdir}/%{name}/iceweasel-bin
 %dir %{_libdir}/%{name}/plugins
 %attr(755,root,root) %{_libdir}/%{name}/plugins/*.so
