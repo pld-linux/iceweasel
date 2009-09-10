@@ -12,12 +12,15 @@
 %undefine	with_gnomevfs
 %endif
 
+# keep xulrunner built from same source
+%define		xulrunner_ver	%(echo %{version} | sed -e 's,3\.5,1.9.1,')
+
 Summary:	Iceweasel web browser
 Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
 Version:	3.5.3
-Release:	1
+Release:	2
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
@@ -70,7 +73,8 @@ BuildRequires:	xorg-lib-libXinerama-devel
 BuildRequires:	xorg-lib-libXp-devel
 BuildRequires:	xorg-lib-libXt-devel
 %if %{with xulrunner}
-BuildRequires:	xulrunner-devel >= 1.9.1
+BuildRequires:	xulrunner-devel >= 1:1.9.1.3-2
+BuildRequires:	xulrunner-devel >= 1:%{xulrunner_ver}
 %endif
 BuildRequires:	zip
 BuildRequires:	zlib-devel >= 1.2.3
@@ -270,6 +274,7 @@ mv $RPM_BUILD_ROOT%{_libdir}/%{name}/searchplugins $RPM_BUILD_ROOT%{_datadir}/%{
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/greprefs $RPM_BUILD_ROOT%{_datadir}/%{name}/greprefs
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/res $RPM_BUILD_ROOT%{_datadir}/%{name}/res
 %endif
+
 ln -s ../../share/%{name}/chrome $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome
 ln -s ../../share/%{name}/defaults $RPM_BUILD_ROOT%{_libdir}/%{name}/defaults
 ln -s ../../share/%{name}/extensions $RPM_BUILD_ROOT%{_libdir}/%{name}/extensions
@@ -287,17 +292,20 @@ ln -s %{_datadir}/myspell $RPM_BUILD_ROOT%{_libdir}/%{name}/dictionaries
 %endif
 
 sed 's,@LIBDIR@,%{_libdir},' %{SOURCE4} > $RPM_BUILD_ROOT%{_bindir}/iceweasel
+chmod a+rx $RPM_BUILD_ROOT%{_bindir}/iceweasel
 ln -s iceweasel $RPM_BUILD_ROOT%{_bindir}/firefox
 ln -s iceweasel $RPM_BUILD_ROOT%{_bindir}/mozilla-firefox
 
 install iceweasel/branding/default64.png $RPM_BUILD_ROOT%{_pixmapsdir}/iceweasel.png
-
 install %{SOURCE3} $RPM_BUILD_ROOT%{_desktopdir}/%{name}.desktop
 
 # files created by regxpcom and iceweasel -register
 touch $RPM_BUILD_ROOT%{_libdir}/%{name}/components/compreg.dat
 touch $RPM_BUILD_ROOT%{_libdir}/%{name}/components/xpti.dat
 
+%if %{with xulrunner}
+rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/run-mozilla.sh
+%endif
 # what's this? it's content is invalid anyway.
 rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/dependentlibs.list
 rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/old-homepage-default.properties
@@ -317,6 +325,7 @@ unset TMPDIR TMP || :
 
 rm -rf $HOME
 EOF
+chmod a+rx $RPM_BUILD_ROOT%{_sbindir}/%{name}-chrome+xpcom-generate
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -339,8 +348,8 @@ exit 0
 %update_browser_plugins
 %endif
 
-%postun
 %if %{without xulrunner}
+%postun
 if [ "$1" = 0 ]; then
 	%update_browser_plugins
 fi
@@ -360,9 +369,11 @@ fi
 %endif
 
 %dir %{_libdir}/%{name}
+
 %if %{without xulrunner}
 %attr(755,root,root) %{_libdir}/%{name}/*.so
 %endif
+
 %{_libdir}/%{name}/blocklist.xml
 
 %if %{with crashreporter}
@@ -398,6 +409,7 @@ fi
 %{_libdir}/%{name}/components/nsSetDefaultBrowser.js
 %{_libdir}/%{name}/components/nsSidebar.js
 %{_libdir}/%{name}/components/WebContentConverter.js
+
 %if %{without xulrunner}
 %{_libdir}/%{name}/platform.ini
 %{_libdir}/%{name}/components/FeedProcessor.js
