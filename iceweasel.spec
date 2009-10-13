@@ -87,7 +87,7 @@ Requires:	libpng(APNG) >= 0.10
 Requires:	myspell-common
 Requires:	nspr >= 1:4.8
 Requires:	nss >= 1:3.12.3
-Requires:	sqlite3 >= 3.6.15
+Requires:	sqlite3 >= 3.6.17
 %if %{with xulrunner}
 %requires_eq_to	xulrunner xulrunner-devel
 %endif
