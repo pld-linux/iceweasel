@@ -12,8 +12,8 @@
 %undefine	with_gnomevfs
 %endif
 
-# keep xulrunner built from same source
-%define		xulrunner_ver	%(echo %{version} | sed -e 's,3\.5,1.9.1,')
+# convert firefox release number to platform version: 3.5.x -> 1.9.1.x
+%define		xulrunner_ver	%(v=%{version}; echo 1.9.1.${v#3.5.})
 
 Summary:	Iceweasel web browser
 Summary(hu.UTF-8):	Iceweasel web böngésző
