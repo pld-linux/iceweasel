@@ -5,7 +5,7 @@
 %bcond_without	gnomevfs	# disable GNOME comp. (gconf+libgnome+gnomevfs) and gnomevfs ext.
 %bcond_without	gnome		# disable all GNOME components (gnome+gnomeui+gnomevfs)
 %bcond_without	kerberos	# disable krb5 support
-%bcond_with	xulrunner	# build with system xulrunner
+%bcond_without	xulrunner	# build with system xulrunner
 
 %if %{without gnome}
 %undefine	with_gnomeui
@@ -20,7 +20,7 @@ Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
 Version:	3.5.4
-Release:	2
+Release:	3
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
@@ -73,7 +73,6 @@ BuildRequires:	xorg-lib-libXinerama-devel
 BuildRequires:	xorg-lib-libXp-devel
 BuildRequires:	xorg-lib-libXt-devel
 %if %{with xulrunner}
-BuildRequires:	xulrunner-devel >= 1:1.9.1.3-2
 BuildRequires:	xulrunner-devel >= 1:%{xulrunner_ver}
 %endif
 BuildRequires:	zip
