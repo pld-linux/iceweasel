@@ -20,7 +20,7 @@ Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
 Version:	3.5.4
-Release:	1
+Release:	2
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
@@ -87,7 +87,7 @@ Requires:	libpng(APNG) >= 0.10
 Requires:	myspell-common
 Requires:	nspr >= 1:4.8
 Requires:	nss >= 1:3.12.3
-Requires:	sqlite3 >= 3.6.17
+Requires:	sqlite3 >= 3.6.19
 %if %{with xulrunner}
 %requires_eq_to	xulrunner xulrunner-devel
 %endif
