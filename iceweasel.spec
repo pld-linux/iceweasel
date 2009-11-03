@@ -5,7 +5,11 @@
 %bcond_without	gnomevfs	# disable GNOME comp. (gconf+libgnome+gnomevfs) and gnomevfs ext.
 %bcond_without	gnome		# disable all GNOME components (gnome+gnomeui+gnomevfs)
 %bcond_without	kerberos	# disable krb5 support
+%if "%{pld_release}" == "ti"
+%bcond_with	xulrunner	# build with system xulrunner
+%else
 %bcond_without	xulrunner	# build with system xulrunner
+%endif
 
 %if %{without gnome}
 %undefine	with_gnomeui
