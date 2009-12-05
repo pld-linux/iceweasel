@@ -167,7 +167,6 @@ cd mozilla
 %build
 cd mozilla
 cp -f %{_datadir}/automake/config.* build/autoconf
-cp -f %{_datadir}/automake/config.* nsprpub/build/autoconf
 
 cat << 'EOF' > .mozconfig
 . $topsrcdir/browser/config/mozconfig
@@ -200,6 +199,8 @@ ac_add_options --disable-debug-modules
 ac_add_options --disable-logging
 ac_add_options --enable-optimize="%{rpmcflags} -Os"
 %endif
+ac_add_options --disable-strip
+ac_add_options --disable-strip-libs
 %if %{with tests}
 ac_add_options --enable-tests
 %else
@@ -219,7 +220,6 @@ ac_add_options --disable-crashreporter
 ac_add_options --disable-installer
 ac_add_options --disable-javaxpcom
 ac_add_options --disable-updater
-ac_add_options --disable-strip
 ac_add_options --disable-xprint
 ac_add_options --enable-canvas
 ac_add_options --enable-libxul
@@ -236,6 +236,7 @@ ac_add_options --with-branding=iceweasel/branding
 ac_add_options --with-libxul-sdk=%{_libdir}/xulrunner-sdk
 %endif
 ac_add_options --with-pthreads
+ac_add_options --with-system-bz2
 ac_add_options --with-system-jpeg
 ac_add_options --with-system-nspr
 ac_add_options --with-system-nss
