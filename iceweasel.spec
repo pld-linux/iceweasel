@@ -82,17 +82,16 @@ BuildRequires:	xulrunner-devel >= 1:%{xulrunner_ver}
 BuildRequires:	zip
 BuildRequires:	zlib-devel >= 1.2.3
 Requires(post):	mktemp >= 1.5-18
-%if %{without xulrunner}
+%if %{with xulrunner}
+%requires_eq_to	xulrunner xulrunner-devel
+%else
 Requires:	browser-plugins >= 2.0
-%endif
 Requires:	cairo >= 1.6.0
 Requires:	libpng(APNG) >= 0.10
 Requires:	myspell-common
 Requires:	nspr >= 1:4.8
 Requires:	nss >= 1:3.12.3
 Requires:	sqlite3 >= 3.6.19
-%if %{with xulrunner}
-%requires_eq_to	xulrunner xulrunner-devel
 %endif
 Provides:	wwwbrowser
 Obsoletes:	mozilla-firebird
