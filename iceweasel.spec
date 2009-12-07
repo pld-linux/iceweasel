@@ -1,3 +1,5 @@
+# TODO
+# - cleanup deps: --without xulrunner
 #
 # Conditional build:
 %bcond_with	tests		# enable tests (whatever they check)
@@ -18,6 +20,11 @@
 
 # convert firefox release number to platform version: 3.5.x -> 1.9.1.x
 %define		xulrunner_ver	%(v=%{version}; echo 1.9.1.${v#3.5.})
+
+%if %{without xulrunner}
+# The actual sqlite version (see RHBZ#480989):
+%define		sqlite_build_version %(pkg-config --silence-errors --modversion sqlite3 2>/dev/null || echo ERROR)
+%endif
 
 Summary:	Iceweasel web browser
 Summary(hu.UTF-8):	Iceweasel web böngésző
@@ -91,7 +98,7 @@ Requires:	libpng(APNG) >= 0.10
 Requires:	myspell-common
 Requires:	nspr >= 1:4.8
 Requires:	nss >= 1:3.12.3
-Requires:	sqlite3 >= 3.6.19
+Requires:	sqlite3 >= %{sqlite_build_version}
 %endif
 Provides:	wwwbrowser
 Obsoletes:	mozilla-firebird
