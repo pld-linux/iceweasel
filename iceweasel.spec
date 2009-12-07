@@ -55,9 +55,10 @@ Patch10:	%{name}-no-subshell.patch
 Patch11:	%{name}-ppc.patch
 URL:		http://www.pld-linux.org/Packages/Iceweasel
 %{?with_gnomevfs:BuildRequires:	GConf2-devel >= 1.2.1}
+BuildRequires:	alsa-lib-devel
 BuildRequires:	automake
 BuildRequires:	cairo-devel >= 1.6.0
-BuildRequires:	glib2-devel
+BuildRequires:	dbus-glib-devel >= 0.60
 %{?with_gnomevfs:BuildRequires:	gnome-vfs2-devel >= 2.0}
 BuildRequires:	gtk+2-devel >= 2:2.10
 %{?with_kerberos:BuildRequires:	heimdal-devel >= 0.7.1}
@@ -74,10 +75,11 @@ BuildRequires:	nss-devel >= 1:3.12.3
 BuildRequires:	pango-devel >= 1:1.6.0
 BuildRequires:	perl-modules >= 5.004
 BuildRequires:	pkgconfig
+BuildRequires:	python-modules
 BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	rpmbuild(macros) >= 1.453
 BuildRequires:	sqlite3-devel >= 3.6.15
-BuildRequires:	startup-notification-devel
+BuildRequires:	startup-notification-devel >= 0.8
 BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXft-devel >= 2.1
 BuildRequires:	xorg-lib-libXinerama-devel
