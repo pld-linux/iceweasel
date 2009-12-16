@@ -30,12 +30,12 @@ Summary:	Iceweasel web browser
 Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
-Version:	3.5.5
-Release:	2
+Version:	3.5.6
+Release:	1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
-# Source0-md5:	b3d92dfb40584141dc1068efc9bdfccc
+# Source0-md5:	54d73156dfedc6e4981f2a3c46817f9a
 Source1:	%{name}-branding.tar.bz2
 # Source1-md5:	b49feae9f6434eca8a749776160c15a8
 Source2:	%{name}-rm_nonfree.sh
@@ -273,6 +273,9 @@ install -d \
 	MOZ_PKG_APPDIR=%{_libdir}/%{name} \
 	PKG_SKIP_STRIP=1
 
+install -d \
+	$RPM_BUILD_ROOT%{_libdir}/%{name}/plugins
+
 # move arch independant ones to datadir
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome $RPM_BUILD_ROOT%{_datadir}/%{name}/chrome
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/defaults $RPM_BUILD_ROOT%{_datadir}/%{name}/defaults
@@ -466,13 +469,14 @@ fi
 %endif
 
 %attr(755,root,root) %{_libdir}/%{name}/iceweasel
+%dir %{_libdir}/%{name}/plugins
 %if %{without xulrunner}
 %attr(755,root,root) %{_libdir}/%{name}/run-mozilla.sh
 %attr(755,root,root) %{_libdir}/%{name}/iceweasel-bin
-%dir %{_libdir}/%{name}/plugins
 %attr(755,root,root) %{_libdir}/%{name}/plugins/*.so
 %attr(755,root,root) %{_libdir}/%{name}/mozilla-xremote-client
 %endif
+
 %{_pixmapsdir}/iceweasel.png
 %{_desktopdir}/iceweasel.desktop
 
