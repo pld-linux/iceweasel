@@ -266,9 +266,7 @@ install -d \
 	$RPM_BUILD_ROOT{%{_pixmapsdir},%{_desktopdir}} \
 	$RPM_BUILD_ROOT%{_datadir}/%{name}
 
-%if %{without xulrunner}
 %browser_plugins_add_browser %{name} -p %{_libdir}/%{name}/plugins
-%endif
 
 %{__make} -C obj-%{_target_cpu}/browser/installer stage-package \
 	DESTDIR=$RPM_BUILD_ROOT \
@@ -356,16 +354,12 @@ exit 0
 
 %post
 %{_sbindir}/%{name}-chrome+xpcom-generate
-%if %{without xulrunner}
 %update_browser_plugins
-%endif
 
-%if %{without xulrunner}
 %postun
 if [ "$1" = 0 ]; then
 	%update_browser_plugins
 fi
-%endif
 
 %files
 %defattr(644,root,root,755)
@@ -374,11 +368,9 @@ fi
 %attr(755,root,root) %{_bindir}/mozilla-firefox
 %attr(755,root,root) %{_sbindir}/%{name}-chrome+xpcom-generate
 
-%if %{without xulrunner}
 # browser plugins v2
 %{_browserpluginsconfdir}/browsers.d/%{name}.*
 %config(noreplace) %verify(not md5 mtime size) %{_browserpluginsconfdir}/blacklist.d/%{name}.*.blacklist
-%endif
 
 %dir %{_libdir}/%{name}
 
