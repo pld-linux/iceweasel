@@ -1,23 +1,20 @@
---- mozilla/toolkit/mozapps/installer/packager.mk	2006-12-23 03:38:32.302235167 +0200
-+++ mozilla/toolkit/mozapps/installer/packager.mk	2008-03-05 22:59:55.020447000 +0000
-@@ -370,13 +370,13 @@
+--- mozilla/toolkit/mozapps/installer/packager.mk.org	2010-01-21 13:25:04.436839154 +0100
++++ mozilla/toolkit/mozapps/installer/packager.mk	2010-01-21 13:32:14.673453287 +0100
+@@ -362,11 +362,11 @@
  # NOTE: this must be a tar now that dist links into the tree so that we
  # do not strip the binaries actually in the tree.
  	@echo "Creating package directory..."
 -	@mkdir $(DIST)/$(MOZ_PKG_DIR)
-+	@mkdir $(DESTDIR)/$(MOZ_PKG_APPDIR)
++	@mkdir -p $(DESTDIR)/$(MOZ_PKG_DIR) $(DESTDIR)/$(MOZ_PKG_APPDIR)
  ifdef MOZ_PKG_MANIFEST
  	$(RM) -rf $(DIST)/xpt
- 	$(call PACKAGER_COPY, "$(DIST)",\
--		 "$(DIST)/$(MOZ_PKG_DIR)", \
-+		 "$(DESTDIR)/$(MOZ_PKG_APPDIR)", \
+ 	$(call PACKAGER_COPY, "$(call core_abspath,$(DIST))",\
+-		 "$(call core_abspath,$(DIST)/$(MOZ_PKG_DIR))", \
++		 "$(call core_abspath,$(DESTDIR)/$(MOZ_PKG_DIR))", \
  		"$(MOZ_PKG_MANIFEST)", "$(PKGCP_OS)", 1, 0, 1)
--	$(PERL) $(MOZILLA_DIR)/xpinstall/packager/xptlink.pl -s $(DIST) -d $(DIST)/xpt -f $(DIST)/$(MOZ_PKG_DIR)/components -v -x "$(XPIDL_LINK)"
-+	$(PERL) $(MOZILLA_DIR)/xpinstall/packager/xptlink.pl -s $(DIST) -d $(DIST)/xpt -f $(DESTDIR)/$(MOZ_PKG_APPDIR)/components -v -x "$(XPIDL_LINK)"
+ 	$(PERL) $(MOZILLA_DIR)/xpinstall/packager/xptlink.pl -s $(DIST) -d $(DIST)/xpt -f $(DIST)/$(MOZ_PKG_DIR)/$(_BINPATH)/components -v -x "$(XPIDL_LINK)"
  else # !MOZ_PKG_MANIFEST
- ifeq ($(MOZ_PKG_FORMAT),DMG)
- # If UNIVERSAL_BINARY, the package will be made from an already-prepared
-@@ -385,11 +385,11 @@
+@@ -377,11 +377,11 @@
  ifndef STAGE_SDK
  	@cd $(DIST) && rsync -auv --copy-unsafe-links $(_APPNAME) $(MOZ_PKG_DIR)
  else
@@ -28,53 +25,48 @@
  else
 -	@cd $(DIST)/bin && tar $(TAR_CREATE_FLAGS) - * | (cd ../$(MOZ_PKG_DIR); tar -xf -)
 +	cp -rfLp $(DIST)/bin/* $(DESTDIR)$(MOZ_PKG_APPDIR)
- endif # DMG
- endif # MOZ_PKG_MANIFEST
- ifndef PKG_SKIP_STRIP
-@@ -421,7 +421,7 @@
+ 	@echo "Linking XPT files..."
+ 	@rm -rf $(DIST)/xpt
+ 	@$(NSINSTALL) -D $(DIST)/xpt
+@@ -450,24 +450,33 @@
+ 	$(error "make install" is not supported on this platform. Use "make package" instead.)
  endif
- 	@echo "Removing unpackaged files..."
- ifdef NO_PKG_FILES
--	cd $(DIST)/$(STAGEPATH)$(MOZ_PKG_DIR)$(_BINPATH); rm -rf $(NO_PKG_FILES)
-+	cd $(DESTDIR)$(MOZ_PKG_APPDIR)$(_BINPATH); rm -rf $(NO_PKG_FILES)
- endif
- ifdef MOZ_PKG_REMOVALS
- 	$(SYSINSTALL) $(IFLAGS1) $(MOZ_PKG_REMOVALS_GEN) $(DIST)/$(STAGEPATH)$(MOZ_PKG_DIR)$(_BINPATH)
---- mozilla/browser/app/Makefile.in	2008-06-22 22:54:03.000000000 +0200
-+++ mozilla/browser/app/Makefile.in	2008-06-23 10:34:59.000000000 +0200
-@@ -397,7 +397,7 @@
- 	rsync -a $(DIST)/bin/ $(DIST)/$(APP_NAME).app/Contents/$(APPFILES)
- 	$(RM) $(DIST)/$(APP_NAME).app/Contents/$(APPFILES)/mangle $(DIST)/$(APP_NAME).app/Contents/$(APPFILES)/shlibsign
- ifdef LIBXUL_SDK
--	cp $(LIBXUL_DIST)/bin/$(XR_STUB_NAME) $(DIST)/$(APP_NAME).app/Contents/MacOS/firefox-bin
-+	cp $(LIBXUL_DIST)/bin/$(XR_STUB_NAME) $(DIST)/$(APP_NAME).app/Contents/MacOS/$(MOZ_APP_NAME)-bin
- else
- 	rm -f $(DIST)/$(APP_NAME).app/Contents/MacOS/$(PROGRAM)
- 	rsync -aL $(PROGRAM) $(DIST)/$(APP_NAME).app/Contents/MacOS
-@@ -407,7 +407,7 @@
- 	-cp -L $(DIST)/bin/mangle $(DIST)/bin/shlibsign $(DIST)/$(APP_NAME).app/Contents/$(APPFILES)
- 	cp -RL $(DIST)/branding/firefox.icns $(DIST)/$(APP_NAME).app/Contents/Resources/firefox.icns
- 	cp -RL $(DIST)/branding/document.icns $(DIST)/$(APP_NAME).app/Contents/Resources/document.icns
--	cp -RL $(LIBXUL_DIST)/package/mozillaSuite.rsrc $(DIST)/$(APP_NAME).app/Contents/Resources/firefox-bin.rsrc
-+	cp -RL $(LIBXUL_DIST)/package/mozillaSuite.rsrc $(DIST)/$(APP_NAME).app/Contents/Resources/$(MOZ_APP_NAME)-bin.rsrc
- 	printf APPLMOZB > $(DIST)/$(APP_NAME).app/Contents/PkgInfo
- #       remove CVS dirs from packaged app
- 	find $(DIST)/$(APP_NAME).app -type d -name "CVS" -prune -exec rm -rf {} \;
-@@ -415,7 +415,7 @@
- else
- ifdef LIBXUL_SDK
- libs::
--	cp $(LIBXUL_DIST)/bin/xulrunner-stub$(BIN_SUFFIX) $(DIST)/bin/firefox$(BIN_SUFFIX)
-+	cp $(LIBXUL_DIST)/bin/xulrunner-stub$(BIN_SUFFIX) $(DIST)/bin/$(MOZ_APP_NAME)$(BIN_SUFFIX)
- endif
- endif
- 
-@@ -433,7 +433,7 @@
- 	rsync -a --copy-unsafe-links $(LIBXUL_DIST)/XUL.framework $(DIST)/$(APP_NAME).app/Contents/Frameworks
- else
- 	$(NSINSTALL) -D $(DIST)/bin/xulrunner
--	(cd $(LIBXUL_SDK)/bin && tar $(TAR_CREATE_FLAGS) - .) | (cd $(DIST)/bin/xulrunner && tar -xf -)
-+	cp -rfRp $(LIBXUL_SDK)/bin $(DIST)/bin/xulrunner
- endif # cocoa
- endif # SKIP_COPY_XULRUNNER
- endif # LIBXUL_SDK
+ 	$(NSINSTALL) -D $(DESTDIR)$(installdir)
+-	(cd $(DIST)/$(MOZ_PKG_DIR) && tar $(TAR_CREATE_FLAGS) - .) | \
+-	  (cd $(DESTDIR)$(installdir) && tar -xf -)
+ 	$(NSINSTALL) -D $(DESTDIR)$(bindir)
+ 	$(RM) -f $(DESTDIR)$(bindir)/$(MOZ_APP_NAME)
+-	ln -s $(installdir)/$(MOZ_APP_NAME) $(DESTDIR)$(bindir)
++	ln -s $(installdir)/$(MOZ_APP_NAME)-bin $(DESTDIR)$(bindir)/$(MOZ_APP_NAME)
++	$(RM) -f $(DESTDIR)$(bindir)/regxpcom
++	ln -s $(installdir)/regxpcom $(DESTDIR)$(bindir)/regxpcom
++	$(RM) -f $(DESTDIR)$(bindir)/xpcshell
++	ln -s $(installdir)/xpcshell $(DESTDIR)$(bindir)/xpcshell
++	$(RM) -f $(DESTDIR)$(bindir)/xpidl
++	ln -s $(installdir)/xpidl $(DESTDIR)$(bindir)/xpidl
++	$(RM) -f $(DESTDIR)$(bindir)/xpt_dump
++	ln -s $(installdir)/xpt_dump $(DESTDIR)$(bindir)/xpt_dump
++	$(RM) -f $(DESTDIR)$(bindir)/xpt_link
++	ln -s $(installdir)/xpt_link $(DESTDIR)$(bindir)/xpt_link
+ ifdef INSTALL_SDK # Here comes the hard part
+ 	$(NSINSTALL) -D $(DESTDIR)$(includedir)
+-	(cd $(DIST)/include && tar $(TAR_CREATE_FLAGS) - .) | \
+-	  (cd $(DESTDIR)$(includedir) && tar -xf -)
++	cp -rfLp $(DIST)/include/* $(DESTDIR)$(includedir)
+ 	$(NSINSTALL) -D $(DESTDIR)$(idldir)
+-	(cd $(DIST)/idl && tar $(TAR_CREATE_FLAGS) - .) | \
+-	  (cd $(DESTDIR)$(idldir) && tar -xf -)
++	cp -rfLp $(DIST)/idl/* $(DESTDIR)$(idldir)
+ # SDK directory is the libs + a bunch of symlinks
+ 	$(NSINSTALL) -D $(DESTDIR)$(sdkdir)/sdk/lib
+ 	if test -f $(DIST)/include/xpcom-config.h; then \
+ 	  $(SYSINSTALL) $(IFLAGS1) $(DIST)/include/xpcom-config.h $(DESTDIR)$(sdkdir); \
+ 	fi
+-	(cd $(DIST)/sdk/lib && tar $(TAR_CREATE_FLAGS) - .) | (cd $(DESTDIR)$(sdkdir)/sdk/lib && tar -xf -)
++	cp -rfLp $(DIST)/sdk/lib/*.a $(DESTDIR)$(sdkdir)/sdk/lib
++	ln -s $(installdir)/libmozjs.so $(DESTDIR)$(sdkdir)/sdk/lib/libmozjs.so
++	ln -s $(installdir)/libxpcom.so $(DESTDIR)$(sdkdir)/sdk/lib/libxpcom.so
++	ln -s $(installdir)/libxul.so $(DESTDIR)$(sdkdir)/sdk/lib/libxul.so
+ 	$(RM) -f $(DESTDIR)$(sdkdir)/lib $(DESTDIR)$(sdkdir)/bin $(DESTDIR)$(sdkdir)/include $(DESTDIR)$(sdkdir)/include $(DESTDIR)$(sdkdir)/sdk/idl $(DESTDIR)$(sdkdir)/idl
+ 	ln -s $(sdkdir)/sdk/lib $(DESTDIR)$(sdkdir)/lib
+ 	ln -s $(installdir) $(DESTDIR)$(sdkdir)/bin

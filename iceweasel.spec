@@ -51,9 +51,8 @@ Patch5:		%{name}-ti-agent.patch
 Patch6:		%{name}-nss_cflags.patch
 Patch7:		%{name}-prefs.patch
 Patch8:		%{name}-pld-branding.patch
-Patch9:		%{name}-gcc44.patch
-Patch10:	%{name}-no-subshell.patch
-Patch11:	%{name}-ppc.patch
+Patch9:		%{name}-no-subshell.patch
+Patch10:	%{name}-ppc.patch
 URL:		http://www.pld-linux.org/Packages/Iceweasel
 %{?with_gnomevfs:BuildRequires:	GConf2-devel >= 1.2.1}
 BuildRequires:	alsa-lib-devel
@@ -169,9 +168,8 @@ cd mozilla
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
-%patch9 -p1
-%patch10 -p2
-%patch11 -p1
+%patch9 -p2
+%patch10 -p1
 
 %build
 cd mozilla

@@ -1,6 +1,6 @@
-diff -urN mozilla-1.9.1.orig/browser/app/application.ini mozilla-1.9.1/browser/app/application.ini
---- mozilla-1.9.1.orig/browser/app/application.ini	2009-06-24 10:20:27.000000000 +0200
-+++ mozilla-1.9.1/browser/app/application.ini	2009-06-28 14:11:09.000000000 +0200
+diff -urN mozilla.orig/browser/app/application.ini mozilla/browser/app/application.ini
+--- mozilla.orig/browser/app/application.ini	2009-06-24 10:20:27.000000000 +0200
++++ mozilla/browser/app/application.ini	2009-06-28 14:11:09.000000000 +0200
 @@ -37,8 +37,8 @@
  
  #filter substitution
@@ -12,9 +12,9 @@ diff -urN mozilla-1.9.1.orig/browser/app/application.ini mozilla-1.9.1/browser/a
  Version=@APP_VERSION@
  BuildID=@GRE_BUILDID@
  #ifdef MOZ_SOURCE_REPO
-diff -urN mozilla-1.9.1.orig/browser/app/firefox-branding.js mozilla-1.9.1/browser/app/firefox-branding.js
---- mozilla-1.9.1.orig/browser/app/firefox-branding.js	2009-06-24 10:20:27.000000000 +0200
-+++ mozilla-1.9.1/browser/app/firefox-branding.js	2009-06-28 14:12:51.000000000 +0200
+diff -urN mozilla.orig/browser/app/firefox-branding.js mozilla/browser/app/firefox-branding.js
+--- mozilla.orig/browser/app/firefox-branding.js	2009-06-24 10:20:27.000000000 +0200
++++ mozilla/browser/app/firefox-branding.js	2009-06-28 14:12:51.000000000 +0200
 @@ -1,17 +1,18 @@
 -pref("startup.homepage_override_url","http://www.mozilla.org/projects/%APP%/%VERSION%/whatsnew/");
 -pref("startup.homepage_welcome_url","http://www.mozilla.org/projects/%APP%/%VERSION%/firstrun/");
@@ -39,9 +39,9 @@ diff -urN mozilla-1.9.1.orig/browser/app/firefox-branding.js mozilla-1.9.1/brows
  
  // Search codes belong only in builds with official branding
  pref("browser.search.param.yahoo-fr", "");
-diff -urN mozilla-1.9.1.orig/browser/app/profile/firefox.js mozilla-1.9.1/browser/app/profile/firefox.js
---- mozilla-1.9.1.orig/browser/app/profile/firefox.js	2009-06-24 10:20:27.000000000 +0200
-+++ mozilla-1.9.1/browser/app/profile/firefox.js	2009-06-28 14:15:29.000000000 +0200
+diff -urN mozilla.orig/browser/app/profile/firefox.js mozilla/browser/app/profile/firefox.js
+--- mozilla.orig/browser/app/profile/firefox.js	2009-06-24 10:20:27.000000000 +0200
++++ mozilla/browser/app/profile/firefox.js	2009-06-28 14:15:29.000000000 +0200
 @@ -70,12 +70,12 @@
  
  // Preferences for the Get Add-ons pane
@@ -93,9 +93,9 @@ diff -urN mozilla-1.9.1.orig/browser/app/profile/firefox.js mozilla-1.9.1/browse
  
  // Name of alternate about: page for certificate errors (when undefined, defaults to about:neterror)
  pref("security.alternate_certificate_error_page", "certerror");
-diff -urN mozilla-1.9.1.orig/browser/base/content/aboutDialog.xul mozilla-1.9.1/browser/base/content/aboutDialog.xul
---- mozilla-1.9.1.orig/browser/base/content/aboutDialog.xul	2009-06-24 10:20:27.000000000 +0200
-+++ mozilla-1.9.1/browser/base/content/aboutDialog.xul	2009-06-28 17:29:14.000000000 +0200
+diff -urN mozilla.orig/browser/base/content/aboutDialog.xul mozilla/browser/base/content/aboutDialog.xul
+--- mozilla.orig/browser/base/content/aboutDialog.xul	2009-06-24 10:20:27.000000000 +0200
++++ mozilla/browser/base/content/aboutDialog.xul	2009-06-28 17:29:14.000000000 +0200
 @@ -87,7 +87,6 @@
          &copyrightInfo1;<label 
          class="text-link" href="&licenseLink;"
@@ -104,9 +104,9 @@ diff -urN mozilla-1.9.1.orig/browser/base/content/aboutDialog.xul mozilla-1.9.1/
        </description>
        <textbox id="userAgent" multiline="true" readonly="true" flex="1"/>
      </vbox>
-diff -urN mozilla-1.9.1.orig/browser/base/content/baseMenuOverlay.xul mozilla-1.9.1/browser/base/content/baseMenuOverlay.xul
---- mozilla-1.9.1.orig/browser/base/content/baseMenuOverlay.xul	2009-06-24 10:20:27.000000000 +0200
-+++ mozilla-1.9.1/browser/base/content/baseMenuOverlay.xul	2009-06-28 14:24:47.000000000 +0200
+diff -urN mozilla.orig/browser/base/content/baseMenuOverlay.xul mozilla/browser/base/content/baseMenuOverlay.xul
+--- mozilla.orig/browser/base/content/baseMenuOverlay.xul	2009-06-24 10:20:27.000000000 +0200
++++ mozilla/browser/base/content/baseMenuOverlay.xul	2009-06-28 14:24:47.000000000 +0200
 @@ -92,11 +92,6 @@
                    accesskey="&helpForIEUsers.accesskey;"
                    oncommand="openHelpLink('ieusers');"/>
@@ -119,9 +119,9 @@ diff -urN mozilla-1.9.1.orig/browser/base/content/baseMenuOverlay.xul mozilla-1.
          <menuseparator id="updateSeparator"/>
  #ifdef MOZ_UPDATER
          <menuitem id="checkForUpdates"
-diff -urN mozilla-1.9.1.orig/browser/base/content/credits.xhtml mozilla-1.9.1/browser/base/content/credits.xhtml
---- mozilla-1.9.1.orig/browser/base/content/credits.xhtml	2009-06-24 10:20:27.000000000 +0200
-+++ mozilla-1.9.1/browser/base/content/credits.xhtml	2009-06-28 14:18:00.000000000 +0200
+diff -urN mozilla.orig/browser/base/content/credits.xhtml mozilla/browser/base/content/credits.xhtml
+--- mozilla.orig/browser/base/content/credits.xhtml	2009-06-24 10:20:27.000000000 +0200
++++ mozilla/browser/base/content/credits.xhtml	2009-06-28 14:18:00.000000000 +0200
 @@ -209,7 +209,7 @@
      </div>
  
@@ -153,9 +153,9 @@ diff -urN mozilla-1.9.1.orig/browser/base/content/credits.xhtml mozilla-1.9.1/br
            U.S. GOVERNMENT END USERS. The Software is a &ldquo;commercial item,&rdquo;
            as that term is defined in 48 C.F.R. 2.101 (Oct. 1995), consisting of
            &ldquo;commercial computer software&rdquo; and &ldquo;commercial computer software
-diff -urN mozilla-1.9.1.orig/browser/branding/unofficial/pref/firefox-branding.js mozilla-1.9.1/browser/branding/unofficial/pref/firefox-branding.js
---- mozilla-1.9.1.orig/browser/branding/unofficial/pref/firefox-branding.js	2009-06-24 10:20:28.000000000 +0200
-+++ mozilla-1.9.1/browser/branding/unofficial/pref/firefox-branding.js	2009-06-28 14:19:26.000000000 +0200
+diff -urN mozilla.orig/browser/branding/unofficial/pref/firefox-branding.js mozilla/browser/branding/unofficial/pref/firefox-branding.js
+--- mozilla.orig/browser/branding/unofficial/pref/firefox-branding.js	2009-06-24 10:20:28.000000000 +0200
++++ mozilla/browser/branding/unofficial/pref/firefox-branding.js	2009-06-28 14:19:26.000000000 +0200
 @@ -1,17 +1,17 @@
 -pref("startup.homepage_override_url","http://www.mozilla.org/projects/%APP%/%VERSION%/whatsnew/");
 -pref("startup.homepage_welcome_url","http://www.mozilla.org/projects/%APP%/%VERSION%/firstrun/");
@@ -179,9 +179,9 @@ diff -urN mozilla-1.9.1.orig/browser/branding/unofficial/pref/firefox-branding.j
  
  // Search codes belong only in builds with official branding
  pref("browser.search.param.yahoo-fr", "");
-diff -urN mozilla-1.9.1.orig/browser/components/nsBrowserContentHandler.js mozilla-1.9.1/browser/components/nsBrowserContentHandler.js
---- mozilla-1.9.1.orig/browser/components/nsBrowserContentHandler.js	2009-06-24 10:20:28.000000000 +0200
-+++ mozilla-1.9.1/browser/components/nsBrowserContentHandler.js	2009-06-28 14:19:54.000000000 +0200
+diff -urN mozilla.orig/browser/components/nsBrowserContentHandler.js mozilla/browser/components/nsBrowserContentHandler.js
+--- mozilla.orig/browser/components/nsBrowserContentHandler.js	2009-06-24 10:20:28.000000000 +0200
++++ mozilla/browser/components/nsBrowserContentHandler.js	2009-06-28 14:19:54.000000000 +0200
 @@ -818,7 +818,7 @@
    },
  
@@ -191,9 +191,9 @@ diff -urN mozilla-1.9.1.orig/browser/components/nsBrowserContentHandler.js mozil
  
    /* nsIFactory */
    createInstance: function dch_CI(outer, iid) {
-diff -urN mozilla-1.9.1.orig/browser/components/nsBrowserGlue.js mozilla-1.9.1/browser/components/nsBrowserGlue.js
---- mozilla-1.9.1.orig/browser/components/nsBrowserGlue.js	2009-06-24 10:20:28.000000000 +0200
-+++ mozilla-1.9.1/browser/components/nsBrowserGlue.js	2009-06-28 14:20:10.000000000 +0200
+diff -urN mozilla.orig/browser/components/nsBrowserGlue.js mozilla/browser/components/nsBrowserGlue.js
+--- mozilla.orig/browser/components/nsBrowserGlue.js	2009-06-24 10:20:28.000000000 +0200
++++ mozilla/browser/components/nsBrowserGlue.js	2009-06-28 14:20:10.000000000 +0200
 @@ -994,7 +994,7 @@
  
  
@@ -203,9 +203,9 @@ diff -urN mozilla-1.9.1.orig/browser/components/nsBrowserGlue.js mozilla-1.9.1/b
    classID:          Components.ID("{eab9012e-5f74-4cbc-b2b5-a590235513cc}"),
    contractID:       "@mozilla.org/browser/browserglue;1",
  
-diff -urN mozilla-1.9.1.orig/browser/components/shell/src/nsWindowsShellService.cpp mozilla-1.9.1/browser/components/shell/src/nsWindowsShellService.cpp
---- mozilla-1.9.1.orig/browser/components/shell/src/nsWindowsShellService.cpp	2009-06-24 10:20:29.000000000 +0200
-+++ mozilla-1.9.1/browser/components/shell/src/nsWindowsShellService.cpp	2009-06-28 14:25:50.000000000 +0200
+diff -urN mozilla.orig/browser/components/shell/src/nsWindowsShellService.cpp mozilla/browser/components/shell/src/nsWindowsShellService.cpp
+--- mozilla.orig/browser/components/shell/src/nsWindowsShellService.cpp	2009-06-24 10:20:29.000000000 +0200
++++ mozilla/browser/components/shell/src/nsWindowsShellService.cpp	2009-06-28 14:25:50.000000000 +0200
 @@ -181,7 +181,7 @@
    char* valueData;
  } SETTING;
@@ -215,9 +215,9 @@ diff -urN mozilla-1.9.1.orig/browser/components/shell/src/nsWindowsShellService.
  #define DI "\\DefaultIcon"
  #define SOP "\\shell\\open\\command"
  
-diff -urN mozilla-1.9.1.orig/browser/confvars.sh mozilla-1.9.1/browser/confvars.sh
---- mozilla-1.9.1.orig/browser/confvars.sh	2009-06-24 10:20:29.000000000 +0200
-+++ mozilla-1.9.1/browser/confvars.sh	2009-06-28 14:26:12.000000000 +0200
+diff -urN mozilla.orig/browser/confvars.sh mozilla/browser/confvars.sh
+--- mozilla.orig/browser/confvars.sh	2009-06-24 10:20:29.000000000 +0200
++++ mozilla/browser/confvars.sh	2009-06-28 14:26:12.000000000 +0200
 @@ -36,7 +36,7 @@
  #
  # ***** END LICENSE BLOCK *****
@@ -227,9 +227,9 @@ diff -urN mozilla-1.9.1.orig/browser/confvars.sh mozilla-1.9.1/browser/confvars.
  MOZ_UPDATER=1
  MOZ_PHOENIX=1
  
-diff -urN mozilla-1.9.1.orig/browser/locales/en-US/chrome/overrides/appstrings.properties mozilla-1.9.1/browser/locales/en-US/chrome/overrides/appstrings.properties
---- mozilla-1.9.1.orig/browser/locales/en-US/chrome/overrides/appstrings.properties	2009-06-24 10:20:29.000000000 +0200
-+++ mozilla-1.9.1/browser/locales/en-US/chrome/overrides/appstrings.properties	2009-06-28 14:30:14.000000000 +0200
+diff -urN mozilla.orig/browser/locales/en-US/chrome/overrides/appstrings.properties mozilla/browser/locales/en-US/chrome/overrides/appstrings.properties
+--- mozilla.orig/browser/locales/en-US/chrome/overrides/appstrings.properties	2009-06-24 10:20:29.000000000 +0200
++++ mozilla/browser/locales/en-US/chrome/overrides/appstrings.properties	2009-06-28 14:30:14.000000000 +0200
 @@ -35,23 +35,23 @@
  # ***** END LICENSE BLOCK *****
  
@@ -264,9 +264,9 @@ diff -urN mozilla-1.9.1.orig/browser/locales/en-US/chrome/overrides/appstrings.p
  contentEncodingError=The page you are trying to view cannot be shown because it uses an invalid or unsupported form of compression.
  unsafeContentType=The page you are trying to view cannot be shown because it is contained in a file type that may not be safe to open. Please contact the website owners to inform them of this problem.
  externalProtocolTitle=External Protocol Request
-diff -urN mozilla-1.9.1.orig/browser/locales/en-US/searchplugins/answers.xml mozilla-1.9.1/browser/locales/en-US/searchplugins/answers.xml
---- mozilla-1.9.1.orig/browser/locales/en-US/searchplugins/answers.xml	2009-06-24 10:20:29.000000000 +0200
-+++ mozilla-1.9.1/browser/locales/en-US/searchplugins/answers.xml	2009-06-28 14:30:42.000000000 +0200
+diff -urN mozilla.orig/browser/locales/en-US/searchplugins/answers.xml mozilla/browser/locales/en-US/searchplugins/answers.xml
+--- mozilla.orig/browser/locales/en-US/searchplugins/answers.xml	2009-06-24 10:20:29.000000000 +0200
++++ mozilla/browser/locales/en-US/searchplugins/answers.xml	2009-06-28 14:30:42.000000000 +0200
 @@ -8,6 +8,6 @@
    <Param name="gwp" value="13"/>
  </Url>
@@ -275,9 +275,9 @@ diff -urN mozilla-1.9.1.orig/browser/locales/en-US/searchplugins/answers.xml moz
 +     template="http://www.answers.com/main/startswith?output=json&amp;client=iceweasel&amp;s={searchTerms}"/>
  <SearchForm>http://www.answers.com/</SearchForm>
  </SearchPlugin>
-diff -urN mozilla-1.9.1.orig/browser/locales/en-US/searchplugins/google.xml mozilla-1.9.1/browser/locales/en-US/searchplugins/google.xml
---- mozilla-1.9.1.orig/browser/locales/en-US/searchplugins/google.xml	2009-06-24 10:20:29.000000000 +0200
-+++ mozilla-1.9.1/browser/locales/en-US/searchplugins/google.xml	2009-06-28 14:31:31.000000000 +0200
+diff -urN mozilla.orig/browser/locales/en-US/searchplugins/google.xml mozilla/browser/locales/en-US/searchplugins/google.xml
+--- mozilla.orig/browser/locales/en-US/searchplugins/google.xml	2009-06-24 10:20:29.000000000 +0200
++++ mozilla/browser/locales/en-US/searchplugins/google.xml	2009-06-28 14:31:31.000000000 +0200
 @@ -3,7 +3,7 @@
  <Description>Google Search</Description>
  <InputEncoding>UTF-8</InputEncoding>
@@ -297,9 +297,9 @@ diff -urN mozilla-1.9.1.orig/browser/locales/en-US/searchplugins/google.xml mozi
 -<SearchForm>http://www.google.com/firefox</SearchForm>
 +<SearchForm>http://www.google.com/</SearchForm>
  </SearchPlugin>
-diff -urN mozilla-1.9.1.orig/extensions/reporter/resources/content/reporter/reporterOverlay.xul mozilla-1.9.1/extensions/reporter/resources/content/reporter/reporterOverlay.xul
---- mozilla-1.9.1.orig/extensions/reporter/resources/content/reporter/reporterOverlay.xul	2009-06-24 10:20:52.000000000 +0200
-+++ mozilla-1.9.1/extensions/reporter/resources/content/reporter/reporterOverlay.xul	2009-06-28 14:45:04.000000000 +0200
+diff -urN mozilla.orig/extensions/reporter/resources/content/reporter/reporterOverlay.xul mozilla/extensions/reporter/resources/content/reporter/reporterOverlay.xul
+--- mozilla.orig/extensions/reporter/resources/content/reporter/reporterOverlay.xul	2009-06-24 10:20:52.000000000 +0200
++++ mozilla/extensions/reporter/resources/content/reporter/reporterOverlay.xul	2009-06-28 14:45:04.000000000 +0200
 @@ -55,7 +55,7 @@
      <menuitem id="menu_HelpPopup_reportertoolmenu" 
                label="&reporterMenu2.title;" 
@@ -309,9 +309,9 @@ diff -urN mozilla-1.9.1.orig/extensions/reporter/resources/content/reporter/repo
                observes="reporterItemsBroadcaster"
                oncommand="loadReporterWizard()"/>
    </menupopup>
-diff -urN mozilla-1.9.1.orig/toolkit/xre/nsAppRunner.cpp mozilla-1.9.1/toolkit/xre/nsAppRunner.cpp
---- mozilla-1.9.1.orig/toolkit/xre/nsAppRunner.cpp	2009-06-24 10:22:27.000000000 +0200
-+++ mozilla-1.9.1/toolkit/xre/nsAppRunner.cpp	2009-06-28 14:45:56.000000000 +0200
+diff -urN mozilla.orig/toolkit/xre/nsAppRunner.cpp mozilla/toolkit/xre/nsAppRunner.cpp
+--- mozilla.orig/toolkit/xre/nsAppRunner.cpp	2009-06-24 10:22:27.000000000 +0200
++++ mozilla/toolkit/xre/nsAppRunner.cpp	2009-06-28 14:45:56.000000000 +0200
 @@ -1231,8 +1231,7 @@
  static inline void
  DumpVersion()
