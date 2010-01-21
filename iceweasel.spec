@@ -395,11 +395,6 @@ fi
 
 %dir %{_libdir}/%{name}/components
 
-%{_libdir}/%{name}/components/aboutCertError.js
-%{_libdir}/%{name}/components/aboutPrivateBrowsing.js
-%{_libdir}/%{name}/components/aboutRights.js
-%{_libdir}/%{name}/components/aboutRobots.js
-%{_libdir}/%{name}/components/aboutSessionRestore.js
 %{_libdir}/%{name}/components/browser.xpt
 %{_libdir}/%{name}/components/FeedConverter.js
 %{_libdir}/%{name}/components/FeedWriter.js
@@ -467,7 +462,6 @@ fi
 %attr(755,root,root) %{_libdir}/%{name}/components/libnkgnomevfs.so
 %endif
 
-%attr(755,root,root) %{_libdir}/%{name}/iceweasel
 %dir %{_libdir}/%{name}/plugins
 %if %{without xulrunner}
 %attr(755,root,root) %{_libdir}/%{name}/run-mozilla.sh
