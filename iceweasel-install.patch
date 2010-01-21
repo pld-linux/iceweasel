@@ -31,45 +31,32 @@
  	@echo "Linking XPT files..."
  	@rm -rf $(DIST)/xpt
  	@$(NSINSTALL) -D $(DIST)/xpt
-@@ -450,24 +450,33 @@
- 	$(error "make install" is not supported on this platform. Use "make package" instead.)
+--- mozilla/browser/app/Makefile.in	2008-06-22 22:54:03.000000000 +0200
++++ mozilla/browser/app/Makefile.in	2008-06-23 10:34:59.000000000 +0200
+@@ -397,7 +397,7 @@
+ 	rsync -a $(DIST)/bin/ $(DIST)/$(APP_NAME).app/Contents/$(APPFILES)
+ 	$(RM) $(DIST)/$(APP_NAME).app/Contents/$(APPFILES)/mangle $(DIST)/$(APP_NAME).app/Contents/$(APPFILES)/shlibsign
+ ifdef LIBXUL_SDK
+-	cp $(LIBXUL_DIST)/bin/$(XR_STUB_NAME) $(DIST)/$(APP_NAME).app/Contents/MacOS/firefox-bin
++	cp $(LIBXUL_DIST)/bin/$(XR_STUB_NAME) $(DIST)/$(APP_NAME).app/Contents/MacOS/$(MOZ_APP_NAME)-bin
+ else
+ 	rm -f $(DIST)/$(APP_NAME).app/Contents/MacOS/$(PROGRAM)
+ 	rsync -aL $(PROGRAM) $(DIST)/$(APP_NAME).app/Contents/MacOS
+@@ -359,7 +359,7 @@
+ else
+ ifdef LIBXUL_SDK
+ libs::
+-	cp $(LIBXUL_DIST)/bin/$(XULRUNNER_STUB_NAME)$(BIN_SUFFIX) $(DIST)/bin/firefox$(BIN_SUFFIX)
++	cp $(LIBXUL_DIST)/bin/$(XULRUNNER_STUB_NAME)$(BIN_SUFFIX) $(DIST)/bin/$(MOZ_APP_NAME)$(BIN_SUFFIX)
  endif
- 	$(NSINSTALL) -D $(DESTDIR)$(installdir)
--	(cd $(DIST)/$(MOZ_PKG_DIR) && tar $(TAR_CREATE_FLAGS) - .) | \
--	  (cd $(DESTDIR)$(installdir) && tar -xf -)
- 	$(NSINSTALL) -D $(DESTDIR)$(bindir)
- 	$(RM) -f $(DESTDIR)$(bindir)/$(MOZ_APP_NAME)
--	ln -s $(installdir)/$(MOZ_APP_NAME) $(DESTDIR)$(bindir)
-+	ln -s $(installdir)/$(MOZ_APP_NAME)-bin $(DESTDIR)$(bindir)/$(MOZ_APP_NAME)
-+	$(RM) -f $(DESTDIR)$(bindir)/regxpcom
-+	ln -s $(installdir)/regxpcom $(DESTDIR)$(bindir)/regxpcom
-+	$(RM) -f $(DESTDIR)$(bindir)/xpcshell
-+	ln -s $(installdir)/xpcshell $(DESTDIR)$(bindir)/xpcshell
-+	$(RM) -f $(DESTDIR)$(bindir)/xpidl
-+	ln -s $(installdir)/xpidl $(DESTDIR)$(bindir)/xpidl
-+	$(RM) -f $(DESTDIR)$(bindir)/xpt_dump
-+	ln -s $(installdir)/xpt_dump $(DESTDIR)$(bindir)/xpt_dump
-+	$(RM) -f $(DESTDIR)$(bindir)/xpt_link
-+	ln -s $(installdir)/xpt_link $(DESTDIR)$(bindir)/xpt_link
- ifdef INSTALL_SDK # Here comes the hard part
- 	$(NSINSTALL) -D $(DESTDIR)$(includedir)
--	(cd $(DIST)/include && tar $(TAR_CREATE_FLAGS) - .) | \
--	  (cd $(DESTDIR)$(includedir) && tar -xf -)
-+	cp -rfLp $(DIST)/include/* $(DESTDIR)$(includedir)
- 	$(NSINSTALL) -D $(DESTDIR)$(idldir)
--	(cd $(DIST)/idl && tar $(TAR_CREATE_FLAGS) - .) | \
--	  (cd $(DESTDIR)$(idldir) && tar -xf -)
-+	cp -rfLp $(DIST)/idl/* $(DESTDIR)$(idldir)
- # SDK directory is the libs + a bunch of symlinks
- 	$(NSINSTALL) -D $(DESTDIR)$(sdkdir)/sdk/lib
- 	if test -f $(DIST)/include/xpcom-config.h; then \
- 	  $(SYSINSTALL) $(IFLAGS1) $(DIST)/include/xpcom-config.h $(DESTDIR)$(sdkdir); \
- 	fi
--	(cd $(DIST)/sdk/lib && tar $(TAR_CREATE_FLAGS) - .) | (cd $(DESTDIR)$(sdkdir)/sdk/lib && tar -xf -)
-+	cp -rfLp $(DIST)/sdk/lib/*.a $(DESTDIR)$(sdkdir)/sdk/lib
-+	ln -s $(installdir)/libmozjs.so $(DESTDIR)$(sdkdir)/sdk/lib/libmozjs.so
-+	ln -s $(installdir)/libxpcom.so $(DESTDIR)$(sdkdir)/sdk/lib/libxpcom.so
-+	ln -s $(installdir)/libxul.so $(DESTDIR)$(sdkdir)/sdk/lib/libxul.so
- 	$(RM) -f $(DESTDIR)$(sdkdir)/lib $(DESTDIR)$(sdkdir)/bin $(DESTDIR)$(sdkdir)/include $(DESTDIR)$(sdkdir)/include $(DESTDIR)$(sdkdir)/sdk/idl $(DESTDIR)$(sdkdir)/idl
- 	ln -s $(sdkdir)/sdk/lib $(DESTDIR)$(sdkdir)/lib
- 	ln -s $(installdir) $(DESTDIR)$(sdkdir)/bin
+ endif
+ 
+@@ -433,7 +433,7 @@
+ 	rsync -a --copy-unsafe-links $(LIBXUL_DIST)/XUL.framework $(DIST)/$(APP_NAME).app/Contents/Frameworks
+ else
+ 	$(NSINSTALL) -D $(DIST)/bin/xulrunner
+-	(cd $(LIBXUL_SDK)/bin && tar $(TAR_CREATE_FLAGS) - .) | (cd $(DIST)/bin/xulrunner && tar -xf -)
++	cp -rfRp $(LIBXUL_SDK)/bin $(DIST)/bin/xulrunner
+ endif # cocoa
+ endif # SKIP_COPY_XULRUNNER
+ endif # LIBXUL_SDK
