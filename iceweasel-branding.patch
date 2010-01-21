@@ -12,68 +12,63 @@ diff -urN mozilla.orig/browser/app/application.ini mozilla/browser/app/applicati
  Version=@APP_VERSION@
  BuildID=@GRE_BUILDID@
  #ifdef MOZ_SOURCE_REPO
-diff -urN mozilla.orig/browser/app/firefox-branding.js mozilla/browser/app/firefox-branding.js
---- mozilla.orig/browser/app/firefox-branding.js	2009-06-24 10:20:27.000000000 +0200
-+++ mozilla/browser/app/firefox-branding.js	2009-06-28 14:12:51.000000000 +0200
-@@ -1,17 +1,18 @@
--pref("startup.homepage_override_url","http://www.mozilla.org/projects/%APP%/%VERSION%/whatsnew/");
--pref("startup.homepage_welcome_url","http://www.mozilla.org/projects/%APP%/%VERSION%/firstrun/");
-+pref("browser.startup.homepage_override.mstone", "ignore");
-+pref("startup.homepage_override_url","");
-+pref("startup.homepage_welcome_url","");
- // The time interval between checks for a new version (in seconds)
- // nightly=8 hours, official=24 hours
- pref("app.update.interval", 28800);
- // URL user can browse to manually if for some reason all update installation
- // attempts fail.
--pref("app.update.url.manual", "http://www.mozilla.org/products/%APP%/");
-+pref("app.update.url.manual", "http://www.mozilla.org/products/firefox/");
- // A default value for the "More information about this update" link
- // supplied in the "An update is available" page of the update wizard. 
--pref("app.update.url.details", "http://www.mozilla.org/projects/%APP%/");
-+pref("app.update.url.details", "http://www.mozilla.org/projects/firefox/");
- 
- // Release notes URL
--pref("app.releaseNotesURL", "http://www.mozilla.org/projects/%APP%/%VERSION%/releasenotes/");
-+pref("app.releaseNotesURL", "")
- 
- // Search codes belong only in builds with official branding
- pref("browser.search.param.yahoo-fr", "");
 diff -urN mozilla.orig/browser/app/profile/firefox.js mozilla/browser/app/profile/firefox.js
 --- mozilla.orig/browser/app/profile/firefox.js	2009-06-24 10:20:27.000000000 +0200
 +++ mozilla/browser/app/profile/firefox.js	2009-06-28 14:15:29.000000000 +0200
-@@ -70,12 +70,12 @@
- 
- // Preferences for the Get Add-ons pane
+@@ -72,10 +72,10 @@
  pref("extensions.getAddons.showPane", true);
--pref("extensions.getAddons.browseAddons", "https://%LOCALE%.add-ons.mozilla.com/%LOCALE%/%APP%");
-+pref("extensions.getAddons.browseAddons", "https://%LOCALE%.add-ons.mozilla.com/%LOCALE%/firefox");
+ pref("extensions.getAddons.browseAddons", "https://addons.mozilla.org/%LOCALE%/%APP%");
  pref("extensions.getAddons.maxResults", 5);
--pref("extensions.getAddons.recommended.browseURL", "https://%LOCALE%.add-ons.mozilla.com/%LOCALE%/%APP%/recommended");
+-pref("extensions.getAddons.recommended.browseURL", "https://addons.mozilla.org/%LOCALE%/%APP%/recommended");
 -pref("extensions.getAddons.recommended.url", "https://services.addons.mozilla.org/%LOCALE%/%APP%/api/%API_VERSION%/list/featured/all/10/%OS%/%VERSION%");
--pref("extensions.getAddons.search.browseURL", "https://%LOCALE%.add-ons.mozilla.com/%LOCALE%/%APP%/search?q=%TERMS%");
+-pref("extensions.getAddons.search.browseURL", "https://addons.mozilla.org/%LOCALE%/%APP%/search?q=%TERMS%");
 -pref("extensions.getAddons.search.url", "https://services.addons.mozilla.org/%LOCALE%/%APP%/api/%API_VERSION%/search/%TERMS%/all/10/%OS%/%VERSION%");
-+pref("extensions.getAddons.recommended.browseURL", "https://%LOCALE%.add-ons.mozilla.com/%LOCALE%/firefox/recommended");
++pref("extensions.getAddons.recommended.browseURL", "https://addons.mozilla.org/%LOCALE%/firefox/recommended");
 +pref("extensions.getAddons.recommended.url", "https://services.addons.mozilla.org/%LOCALE%/firefox/api/%API_VERSION%/list/featured/all/10/%OS%/%VERSION%");
-+pref("extensions.getAddons.search.browseURL", "https://%LOCALE%.add-ons.mozilla.com/%LOCALE%/firefox/search?q=%TERMS%");
++pref("extensions.getAddons.search.browseURL", "https://addons.mozilla.org/%LOCALE%/firefox/search?q=%TERMS%");
 +pref("extensions.getAddons.search.url", "https://services.addons.mozilla.org/%LOCALE%/firefox/api/%API_VERSION%/search/%TERMS%/all/10/%OS%/%VERSION%");
  
  // Blocklist preferences
  pref("extensions.blocklist.enabled", true);
-@@ -161,9 +161,9 @@
+@@ -87,7 +87,7 @@
+ pref("extensions.blocklist.detailsURL", "https://www.mozilla.com/%LOCALE%/blocklist/");
+ 
+ // Dictionary download preference
+-pref("browser.dictionaries.download.url", "https://addons.mozilla.org/%LOCALE%/%APP%/dictionaries/");
++pref("browser.dictionaries.download.url", "https://addons.mozilla.org/%LOCALE%/firefox/dictionaries/");
+ 
+ // Update Timer Manager preferences
+ // Interval: When all registered timers should be checked (in milliseconds)
+@@ -165,7 +165,7 @@
  pref("extensions.update.interval", 86400);  // Check for updates to Extensions and 
                                              // Themes every day
  // Non-symmetric (not shared by extensions) extension-specific [update] preferences
--pref("extensions.getMoreExtensionsURL", "https://%LOCALE%.add-ons.mozilla.com/%LOCALE%/%APP%/%VERSION%/extensions/");
--pref("extensions.getMoreThemesURL", "https://%LOCALE%.add-ons.mozilla.com/%LOCALE%/%APP%/%VERSION%/themes/");
--pref("extensions.getMorePluginsURL", "https://%LOCALE%.add-ons.mozilla.com/%LOCALE%/%APP%/%VERSION%/plugins/");
-+pref("extensions.getMoreExtensionsURL", "https://%LOCALE%.add-ons.mozilla.com/%LOCALE%/firefox/%VERSION%/extensions/");
-+pref("extensions.getMoreThemesURL", "https://%LOCALE%.add-ons.mozilla.com/%LOCALE%/firefox/%VERSION%/themes/");
-+pref("extensions.getMorePluginsURL", "https://%LOCALE%.add-ons.mozilla.com/%LOCALE%/firefox/%VERSION%/plugins/");
+-pref("extensions.getMoreThemesURL", "https://addons.mozilla.org/%LOCALE%/%APP%/getpersonas");
++pref("extensions.getMoreThemesURL", "https://addons.mozilla.org/%LOCALE%/firefox/getpersonas");
  pref("extensions.dss.enabled", false);          // Dynamic Skin Switching                                               
  pref("extensions.dss.switchPending", false);    // Non-dynamic switch pending after next
                                                  // restart.
-@@ -728,10 +728,8 @@
+@@ -279,7 +279,7 @@
+ pref("browser.download.manager.resumeOnWakeDelay", 10000);
+ 
+ // search engines URL
+-pref("browser.search.searchEnginesURL",      "https://addons.mozilla.org/%LOCALE%/%APP%/search-engines/");
++pref("browser.search.searchEnginesURL",      "https://addons.mozilla.org/%LOCALE%/firefox/search-engines/");
+ 
+ // pointer to the default engine name
+ pref("browser.search.defaultenginename",      "chrome://browser-region/locale/region.properties");
+@@ -717,8 +717,8 @@
+ pref("browser.safebrowsing.provider.0.reportMalwareErrorURL", "http://{moz:locale}.malware-error.mozilla.com/?hl={moz:locale}");
+ 
+ // FAQ URLs
+-pref("browser.safebrowsing.warning.infoURL", "http://www.mozilla.com/%LOCALE%/%APP%/phishing-protection/");
+-pref("browser.geolocation.warning.infoURL", "http://www.mozilla.com/%LOCALE%/%APP%/geolocation/");
++pref("browser.safebrowsing.warning.infoURL", "http://www.mozilla.com/%LOCALE%/firefox/phishing-protection/");
++pref("browser.geolocation.warning.infoURL", "http://www.mozilla.com/%LOCALE%/firefox/geolocation/");
+ 
+ // Name of the about: page contributed by safebrowsing to handle display of error
+ // pages on phishing/malware hits.  (bug 399233)
+@@ -758,10 +758,8 @@
  pref("browser.rights.version", 3);
  pref("browser.rights.3.shown", false);
  
@@ -82,9 +77,9 @@ diff -urN mozilla.orig/browser/app/profile/firefox.js mozilla/browser/app/profil
  pref("browser.rights.override", true);
 -#endif
  
- pref("browser.sessionstore.resume_from_crash", true);
- pref("browser.sessionstore.resume_session_once", false);
-@@ -831,7 +829,7 @@
+ #ifdef WINCE
+ pref("browser.sessionstore.resume_from_crash", false);
+@@ -853,7 +851,7 @@
  pref("breakpad.reportURL", "http://crash-stats.mozilla.com/report/index/");
  
  // base URL for web-based support pages
@@ -107,10 +102,10 @@ diff -urN mozilla.orig/browser/base/content/aboutDialog.xul mozilla/browser/base
 diff -urN mozilla.orig/browser/base/content/baseMenuOverlay.xul mozilla/browser/base/content/baseMenuOverlay.xul
 --- mozilla.orig/browser/base/content/baseMenuOverlay.xul	2009-06-24 10:20:27.000000000 +0200
 +++ mozilla/browser/base/content/baseMenuOverlay.xul	2009-06-28 14:24:47.000000000 +0200
-@@ -92,11 +92,6 @@
-                   accesskey="&helpForIEUsers.accesskey;"
-                   oncommand="openHelpLink('ieusers');"/>
- #endif
+@@ -96,11 +96,6 @@
+                   label="&helpTroubleshooting.label;"
+                   oncommand="openTroubleshootingPage()"
+                   onclick="checkForMiddleClick(this, event);"/>
 -        <menuitem id="releaseNotes"
 -                  accesskey="&helpReleaseNotes.accesskey;"
 -                  label="&helpReleaseNotes.label;"
@@ -135,8 +130,8 @@ diff -urN mozilla.orig/browser/base/content/credits.xhtml mozilla/browser/base/c
          <p id="gecko" class="center" dir="&locale.dir;">&credit.poweredByGeckoReg;</p>
  
          <p class="footnote" dir="&locale.dir;">
--          &brandFullName;&trade; &license.part0; &copy;1998-2009 &license.part1;
-+          &brandFullName; &license.part0; &copy;1998-2009 &license.part1;
+-          &brandFullName;&trade; &license.part0; &copy;1998-2010 &license.part1;
++          &brandFullName; &license.part0; &copy;1998-2010 &license.part1;
            <a href="" link="about:credits" onclick="visitLink(event);">&license.contrib;</a>,
            &license.part2;
            <a href="" link="about:license" onclick="visitLink(event);">about:license</a>
@@ -156,14 +151,16 @@ diff -urN mozilla.orig/browser/base/content/credits.xhtml mozilla/browser/base/c
 diff -urN mozilla.orig/browser/branding/unofficial/pref/firefox-branding.js mozilla/browser/branding/unofficial/pref/firefox-branding.js
 --- mozilla.orig/browser/branding/unofficial/pref/firefox-branding.js	2009-06-24 10:20:28.000000000 +0200
 +++ mozilla/browser/branding/unofficial/pref/firefox-branding.js	2009-06-28 14:19:26.000000000 +0200
-@@ -1,17 +1,17 @@
+@@ -1,5 +1,5 @@
 -pref("startup.homepage_override_url","http://www.mozilla.org/projects/%APP%/%VERSION%/whatsnew/");
 -pref("startup.homepage_welcome_url","http://www.mozilla.org/projects/%APP%/%VERSION%/firstrun/");
-+pref("startup.homepage_override_url","http://www.mozilla.org/projects/firefox/%VERSION%/whatsnew/");
-+pref("startup.homepage_welcome_url","http://www.mozilla.org/projects/firefox/%VERSION%/firstrun/")
++pref("startup.homepage_override_url","");
++pref("startup.homepage_welcome_url","");
  // The time interval between checks for a new version (in seconds)
  // nightly=8 hours, official=24 hours
  pref("app.update.interval", 28800);
+@@ -8,13 +8,13 @@
+ pref("app.update.download.backgroundInterval", 60);
  // URL user can browse to manually if for some reason all update installation
  // attempts fail.
 -pref("app.update.url.manual", "http://www.mozilla.org/products/%APP%/");
@@ -206,15 +203,15 @@ diff -urN mozilla.orig/browser/components/nsBrowserGlue.js mozilla/browser/compo
 diff -urN mozilla.orig/browser/components/shell/src/nsWindowsShellService.cpp mozilla/browser/components/shell/src/nsWindowsShellService.cpp
 --- mozilla.orig/browser/components/shell/src/nsWindowsShellService.cpp	2009-06-24 10:20:29.000000000 +0200
 +++ mozilla/browser/components/shell/src/nsWindowsShellService.cpp	2009-06-28 14:25:50.000000000 +0200
-@@ -181,7 +181,7 @@
-   char* valueData;
+@@ -213,7 +213,7 @@
  } SETTING;
  
+ #ifndef WINCE
 -#define APP_REG_NAME L"Firefox"
 +#define APP_REG_NAME L"Iceweasel"
- #define DI "\\DefaultIcon"
- #define SOP "\\shell\\open\\command"
- 
+ #define CLS_HTML "FirefoxHTML"
+ #define CLS_URL "FirefoxURL"
+ #define CPL_DESKTOP L"Control Panel\\Desktop"
 diff -urN mozilla.orig/browser/confvars.sh mozilla/browser/confvars.sh
 --- mozilla.orig/browser/confvars.sh	2009-06-24 10:20:29.000000000 +0200
 +++ mozilla/browser/confvars.sh	2009-06-28 14:26:12.000000000 +0200
