@@ -1,5 +1,3 @@
-# TODO
-# - cleanup deps: --without xulrunner
 #
 # Conditional build:
 %bcond_with	tests		# enable tests (whatever they check)
@@ -57,20 +55,22 @@ URL:		http://www.pld-linux.org/Packages/Iceweasel
 %{?with_gnomevfs:BuildRequires:	GConf2-devel >= 1.2.1}
 BuildRequires:	alsa-lib-devel
 BuildRequires:	automake
+BuildRequires:	bzip2-devel
 BuildRequires:	cairo-devel >= 1.6.0
 BuildRequires:	dbus-glib-devel >= 0.60
 %{?with_gnomevfs:BuildRequires:	gnome-vfs2-devel >= 2.0}
 BuildRequires:	gtk+2-devel >= 2:2.10
 %{?with_kerberos:BuildRequires:	heimdal-devel >= 0.7.1}
 BuildRequires:	libIDL-devel >= 0.8.0
+BuildRequires:	libdnet-devel
 %{?with_gnomevfs:BuildRequires:	libgnome-devel >= 2.0}
 %{?with_gnomeui:BuildRequires:	libgnomeui-devel >= 2.2.0}
+BuildRequires:	libiw-devel
 BuildRequires:	libjpeg-devel >= 6b
+BuildRequires:	libnotify-devel
 BuildRequires:	libpng(APNG)-devel >= 0.10
 BuildRequires:	libpng-devel >= 1.2.7
 BuildRequires:	libstdc++-devel
-BuildRequires:	myspell-devel
-BuildRequires:	nspr-devel >= 1:4.8
 BuildRequires:	nss-devel >= 1:3.12.3
 BuildRequires:	pango-devel >= 1:1.6.0
 BuildRequires:	perl-modules >= 5.004
@@ -80,13 +80,13 @@ BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	rpmbuild(macros) >= 1.453
 BuildRequires:	sqlite3-devel >= 3.6.15
 BuildRequires:	startup-notification-devel >= 0.8
-BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXft-devel >= 2.1
-BuildRequires:	xorg-lib-libXinerama-devel
-BuildRequires:	xorg-lib-libXp-devel
 BuildRequires:	xorg-lib-libXt-devel
 %if %{with xulrunner}
 BuildRequires:	xulrunner-devel >= 1:%{xulrunner_ver}
+%else
+BuildRequires:	myspell-devel
+BuildRequires:	nspr-devel >= 1:4.8
 %endif
 BuildRequires:	zip
 BuildRequires:	zlib-devel >= 1.2.3
@@ -438,7 +438,6 @@ fi
 %{_libdir}/%{name}/components/nsTaggingService.js
 %{_libdir}/%{name}/components/nsTryToClose.js
 %{_libdir}/%{name}/components/nsURLFormatter.js
-%{_libdir}/%{name}/components/nsUpdateService.js
 %{_libdir}/%{name}/components/nsUrlClassifierLib.js
 %{_libdir}/%{name}/components/nsUrlClassifierListManager.js
 %{_libdir}/%{name}/components/nsWebHandlerApp.js
