@@ -96,6 +96,7 @@ Requires(post):	mktemp >= 1.5-18
 %else
 Requires:	browser-plugins >= 2.0
 Requires:	cairo >= 1.6.0
+Requires:	gtk+2 >= 2:2.18
 Requires:	libpng(APNG) >= 0.10
 Requires:	myspell-common
 Requires:	nspr >= 1:4.8
