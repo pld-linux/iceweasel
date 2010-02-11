@@ -1,6 +1,6 @@
 diff -urN mozilla.orig/browser/app/application.ini mozilla/browser/app/application.ini
---- mozilla.orig/browser/app/application.ini	2009-06-24 10:20:27.000000000 +0200
-+++ mozilla/browser/app/application.ini	2009-06-28 14:11:09.000000000 +0200
+--- mozilla.orig/browser/app/application.ini	2010-02-04 15:47:13.000000000 +0100
++++ mozilla/browser/app/application.ini	2010-02-04 15:48:46.000000000 +0100
 @@ -37,8 +37,8 @@
  
  #filter substitution
@@ -13,11 +13,14 @@ diff -urN mozilla.orig/browser/app/application.ini mozilla/browser/app/applicati
  BuildID=@GRE_BUILDID@
  #ifdef MOZ_SOURCE_REPO
 diff -urN mozilla.orig/browser/app/profile/firefox.js mozilla/browser/app/profile/firefox.js
---- mozilla.orig/browser/app/profile/firefox.js	2009-06-24 10:20:27.000000000 +0200
-+++ mozilla/browser/app/profile/firefox.js	2009-06-28 14:15:29.000000000 +0200
-@@ -72,10 +72,10 @@
+--- mozilla.orig/browser/app/profile/firefox.js	2010-02-04 15:47:13.000000000 +0100
++++ mozilla/browser/app/profile/firefox.js	2010-02-04 15:50:15.000000000 +0100
+@@ -70,12 +70,12 @@
+ 
+ // Preferences for the Get Add-ons pane
  pref("extensions.getAddons.showPane", true);
- pref("extensions.getAddons.browseAddons", "https://addons.mozilla.org/%LOCALE%/%APP%");
+-pref("extensions.getAddons.browseAddons", "https://addons.mozilla.org/%LOCALE%/%APP%");
++pref("extensions.getAddons.browseAddons", "https://addons.mozilla.org/%LOCALE%/firefox");
  pref("extensions.getAddons.maxResults", 5);
 -pref("extensions.getAddons.recommended.browseURL", "https://addons.mozilla.org/%LOCALE%/%APP%/recommended");
 -pref("extensions.getAddons.recommended.url", "https://services.addons.mozilla.org/%LOCALE%/%APP%/api/%API_VERSION%/list/featured/all/10/%OS%/%VERSION%");
@@ -89,8 +92,8 @@ diff -urN mozilla.orig/browser/app/profile/firefox.js mozilla/browser/app/profil
  // Name of alternate about: page for certificate errors (when undefined, defaults to about:neterror)
  pref("security.alternate_certificate_error_page", "certerror");
 diff -urN mozilla.orig/browser/base/content/aboutDialog.xul mozilla/browser/base/content/aboutDialog.xul
---- mozilla.orig/browser/base/content/aboutDialog.xul	2009-06-24 10:20:27.000000000 +0200
-+++ mozilla/browser/base/content/aboutDialog.xul	2009-06-28 17:29:14.000000000 +0200
+--- mozilla.orig/browser/base/content/aboutDialog.xul	2010-02-04 15:47:13.000000000 +0100
++++ mozilla/browser/base/content/aboutDialog.xul	2010-02-04 15:48:50.000000000 +0100
 @@ -87,7 +87,6 @@
          &copyrightInfo1;<label 
          class="text-link" href="&licenseLink;"
@@ -100,8 +103,8 @@ diff -urN mozilla.orig/browser/base/content/aboutDialog.xul mozilla/browser/base
        <textbox id="userAgent" multiline="true" readonly="true" flex="1"/>
      </vbox>
 diff -urN mozilla.orig/browser/base/content/baseMenuOverlay.xul mozilla/browser/base/content/baseMenuOverlay.xul
---- mozilla.orig/browser/base/content/baseMenuOverlay.xul	2009-06-24 10:20:27.000000000 +0200
-+++ mozilla/browser/base/content/baseMenuOverlay.xul	2009-06-28 14:24:47.000000000 +0200
+--- mozilla.orig/browser/base/content/baseMenuOverlay.xul	2010-02-04 15:47:13.000000000 +0100
++++ mozilla/browser/base/content/baseMenuOverlay.xul	2010-02-04 15:51:31.000000000 +0100
 @@ -96,11 +96,6 @@
                    label="&helpTroubleshooting.label;"
                    oncommand="openTroubleshootingPage()"
@@ -115,8 +118,8 @@ diff -urN mozilla.orig/browser/base/content/baseMenuOverlay.xul mozilla/browser/
  #ifdef MOZ_UPDATER
          <menuitem id="checkForUpdates"
 diff -urN mozilla.orig/browser/base/content/credits.xhtml mozilla/browser/base/content/credits.xhtml
---- mozilla.orig/browser/base/content/credits.xhtml	2009-06-24 10:20:27.000000000 +0200
-+++ mozilla/browser/base/content/credits.xhtml	2009-06-28 14:18:00.000000000 +0200
+--- mozilla.orig/browser/base/content/credits.xhtml	2010-02-04 15:47:13.000000000 +0100
++++ mozilla/browser/base/content/credits.xhtml	2010-02-04 15:53:53.000000000 +0100
 @@ -209,7 +209,7 @@
      </div>
  
@@ -148,14 +151,42 @@ diff -urN mozilla.orig/browser/base/content/credits.xhtml mozilla/browser/base/c
            U.S. GOVERNMENT END USERS. The Software is a &ldquo;commercial item,&rdquo;
            as that term is defined in 48 C.F.R. 2.101 (Oct. 1995), consisting of
            &ldquo;commercial computer software&rdquo; and &ldquo;commercial computer software
-diff -urN mozilla.orig/browser/branding/unofficial/pref/firefox-branding.js mozilla/browser/branding/unofficial/pref/firefox-branding.js
---- mozilla.orig/browser/branding/unofficial/pref/firefox-branding.js	2009-06-24 10:20:28.000000000 +0200
-+++ mozilla/browser/branding/unofficial/pref/firefox-branding.js	2009-06-28 14:19:26.000000000 +0200
+diff -urN mozilla.orig/browser/branding/nightly/pref/firefox-branding.js mozilla/browser/branding/nightly/pref/firefox-branding.js
+--- mozilla.orig/browser/branding/nightly/pref/firefox-branding.js	2010-02-04 15:47:13.000000000 +0100
++++ mozilla/browser/branding/nightly/pref/firefox-branding.js	2010-02-04 15:55:23.000000000 +0100
 @@ -1,5 +1,5 @@
 -pref("startup.homepage_override_url","http://www.mozilla.org/projects/%APP%/%VERSION%/whatsnew/");
 -pref("startup.homepage_welcome_url","http://www.mozilla.org/projects/%APP%/%VERSION%/firstrun/");
-+pref("startup.homepage_override_url","");
-+pref("startup.homepage_welcome_url","");
++pref("startup.homepage_override_url","http://www.mozilla.org/projects/firefox/%VERSION%/whatsnew/");
++pref("startup.homepage_welcome_url","http://www.mozilla.org/projects/firefox/%VERSION%/firstrun/");
+ // The time interval between checks for a new version (in seconds)
+ // nightly=8 hours, official=24 hours
+ pref("app.update.interval", 28800);
+@@ -8,13 +8,13 @@
+ pref("app.update.download.backgroundInterval", 60);
+ // URL user can browse to manually if for some reason all update installation
+ // attempts fail.
+-pref("app.update.url.manual", "http://www.mozilla.org/products/%APP%/");
++pref("app.update.url.manual", "http://www.mozilla.org/products/firefox/");
+ // A default value for the "More information about this update" link
+ // supplied in the "An update is available" page of the update wizard. 
+-pref("app.update.url.details", "http://www.mozilla.org/projects/%APP%/");
++pref("app.update.url.details", "http://www.mozilla.org/projects/firefox/");
+ 
+ // Release notes URL
+-pref("app.releaseNotesURL", "http://www.mozilla.org/projects/%APP%/%VERSION%/releasenotes/");
++pref("app.releaseNotesURL", "http://www.mozilla.org/projects/firefox/%VERSION%/releasenotes/");
+ 
+ // Search codes belong only in builds with official branding
+ pref("browser.search.param.yahoo-fr", "");
+diff -urN mozilla.orig/browser/branding/unofficial/pref/firefox-branding.js mozilla/browser/branding/unofficial/pref/firefox-branding.js
+--- mozilla.orig/browser/branding/unofficial/pref/firefox-branding.js	2010-02-04 15:47:13.000000000 +0100
++++ mozilla/browser/branding/unofficial/pref/firefox-branding.js	2010-02-04 15:50:56.000000000 +0100
+@@ -1,5 +1,5 @@
+-pref("startup.homepage_override_url","http://www.mozilla.org/projects/%APP%/%VERSION%/whatsnew/");
+-pref("startup.homepage_welcome_url","http://www.mozilla.org/projects/%APP%/%VERSION%/firstrun/");
++pref("startup.homepage_override_url","http://www.mozilla.org/projects/firefox/%VERSION%/whatsnew/");
++pref("startup.homepage_welcome_url","http://www.mozilla.org/projects/firefox/%VERSION%/firstrun/");
  // The time interval between checks for a new version (in seconds)
  // nightly=8 hours, official=24 hours
  pref("app.update.interval", 28800);
@@ -177,8 +208,8 @@ diff -urN mozilla.orig/browser/branding/unofficial/pref/firefox-branding.js mozi
  // Search codes belong only in builds with official branding
  pref("browser.search.param.yahoo-fr", "");
 diff -urN mozilla.orig/browser/components/nsBrowserContentHandler.js mozilla/browser/components/nsBrowserContentHandler.js
---- mozilla.orig/browser/components/nsBrowserContentHandler.js	2009-06-24 10:20:28.000000000 +0200
-+++ mozilla/browser/components/nsBrowserContentHandler.js	2009-06-28 14:19:54.000000000 +0200
+--- mozilla.orig/browser/components/nsBrowserContentHandler.js	2010-02-04 15:47:12.000000000 +0100
++++ mozilla/browser/components/nsBrowserContentHandler.js	2010-02-04 15:48:50.000000000 +0100
 @@ -818,7 +818,7 @@
    },
  
@@ -189,9 +220,9 @@ diff -urN mozilla.orig/browser/components/nsBrowserContentHandler.js mozilla/bro
    /* nsIFactory */
    createInstance: function dch_CI(outer, iid) {
 diff -urN mozilla.orig/browser/components/nsBrowserGlue.js mozilla/browser/components/nsBrowserGlue.js
---- mozilla.orig/browser/components/nsBrowserGlue.js	2009-06-24 10:20:28.000000000 +0200
-+++ mozilla/browser/components/nsBrowserGlue.js	2009-06-28 14:20:10.000000000 +0200
-@@ -994,7 +994,7 @@
+--- mozilla.orig/browser/components/nsBrowserGlue.js	2010-02-04 15:47:12.000000000 +0100
++++ mozilla/browser/components/nsBrowserGlue.js	2010-02-04 15:48:50.000000000 +0100
+@@ -1087,7 +1087,7 @@
  
  
    // for XPCOM
@@ -201,8 +232,8 @@ diff -urN mozilla.orig/browser/components/nsBrowserGlue.js mozilla/browser/compo
    contractID:       "@mozilla.org/browser/browserglue;1",
  
 diff -urN mozilla.orig/browser/components/shell/src/nsWindowsShellService.cpp mozilla/browser/components/shell/src/nsWindowsShellService.cpp
---- mozilla.orig/browser/components/shell/src/nsWindowsShellService.cpp	2009-06-24 10:20:29.000000000 +0200
-+++ mozilla/browser/components/shell/src/nsWindowsShellService.cpp	2009-06-28 14:25:50.000000000 +0200
+--- mozilla.orig/browser/components/shell/src/nsWindowsShellService.cpp	2010-02-04 15:47:12.000000000 +0100
++++ mozilla/browser/components/shell/src/nsWindowsShellService.cpp	2010-02-04 15:49:28.000000000 +0100
 @@ -213,7 +213,7 @@
  } SETTING;
  
@@ -213,8 +244,8 @@ diff -urN mozilla.orig/browser/components/shell/src/nsWindowsShellService.cpp mo
  #define CLS_URL "FirefoxURL"
  #define CPL_DESKTOP L"Control Panel\\Desktop"
 diff -urN mozilla.orig/browser/confvars.sh mozilla/browser/confvars.sh
---- mozilla.orig/browser/confvars.sh	2009-06-24 10:20:29.000000000 +0200
-+++ mozilla/browser/confvars.sh	2009-06-28 14:26:12.000000000 +0200
+--- mozilla.orig/browser/confvars.sh	2010-02-04 15:47:13.000000000 +0100
++++ mozilla/browser/confvars.sh	2010-02-04 15:48:50.000000000 +0100
 @@ -36,7 +36,7 @@
  #
  # ***** END LICENSE BLOCK *****
@@ -225,8 +256,8 @@ diff -urN mozilla.orig/browser/confvars.sh mozilla/browser/confvars.sh
  MOZ_PHOENIX=1
  
 diff -urN mozilla.orig/browser/locales/en-US/chrome/overrides/appstrings.properties mozilla/browser/locales/en-US/chrome/overrides/appstrings.properties
---- mozilla.orig/browser/locales/en-US/chrome/overrides/appstrings.properties	2009-06-24 10:20:29.000000000 +0200
-+++ mozilla/browser/locales/en-US/chrome/overrides/appstrings.properties	2009-06-28 14:30:14.000000000 +0200
+--- mozilla.orig/browser/locales/en-US/chrome/overrides/appstrings.properties	2010-02-04 15:47:13.000000000 +0100
++++ mozilla/browser/locales/en-US/chrome/overrides/appstrings.properties	2010-02-04 15:48:50.000000000 +0100
 @@ -35,23 +35,23 @@
  # ***** END LICENSE BLOCK *****
  
@@ -262,8 +293,8 @@ diff -urN mozilla.orig/browser/locales/en-US/chrome/overrides/appstrings.propert
  unsafeContentType=The page you are trying to view cannot be shown because it is contained in a file type that may not be safe to open. Please contact the website owners to inform them of this problem.
  externalProtocolTitle=External Protocol Request
 diff -urN mozilla.orig/browser/locales/en-US/searchplugins/answers.xml mozilla/browser/locales/en-US/searchplugins/answers.xml
---- mozilla.orig/browser/locales/en-US/searchplugins/answers.xml	2009-06-24 10:20:29.000000000 +0200
-+++ mozilla/browser/locales/en-US/searchplugins/answers.xml	2009-06-28 14:30:42.000000000 +0200
+--- mozilla.orig/browser/locales/en-US/searchplugins/answers.xml	2010-02-04 15:47:13.000000000 +0100
++++ mozilla/browser/locales/en-US/searchplugins/answers.xml	2010-02-04 15:48:50.000000000 +0100
 @@ -8,6 +8,6 @@
    <Param name="gwp" value="13"/>
  </Url>
@@ -273,8 +304,8 @@ diff -urN mozilla.orig/browser/locales/en-US/searchplugins/answers.xml mozilla/b
  <SearchForm>http://www.answers.com/</SearchForm>
  </SearchPlugin>
 diff -urN mozilla.orig/browser/locales/en-US/searchplugins/google.xml mozilla/browser/locales/en-US/searchplugins/google.xml
---- mozilla.orig/browser/locales/en-US/searchplugins/google.xml	2009-06-24 10:20:29.000000000 +0200
-+++ mozilla/browser/locales/en-US/searchplugins/google.xml	2009-06-28 14:31:31.000000000 +0200
+--- mozilla.orig/browser/locales/en-US/searchplugins/google.xml	2010-02-04 15:47:13.000000000 +0100
++++ mozilla/browser/locales/en-US/searchplugins/google.xml	2010-02-04 15:48:50.000000000 +0100
 @@ -3,7 +3,7 @@
  <Description>Google Search</Description>
  <InputEncoding>UTF-8</InputEncoding>
@@ -295,8 +326,8 @@ diff -urN mozilla.orig/browser/locales/en-US/searchplugins/google.xml mozilla/br
 +<SearchForm>http://www.google.com/</SearchForm>
  </SearchPlugin>
 diff -urN mozilla.orig/extensions/reporter/resources/content/reporter/reporterOverlay.xul mozilla/extensions/reporter/resources/content/reporter/reporterOverlay.xul
---- mozilla.orig/extensions/reporter/resources/content/reporter/reporterOverlay.xul	2009-06-24 10:20:52.000000000 +0200
-+++ mozilla/extensions/reporter/resources/content/reporter/reporterOverlay.xul	2009-06-28 14:45:04.000000000 +0200
+--- mozilla.orig/extensions/reporter/resources/content/reporter/reporterOverlay.xul	2010-02-04 15:47:15.000000000 +0100
++++ mozilla/extensions/reporter/resources/content/reporter/reporterOverlay.xul	2010-02-04 15:48:50.000000000 +0100
 @@ -55,7 +55,7 @@
      <menuitem id="menu_HelpPopup_reportertoolmenu" 
                label="&reporterMenu2.title;" 
@@ -307,9 +338,9 @@ diff -urN mozilla.orig/extensions/reporter/resources/content/reporter/reporterOv
                oncommand="loadReporterWizard()"/>
    </menupopup>
 diff -urN mozilla.orig/toolkit/xre/nsAppRunner.cpp mozilla/toolkit/xre/nsAppRunner.cpp
---- mozilla.orig/toolkit/xre/nsAppRunner.cpp	2009-06-24 10:22:27.000000000 +0200
-+++ mozilla/toolkit/xre/nsAppRunner.cpp	2009-06-28 14:45:56.000000000 +0200
-@@ -1231,8 +1231,7 @@
+--- mozilla.orig/toolkit/xre/nsAppRunner.cpp	2010-02-04 15:47:20.000000000 +0100
++++ mozilla/toolkit/xre/nsAppRunner.cpp	2010-02-04 15:48:50.000000000 +0100
+@@ -1314,8 +1314,7 @@
  static inline void
  DumpVersion()
  {
