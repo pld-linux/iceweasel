@@ -30,7 +30,7 @@ Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
 Version:	3.6
-Release:	1
+Release:	2
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
@@ -85,7 +85,7 @@ BuildRequires:	xorg-lib-libXt-devel
 %if %{with xulrunner}
 BuildRequires:	xulrunner-devel >= 1:%{xulrunner_ver}
 %else
-BuildRequires:	myspell-devel
+BuildRequires:	hunspell-devel
 BuildRequires:	nspr-devel >= 1:4.8
 %endif
 BuildRequires:	zip
@@ -235,7 +235,7 @@ ac_add_options --enable-pango
 ac_add_options --enable-startup-notification
 ac_add_options --enable-svg
 ac_add_options --enable-system-cairo
-ac_add_options --enable-system-myspell
+ac_add_options --enable-system-hunspell
 ac_add_options --enable-system-sqlite
 ac_add_options --enable-xinerama
 ac_add_options --with-distribution-id=org.pld-linux
@@ -493,8 +493,6 @@ fi
 
 # browserconfig
 %{_libdir}/%{name}/browserconfig.properties
-
-%{_libdir}/%{name}/README.txt
 
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/chrome
