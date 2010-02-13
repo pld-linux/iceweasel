@@ -18,7 +18,7 @@
 
 # convert firefox release number to platform version: 3.6.x -> 1.9.2.x
 %define		xulrunner_main	1.9.2
-%define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}.${v#3.6.})
+%define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#3.6})
 
 %if %{without xulrunner}
 # The actual sqlite version (see RHBZ#480989):
@@ -415,6 +415,7 @@ fi
 %if %{without xulrunner}
 %{_libdir}/%{name}/platform.ini
 %{_libdir}/%{name}/components/FeedProcessor.js
+%{_libdir}/%{name}/components/GPSDGeolocationProvider.js
 %{_libdir}/%{name}/components/jsconsole-clhandler.js
 %{_libdir}/%{name}/components/NetworkGeolocationProvider.js
 %{_libdir}/%{name}/components/nsAddonRepository.js
@@ -426,18 +427,21 @@ fi
 %{_libdir}/%{name}/components/nsDownloadManagerUI.js
 %{_libdir}/%{name}/components/nsExtensionManager.js
 %{_libdir}/%{name}/components/nsFilePicker.js
+%{_libdir}/%{name}/components/nsFormAutoComplete.js
 %{_libdir}/%{name}/components/nsHandlerService.js
 %{_libdir}/%{name}/components/nsHelperAppDlg.js
 %{_libdir}/%{name}/components/nsLivemarkService.js
 %{_libdir}/%{name}/components/nsLoginInfo.js
 %{_libdir}/%{name}/components/nsLoginManager.js
 %{_libdir}/%{name}/components/nsLoginManagerPrompter.js
+%{_libdir}/%{name}/components/nsPlacesAutoComplete.js
 %{_libdir}/%{name}/components/nsPlacesDBFlush.js
 %{_libdir}/%{name}/components/nsProxyAutoConfig.js
 %{_libdir}/%{name}/components/nsSearchService.js
 %{_libdir}/%{name}/components/nsSearchSuggestions.js
 %{_libdir}/%{name}/components/nsTaggingService.js
 %{_libdir}/%{name}/components/nsTryToClose.js
+%{_libdir}/%{name}/components/nsUpdateTimerManager.js
 %{_libdir}/%{name}/components/nsURLFormatter.js
 %{_libdir}/%{name}/components/nsUrlClassifierLib.js
 %{_libdir}/%{name}/components/nsUrlClassifierListManager.js
