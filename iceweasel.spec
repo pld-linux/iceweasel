@@ -61,6 +61,7 @@ BuildRequires:	dbus-glib-devel >= 0.60
 %{?with_gnomevfs:BuildRequires:	gnome-vfs2-devel >= 2.0}
 BuildRequires:	gtk+2-devel >= 2:2.10
 %{?with_kerberos:BuildRequires:	heimdal-devel >= 0.7.1}
+BuildRequires:	hunspell-devel
 BuildRequires:	libIDL-devel >= 0.8.0
 BuildRequires:	libdnet-devel
 %{?with_gnomevfs:BuildRequires:	libgnome-devel >= 2.0}
@@ -85,7 +86,6 @@ BuildRequires:	xorg-lib-libXt-devel
 %if %{with xulrunner}
 BuildRequires:	xulrunner-devel >= 1:%{xulrunner_ver}
 %else
-BuildRequires:	hunspell-devel
 BuildRequires:	nspr-devel >= 1:4.8
 %endif
 BuildRequires:	zip
