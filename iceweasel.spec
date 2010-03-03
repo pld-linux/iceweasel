@@ -30,7 +30,7 @@ Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
 Version:	3.6
-Release:	4
+Release:	5
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
@@ -51,6 +51,7 @@ Patch7:		%{name}-prefs.patch
 Patch8:		%{name}-pld-branding.patch
 Patch9:		%{name}-no-subshell.patch
 Patch10:	%{name}-ppc.patch
+Patch11:	%{name}-libpng.patch
 URL:		http://www.pld-linux.org/Packages/Iceweasel
 %{?with_gnomevfs:BuildRequires:	GConf2-devel >= 1.2.1}
 BuildRequires:	alsa-lib-devel
@@ -171,6 +172,7 @@ cd mozilla
 %patch8 -p1
 %patch9 -p2
 %patch10 -p1
+%patch11 -p0
 
 %build
 cd mozilla
