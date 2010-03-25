@@ -85,7 +85,7 @@ BuildRequires:	startup-notification-devel >= 0.8
 BuildRequires:	xorg-lib-libXft-devel >= 2.1
 BuildRequires:	xorg-lib-libXt-devel
 %if %{with xulrunner}
-BuildRequires:	xulrunner-devel >= 1:%{xulrunner_ver}
+BuildRequires:	xulrunner-devel >= 2:%{xulrunner_ver}
 %else
 BuildRequires:	nspr-devel >= 1:4.8
 %endif
@@ -178,8 +178,8 @@ cd mozilla
 cd mozilla
 cp -f %{_datadir}/automake/config.* build/autoconf
 
-cat << 'EOF' > .mozconfig
-. $topsrcdir/browser/config/mozconfig
+cat << EOF > .mozconfig
+. \$topsrcdir/browser/config/mozconfig
 
 mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/obj-%{_target_cpu}
 
@@ -243,7 +243,7 @@ ac_add_options --enable-xinerama
 ac_add_options --with-distribution-id=org.pld-linux
 ac_add_options --with-branding=iceweasel/branding
 %if %{with xulrunner}
-ac_add_options --with-libxul-sdk=%{_libdir}/xulrunner-sdk
+ac_add_options --with-libxul-sdk=$(pkg-config --variable=sdkdir libxul)
 %endif
 ac_add_options --with-pthreads
 ac_add_options --with-system-bz2
@@ -311,8 +311,8 @@ chmod a+rx $RPM_BUILD_ROOT%{_bindir}/iceweasel
 ln -s iceweasel $RPM_BUILD_ROOT%{_bindir}/firefox
 ln -s iceweasel $RPM_BUILD_ROOT%{_bindir}/mozilla-firefox
 
-install iceweasel/branding/default64.png $RPM_BUILD_ROOT%{_pixmapsdir}/iceweasel.png
-install %{SOURCE3} $RPM_BUILD_ROOT%{_desktopdir}/%{name}.desktop
+cp -a iceweasel/branding/default64.png $RPM_BUILD_ROOT%{_pixmapsdir}/iceweasel.png
+cp -a %{SOURCE3} $RPM_BUILD_ROOT%{_desktopdir}/%{name}.desktop
 
 # files created by regxpcom and iceweasel -register
 touch $RPM_BUILD_ROOT%{_libdir}/%{name}/components/compreg.dat
@@ -321,9 +321,9 @@ touch $RPM_BUILD_ROOT%{_libdir}/%{name}/components/xpti.dat
 %if %{with xulrunner}
 rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/run-mozilla.sh
 %endif
-# what's this? it's content is invalid anyway.
-rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/dependentlibs.list
-rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/old-homepage-default.properties
+rm $RPM_BUILD_ROOT%{_libdir}/%{name}/LICENSE
+rm $RPM_BUILD_ROOT%{_libdir}/%{name}/README.txt
+rm $RPM_BUILD_ROOT%{_libdir}/%{name}/components/components.list
 
 cat << 'EOF' > $RPM_BUILD_ROOT%{_sbindir}/%{name}-chrome+xpcom-generate
 #!/bin/sh
