@@ -30,7 +30,7 @@ Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
 Version:	3.6.6
-Release:	1
+Release:	2
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
@@ -432,6 +432,7 @@ fi
 %{_libdir}/%{name}/components/nsFormAutoComplete.js
 %{_libdir}/%{name}/components/nsHandlerService.js
 %{_libdir}/%{name}/components/nsHelperAppDlg.js
+%{_libdir}/%{name}/components/nsINIProcessor.js
 %{_libdir}/%{name}/components/nsLivemarkService.js
 %{_libdir}/%{name}/components/nsLoginInfo.js
 %{_libdir}/%{name}/components/nsLoginManager.js
@@ -475,6 +476,7 @@ fi
 %attr(755,root,root) %{_libdir}/%{name}/iceweasel-bin
 %attr(755,root,root) %{_libdir}/%{name}/plugins/*.so
 %attr(755,root,root) %{_libdir}/%{name}/mozilla-xremote-client
+%attr(755,root,root) %{_libdir}/%{name}/plugin-container
 %endif
 
 %{_pixmapsdir}/iceweasel.png
