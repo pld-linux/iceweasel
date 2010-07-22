@@ -466,7 +466,7 @@ fi
 %if %{without xulrunner}
 %attr(755,root,root) %{_libdir}/%{name}/components/libmozgnome.so
 %endif
-%attr(755,root,root) %{_libdir}/%{name}/components/libnkgnomevfs.so
+#%%attr(755,root,root) %{_libdir}/%{name}/components/libnkgnomevfs.so
 %endif
 
 %attr(755,root,root) %{_libdir}/%{name}/iceweasel
