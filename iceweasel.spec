@@ -287,6 +287,7 @@ mv $RPM_BUILD_ROOT%{_libdir}/%{name}/extensions $RPM_BUILD_ROOT%{_datadir}/%{nam
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/icons $RPM_BUILD_ROOT%{_datadir}/%{name}/icons
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/modules $RPM_BUILD_ROOT%{_datadir}/%{name}/modules
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/searchplugins $RPM_BUILD_ROOT%{_datadir}/%{name}/searchplugins
+mv $RPM_BUILD_ROOT%{_libdir}/%{name}/browserconfig.properties $RPM_BUILD_ROOT%{_datadir}/%{name}
 %if %{without xulrunner}
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/greprefs $RPM_BUILD_ROOT%{_datadir}/%{name}/greprefs
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/res $RPM_BUILD_ROOT%{_datadir}/%{name}/res
@@ -298,6 +299,7 @@ ln -s ../../share/%{name}/extensions $RPM_BUILD_ROOT%{_libdir}/%{name}/extension
 ln -s ../../share/%{name}/modules $RPM_BUILD_ROOT%{_libdir}/%{name}/modules
 ln -s ../../share/%{name}/icons $RPM_BUILD_ROOT%{_libdir}/%{name}/icons
 ln -s ../../share/%{name}/searchplugins $RPM_BUILD_ROOT%{_libdir}/%{name}/searchplugins
+ln -s ../../share/%{name}/browserconfig.properties $RPM_BUILD_ROOT%{_libdir}/%{name}
 %if %{without xulrunner}
 ln -s ../../share/%{name}/greprefs $RPM_BUILD_ROOT%{_libdir}/%{name}/greprefs
 ln -s ../../share/%{name}/res $RPM_BUILD_ROOT%{_libdir}/%{name}/res
@@ -491,14 +493,12 @@ fi
 %{_libdir}/%{name}/icons
 %{_libdir}/%{name}/modules
 %{_libdir}/%{name}/searchplugins
+%{_libdir}/%{name}/browserconfig.properties
 %if %{without xulrunner}
 %{_libdir}/%{name}/dictionaries
 %{_libdir}/%{name}/greprefs
 %{_libdir}/%{name}/res
 %endif
-
-# browserconfig
-%{_libdir}/%{name}/browserconfig.properties
 
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/chrome
@@ -506,6 +506,7 @@ fi
 %{_datadir}/%{name}/icons
 %{_datadir}/%{name}/modules
 %{_datadir}/%{name}/searchplugins
+%{_datadir}/%{name}/browserconfig.properties
 %if %{without xulrunner}
 %{_datadir}/%{name}/greprefs
 %{_datadir}/%{name}/res
