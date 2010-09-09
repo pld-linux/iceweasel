@@ -89,7 +89,7 @@ BuildRequires:	xorg-lib-libXt-devel
 %if %{with xulrunner}
 BuildRequires:	xulrunner-devel >= 2:%{xulrunner_ver}
 %else
-BuildRequires:	nspr-devel >= 1:4.8
+BuildRequires:	nspr-devel >= 1:4.8.6
 %endif
 BuildRequires:	zip
 BuildRequires:	zlib-devel >= 1.2.3
@@ -102,7 +102,7 @@ Requires:	cairo >= 1.6.0
 Requires:	gtk+2 >= 2:2.18
 Requires:	libpng(APNG) >= 0.10
 Requires:	myspell-common
-Requires:	nspr >= 1:4.8
+Requires:	nspr >= 1:4.8.6
 Requires:	nss >= 1:3.12.3
 Requires:	sqlite3 >= %{sqlite_build_version}
 %endif
