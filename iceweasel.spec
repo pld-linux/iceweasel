@@ -382,11 +382,9 @@ fi
 %config(noreplace) %verify(not md5 mtime size) %{_browserpluginsconfdir}/blacklist.d/%{name}.*.blacklist
 
 %dir %{_libdir}/%{name}
-
 %if %{without xulrunner}
 %attr(755,root,root) %{_libdir}/%{name}/*.so
 %endif
-
 %{_libdir}/%{name}/blocklist.xml
 
 %if %{with crashreporter}
@@ -402,9 +400,10 @@ fi
 
 %dir %{_libdir}/%{name}/components
 
-%{_libdir}/%{name}/components/browser.xpt
 %{_libdir}/%{name}/components/FeedConverter.js
 %{_libdir}/%{name}/components/FeedWriter.js
+%{_libdir}/%{name}/components/WebContentConverter.js
+%{_libdir}/%{name}/components/browser.xpt
 %{_libdir}/%{name}/components/fuelApplication.js
 %{_libdir}/%{name}/components/nsBrowserContentHandler.js
 %{_libdir}/%{name}/components/nsBrowserGlue.js
@@ -416,14 +415,12 @@ fi
 %{_libdir}/%{name}/components/nsSessionStore.js
 %{_libdir}/%{name}/components/nsSetDefaultBrowser.js
 %{_libdir}/%{name}/components/nsSidebar.js
-%{_libdir}/%{name}/components/WebContentConverter.js
-
 %if %{without xulrunner}
 %{_libdir}/%{name}/platform.ini
 %{_libdir}/%{name}/components/FeedProcessor.js
 %{_libdir}/%{name}/components/GPSDGeolocationProvider.js
-%{_libdir}/%{name}/components/jsconsole-clhandler.js
 %{_libdir}/%{name}/components/NetworkGeolocationProvider.js
+%{_libdir}/%{name}/components/jsconsole-clhandler.js
 %{_libdir}/%{name}/components/nsAddonRepository.js
 %{_libdir}/%{name}/components/nsBadCertHandler.js
 %{_libdir}/%{name}/components/nsBlocklistService.js
@@ -448,8 +445,8 @@ fi
 %{_libdir}/%{name}/components/nsSearchSuggestions.js
 %{_libdir}/%{name}/components/nsTaggingService.js
 %{_libdir}/%{name}/components/nsTryToClose.js
-%{_libdir}/%{name}/components/nsUpdateTimerManager.js
 %{_libdir}/%{name}/components/nsURLFormatter.js
+%{_libdir}/%{name}/components/nsUpdateTimerManager.js
 %{_libdir}/%{name}/components/nsUrlClassifierLib.js
 %{_libdir}/%{name}/components/nsUrlClassifierListManager.js
 %{_libdir}/%{name}/components/nsWebHandlerApp.js
