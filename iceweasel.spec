@@ -1,6 +1,4 @@
 #
-# TODO: segfault during run
-#
 # Conditional build:
 %bcond_with	tests		# enable tests (whatever they check)
 %bcond_without	gnomeui		# disable gnomeui support
