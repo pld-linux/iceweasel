@@ -207,18 +207,6 @@ diff -urN mozilla.orig/browser/branding/unofficial/pref/firefox-branding.js mozi
  
  // Search codes belong only in builds with official branding
  pref("browser.search.param.yahoo-fr", "");
-diff -urN mozilla.orig/browser/components/nsBrowserContentHandler.js mozilla/browser/components/nsBrowserContentHandler.js
---- mozilla.orig/browser/components/nsBrowserContentHandler.js	2010-02-04 15:47:12.000000000 +0100
-+++ mozilla/browser/components/nsBrowserContentHandler.js	2010-02-04 15:48:50.000000000 +0100
-@@ -818,7 +818,7 @@
-   },
- 
-   // XXX localize me... how?
--  helpInfo : "Usage: firefox [-flags] [<url>]\n",
-+  helpInfo : "Usage: iceweasel [-flags] [<url>]\n",
- 
-   /* nsIFactory */
-   createInstance: function dch_CI(outer, iid) {
 diff -urN mozilla.orig/browser/components/nsBrowserGlue.js mozilla/browser/components/nsBrowserGlue.js
 --- mozilla.orig/browser/components/nsBrowserGlue.js	2010-02-04 15:47:12.000000000 +0100
 +++ mozilla/browser/components/nsBrowserGlue.js	2010-02-04 15:48:50.000000000 +0100
