@@ -69,7 +69,7 @@ BuildRequires:	libdnet-devel
 %{?with_gnomeui:BuildRequires:	libgnomeui-devel >= 2.2.0}
 BuildRequires:	libiw-devel
 BuildRequires:	libjpeg-devel >= 6b
-BuildRequires:	libnotify-devel
+BuildRequires:	libnotify-devel >= 0.4
 BuildRequires:	libpng(APNG)-devel >= 0.10
 BuildRequires:	libpng-devel >= 1.2.17
 BuildRequires:	libstdc++-devel
