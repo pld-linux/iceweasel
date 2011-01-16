@@ -57,7 +57,7 @@ URL:		http://www.pld-linux.org/Packages/Iceweasel
 BuildRequires:	alsa-lib-devel
 BuildRequires:	automake
 BuildRequires:	bzip2-devel
-BuildRequires:	cairo-devel >= 1.6.0
+BuildRequires:	cairo-devel >= 1.8.8
 BuildRequires:	dbus-glib-devel >= 0.60
 %{?with_gnomevfs:BuildRequires:	gnome-vfs2-devel >= 2.0}
 BuildRequires:	gtk+2-devel >= 2:2.10
@@ -71,23 +71,25 @@ BuildRequires:	libiw-devel
 BuildRequires:	libjpeg-devel >= 6b
 BuildRequires:	libnotify-devel
 BuildRequires:	libpng(APNG)-devel >= 0.10
-BuildRequires:	libpng-devel >= 1.2.7
+BuildRequires:	libpng-devel >= 1.2.17
 BuildRequires:	libstdc++-devel
-BuildRequires:	nss-devel >= 1:3.12.3
-BuildRequires:	pango-devel >= 1:1.6.0
+BuildRequires:	nspr-devel >= 1:4.8.6
+BuildRequires:	nss-devel >= 1:3.12.8
+BuildRequires:	pango-devel >= 1:1.14.0
 BuildRequires:	perl-modules >= 5.004
 BuildRequires:	pkgconfig
 BuildRequires:	python-modules
 BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	rpmbuild(macros) >= 1.453
-BuildRequires:	sqlite3-devel >= 3.6.15
+BuildRequires:	sqlite3-devel >= 3.7.2
 BuildRequires:	startup-notification-devel >= 0.8
+BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXft-devel >= 2.1
+BuildRequires:	xorg-lib-libXinerama-devel
+BuildRequires:	xorg-lib-libXp-devel
 BuildRequires:	xorg-lib-libXt-devel
 %if %{with xulrunner}
 BuildRequires:	xulrunner-devel >= 2:%{xulrunner_ver}
-%else
-BuildRequires:	nspr-devel >= 1:4.8.6
 %endif
 BuildRequires:	zip
 BuildRequires:	zlib-devel >= 1.2.3
@@ -96,13 +98,16 @@ Requires(post):	mktemp >= 1.5-18
 %requires_eq_to	xulrunner xulrunner-devel
 %else
 Requires:	browser-plugins >= 2.0
-Requires:	cairo >= 1.6.0
+Requires:	cairo >= 1.8.8
+Requires:	dbus-glib >= 0.60
 Requires:	gtk+2 >= 2:2.18
 Requires:	libpng(APNG) >= 0.10
 Requires:	myspell-common
 Requires:	nspr >= 1:4.8.6
-Requires:	nss >= 1:3.12.3
+Requires:	nss >= 1:3.12.8
+Requires:	pango >= 1:1.14.0
 Requires:	sqlite3 >= %{sqlite_build_version}
+Requires:	startup-notification >= 0.8
 %endif
 Provides:	wwwbrowser
 Obsoletes:	mozilla-firebird
@@ -114,13 +119,10 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		filterout_cpp		-D_FORTIFY_SOURCE=[0-9]+
 
-# iceweasel/icedove/iceape provide their own versions
-%define		_noautoreqdep		libgkgfx.so libgtkxtbin.so libjsj.so libxpcom_compat.so libxpcom_core.so
-%define		_noautoprovfiles	%{_libdir}/%{name}/components
-# we don't want these to satisfy xulrunner-devel
-%define		_noautoprov		libgtkembedmoz.so libmozjs.so libxpcom.so libxul.so
+# don't satisfy other packages
+%define		_noautoprovfiles	%{_libdir}/%{name}
 # and as we don't provide them, don't require either
-%define		_noautoreq		libgtkembedmoz.so libmozjs.so libxpcom.so libxul.so
+%define		_noautoreq	libmozjs.so libxpcom.so libxul.so libjemalloc.so
 
 %if "%{cc_version}" >= "3.4"
 %define		specflags	-fno-strict-aliasing -fomit-frame-pointer -fno-tree-vrp -fno-stack-protector
@@ -342,7 +344,7 @@ unset TMPDIR TMP || :
 
 rm -rf $HOME
 EOF
-chmod a+rx $RPM_BUILD_ROOT%{_sbindir}/%{name}-chrome+xpcom-generate
+chmod 755 $RPM_BUILD_ROOT%{_sbindir}/%{name}-chrome+xpcom-generate
 
 %clean
 rm -rf $RPM_BUILD_ROOT
