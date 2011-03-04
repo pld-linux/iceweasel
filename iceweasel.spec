@@ -29,12 +29,12 @@ Summary:	Iceweasel web browser
 Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
-Version:	3.6.14
-Release:	2
+Version:	3.6.15
+Release:	1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
-# Source0-md5:	ab0d00cd33e6b2388429dda1c01abd01
+# Source0-md5:	fcf8042948d91f1f3d9c33599b79cf35
 Source1:	%{name}-branding.tar.bz2
 # Source1-md5:	b49feae9f6434eca8a749776160c15a8
 Source2:	%{name}-rm_nonfree.sh
@@ -306,7 +306,7 @@ ln -s ../../share/%{name}/res $RPM_BUILD_ROOT%{_libdir}/%{name}/res
 %endif
 
 %if %{without xulrunner}
-rm -rf $RPM_BUILD_ROOT%{_libdir}/%{name}/dictionaries
+%{__rm} -rf $RPM_BUILD_ROOT%{_libdir}/%{name}/dictionaries
 ln -s %{_datadir}/myspell $RPM_BUILD_ROOT%{_libdir}/%{name}/dictionaries
 %endif
 
@@ -323,16 +323,16 @@ touch $RPM_BUILD_ROOT%{_libdir}/%{name}/components/compreg.dat
 touch $RPM_BUILD_ROOT%{_libdir}/%{name}/components/xpti.dat
 
 %if %{with xulrunner}
-rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/run-mozilla.sh
+%{__rm} -f $RPM_BUILD_ROOT%{_libdir}/%{name}/run-mozilla.sh
 %endif
-rm $RPM_BUILD_ROOT%{_libdir}/%{name}/LICENSE
-rm $RPM_BUILD_ROOT%{_libdir}/%{name}/README.txt
-rm $RPM_BUILD_ROOT%{_libdir}/%{name}/components/components.list
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/LICENSE
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/README.txt
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/components/components.list
 
 cat << 'EOF' > $RPM_BUILD_ROOT%{_sbindir}/%{name}-chrome+xpcom-generate
 #!/bin/sh
 umask 022
-rm -f %{_libdir}/%{name}/components/{compreg,xpti}.dat
+%{__rm} %{_libdir}/%{name}/components/{compreg,xpti}.dat
 
 # it attempts to touch files in $HOME/.mozilla
 # beware if you run this with sudo!!!
@@ -342,7 +342,7 @@ unset TMPDIR TMP || :
 
 %{_libdir}/%{name}/iceweasel -register
 
-rm -rf $HOME
+%{__rm} -rf $HOME
 EOF
 chmod 755 $RPM_BUILD_ROOT%{_sbindir}/%{name}-chrome+xpcom-generate
 
