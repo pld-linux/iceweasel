@@ -306,7 +306,7 @@ ln -s ../../share/%{name}/res $RPM_BUILD_ROOT%{_libdir}/%{name}/res
 %endif
 
 %if %{without xulrunner}
-%{__rm} -rf $RPM_BUILD_ROOT%{_libdir}/%{name}/dictionaries
+%{__rm} -r $RPM_BUILD_ROOT%{_libdir}/%{name}/dictionaries
 ln -s %{_datadir}/myspell $RPM_BUILD_ROOT%{_libdir}/%{name}/dictionaries
 %endif
 
@@ -323,7 +323,7 @@ touch $RPM_BUILD_ROOT%{_libdir}/%{name}/components/compreg.dat
 touch $RPM_BUILD_ROOT%{_libdir}/%{name}/components/xpti.dat
 
 %if %{with xulrunner}
-%{__rm} -f $RPM_BUILD_ROOT%{_libdir}/%{name}/run-mozilla.sh
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/run-mozilla.sh
 %endif
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/LICENSE
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/README.txt
@@ -332,7 +332,7 @@ touch $RPM_BUILD_ROOT%{_libdir}/%{name}/components/xpti.dat
 cat << 'EOF' > $RPM_BUILD_ROOT%{_sbindir}/%{name}-chrome+xpcom-generate
 #!/bin/sh
 umask 022
-%{__rm} %{_libdir}/%{name}/components/{compreg,xpti}.dat
+rm -f %{_libdir}/%{name}/components/{compreg,xpti}.dat
 
 # it attempts to touch files in $HOME/.mozilla
 # beware if you run this with sudo!!!
@@ -342,7 +342,7 @@ unset TMPDIR TMP || :
 
 %{_libdir}/%{name}/iceweasel -register
 
-%{__rm} -rf $HOME
+rm -rf $HOME
 EOF
 chmod 755 $RPM_BUILD_ROOT%{_sbindir}/%{name}-chrome+xpcom-generate
 
