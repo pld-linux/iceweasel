@@ -97,7 +97,7 @@ Requires(post):	mktemp >= 1.5-18
 %requires_eq_to	xulrunner xulrunner-devel
 %else
 Requires:	browser-plugins >= 2.0
-Requires:	cairo >= 1.8.8
+Requires:	cairo >= 1.10.2-5
 Requires:	dbus-glib >= 0.60
 Requires:	gtk+2 >= 2:2.18
 Requires:	libpng(APNG) >= 0.10
