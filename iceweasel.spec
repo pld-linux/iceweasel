@@ -149,9 +149,8 @@ mv -f mozilla-%{xulrunner_main} mozilla
 cd mozilla
 /bin/sh %{SOURCE2}
 
-#TODO: update these
-#%patch0 -p1
-#%patch1 -p1
+%patch0 -p1
+%patch1 -p1
 
 %if "%{cc_version}" < "3.4"
 %patch2 -p2
