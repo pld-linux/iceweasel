@@ -56,7 +56,7 @@ URL:		http://www.pld-linux.org/Packages/Iceweasel
 BuildRequires:	alsa-lib-devel
 BuildRequires:	automake
 BuildRequires:	bzip2-devel
-BuildRequires:	cairo-devel >= 1.8.8
+BuildRequires:	cairo-devel >= 1.10.2-5
 BuildRequires:	dbus-glib-devel >= 0.60
 %{?with_gnomevfs:BuildRequires:	gnome-vfs2-devel >= 2.0}
 BuildRequires:	gtk+2-devel >= 2:2.10
@@ -149,6 +149,7 @@ mv -f mozilla-%{xulrunner_main} mozilla
 cd mozilla
 /bin/sh %{SOURCE2}
 
+#TODO: update these
 #%patch0 -p1
 #%patch1 -p1
 
