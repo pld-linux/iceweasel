@@ -80,7 +80,7 @@ BuildRequires:	pkgconfig
 BuildRequires:	python-modules
 BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	rpmbuild(macros) >= 1.453
-BuildRequires:	sqlite3-devel >= 3.7.2
+BuildRequires:	sqlite3-devel >= 3.7.5-2
 BuildRequires:	startup-notification-devel >= 0.8
 BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXft-devel >= 2.1
@@ -149,8 +149,8 @@ mv -f mozilla-%{xulrunner_main} mozilla
 cd mozilla
 /bin/sh %{SOURCE2}
 
-%patch0 -p1
-%patch1 -p1
+#%patch0 -p1
+#%patch1 -p1
 
 %if "%{cc_version}" < "3.4"
 %patch2 -p2
