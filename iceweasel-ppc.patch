@@ -14,4 +14,4 @@
 +#endif
  
  //
- // This class serves as a base class for nsTArray.  It shouldn't be used
+ // NB: nsTArray assumes that your "T" can be memmove()d.  This is in

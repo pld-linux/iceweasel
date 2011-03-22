@@ -2,7 +2,7 @@ diff -ur mozilla.orig/browser/app/profile/firefox.js mozilla/browser/app/profile
 --- mozilla.orig/browser/app/profile/firefox.js	2008-06-21 12:55:30.000000000 +0200
 +++ mozilla/browser/app/profile/firefox.js	2008-06-21 15:25:48.000000000 +0200
 @@ -89,12 +89,12 @@
- // App-specific update preferences
+ pref("app.update.certs.2.commonName", "aus3.mozilla.org");
  
  // Whether or not app updates are enabled
 -pref("app.update.enabled", true);
@@ -25,14 +25,15 @@ diff -ur mozilla.orig/browser/app/profile/firefox.js mozilla/browser/app/profile
  
  // 0 = blank, 1 = home (browser.startup.homepage), 2 = last visited page, 3 = resume previous browser session
  // The behavior of option 3 is detailed at: http://wiki.mozilla.org/Session_Restore
-@@ -391,6 +394,7 @@
- pref("network.cookie.cookieBehavior", 0); // 0-Accept, 1-dontAcceptForeign, 2-dontUse
+@@ -391,6 +394,8 @@
+ //  0: no backups created (and deletes all existing backups)
+ pref("browser.bookmarks.max_backups",             10);
  
- // l12n and i18n
 +pref("intl.locale.matchOS", true);
- pref("intl.accept_languages", "chrome://global/locale/intl.properties");
- pref("intl.charsetmenu.browser.static", "chrome://global/locale/intl.properties");
- pref("intl.charsetmenu.browser.more1",  "chrome://global/locale/intl.properties");
++
+ // Scripts & Windows prefs
+ pref("dom.disable_open_during_load",              true);
+ pref("javascript.options.showInConsole",          true);
 @@ -445,7 +445,7 @@
  pref("alerts.totalOpenTime", 4000);
  
@@ -40,8 +41,8 @@ diff -ur mozilla.orig/browser/app/profile/firefox.js mozilla/browser/app/profile
 -pref("browser.xul.error_pages.expert_bad_cert", false);
 +pref("browser.xul.error_pages.expert_bad_cert", true);
  
- // We want to make sure mail URLs are handled externally...
- pref("network.protocol-handler.external.mailto", true); // for mail
+ // Work Offline is best manually managed by the user.
+ pref("network.manage-offline-status", false);
 @@ -592,10 +592,10 @@
  
  #ifdef MOZ_SAFE_BROWSING
@@ -54,15 +55,15 @@ diff -ur mozilla.orig/browser/app/profile/firefox.js mozilla/browser/app/profile
 +pref("browser.safebrowsing.malware.enabled", false);
  
  // Non-enhanced mode (local url lists) URL list to check for updates
- pref("browser.safebrowsing.provider.0.updateURL", "http://safebrowsing.clients.google.com/safebrowsing/downloads?client={moz:client}&appver={moz:version}&pver=2.1");
+ pref("browser.safebrowsing.provider.0.updateURL", "http://safebrowsing.clients.google.com/safebrowsing/downloads?client={moz:client}&appver={moz:version}&pver=2.2");
 diff -ur mozilla.orig/browser/locales/en-US/chrome/overrides/netError.dtd mozilla/browser/locales/en-US/chrome/overrides/netError.dtd
 --- mozilla.orig/browser/locales/en-US/chrome/overrides/netError.dtd	2008-06-21 12:55:30.000000000 +0200
 +++ mozilla/browser/locales/en-US/chrome/overrides/netError.dtd	2008-06-22 13:52:26.000000000 +0200
 @@ -175,6 +175,6 @@
- <!ENTITY securityOverride.warningText "
+ <!ENTITY securityOverride.warningContent "
  <p>You should not add an exception if you are using an internet connection that you do not trust completely or if you are not used to seeing a warning for this server.</p>
  
--<xul:button xmlns:xul='http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul' id='getMeOutOfHereButton' label='&securityOverride.getMeOutOfHereButton;'/>
- <xul:button xmlns:xul='http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul' id='exceptionDialogButton' label='&securityOverride.exceptionButtonLabel;'/>
-+<xul:button xmlns:xul='http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul' id='getMeOutOfHereButton' label='&securityOverride.getMeOutOfHereButton;'/>
+-<button id='getMeOutOfHereButton'>&securityOverride.getMeOutOfHereButton;</button>
+ <button id='exceptionDialogButton'>&securityOverride.exceptionButtonLabel;</button>
++<button id='getMeOutOfHereButton'>&securityOverride.getMeOutOfHereButton;</button>
  ">

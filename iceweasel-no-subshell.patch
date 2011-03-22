@@ -9,15 +9,3 @@
  fi
  
  exit $exitcode
---- iceweasel-3.0.10/mozilla/build/unix/mozilla.in~	2007-10-05 10:29:26.000000000 +0300
-+++ iceweasel-3.0.10/mozilla/build/unix/mozilla.in	2009-05-05 19:26:08.278322082 +0300
-@@ -135,8 +135,5 @@
- then
-   echo $dist_bin/run-mozilla.sh $script_args $dist_bin/$MOZILLA_BIN "$@"
- fi
--"$dist_bin/run-mozilla.sh" $script_args "$dist_bin/$MOZILLA_BIN" "$@"
--exitcode=$?
--
--exit $exitcode
-+exec "$dist_bin/run-mozilla.sh" $script_args "$dist_bin/$MOZILLA_BIN" "$@"
- # EOF.
