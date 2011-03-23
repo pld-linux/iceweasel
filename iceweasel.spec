@@ -221,25 +221,19 @@ ac_add_options --enable-gnomeui
 %else
 ac_add_options --disable-gnomeui
 %endif
-%if %{with gnomevfs}
-ac_add_options --enable-gnomevfs
-%else
 ac_add_options --disable-gnomevfs
-%endif
 ac_add_options --disable-crashreporter
 ac_add_options --disable-installer
 ac_add_options --disable-javaxpcom
 ac_add_options --disable-updater
-ac_add_options --disable-xprint
-ac_add_options --enable-canvas
+ac_add_options --enable-gio
 ac_add_options --enable-libxul
 ac_add_options --enable-pango
+ac_add_options --enable-shared-js
 ac_add_options --enable-startup-notification
-ac_add_options --enable-svg
 ac_add_options --enable-system-cairo
 ac_add_options --enable-system-hunspell
 ac_add_options --enable-system-sqlite
-ac_add_options --enable-xinerama
 ac_add_options --with-distribution-id=org.pld-linux
 ac_add_options --with-branding=iceweasel/branding
 %if %{with xulrunner}
@@ -248,6 +242,7 @@ ac_add_options --with-libxul-sdk=$(pkg-config --variable=sdkdir libxul)
 ac_add_options --with-pthreads
 ac_add_options --with-system-bz2
 ac_add_options --with-system-jpeg
+ac_add_options --with-system-libvpx
 ac_add_options --with-system-nspr
 ac_add_options --with-system-nss
 ac_add_options --with-system-png
@@ -390,26 +385,30 @@ fi
 %endif
 
 # config?
-%{_libdir}/%{name}/.autoreg
 %{_libdir}/%{name}/application.ini
+%{_libdir}/%{name}/chrome.manifest
 
 %dir %{_libdir}/%{name}/components
 
 %{_libdir}/%{name}/components/FeedConverter.js
 %{_libdir}/%{name}/components/FeedWriter.js
+%{_libdir}/%{name}/components/PlacesProtocolHandler.js
+%{_libdir}/%{name}/components/Weave.js
 %{_libdir}/%{name}/components/WebContentConverter.js
 %{_libdir}/%{name}/components/browser.xpt
 %{_libdir}/%{name}/components/fuelApplication.js
 %{_libdir}/%{name}/components/nsBrowserContentHandler.js
 %{_libdir}/%{name}/components/nsBrowserGlue.js
-%{_libdir}/%{name}/components/nsMicrosummaryService.js
-%{_libdir}/%{name}/components/nsPlacesTransactionsService.js
 %{_libdir}/%{name}/components/nsPrivateBrowsingService.js
 %{_libdir}/%{name}/components/nsSafebrowsingApplication.js
 %{_libdir}/%{name}/components/nsSessionStartup.js
 %{_libdir}/%{name}/components/nsSessionStore.js
 %{_libdir}/%{name}/components/nsSetDefaultBrowser.js
 %{_libdir}/%{name}/components/nsSidebar.js
+
+%{_libdir}/%{name}/components/components.manifest
+%{_libdir}/%{name}/components/interfaces.manifest
+
 %if %{without xulrunner}
 %{_libdir}/%{name}/platform.ini
 %{_libdir}/%{name}/components/FeedProcessor.js
@@ -452,7 +451,6 @@ fi
 %endif
 
 %attr(755,root,root) %{_libdir}/%{name}/components/libbrowsercomps.so
-%attr(755,root,root) %{_libdir}/%{name}/components/libbrowserdirprovider.so
 %if %{without xulrunner}
 %attr(755,root,root) %{_libdir}/%{name}/components/libdbusservice.so
 %attr(755,root,root) %{_libdir}/%{name}/components/libimgicon.so
@@ -462,7 +460,6 @@ fi
 %if %{without xulrunner}
 %attr(755,root,root) %{_libdir}/%{name}/components/libmozgnome.so
 %endif
-#%%attr(755,root,root) %{_libdir}/%{name}/components/libnkgnomevfs.so
 %endif
 
 %attr(755,root,root) %{_libdir}/%{name}/iceweasel
@@ -485,7 +482,6 @@ fi
 %{_libdir}/%{name}/icons
 %{_libdir}/%{name}/modules
 %{_libdir}/%{name}/searchplugins
-%{_libdir}/%{name}/browserconfig.properties
 %if %{without xulrunner}
 %{_libdir}/%{name}/dictionaries
 %{_libdir}/%{name}/greprefs
@@ -498,7 +494,6 @@ fi
 %{_datadir}/%{name}/icons
 %{_datadir}/%{name}/modules
 %{_datadir}/%{name}/searchplugins
-%{_datadir}/%{name}/browserconfig.properties
 %if %{without xulrunner}
 %{_datadir}/%{name}/greprefs
 %{_datadir}/%{name}/res
