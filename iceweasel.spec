@@ -30,13 +30,13 @@ Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
 Version:	4.0
-Release:	0.1
+Release:	0.5
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
 # Source0-md5:	3468a2c463b4fc2788ba621e4b511c30
 Source1:	%{name}-branding.tar.bz2
-# Source1-md5:	b49feae9f6434eca8a749776160c15a8
+# Source1-md5:	61f69d049038cdcdc8b0df25b3422da2
 Source2:	%{name}-rm_nonfree.sh
 Source3:	%{name}.desktop
 Source4:	%{name}.sh
@@ -72,8 +72,8 @@ BuildRequires:	libnotify-devel >= 0.4
 BuildRequires:	libpng(APNG)-devel >= 0.10
 BuildRequires:	libpng-devel >= 1.2.17
 BuildRequires:	libstdc++-devel
-BuildRequires:	nspr-devel >= 1:4.8.6
-BuildRequires:	nss-devel >= 1:3.12.8
+BuildRequires:	nspr-devel >= 1:4.8.7
+BuildRequires:	nss-devel >= 1:3.12.9
 BuildRequires:	pango-devel >= 1:1.14.0
 BuildRequires:	perl-modules >= 5.004
 BuildRequires:	pkgconfig
@@ -102,8 +102,8 @@ Requires:	dbus-glib >= 0.60
 Requires:	gtk+2 >= 2:2.18
 Requires:	libpng(APNG) >= 0.10
 Requires:	myspell-common
-Requires:	nspr >= 1:4.8.6
-Requires:	nss >= 1:3.12.8
+Requires:	nspr >= 1:4.8.7
+Requires:	nss >= 1:3.12.9
 Requires:	pango >= 1:1.14.0
 Requires:	sqlite3 >= %{sqlite_build_version}
 Requires:	startup-notification >= 0.8
