@@ -273,6 +273,7 @@ install -d \
 %{__make} -C obj-%{_target_cpu}/browser/installer stage-package \
 	DESTDIR=$RPM_BUILD_ROOT \
 	MOZ_PKG_APPDIR=%{_libdir}/%{name} \
+	MOZ_PKG_DIR=%{_libdir}/%{name} \
 	PKG_SKIP_STRIP=1
 
 install -d \
@@ -285,9 +286,8 @@ mv $RPM_BUILD_ROOT%{_libdir}/%{name}/extensions $RPM_BUILD_ROOT%{_datadir}/%{nam
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/icons $RPM_BUILD_ROOT%{_datadir}/%{name}/icons
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/modules $RPM_BUILD_ROOT%{_datadir}/%{name}/modules
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/searchplugins $RPM_BUILD_ROOT%{_datadir}/%{name}/searchplugins
-mv $RPM_BUILD_ROOT%{_libdir}/%{name}/browserconfig.properties $RPM_BUILD_ROOT%{_datadir}/%{name}
 %if %{without xulrunner}
-mv $RPM_BUILD_ROOT%{_libdir}/%{name}/greprefs $RPM_BUILD_ROOT%{_datadir}/%{name}/greprefs
+mv $RPM_BUILD_ROOT%{_libdir}/%{name}/greprefs.js $RPM_BUILD_ROOT%{_datadir}/%{name}/greprefs.js
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/res $RPM_BUILD_ROOT%{_datadir}/%{name}/res
 %endif
 
@@ -297,9 +297,8 @@ ln -s ../../share/%{name}/extensions $RPM_BUILD_ROOT%{_libdir}/%{name}/extension
 ln -s ../../share/%{name}/modules $RPM_BUILD_ROOT%{_libdir}/%{name}/modules
 ln -s ../../share/%{name}/icons $RPM_BUILD_ROOT%{_libdir}/%{name}/icons
 ln -s ../../share/%{name}/searchplugins $RPM_BUILD_ROOT%{_libdir}/%{name}/searchplugins
-ln -s ../../share/%{name}/browserconfig.properties $RPM_BUILD_ROOT%{_libdir}/%{name}
 %if %{without xulrunner}
-ln -s ../../share/%{name}/greprefs $RPM_BUILD_ROOT%{_libdir}/%{name}/greprefs
+ln -s ../../share/%{name}/greprefs.js $RPM_BUILD_ROOT%{_libdir}/%{name}/greprefs.js
 ln -s ../../share/%{name}/res $RPM_BUILD_ROOT%{_libdir}/%{name}/res
 %endif
 
@@ -323,9 +322,7 @@ touch $RPM_BUILD_ROOT%{_libdir}/%{name}/components/xpti.dat
 %if %{with xulrunner}
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/run-mozilla.sh
 %endif
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/LICENSE
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/README.txt
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/components/components.list
 
 cat << 'EOF' > $RPM_BUILD_ROOT%{_sbindir}/%{name}-chrome+xpcom-generate
 #!/bin/sh
@@ -351,7 +348,7 @@ rm -rf $RPM_BUILD_ROOT
 if [ -d %{_libdir}/%{name}/dictionaries ] && [ ! -L %{_libdir}/%{name}/dictionaries ]; then
 	mv -v %{_libdir}/%{name}/dictionaries{,.rpmsave}
 fi
-for d in chrome defaults extensions greprefs icons res searchplugins; do
+for d in chrome defaults extensions greprefs.js icons res searchplugins; do
 	if [ -d %{_libdir}/%{name}/$d ] && [ ! -L %{_libdir}/%{name}/$d ]; then
 		install -d %{_datadir}/%{name}
 		mv %{_libdir}/%{name}/$d %{_datadir}/%{name}/$d
