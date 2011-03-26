@@ -121,7 +121,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 # don't satisfy other packages
 %define		_noautoprovfiles	%{_libdir}/%{name}
 # and as we don't provide them, don't require either
-%define		_noautoreq	libmozjs.so libxpcom.so libxul.so libjemalloc.so
+%define		_noautoreq	libmozjs.so libxpcom.so libxul.so libjemalloc.so %{!?with_xulrunner:libmozalloc.so}
 
 %if "%{cc_version}" >= "3.4"
 %define		specflags	-fno-strict-aliasing -fomit-frame-pointer -fno-tree-vrp -fno-stack-protector
@@ -316,6 +316,7 @@ touch $RPM_BUILD_ROOT%{_libdir}/%{name}/components/xpti.dat
 
 %if %{with xulrunner}
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/run-mozilla.sh
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/dependentlibs.list
 %endif
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/README.txt
 
@@ -411,29 +412,39 @@ fi
 
 %if %{without xulrunner}
 %{_libdir}/%{name}/platform.ini
+%{_libdir}/%{name}/components/ConsoleAPI.js
 %{_libdir}/%{name}/components/FeedProcessor.js
 %{_libdir}/%{name}/components/GPSDGeolocationProvider.js
 %{_libdir}/%{name}/components/NetworkGeolocationProvider.js
+%{_libdir}/%{name}/components/PlacesCategoriesStarter.js
+%{_libdir}/%{name}/components/addonManager.js
+%{_libdir}/%{name}/components/amContentHandler.js
+%{_libdir}/%{name}/components/amWebInstallListener.js
+%{_libdir}/%{name}/components/contentAreaDropListener.js
+%{_libdir}/%{name}/components/contentSecurityPolicy.js
+%{_libdir}/%{name}/components/crypto-SDR.js
 %{_libdir}/%{name}/components/jsconsole-clhandler.js
-%{_libdir}/%{name}/components/nsAddonRepository.js
 %{_libdir}/%{name}/components/nsBadCertHandler.js
 %{_libdir}/%{name}/components/nsBlocklistService.js
 %{_libdir}/%{name}/components/nsContentDispatchChooser.js
 %{_libdir}/%{name}/components/nsContentPrefService.js
 %{_libdir}/%{name}/components/nsDefaultCLH.js
 %{_libdir}/%{name}/components/nsDownloadManagerUI.js
-%{_libdir}/%{name}/components/nsExtensionManager.js
 %{_libdir}/%{name}/components/nsFilePicker.js
 %{_libdir}/%{name}/components/nsFormAutoComplete.js
+%{_libdir}/%{name}/components/nsFormHistory.js
 %{_libdir}/%{name}/components/nsHandlerService.js
 %{_libdir}/%{name}/components/nsHelperAppDlg.js
 %{_libdir}/%{name}/components/nsINIProcessor.js
+%{_libdir}/%{name}/components/nsInputListAutoComplete.js
 %{_libdir}/%{name}/components/nsLivemarkService.js
 %{_libdir}/%{name}/components/nsLoginInfo.js
 %{_libdir}/%{name}/components/nsLoginManager.js
 %{_libdir}/%{name}/components/nsLoginManagerPrompter.js
+%{_libdir}/%{name}/components/nsMicrosummaryService.js
 %{_libdir}/%{name}/components/nsPlacesAutoComplete.js
-%{_libdir}/%{name}/components/nsPlacesDBFlush.js
+%{_libdir}/%{name}/components/nsPlacesExpiration.js
+%{_libdir}/%{name}/components/nsPrompter.js
 %{_libdir}/%{name}/components/nsProxyAutoConfig.js
 %{_libdir}/%{name}/components/nsSearchService.js
 %{_libdir}/%{name}/components/nsSearchSuggestions.js
@@ -444,7 +455,6 @@ fi
 %{_libdir}/%{name}/components/nsUrlClassifierLib.js
 %{_libdir}/%{name}/components/nsUrlClassifierListManager.js
 %{_libdir}/%{name}/components/nsWebHandlerApp.js
-%{_libdir}/%{name}/components/pluginGlue.js
 %{_libdir}/%{name}/components/storage-Legacy.js
 %{_libdir}/%{name}/components/storage-mozStorage.js
 %{_libdir}/%{name}/components/txEXSLTRegExFunctions.js
@@ -453,7 +463,6 @@ fi
 %attr(755,root,root) %{_libdir}/%{name}/components/libbrowsercomps.so
 %if %{without xulrunner}
 %attr(755,root,root) %{_libdir}/%{name}/components/libdbusservice.so
-%attr(755,root,root) %{_libdir}/%{name}/components/libimgicon.so
 %endif
 
 %if %{with gnomevfs}
@@ -467,7 +476,6 @@ fi
 %if %{without xulrunner}
 %attr(755,root,root) %{_libdir}/%{name}/run-mozilla.sh
 %attr(755,root,root) %{_libdir}/%{name}/iceweasel-bin
-%attr(755,root,root) %{_libdir}/%{name}/plugins/*.so
 %attr(755,root,root) %{_libdir}/%{name}/mozilla-xremote-client
 %attr(755,root,root) %{_libdir}/%{name}/plugin-container
 %endif
@@ -484,7 +492,7 @@ fi
 %{_libdir}/%{name}/searchplugins
 %if %{without xulrunner}
 %{_libdir}/%{name}/dictionaries
-%{_libdir}/%{name}/greprefs
+%{_libdir}/%{name}/greprefs.js
 %{_libdir}/%{name}/res
 %endif
 
@@ -495,7 +503,7 @@ fi
 %{_datadir}/%{name}/modules
 %{_datadir}/%{name}/searchplugins
 %if %{without xulrunner}
-%{_datadir}/%{name}/greprefs
+%{_datadir}/%{name}/greprefs.js
 %{_datadir}/%{name}/res
 %endif
 
