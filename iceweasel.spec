@@ -52,6 +52,7 @@ Patch8:		%{name}-pld-branding.patch
 Patch9:		%{name}-no-subshell.patch
 Patch10:	%{name}-ppc.patch
 URL:		http://www.pld-linux.org/Packages/Iceweasel
+BuildRequires:	Mesa-libGL-devel
 %{?with_gnomevfs:BuildRequires:	GConf2-devel >= 1.2.1}
 BuildRequires:	alsa-lib-devel
 BuildRequires:	automake
@@ -72,6 +73,7 @@ BuildRequires:	libnotify-devel >= 0.4
 BuildRequires:	libpng(APNG)-devel >= 0.10
 BuildRequires:	libpng-devel >= 1.2.17
 BuildRequires:	libstdc++-devel
+BuildRequires:	libvpx-devel
 BuildRequires:	nspr-devel >= 1:4.8.7
 BuildRequires:	nss-devel >= 1:3.12.9
 BuildRequires:	pango-devel >= 1:1.14.0
