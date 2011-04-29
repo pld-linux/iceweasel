@@ -15,6 +15,21 @@ diff -urN mozilla.orig/browser/app/application.ini mozilla/browser/app/applicati
 diff -urN mozilla.orig/browser/app/profile/firefox.js mozilla/browser/app/profile/firefox.js
 --- mozilla.orig/browser/app/profile/firefox.js	2010-02-04 15:47:13.000000000 +0100
 +++ mozilla/browser/app/profile/firefox.js	2010-02-04 15:50:15.000000000 +0100
+@@ -59,10 +59,10 @@
+ // Preferences for AMO integration
+ pref("extensions.getAddons.cache.enabled", true);
+ pref("extensions.getAddons.maxResults", 15);
+-pref("extensions.getAddons.get.url", "https://services.addons.mozilla.org/%LOCALE%/%APP%/api/%API_VERSION%/search/guid:%IDS%?src=firefox&appOS=%OS%&appVersion=%VERSION%&tMain=%TIME_MAIN%&tFirstPaint=%TIME_FIRST_PAINT%&tSessionRestored=%TIME_SESSION_RESTORED%");
+-pref("extensions.getAddons.search.browseURL", "https://addons.mozilla.org/%LOCALE%/%APP%/search?q=%TERMS%");
+-pref("extensions.getAddons.search.url", "https://services.addons.mozilla.org/%LOCALE%/%APP%/api/%API_VERSION%/search/%TERMS%/all/%MAX_RESULTS%/%OS%/%VERSION%?src=firefox");
+-pref("extensions.webservice.discoverURL", "https://services.addons.mozilla.org/%LOCALE%/%APP%/discovery/pane/%VERSION%/%OS%");
++pref("extensions.getAddons.get.url", "https://services.addons.mozilla.org/%LOCALE%/firefox/api/%API_VERSION%/search/guid:%IDS%?src=firefox&appOS=%OS%&appVersion=%VERSION%&tMain=%TIME_MAIN%&tFirstPaint=%TIME_FIRST_PAINT%&tSessionRestored=%TIME_SESSION_RESTORED%");
++pref("extensions.getAddons.search.browseURL", "https://addons.mozilla.org/%LOCALE%/firefox/search?q=%TERMS%");
++pref("extensions.getAddons.search.url", "https://services.addons.mozilla.org/%LOCALE%/firefox/api/%API_VERSION%/search/%TERMS%/all/%MAX_RESULTS%/%OS%/%VERSION%?src=firefox");
++pref("extensions.webservice.discoverURL", "https://services.addons.mozilla.org/%LOCALE%/firefox/discovery/pane/%VERSION%/%OS%");
+ 
+ // Blocklist preferences
+ pref("extensions.blocklist.enabled", true);
 @@ -87,7 +87,7 @@
  pref("extensions.blocklist.detailsURL", "https://www.mozilla.com/%LOCALE%/blocklist/");
  
@@ -189,7 +204,7 @@ diff -urN mozilla.orig/toolkit/xre/nsAppRunner.cpp mozilla/toolkit/xre/nsAppRunn
  pref("browser.panorama.welcome_url", "http://www.mozilla.com/firefox/panorama/");
  // The time interval between checks for a new version (in seconds)
  // nightly=8 hours, official=24 hours
-@@ -12,7 +12,7 @@
+@@ -12,11 +12,11 @@
  pref("app.update.url.manual", "http://nightly.mozilla.org/");
  // A default value for the "More information about this update" link
  // supplied in the "An update is available" page of the update wizard. 
@@ -197,7 +212,13 @@ diff -urN mozilla.orig/toolkit/xre/nsAppRunner.cpp mozilla/toolkit/xre/nsAppRunn
 +pref("app.update.url.details", "http://www.mozilla.org/projects/firefox/");
  
  // Release notes and vendor URLs
- pref("app.releaseNotesURL", "http://www.mozilla.org/projects/%APP%/%VERSION%/releasenotes/");
+-pref("app.releaseNotesURL", "http://www.mozilla.org/projects/%APP%/%VERSION%/releasenotes/");
+-pref("app.vendorURL", "http://www.mozilla.org/projects/%APP%/");
++pref("app.releaseNotesURL", "http://www.mozilla.org/projects/firefox/%VERSION%/releasenotes/");
++pref("app.vendorURL", "http://www.mozilla.org/projects/firefox/");
+ 
+ // Search codes belong only in builds with official branding
+ pref("browser.search.param.yahoo-fr", "");
 --- mozilla/browser/branding/unofficial/pref/firefox-branding.js~	2011-03-19 00:33:32.000000000 +0100
 +++ mozilla/browser/branding/unofficial/pref/firefox-branding.js	2011-03-22 22:32:15.552191452 +0100
 @@ -1,5 +1,5 @@
