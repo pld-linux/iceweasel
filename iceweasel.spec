@@ -318,7 +318,6 @@ touch $RPM_BUILD_ROOT%{_libdir}/%{name}/components/xpti.dat
 
 %if %{with xulrunner}
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/run-mozilla.sh
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/dependentlibs.list
 %endif
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/README.txt
 
