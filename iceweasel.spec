@@ -29,12 +29,12 @@ Summary:	Iceweasel web browser
 Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
-Version:	3.6.16
+Version:	3.6.17
 Release:	1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
-# Source0-md5:	232a3c0160cd1cbe3dcaaaf7e4ae51c2
+# Source0-md5:	49509c51010bd91a198aee63780aeaf9
 Source1:	%{name}-branding.tar.bz2
 # Source1-md5:	b49feae9f6434eca8a749776160c15a8
 Source2:	%{name}-rm_nonfree.sh
@@ -49,9 +49,8 @@ Patch5:		%{name}-ti-agent.patch
 Patch6:		%{name}-nss_cflags.patch
 Patch7:		%{name}-prefs.patch
 Patch8:		%{name}-pld-branding.patch
-Patch9:		%{name}-no-subshell.patch
-Patch10:	%{name}-ppc.patch
-Patch11:	%{name}-libpng.patch
+Patch9:		%{name}-ppc.patch
+Patch10:	%{name}-libpng.patch
 URL:		http://www.pld-linux.org/Packages/Iceweasel
 %{?with_gnomevfs:BuildRequires:	GConf2-devel >= 1.2.1}
 BuildRequires:	alsa-lib-devel
@@ -81,7 +80,7 @@ BuildRequires:	pkgconfig
 BuildRequires:	python-modules
 BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	rpmbuild(macros) >= 1.453
-BuildRequires:	sqlite3-devel >= 3.7.2
+BuildRequires:	sqlite3-devel >= 3.7.4
 BuildRequires:	startup-notification-devel >= 0.8
 BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXft-devel >= 2.1
@@ -172,9 +171,8 @@ cd mozilla
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
-%patch9 -p2
-%patch10 -p1
-%patch11 -p0
+%patch9 -p1
+%patch10 -p0
 
 %build
 cd mozilla
