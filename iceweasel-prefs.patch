@@ -43,19 +43,6 @@ diff -ur mozilla.orig/browser/app/profile/firefox.js mozilla/browser/app/profile
  
  // Work Offline is best manually managed by the user.
  pref("network.manage-offline-status", false);
-@@ -592,10 +592,10 @@
- 
- #ifdef MOZ_SAFE_BROWSING
- // Safe browsing does nothing unless this pref is set
--pref("browser.safebrowsing.enabled", true);
-+pref("browser.safebrowsing.enabled", false);
- 
- // Prevent loading of pages identified as malware
--pref("browser.safebrowsing.malware.enabled", true);
-+pref("browser.safebrowsing.malware.enabled", false);
- 
- // Non-enhanced mode (local url lists) URL list to check for updates
- pref("browser.safebrowsing.provider.0.updateURL", "http://safebrowsing.clients.google.com/safebrowsing/downloads?client={moz:client}&appver={moz:version}&pver=2.2");
 diff -ur mozilla.orig/browser/locales/en-US/chrome/overrides/netError.dtd mozilla/browser/locales/en-US/chrome/overrides/netError.dtd
 --- mozilla.orig/browser/locales/en-US/chrome/overrides/netError.dtd	2008-06-21 12:55:30.000000000 +0200
 +++ mozilla/browser/locales/en-US/chrome/overrides/netError.dtd	2008-06-22 13:52:26.000000000 +0200
