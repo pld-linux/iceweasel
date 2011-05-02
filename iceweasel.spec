@@ -30,13 +30,13 @@ Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
 Version:	4.0.1
-Release:	2.3
+Release:	3
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
 # Source0-md5:	9abda7d23151e97913c8555a64c13f34
 Source1:	%{name}-branding.tar.bz2
-# Source1-md5:	b49feae9f6434eca8a749776160c15a8
+# Source1-md5:	7ab5e80db1ffe8784f1cb55dc5651e2f
 Source2:	%{name}-rm_nonfree.sh
 Source3:	%{name}.desktop
 Source4:	%{name}.sh
@@ -81,7 +81,7 @@ BuildRequires:	perl-modules >= 5.004
 BuildRequires:	pkgconfig
 BuildRequires:	python-modules
 BuildRequires:	rpm >= 4.4.9-56
-BuildRequires:	rpmbuild(macros) >= 1.453
+BuildRequires:	rpmbuild(macros) >= 1.601
 BuildRequires:	sqlite3-devel >= 3.7.5-2
 BuildRequires:	startup-notification-devel >= 0.8
 BuildRequires:	xorg-lib-libXext-devel
@@ -95,6 +95,7 @@ BuildRequires:	xulrunner-devel >= 2:%{xulrunner_ver}
 BuildRequires:	zip
 BuildRequires:	zlib-devel >= 1.2.3
 Requires(post):	mktemp >= 1.5-18
+Requires:	hicolor-icon-theme
 %if %{with xulrunner}
 %requires_eq_to	xulrunner xulrunner-devel
 %else
@@ -262,7 +263,7 @@ rm -rf $RPM_BUILD_ROOT
 cd mozilla
 install -d \
 	$RPM_BUILD_ROOT{%{_bindir},%{_sbindir},%{_libdir}} \
-	$RPM_BUILD_ROOT{%{_pixmapsdir},%{_desktopdir}} \
+	$RPM_BUILD_ROOT%{_desktopdir} \
 	$RPM_BUILD_ROOT%{_datadir}/%{name}
 
 %browser_plugins_add_browser %{name} -p %{_libdir}/%{name}/plugins
@@ -309,7 +310,14 @@ chmod a+rx $RPM_BUILD_ROOT%{_bindir}/iceweasel
 ln -s iceweasel $RPM_BUILD_ROOT%{_bindir}/firefox
 ln -s iceweasel $RPM_BUILD_ROOT%{_bindir}/mozilla-firefox
 
-cp -a iceweasel/branding/default64.png $RPM_BUILD_ROOT%{_pixmapsdir}/iceweasel.png
+# install icons and desktop file
+cp iceweasel/branding/{mozicon,default}128.png
+for i in 16 32 48 64 128; do
+	install -d $RPM_BUILD_ROOT%{_iconsdir}/hicolor/${i}x${i}/apps
+	cp -a iceweasel/branding/default${i}.png \
+		$RPM_BUILD_ROOT%{_iconsdir}/hicolor/${i}x${i}/apps/iceweasel.png
+done
+
 cp -a %{SOURCE3} $RPM_BUILD_ROOT%{_desktopdir}/%{name}.desktop
 
 # files created by regxpcom and iceweasel -register
@@ -356,10 +364,12 @@ exit 0
 %post
 %{_sbindir}/%{name}-chrome+xpcom-generate
 %update_browser_plugins
+%update_icon_cache hicolor
 
 %postun
 if [ "$1" = 0 ]; then
 	%update_browser_plugins
+	%update_icon_cache hicolor
 fi
 
 %files
@@ -481,7 +491,7 @@ fi
 %attr(755,root,root) %{_libdir}/%{name}/plugin-container
 %endif
 
-%{_pixmapsdir}/iceweasel.png
+%{_iconsdir}/hicolor/*/*/iceweasel.png
 %{_desktopdir}/iceweasel.desktop
 
 # symlinks
