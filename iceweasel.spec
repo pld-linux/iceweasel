@@ -277,6 +277,11 @@ install -d \
 install -d \
 	$RPM_BUILD_ROOT%{_libdir}/%{name}/plugins
 
+%if %{without xulrunner}
+# >= 5.0 seems to require this
+ln -s ../xulrunner $RPM_BUILD_ROOT%{_libdir}/%{name}/xulrunner
+%endif
+
 # move arch independant ones to datadir
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome $RPM_BUILD_ROOT%{_datadir}/%{name}/chrome
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/defaults $RPM_BUILD_ROOT%{_datadir}/%{name}/defaults
@@ -505,6 +510,7 @@ fi
 %{_libdir}/%{name}/dictionaries
 %{_libdir}/%{name}/greprefs.js
 %{_libdir}/%{name}/res
+%{_libdir}/%{name}/xulrunner
 %endif
 
 %dir %{_datadir}/%{name}
