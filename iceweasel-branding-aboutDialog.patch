@@ -1,0 +1,261 @@
+From: Mike Hommey <mh+mozilla@glandium.org>
+Date: Tue, 26 Apr 2011 08:49:51 +0200
+Subject: Bug 652306 - Move some parts of aboutDialog.css into branding.
+ r=gavin
+
+---
+ browser/base/content/aboutDialog.css               |   54 --------------------
+ browser/base/content/aboutDialog.xul               |    1 +
+ browser/branding/aurora/content/aboutDialog.css    |   20 +++++++
+ browser/branding/aurora/content/jar.mn             |    1 +
+ browser/branding/nightly/content/aboutDialog.css   |   20 +++++++
+ browser/branding/nightly/content/jar.mn            |    1 +
+ .../branding/unofficial/content/aboutDialog.css    |   20 +++++++
+ browser/branding/unofficial/content/jar.mn         |    1 +
+ .../branding/firefox/content/aboutDialog.css       |   31 +++++++++++
+ other-licenses/branding/firefox/content/jar.mn     |    1 +
+ 10 files changed, 96 insertions(+), 54 deletions(-)
+ create mode 100644 browser/branding/aurora/content/aboutDialog.css
+ create mode 100644 browser/branding/nightly/content/aboutDialog.css
+ create mode 100644 browser/branding/unofficial/content/aboutDialog.css
+ create mode 100644 other-licenses/branding/firefox/content/aboutDialog.css
+
+diff --git a/browser/base/content/aboutDialog.css b/browser/base/content/aboutDialog.css
+index a221cc7..19e1210 100644
+--- a/browser/base/content/aboutDialog.css
++++ b/browser/base/content/aboutDialog.css
+@@ -2,52 +2,12 @@
+   width: 620px;
+ }
+ 
+-/* Official branding has Firefox logo on the left side of the window. 
+-   Nightly/aurora branding has background image applied to entire window. */
+-%ifdef MOZ_OFFICIAL_BRANDING
+-#clientBox {
+-  background-color: #F7F7F7;
+-  color: #222222;
+-}
+-%else
+-#aboutDialogContainer {
+-  background-image: url("chrome://branding/content/about-background.png");
+-  background-repeat: no-repeat;
+-  background-color: #000;
+-  color: #fff;
+-}
+-
+-.text-link {
+-  color: #fff !important;
+-}
+-%endif
+-
+-%ifdef MOZ_OFFICIAL_BRANDING
+-#leftBox {
+-  background-image: url("chrome://branding/content/about-logo.png");
+-  background-repeat: no-repeat;
+-  /* min-width and min-height create room for the logo */
+-  min-width: 210px;
+-  min-height: 210px;
+-  margin-top:20px;
+-  -moz-margin-start: 30px;
+-}
+-%endif
+-
+ #rightBox {
+   background-image: url("chrome://branding/content/about-wordmark.png");
+   background-repeat: no-repeat;
+   /* padding-top creates room for the wordmark */
+   padding-top: 38px;
+   margin-top:20px;
+-%ifdef MOZ_OFFICIAL_BRANDING
+-  margin-left: 30px;
+-  margin-right: 30px;
+-%else 
+-  /* this margin prevents text from overlapping the planet image */
+-  margin-left: 280px;
+-  margin-right: 20px;
+-%endif
+ }
+ 
+ #rightBox:-moz-locale-dir(rtl) {
+@@ -56,9 +16,6 @@
+ 
+ #bottomBox {
+   padding: 15px 10px 0;
+-%ifndef MOZ_OFFICIAL_BRANDING
+-  background-color: rgba(0,0,0,.7);
+-%endif
+ }
+ 
+ #version {
+@@ -111,17 +68,6 @@
+   margin: 0 40px;
+ }
+ 
+-/* we assume trademark text only appears in offical builds */
+-%ifdef MOZ_OFFICIAL_BRANDING
+-#trademark {
+-  font-size: xx-small;
+-  text-align: center;
+-  color: #999999;
+-  margin-top: 10px;
+-  margin-bottom: 10px;
+-}
+-%endif
+-
+ #currentChannel {
+   margin: 0;
+   padding: 0;
+diff --git a/browser/base/content/aboutDialog.xul b/browser/base/content/aboutDialog.xul
+index 848e25e..96d5d1d 100644
+--- a/browser/base/content/aboutDialog.xul
++++ b/browser/base/content/aboutDialog.xul
+@@ -41,6 +41,7 @@
+ 
+ <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+ <?xml-stylesheet href="chrome://browser/content/aboutDialog.css" type="text/css"?>
++<?xml-stylesheet href="chrome://branding/content/aboutDialog.css" type="text/css"?>
+ 
+ <!DOCTYPE window [
+ <!ENTITY % brandDTD SYSTEM "chrome://branding/locale/brand.dtd" >
+diff --git a/browser/branding/aurora/content/aboutDialog.css b/browser/branding/aurora/content/aboutDialog.css
+new file mode 100644
+index 0000000..f74c55c
+--- /dev/null
++++ b/browser/branding/aurora/content/aboutDialog.css
+@@ -0,0 +1,20 @@
++#aboutDialogContainer {
++  background-image: url("chrome://branding/content/about-background.png");
++  background-repeat: no-repeat;
++  background-color: #000;
++  color: #fff;
++}
++
++.text-link {
++  color: #fff !important;
++}
++
++#rightBox {
++  /* this margin prevents text from overlapping the planet image */
++  margin-left: 280px;
++  margin-right: 20px;
++}
++
++#bottomBox {
++  background-color: rgba(0,0,0,.7);
++}
+diff --git a/browser/branding/aurora/content/jar.mn b/browser/branding/aurora/content/jar.mn
+index e8d0d5b..2413eb6 100644
+--- a/browser/branding/aurora/content/jar.mn
++++ b/browser/branding/aurora/content/jar.mn
+@@ -8,3 +8,4 @@ browser.jar:
+   content/branding/icon64.png                    (icon64.png)
+   content/branding/icon128.png                   (../mozicon128.png)
+   content/branding/icon16.png                    (../default16.png)
++  content/branding/aboutDialog.css               (aboutDialog.css)
+diff --git a/browser/branding/nightly/content/aboutDialog.css b/browser/branding/nightly/content/aboutDialog.css
+new file mode 100644
+index 0000000..f74c55c
+--- /dev/null
++++ b/browser/branding/nightly/content/aboutDialog.css
+@@ -0,0 +1,20 @@
++#aboutDialogContainer {
++  background-image: url("chrome://branding/content/about-background.png");
++  background-repeat: no-repeat;
++  background-color: #000;
++  color: #fff;
++}
++
++.text-link {
++  color: #fff !important;
++}
++
++#rightBox {
++  /* this margin prevents text from overlapping the planet image */
++  margin-left: 280px;
++  margin-right: 20px;
++}
++
++#bottomBox {
++  background-color: rgba(0,0,0,.7);
++}
+diff --git a/browser/branding/nightly/content/jar.mn b/browser/branding/nightly/content/jar.mn
+index e8d0d5b..2413eb6 100644
+--- a/browser/branding/nightly/content/jar.mn
++++ b/browser/branding/nightly/content/jar.mn
+@@ -8,3 +8,4 @@ browser.jar:
+   content/branding/icon64.png                    (icon64.png)
+   content/branding/icon128.png                   (../mozicon128.png)
+   content/branding/icon16.png                    (../default16.png)
++  content/branding/aboutDialog.css               (aboutDialog.css)
+diff --git a/browser/branding/unofficial/content/aboutDialog.css b/browser/branding/unofficial/content/aboutDialog.css
+new file mode 100644
+index 0000000..f74c55c
+--- /dev/null
++++ b/browser/branding/unofficial/content/aboutDialog.css
+@@ -0,0 +1,20 @@
++#aboutDialogContainer {
++  background-image: url("chrome://branding/content/about-background.png");
++  background-repeat: no-repeat;
++  background-color: #000;
++  color: #fff;
++}
++
++.text-link {
++  color: #fff !important;
++}
++
++#rightBox {
++  /* this margin prevents text from overlapping the planet image */
++  margin-left: 280px;
++  margin-right: 20px;
++}
++
++#bottomBox {
++  background-color: rgba(0,0,0,.7);
++}
+diff --git a/browser/branding/unofficial/content/jar.mn b/browser/branding/unofficial/content/jar.mn
+index e8d0d5b..2413eb6 100644
+--- a/browser/branding/unofficial/content/jar.mn
++++ b/browser/branding/unofficial/content/jar.mn
+@@ -8,3 +8,4 @@ browser.jar:
+   content/branding/icon64.png                    (icon64.png)
+   content/branding/icon128.png                   (../mozicon128.png)
+   content/branding/icon16.png                    (../default16.png)
++  content/branding/aboutDialog.css               (aboutDialog.css)
+diff --git a/other-licenses/branding/firefox/content/aboutDialog.css b/other-licenses/branding/firefox/content/aboutDialog.css
+new file mode 100644
+index 0000000..c83aec0
+--- /dev/null
++++ b/other-licenses/branding/firefox/content/aboutDialog.css
+@@ -0,0 +1,31 @@
++#clientBox {
++  background-color: #F7F7F7;
++  color: #222222;
++}
++
++#leftBox {
++  background-image: url("chrome://branding/content/about-logo.png");
++  background-repeat: no-repeat;
++  /* min-width and min-height create room for the logo */
++  min-width: 210px;
++  min-height: 210px;
++  margin-top:20px;
++  -moz-margin-start: 30px;
++}
++
++#rightBox {
++  margin-left: 30px;
++  margin-right: 30px;
++}
++
++#updateDeck > hbox > label:not([class="text-link"]) {
++  color: #909090;
++}
++
++#trademark {
++  font-size: xx-small;
++  text-align: center;
++  color: #999999;
++  margin-top: 10px;
++  margin-bottom: 10px;
++}
