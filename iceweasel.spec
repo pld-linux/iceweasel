@@ -36,7 +36,7 @@ Group:		X11/Applications/Networking
 Source0:	ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
 # Source0-md5:	9f64a01e86a5d424e12a8e3305c5debe
 Source1:	%{name}-branding.tar.bz2
-# Source1-md5:	7ab5e80db1ffe8784f1cb55dc5651e2f
+# Source1-md5:	721c6341a7df04ad46744ba044823d2b
 Source2:	%{name}-rm_nonfree.sh
 Source3:	%{name}.desktop
 Source4:	%{name}.sh
@@ -51,6 +51,8 @@ Patch7:		%{name}-prefs.patch
 Patch8:		%{name}-pld-branding.patch
 Patch9:		%{name}-no-subshell.patch
 Patch10:	%{name}-ppc.patch
+# https://bugzilla.mozilla.org/show_bug.cgi?id=652306
+Patch11:	%{name}-branding-aboutDialog.patch
 URL:		http://www.pld-linux.org/Packages/Iceweasel
 BuildRequires:	Mesa-libGL-devel
 %{?with_gnomevfs:BuildRequires:	GConf2-devel >= 1.2.1}
@@ -176,6 +178,7 @@ cd mozilla
 %patch8 -p1
 %patch9 -p2
 %patch10 -p1
+%patch11 -p1
 
 %build
 cd mozilla
@@ -277,7 +280,7 @@ install -d \
 install -d \
 	$RPM_BUILD_ROOT%{_libdir}/%{name}/plugins
 
-%if %{without xulrunner}
+%if %{with xulrunner}
 # >= 5.0 seems to require this
 ln -s ../xulrunner $RPM_BUILD_ROOT%{_libdir}/%{name}/xulrunner
 %endif
@@ -506,11 +509,13 @@ fi
 %{_libdir}/%{name}/icons
 %{_libdir}/%{name}/modules
 %{_libdir}/%{name}/searchplugins
+%if %{with xulrunner}
+%{_libdir}/%{name}/xulrunner
+%endif
 %if %{without xulrunner}
 %{_libdir}/%{name}/dictionaries
 %{_libdir}/%{name}/greprefs.js
 %{_libdir}/%{name}/res
-%{_libdir}/%{name}/xulrunner
 %endif
 
 %dir %{_datadir}/%{name}
