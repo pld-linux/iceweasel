@@ -32,7 +32,7 @@
 @@ -496,30 +496,30 @@
  endif
  
- stage-package: $(MOZ_PKG_MANIFEST) $(MOZ_PKG_REMOVALS_GEN)
+ stage-package: $(MOZ_PKG_MANIFEST) $(MOZ_PKG_REMOVALS_GEN) elfhack
 -	@rm -rf $(DIST)/$(MOZ_PKG_DIR) $(DIST)/$(PKG_PATH)$(PKG_BASENAME).tar $(DIST)/$(PKG_PATH)$(PKG_BASENAME).dmg $@ $(EXCLUDE_LIST)
 +	@rm -rf $(DESTDIR)/$(MOZ_PKG_DIR) $(DIST)/$(PKG_PATH)$(PKG_BASENAME).tar $(DIST)/$(PKG_PATH)$(PKG_BASENAME).dmg $@ $(EXCLUDE_LIST)
  # NOTE: this must be a tar now that dist links into the tree so that we
@@ -44,7 +44,7 @@
  # If UNIVERSAL_BINARY, the package will be made from an already-prepared
  # STAGEPATH
  ifdef MOZ_PKG_MANIFEST
- 	$(RM) -rf $(DIST)/xpt $(RM) -rf $(DIST)/manifests
+ 	$(RM) -rf $(DIST)/xpt $(DIST)/manifests
  	$(call PACKAGER_COPY, "$(call core_abspath,$(DIST))",\
 -	  "$(call core_abspath,$(DIST)/$(MOZ_PKG_DIR))", \
 +	  "$(call core_abspath,$(DESTDIR)/$(MOZ_PKG_DIR))", \

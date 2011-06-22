@@ -201,9 +201,9 @@ diff -urN mozilla.orig/toolkit/xre/nsAppRunner.cpp mozilla/toolkit/xre/nsAppRunn
 -pref("startup.homepage_welcome_url","http://www.mozilla.org/projects/%APP%/%VERSION%/firstrun/");
 +pref("startup.homepage_override_url","http://www.mozilla.org/projects/firefox/%VERSION%/whatsnew/");
 +pref("startup.homepage_welcome_url","http://www.mozilla.org/projects/firefox/%VERSION%/firstrun/");
- pref("browser.panorama.welcome_url", "http://www.mozilla.com/firefox/panorama/");
  // The time interval between checks for a new version (in seconds)
  // nightly=8 hours, official=24 hours
+ pref("app.update.interval", 28800);
 @@ -12,11 +12,11 @@
  pref("app.update.url.manual", "http://nightly.mozilla.org/");
  // A default value for the "More information about this update" link
@@ -226,9 +226,9 @@ diff -urN mozilla.orig/toolkit/xre/nsAppRunner.cpp mozilla/toolkit/xre/nsAppRunn
 -pref("startup.homepage_welcome_url","http://www.mozilla.org/projects/%APP%/%VERSION%/firstrun/");
 +pref("startup.homepage_override_url","http://www.mozilla.org/projects/firefox/%VERSION%/whatsnew/");
 +pref("startup.homepage_welcome_url","http://www.mozilla.org/projects/firefox/%VERSION%/firstrun/");
- pref("browser.panorama.welcome_url", "http://www.mozilla.com/firefox/panorama/");
  // The time interval between checks for a new version (in seconds)
  // nightly=8 hours, official=24 hours
+ pref("app.update.interval", 28800);
 @@ -9,14 +9,14 @@
  pref("app.update.download.backgroundInterval", 60);
  // URL user can browse to manually if for some reason all update installation

@@ -17,8 +17,8 @@
 %endif
 
 # convert firefox release number to platform version: 4.0.x -> 2.0.x
-%define		xulrunner_main	2.0
-%define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#4.0})
+%define		xulrunner_main	5.0
+%define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#5.0})
 
 %if %{without xulrunner}
 # The actual sqlite version (see RHBZ#480989):
@@ -29,12 +29,12 @@ Summary:	Iceweasel web browser
 Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
-Version:	4.0.1
-Release:	3
+Version:	5.0
+Release:	1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
-# Source0-md5:	9abda7d23151e97913c8555a64c13f34
+# Source0-md5:	9f64a01e86a5d424e12a8e3305c5debe
 Source1:	%{name}-branding.tar.bz2
 # Source1-md5:	7ab5e80db1ffe8784f1cb55dc5651e2f
 Source2:	%{name}-rm_nonfree.sh
@@ -147,7 +147,7 @@ standardami, wydajnością i przenośnością.
 
 %prep
 %setup -qc
-mv -f mozilla-%{xulrunner_main} mozilla
+mv -f mozilla-release mozilla
 %setup -q -T -D -a1
 cd mozilla
 /bin/sh %{SOURCE2}
