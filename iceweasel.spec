@@ -29,12 +29,12 @@ Summary:	Iceweasel web browser
 Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
-Version:	5.0
+Version:	5.0.1
 Release:	1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
-# Source0-md5:	9f64a01e86a5d424e12a8e3305c5debe
+# Source0-md5:	6d1f43e402cec84459a3d7f950bd5192
 Source1:	%{name}-branding.tar.bz2
 # Source1-md5:	721c6341a7df04ad46744ba044823d2b
 Source2:	%{name}-rm_nonfree.sh
@@ -54,8 +54,8 @@ Patch10:	%{name}-ppc.patch
 # https://bugzilla.mozilla.org/show_bug.cgi?id=652306
 Patch11:	%{name}-branding-aboutDialog.patch
 URL:		http://www.pld-linux.org/Packages/Iceweasel
-BuildRequires:	Mesa-libGL-devel
 %{?with_gnomevfs:BuildRequires:	GConf2-devel >= 1.2.1}
+BuildRequires:	OpenGL-devel
 BuildRequires:	alsa-lib-devel
 BuildRequires:	automake
 BuildRequires:	bzip2-devel
