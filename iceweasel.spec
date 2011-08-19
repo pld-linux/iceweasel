@@ -67,13 +67,14 @@ BuildRequires:	gtk+2-devel >= 2:2.10
 BuildRequires:	hunspell-devel
 BuildRequires:	libIDL-devel >= 0.8.0
 BuildRequires:	libdnet-devel
+BuildRequires:	libevent-devel >= 1.4.7
 %{?with_gnomevfs:BuildRequires:	libgnome-devel >= 2.0}
 %{?with_gnomeui:BuildRequires:	libgnomeui-devel >= 2.2.0}
 BuildRequires:	libiw-devel
 BuildRequires:	libjpeg-devel >= 6b
 BuildRequires:	libnotify-devel >= 0.4
 BuildRequires:	libpng(APNG)-devel >= 0.10
-BuildRequires:	libpng-devel >= 1.2.17
+BuildRequires:	libpng-devel >= 1.4.1
 BuildRequires:	libstdc++-devel
 BuildRequires:	libvpx-devel
 BuildRequires:	nspr-devel >= 1:4.8.7
@@ -86,6 +87,7 @@ BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	rpmbuild(macros) >= 1.601
 BuildRequires:	sqlite3-devel >= 3.7.5-2
 BuildRequires:	startup-notification-devel >= 0.8
+BuildRequires:	xorg-lib-libXScrnSaver-devel
 BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXft-devel >= 2.1
 BuildRequires:	xorg-lib-libXinerama-devel
@@ -105,6 +107,7 @@ Requires:	browser-plugins >= 2.0
 Requires:	cairo >= 1.10.2-5
 Requires:	dbus-glib >= 0.60
 Requires:	gtk+2 >= 2:2.18
+Requires:	libpng >= 1.4.1
 Requires:	libpng(APNG) >= 0.10
 Requires:	myspell-common
 Requires:	nspr >= 1:4.8.7
@@ -248,6 +251,7 @@ ac_add_options --with-libxul-sdk=$(pkg-config --variable=sdkdir libxul)
 ac_add_options --with-pthreads
 ac_add_options --with-system-bz2
 ac_add_options --with-system-jpeg
+ac_add_options --with-system-libevent
 ac_add_options --with-system-libvpx
 ac_add_options --with-system-nspr
 ac_add_options --with-system-nss
@@ -328,7 +332,7 @@ done
 
 cp -a %{SOURCE3} $RPM_BUILD_ROOT%{_desktopdir}/%{name}.desktop
 
-# files created by regxpcom and iceweasel -register
+# files created by iceweasel -register
 touch $RPM_BUILD_ROOT%{_libdir}/%{name}/components/compreg.dat
 touch $RPM_BUILD_ROOT%{_libdir}/%{name}/components/xpti.dat
 
@@ -535,6 +539,6 @@ fi
 # the signature of the default theme
 %{_datadir}/%{name}/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}
 
-# files created by regxpcom and iceweasel -register
+# files created by iceweasel -register
 %ghost %{_libdir}/%{name}/components/compreg.dat
 %ghost %{_libdir}/%{name}/components/xpti.dat
