@@ -5,8 +5,8 @@ diff -urN mozilla.orig/browser/app/application.ini mozilla/browser/app/applicati
  
  #filter substitution
  [App]
--Vendor=Mozilla
--Name=Firefox
+-Vendor=@MOZ_APP_VENDOR@
+-Name=@MOZ_APP_BASENAME@
 +Vendor=
 +Name=Iceweasel
  Version=@APP_VERSION@
@@ -15,59 +15,6 @@ diff -urN mozilla.orig/browser/app/application.ini mozilla/browser/app/applicati
 diff -urN mozilla.orig/browser/app/profile/firefox.js mozilla/browser/app/profile/firefox.js
 --- mozilla.orig/browser/app/profile/firefox.js	2010-02-04 15:47:13.000000000 +0100
 +++ mozilla/browser/app/profile/firefox.js	2010-02-04 15:50:15.000000000 +0100
-@@ -59,10 +59,10 @@
- // Preferences for AMO integration
- pref("extensions.getAddons.cache.enabled", true);
- pref("extensions.getAddons.maxResults", 15);
--pref("extensions.getAddons.get.url", "https://services.addons.mozilla.org/%LOCALE%/%APP%/api/%API_VERSION%/search/guid:%IDS%?src=firefox&appOS=%OS%&appVersion=%VERSION%&tMain=%TIME_MAIN%&tFirstPaint=%TIME_FIRST_PAINT%&tSessionRestored=%TIME_SESSION_RESTORED%");
--pref("extensions.getAddons.search.browseURL", "https://addons.mozilla.org/%LOCALE%/%APP%/search?q=%TERMS%");
--pref("extensions.getAddons.search.url", "https://services.addons.mozilla.org/%LOCALE%/%APP%/api/%API_VERSION%/search/%TERMS%/all/%MAX_RESULTS%/%OS%/%VERSION%?src=firefox");
--pref("extensions.webservice.discoverURL", "https://services.addons.mozilla.org/%LOCALE%/%APP%/discovery/pane/%VERSION%/%OS%");
-+pref("extensions.getAddons.get.url", "https://services.addons.mozilla.org/%LOCALE%/firefox/api/%API_VERSION%/search/guid:%IDS%?src=firefox&appOS=%OS%&appVersion=%VERSION%&tMain=%TIME_MAIN%&tFirstPaint=%TIME_FIRST_PAINT%&tSessionRestored=%TIME_SESSION_RESTORED%");
-+pref("extensions.getAddons.search.browseURL", "https://addons.mozilla.org/%LOCALE%/firefox/search?q=%TERMS%");
-+pref("extensions.getAddons.search.url", "https://services.addons.mozilla.org/%LOCALE%/firefox/api/%API_VERSION%/search/%TERMS%/all/%MAX_RESULTS%/%OS%/%VERSION%?src=firefox");
-+pref("extensions.webservice.discoverURL", "https://services.addons.mozilla.org/%LOCALE%/firefox/discovery/pane/%VERSION%/%OS%");
- 
- // Blocklist preferences
- pref("extensions.blocklist.enabled", true);
-@@ -87,7 +87,7 @@
- pref("extensions.blocklist.detailsURL", "https://www.mozilla.com/%LOCALE%/blocklist/");
- 
- // Dictionary download preference
--pref("browser.dictionaries.download.url", "https://addons.mozilla.org/%LOCALE%/%APP%/dictionaries/");
-+pref("browser.dictionaries.download.url", "https://addons.mozilla.org/%LOCALE%/firefox/dictionaries/");
- 
- // Update Timer Manager preferences
- // Interval: When all registered timers should be checked (in milliseconds)
-@@ -165,7 +165,7 @@
- pref("extensions.update.interval", 86400);  // Check for updates to Extensions and 
-                                             // Themes every day
- // Non-symmetric (not shared by extensions) extension-specific [update] preferences
--pref("extensions.getMoreThemesURL", "https://addons.mozilla.org/%LOCALE%/%APP%/getpersonas");
-+pref("extensions.getMoreThemesURL", "https://addons.mozilla.org/%LOCALE%/firefox/getpersonas");
- pref("extensions.dss.enabled", false);          // Dynamic Skin Switching                                               
- pref("extensions.dss.switchPending", false);    // Non-dynamic switch pending after next
-                                                 // restart.
-@@ -279,7 +279,7 @@
- pref("browser.download.manager.resumeOnWakeDelay", 10000);
- 
- // search engines URL
--pref("browser.search.searchEnginesURL",      "https://addons.mozilla.org/%LOCALE%/%APP%/search-engines/");
-+pref("browser.search.searchEnginesURL",      "https://addons.mozilla.org/%LOCALE%/firefox/search-engines/");
- 
- // pointer to the default engine name
- pref("browser.search.defaultenginename",      "chrome://browser-region/locale/region.properties");
-@@ -717,8 +717,8 @@
- pref("browser.safebrowsing.provider.0.reportMalwareErrorURL", "http://{moz:locale}.malware-error.mozilla.com/?hl={moz:locale}");
- 
- // FAQ URLs
--pref("browser.safebrowsing.warning.infoURL", "http://www.mozilla.com/%LOCALE%/%APP%/phishing-protection/");
--pref("browser.geolocation.warning.infoURL", "http://www.mozilla.com/%LOCALE%/%APP%/geolocation/");
-+pref("browser.safebrowsing.warning.infoURL", "http://www.mozilla.com/%LOCALE%/firefox/phishing-protection/");
-+pref("browser.geolocation.warning.infoURL", "http://www.mozilla.com/%LOCALE%/firefox/geolocation/");
- 
- // Name of the about: page contributed by safebrowsing to handle display of error
- // pages on phishing/malware hits.  (bug 399233)
 @@ -758,10 +758,8 @@
  pref("browser.rights.version", 3);
  pref("browser.rights.3.shown", false);
@@ -79,22 +26,13 @@ diff -urN mozilla.orig/browser/app/profile/firefox.js mozilla/browser/app/profil
  
  #ifdef WINCE
  pref("browser.sessionstore.resume_from_crash", false);
-@@ -853,7 +851,7 @@
- pref("breakpad.reportURL", "http://crash-stats.mozilla.com/report/index/");
- 
- // base URL for web-based support pages
--pref("app.support.baseURL", "http://support.mozilla.com/1/%APP%/%VERSION%/%OS%/%LOCALE%/");
-+pref("app.support.baseURL", "http://support.mozilla.com/1/firefox/%VERSION%/%OS%/%LOCALE%/");
- 
- // Name of alternate about: page for certificate errors (when undefined, defaults to about:neterror)
- pref("security.alternate_certificate_error_page", "certerror");
 diff -urN mozilla.orig/browser/components/shell/src/nsWindowsShellService.cpp mozilla/browser/components/shell/src/nsWindowsShellService.cpp
 --- mozilla.orig/browser/components/shell/src/nsWindowsShellService.cpp	2010-02-04 15:47:12.000000000 +0100
 +++ mozilla/browser/components/shell/src/nsWindowsShellService.cpp	2010-02-04 15:49:28.000000000 +0100
-@@ -213,7 +213,7 @@
+@@ -186,7 +186,7 @@
+   char* valueData;
  } SETTING;
  
- #ifndef WINCE
 -#define APP_REG_NAME L"Firefox"
 +#define APP_REG_NAME L"Iceweasel"
  #define CLS_HTML "FirefoxHTML"
@@ -103,12 +41,14 @@ diff -urN mozilla.orig/browser/components/shell/src/nsWindowsShellService.cpp mo
 diff -urN mozilla.orig/browser/confvars.sh mozilla/browser/confvars.sh
 --- mozilla.orig/browser/confvars.sh	2010-02-04 15:47:13.000000000 +0100
 +++ mozilla/browser/confvars.sh	2010-02-04 15:48:50.000000000 +0100
-@@ -36,7 +36,7 @@
+@@ -36,8 +36,8 @@
  #
  # ***** END LICENSE BLOCK *****
  
--MOZ_APP_NAME=firefox
-+MOZ_APP_NAME=iceweasel
+-MOZ_APP_BASENAME=Firefox
+-MOZ_APP_VENDOR=Mozilla
++MOZ_APP_BASENAME=Iceweasel
++MOZ_APP_VENDOR=
  MOZ_UPDATER=1
  MOZ_PHOENIX=1
  
