@@ -51,8 +51,6 @@ Patch7:		%{name}-prefs.patch
 Patch8:		%{name}-pld-branding.patch
 Patch9:		%{name}-no-subshell.patch
 Patch10:	%{name}-ppc.patch
-# https://bugzilla.mozilla.org/show_bug.cgi?id=652306
-Patch11:	%{name}-branding-aboutDialog.patch
 URL:		http://www.pld-linux.org/Packages/Iceweasel
 %{?with_gnomevfs:BuildRequires:	GConf2-devel >= 1.2.1}
 BuildRequires:	OpenGL-devel
@@ -181,7 +179,6 @@ cd mozilla
 %patch8 -p1
 %patch9 -p2
 %patch10 -p1
-%patch11 -p1
 
 %build
 cd mozilla
