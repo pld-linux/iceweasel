@@ -16,7 +16,7 @@
 %undefine	with_gnomevfs
 %endif
 
-# convert firefox release number to platform version: 4.0.x -> 2.0.x
+# convert firefox release number to platform version: 6.0.x -> 6.0.x
 %define		xulrunner_main	6.0
 %define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#6.0})
 
@@ -30,7 +30,7 @@ Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
 Version:	6.0
-Release:	0.1
+Release:	1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
