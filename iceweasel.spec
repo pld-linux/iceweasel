@@ -461,7 +461,6 @@ fi
 %{_libdir}/%{name}/components/nsLoginInfo.js
 %{_libdir}/%{name}/components/nsLoginManager.js
 %{_libdir}/%{name}/components/nsLoginManagerPrompter.js
-%{_libdir}/%{name}/components/nsMicrosummaryService.js
 %{_libdir}/%{name}/components/nsPlacesAutoComplete.js
 %{_libdir}/%{name}/components/nsPlacesExpiration.js
 %{_libdir}/%{name}/components/nsPrompter.js
