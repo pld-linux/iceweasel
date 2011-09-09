@@ -437,6 +437,7 @@ fi
 %{_libdir}/%{name}/components/GPSDGeolocationProvider.js
 %{_libdir}/%{name}/components/NetworkGeolocationProvider.js
 %{_libdir}/%{name}/components/PlacesCategoriesStarter.js
+%{_libdir}/%{name}/components/TelemetryPing.js
 %{_libdir}/%{name}/components/addonManager.js
 %{_libdir}/%{name}/components/amContentHandler.js
 %{_libdir}/%{name}/components/amWebInstallListener.js
@@ -471,6 +472,7 @@ fi
 %{_libdir}/%{name}/components/nsTryToClose.js
 %{_libdir}/%{name}/components/nsURLFormatter.js
 %{_libdir}/%{name}/components/nsUpdateTimerManager.js
+%{_libdir}/%{name}/components/nsUrlClassifierHashCompleter.js
 %{_libdir}/%{name}/components/nsUrlClassifierLib.js
 %{_libdir}/%{name}/components/nsUrlClassifierListManager.js
 %{_libdir}/%{name}/components/nsWebHandlerApp.js
