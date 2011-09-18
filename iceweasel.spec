@@ -30,7 +30,7 @@ Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
 Version:	6.0.2
-Release:	1
+Release:	2
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
@@ -97,6 +97,7 @@ BuildRequires:	xulrunner-devel >= 2:%{xulrunner_ver}
 BuildRequires:	zip
 BuildRequires:	zlib-devel >= 1.2.3
 Requires(post):	mktemp >= 1.5-18
+Requires:	desktop-file-utils
 Requires:	hicolor-icon-theme
 %if %{with xulrunner}
 %requires_eq_to	xulrunner xulrunner-devel
@@ -374,6 +375,7 @@ exit 0
 %{_sbindir}/%{name}-chrome+xpcom-generate
 %update_browser_plugins
 %update_icon_cache hicolor
+%update_desktop_database
 
 %postun
 if [ "$1" = 0 ]; then
