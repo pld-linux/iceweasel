@@ -2,8 +2,7 @@
 # Conditional build:
 %bcond_with	tests		# enable tests (whatever they check)
 %bcond_without	gnomeui		# disable gnomeui support
-%bcond_without	gnomevfs	# disable GNOME comp. (gconf+libgnome+gnomevfs) and gnomevfs ext.
-%bcond_without	gnome		# disable all GNOME components (gnome+gnomeui+gnomevfs)
+%bcond_without	gnome		# synonym for gnomeui (gconf, libnotify and gio are still enabled)
 %bcond_without	kerberos	# disable krb5 support
 %if "%{pld_release}" == "ti"
 %bcond_with	xulrunner	# build with system xulrunner
@@ -13,7 +12,6 @@
 
 %if %{without gnome}
 %undefine	with_gnomeui
-%undefine	with_gnomevfs
 %endif
 
 # convert firefox release number to platform version: 6.0.x -> 6.0.x
@@ -59,14 +57,13 @@ BuildRequires:	automake
 BuildRequires:	bzip2-devel
 BuildRequires:	cairo-devel >= 1.10.2-5
 BuildRequires:	dbus-glib-devel >= 0.60
-%{?with_gnomevfs:BuildRequires:	gnome-vfs2-devel >= 2.0}
+BuildRequires:	glib2-devel >= 1:2.18
 BuildRequires:	gtk+2-devel >= 2:2.10
 %{?with_kerberos:BuildRequires:	heimdal-devel >= 0.7.1}
 BuildRequires:	hunspell-devel
 BuildRequires:	libIDL-devel >= 0.8.0
 BuildRequires:	libdnet-devel
 BuildRequires:	libevent-devel >= 1.4.7
-%{?with_gnomevfs:BuildRequires:	libgnome-devel >= 2.0}
 %{?with_gnomeui:BuildRequires:	libgnomeui-devel >= 2.2.0}
 BuildRequires:	libiw-devel
 BuildRequires:	libjpeg-devel >= 6b
@@ -75,8 +72,8 @@ BuildRequires:	libpng(APNG)-devel >= 0.10
 BuildRequires:	libpng-devel >= 1.4.1
 BuildRequires:	libstdc++-devel
 BuildRequires:	libvpx-devel
-BuildRequires:	nspr-devel >= 1:4.8.7
-BuildRequires:	nss-devel >= 1:3.12.9
+BuildRequires:	nspr-devel >= 1:4.8.8
+BuildRequires:	nss-devel >= 1:3.12.10
 BuildRequires:	pango-devel >= 1:1.14.0
 BuildRequires:	perl-modules >= 5.004
 BuildRequires:	pkgconfig
@@ -87,9 +84,7 @@ BuildRequires:	sqlite3-devel >= 3.7.5-2
 BuildRequires:	startup-notification-devel >= 0.8
 BuildRequires:	xorg-lib-libXScrnSaver-devel
 BuildRequires:	xorg-lib-libXext-devel
-BuildRequires:	xorg-lib-libXft-devel >= 2.1
 BuildRequires:	xorg-lib-libXinerama-devel
-BuildRequires:	xorg-lib-libXp-devel
 BuildRequires:	xorg-lib-libXt-devel
 %if %{with xulrunner}
 BuildRequires:	xulrunner-devel >= 2:%{xulrunner_ver}
@@ -109,8 +104,8 @@ Requires:	gtk+2 >= 2:2.18
 Requires:	libpng >= 1.4.1
 Requires:	libpng(APNG) >= 0.10
 Requires:	myspell-common
-Requires:	nspr >= 1:4.8.7
-Requires:	nss >= 1:3.12.9
+Requires:	nspr >= 1:4.8.8
+Requires:	nss >= 1:3.12.10
 Requires:	pango >= 1:1.14.0
 Requires:	sqlite3 >= %{sqlite_build_version}
 Requires:	startup-notification >= 0.8
@@ -488,10 +483,8 @@ fi
 %attr(755,root,root) %{_libdir}/%{name}/components/libdbusservice.so
 %endif
 
-%if %{with gnomevfs}
 %if %{without xulrunner}
 %attr(755,root,root) %{_libdir}/%{name}/components/libmozgnome.so
-%endif
 %endif
 
 %attr(755,root,root) %{_libdir}/%{name}/iceweasel
@@ -515,8 +508,7 @@ fi
 %{_libdir}/%{name}/searchplugins
 %if %{with xulrunner}
 %{_libdir}/%{name}/xulrunner
-%endif
-%if %{without xulrunner}
+%else
 %{_libdir}/%{name}/dictionaries
 %{_libdir}/%{name}/greprefs.js
 %{_libdir}/%{name}/res
