@@ -15,8 +15,8 @@
 %endif
 
 # convert firefox release number to platform version: 6.0.x -> 6.0.x
-%define		xulrunner_main	7.0
-%define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#7.0})
+%define		xulrunner_main	8.0
+%define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#8.0})
 
 %if %{without xulrunner}
 # The actual sqlite version (see RHBZ#480989):
@@ -27,12 +27,12 @@ Summary:	Iceweasel web browser
 Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
-Version:	7.0.1
+Version:	8.0
 Release:	1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
-# Source0-md5:	5b212db48630ba93bb30ec63cca17f4d
+# Source0-md5:	9395a5be13da119bd8d53c3225e5d17c
 Source1:	%{name}-branding.tar.bz2
 # Source1-md5:	7ab5e80db1ffe8784f1cb55dc5651e2f
 Source2:	%{name}-rm_nonfree.sh
@@ -72,8 +72,8 @@ BuildRequires:	libpng(APNG)-devel >= 0.10
 BuildRequires:	libpng-devel >= 1.4.1
 BuildRequires:	libstdc++-devel
 BuildRequires:	libvpx-devel
-BuildRequires:	nspr-devel >= 1:4.8.8
-BuildRequires:	nss-devel >= 1:3.12.10
+BuildRequires:	nspr-devel >= 1:4.8.9
+BuildRequires:	nss-devel >= 1:3.13.1
 BuildRequires:	pango-devel >= 1:1.14.0
 BuildRequires:	perl-modules >= 5.004
 BuildRequires:	pkgconfig
@@ -104,8 +104,8 @@ Requires:	gtk+2 >= 2:2.18
 Requires:	libpng >= 1.4.1
 Requires:	libpng(APNG) >= 0.10
 Requires:	myspell-common
-Requires:	nspr >= 1:4.8.8
-Requires:	nss >= 1:3.12.10
+Requires:	nspr >= 1:4.8.9
+Requires:	nss >= 1:3.13.1
 Requires:	pango >= 1:1.14.0
 Requires:	sqlite3 >= %{sqlite_build_version}
 Requires:	startup-notification >= 0.8
@@ -332,7 +332,6 @@ touch $RPM_BUILD_ROOT%{_libdir}/%{name}/components/xpti.dat
 %if %{with xulrunner}
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/run-mozilla.sh
 %endif
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/README.txt
 
 cat << 'EOF' > $RPM_BUILD_ROOT%{_sbindir}/%{name}-chrome+xpcom-generate
 #!/bin/sh
