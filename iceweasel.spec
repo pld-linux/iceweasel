@@ -28,7 +28,7 @@ Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
 Version:	8.0.1
-Release:	1
+Release:	2
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
@@ -124,12 +124,6 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_noautoprovfiles	%{_libdir}/%{name}
 # and as we don't provide them, don't require either
 %define		_noautoreq	libmozjs.so libxpcom.so libxul.so libjemalloc.so %{!?with_xulrunner:libmozalloc.so}
-
-%if "%{cc_version}" >= "3.4"
-%define		specflags	-fno-strict-aliasing -fomit-frame-pointer -fno-tree-vrp -fno-stack-protector
-%else
-%define		specflags	-fno-strict-aliasing -fomit-frame-pointer
-%endif
 
 %description
 Iceweasel is an open-source web browser, designed for standards
