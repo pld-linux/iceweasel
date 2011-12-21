@@ -27,12 +27,12 @@ Summary:	Iceweasel web browser
 Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
-Version:	8.0.1
-Release:	2
+Version:	9.0
+Release:	1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
-# Source0-md5:	b7d09b082e88a74860a51a8e04e29333
+# Source0-md5:	d8d0c8c79660752b02d9e9ab69a68f94
 Source1:	%{name}-branding.tar.bz2
 # Source1-md5:	7ab5e80db1ffe8784f1cb55dc5651e2f
 Source2:	%{name}-rm_nonfree.sh
@@ -169,6 +169,10 @@ cd mozilla
 %patch8 -p1
 %patch9 -p2
 %patch10 -p1
+
+# config/rules.mk is patched by us and js/src/config/rules.mk
+# is supposed to be exact copy
+cp -a config/rules.mk js/src/config/rules.mk
 
 %build
 cd mozilla
