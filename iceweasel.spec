@@ -14,7 +14,7 @@
 %undefine	with_gnomeui
 %endif
 
-# convert firefox release number to platform version: 6.0.x -> 6.0.x
+# convert firefox release number to platform version: 9.0.x -> 9.0.x
 %define		xulrunner_main	9.0
 %define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#9.0})
 
@@ -80,7 +80,7 @@ BuildRequires:	pkgconfig
 BuildRequires:	python-modules
 BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	rpmbuild(macros) >= 1.601
-BuildRequires:	sqlite3-devel >= 3.7.5-2
+BuildRequires:	sqlite3-devel >= 3.7.7.1
 BuildRequires:	startup-notification-devel >= 0.8
 BuildRequires:	xorg-lib-libXScrnSaver-devel
 BuildRequires:	xorg-lib-libXext-devel
