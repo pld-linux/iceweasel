@@ -50,7 +50,7 @@ Patch8:		%{name}-pld-branding.patch
 Patch9:		%{name}-no-subshell.patch
 Patch10:	%{name}-ppc.patch
 URL:		http://www.pld-linux.org/Packages/Iceweasel
-%{?with_gnomevfs:BuildRequires:	GConf2-devel >= 1.2.1}
+BuildRequires:	GConf2-devel >= 1.2.1
 BuildRequires:	OpenGL-devel
 BuildRequires:	alsa-lib-devel
 BuildRequires:	automake
