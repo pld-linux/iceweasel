@@ -55,7 +55,7 @@ diff -urN mozilla.orig/browser/confvars.sh mozilla/browser/confvars.sh
 diff -urN mozilla.orig/browser/locales/en-US/chrome/overrides/appstrings.properties mozilla/browser/locales/en-US/chrome/overrides/appstrings.properties
 --- mozilla.orig/browser/locales/en-US/chrome/overrides/appstrings.properties	2010-02-04 15:47:13.000000000 +0100
 +++ mozilla/browser/locales/en-US/chrome/overrides/appstrings.properties	2010-02-04 15:48:50.000000000 +0100
-@@ -35,23 +35,23 @@
+@@ -35,24 +35,24 @@
  # ***** END LICENSE BLOCK *****
  
  malformedURI=The URL is not valid and cannot be loaded.
@@ -77,6 +77,7 @@ diff -urN mozilla.orig/browser/locales/en-US/chrome/overrides/appstrings.propert
 -unknownSocketType=Firefox doesn't know how to communicate with the server.
 +unknownSocketType=Iceweasel doesn't know how to communicate with the server.
  netReset=The connection to the server was reset while the page was loading.
+ notCached=This document is no longer available.
 -netOffline=Firefox is currently in offline mode and can't browse the Web.
 +netOffline=Iceweasel is currently in offline mode and can't browse the Web.
  isprinting=The document cannot change while Printing or in Print Preview.

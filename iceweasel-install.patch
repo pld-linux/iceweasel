@@ -1,11 +1,11 @@
 --- mozilla/browser/app/Makefile.in	2008-06-22 22:54:03.000000000 +0200
 +++ mozilla/browser/app/Makefile.in	2008-06-23 10:34:59.000000000 +0200
 @@ -397,7 +397,7 @@
- 	rsync -a $(DIST)/bin/ $(DIST)/$(APP_NAME).app/Contents/$(APPFILES)
- 	$(RM) $(DIST)/$(APP_NAME).app/Contents/$(APPFILES)/mangle $(DIST)/$(APP_NAME).app/Contents/$(APPFILES)/shlibsign
+ 	rsync -a $(DIST)/bin/ $(DIST)/$(MOZ_MACBUNDLE_NAME)/Contents/$(APPFILES)
+ 	$(RM) $(DIST)/$(MOZ_MACBUNDLE_NAME)/Contents/$(APPFILES)/mangle $(DIST)/$(MOZ_MACBUNDLE_NAME)/Contents/$(APPFILES)/shlibsign
  ifdef LIBXUL_SDK
--	cp $(LIBXUL_DIST)/bin/$(XR_STUB_NAME) $(DIST)/$(APP_NAME).app/Contents/MacOS/firefox
-+	cp $(LIBXUL_DIST)/bin/$(XR_STUB_NAME) $(DIST)/$(APP_NAME).app/Contents/MacOS/$(MOZ_APP_NAME)
+-	cp $(LIBXUL_DIST)/bin/$(XR_STUB_NAME) $(DIST)/$(MOZ_MACBUNDLE_NAME)/Contents/MacOS/firefox
++	cp $(LIBXUL_DIST)/bin/$(XR_STUB_NAME) $(DIST)/$(MOZ_MACBUNDLE_NAME)/Contents/MacOS/$(MOZ_APP_NAME)
  else
  	rm -f $(DIST)/$(APP_NAME).app/Contents/MacOS/$(PROGRAM)
  	rsync -aL $(PROGRAM) $(DIST)/$(APP_NAME).app/Contents/MacOS
