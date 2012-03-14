@@ -57,12 +57,14 @@ BuildRequires:	bzip2-devel
 BuildRequires:	cairo-devel >= 1.10.2-5
 BuildRequires:	dbus-glib-devel >= 0.60
 BuildRequires:	glib2-devel >= 1:2.18
-BuildRequires:	gtk+2-devel >= 2:2.10
+BuildRequires:	gtk+2-devel >= 2:2.14
 %{?with_kerberos:BuildRequires:	heimdal-devel >= 0.7.1}
 BuildRequires:	hunspell-devel
 BuildRequires:	libIDL-devel >= 0.8.0
 BuildRequires:	libdnet-devel
 BuildRequires:	libevent-devel >= 1.4.7
+# standalone libffi 3.0.9 or gcc's from 4.5(?)+
+BuildRequires:	libffi-devel >= 6:3.0.9
 %{?with_gnomeui:BuildRequires:	libgnomeui-devel >= 2.2.0}
 BuildRequires:	libiw-devel
 BuildRequires:	libjpeg-devel >= 6b
@@ -70,12 +72,13 @@ BuildRequires:	libnotify-devel >= 0.4
 BuildRequires:	libpng(APNG)-devel >= 0.10
 BuildRequires:	libpng-devel >= 1.4.1
 BuildRequires:	libstdc++-devel
-BuildRequires:	libvpx-devel
+BuildRequires:	libvpx-devel >= 1.0.0
 BuildRequires:	nspr-devel >= 1:4.8.9
 BuildRequires:	nss-devel >= 1:3.13.1
 BuildRequires:	pango-devel >= 1:1.14.0
 BuildRequires:	perl-modules >= 5.004
 BuildRequires:	pkgconfig
+BuildRequires:	pkgconfig(libffi) >= 3.0.9
 BuildRequires:	python-modules
 BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	rpmbuild(macros) >= 1.601
@@ -99,7 +102,8 @@ Requires:	hicolor-icon-theme
 Requires:	browser-plugins >= 2.0
 Requires:	cairo >= 1.10.2-5
 Requires:	dbus-glib >= 0.60
-Requires:	gtk+2 >= 2:2.18
+Requires:	glib2 >= 1:2.18
+Requires:	gtk+2 >= 2:2.14
 Requires:	libpng >= 1.4.1
 Requires:	libpng(APNG) >= 0.10
 Requires:	myspell-common
@@ -143,6 +147,9 @@ mv -f mozilla-release mozilla
 %setup -q -T -D -a1
 cd mozilla
 /bin/sh %{SOURCE2}
+
+# libvpx fix
+grep -q VPX_CODEC_USE_INPUT_PARTITION configure.in && sed -i 's#VPX_CODEC_USE_INPUT_PARTITION#VPX_CODEC_USE_INPUT_FRAGMENTS#' configure || exit 1
 
 %patch0 -p1
 %patch1 -p1
@@ -239,6 +246,7 @@ ac_add_options --with-libxul-sdk=$(pkg-config --variable=sdkdir libxul)
 %endif
 ac_add_options --with-pthreads
 ac_add_options --with-system-bz2
+ac_add_options --with-system-ffi
 ac_add_options --with-system-jpeg
 ac_add_options --with-system-libevent
 ac_add_options --with-system-libvpx
