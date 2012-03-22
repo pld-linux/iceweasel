@@ -15,8 +15,8 @@
 %endif
 
 # convert firefox release number to platform version: 9.0.x -> 9.0.x
-%define		xulrunner_main	10.0
-%define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#10.0})
+%define		xulrunner_main	11.0
+%define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#11.0})
 
 %if %{without xulrunner}
 # The actual sqlite version (see RHBZ#480989):
@@ -27,12 +27,12 @@ Summary:	Iceweasel web browser
 Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
-Version:	10.0.2
+Version:	11.0
 Release:	1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
-# Source0-md5:	5ce038d591964f72c534fa33b75a62f5
+# Source0-md5:	4b07acf47857aff72776d805409cdd1b
 Source1:	%{name}-branding.tar.bz2
 # Source1-md5:	7ab5e80db1ffe8784f1cb55dc5651e2f
 Source2:	%{name}-rm_nonfree.sh
@@ -73,8 +73,8 @@ BuildRequires:	libpng(APNG)-devel >= 0.10
 BuildRequires:	libpng-devel >= 1.4.1
 BuildRequires:	libstdc++-devel
 BuildRequires:	libvpx-devel >= 1.0.0
-BuildRequires:	nspr-devel >= 1:4.8.9
-BuildRequires:	nss-devel >= 1:3.13.1
+BuildRequires:	nspr-devel >= 1:4.9
+BuildRequires:	nss-devel >= 1:3.13.3
 BuildRequires:	pango-devel >= 1:1.14.0
 BuildRequires:	perl-modules >= 5.004
 BuildRequires:	pkgconfig
@@ -202,6 +202,7 @@ ac_add_options --localstatedir=%{_localstatedir}
 ac_add_options --sharedstatedir=%{_sharedstatedir}
 ac_add_options --mandir=%{_mandir}
 ac_add_options --infodir=%{_infodir}
+ac_add_options --disable-elf-hack
 %if %{?debug:1}0
 ac_add_options --disable-optimize
 ac_add_options --enable-debug

@@ -1,17 +1,17 @@
-diff -urN mozilla.orig/browser/app/application.ini mozilla/browser/app/application.ini
---- mozilla.orig/browser/app/application.ini	2010-02-04 15:47:13.000000000 +0100
-+++ mozilla/browser/app/application.ini	2010-02-04 15:48:46.000000000 +0100
-@@ -37,8 +37,8 @@
- 
+diff -urN mozilla.orig/build/application.ini.in mozilla/build/application.ini.in
+--- mozilla.orig/build/application.ini.in	2010-02-04 15:47:13.000000000 +0100
++++ mozilla/build/application.ini.in	2010-02-04 15:48:46.000000000 +0100
+@@ -43,8 +43,8 @@
+ #endif
  #filter substitution
  [App]
 -Vendor=@MOZ_APP_VENDOR@
 -Name=@MOZ_APP_BASENAME@
 +Vendor=
 +Name=Iceweasel
- Version=@APP_VERSION@
- BuildID=@GRE_BUILDID@
- #ifdef MOZ_SOURCE_REPO
+ Version=@MOZ_APP_VERSION@
+ #ifdef MOZ_APP_PROFILE
+ Profile=@MOZ_APP_PROFILE@
 diff -urN mozilla.orig/browser/app/profile/firefox.js mozilla/browser/app/profile/firefox.js
 --- mozilla.orig/browser/app/profile/firefox.js	2010-02-04 15:47:13.000000000 +0100
 +++ mozilla/browser/app/profile/firefox.js	2010-02-04 15:50:15.000000000 +0100

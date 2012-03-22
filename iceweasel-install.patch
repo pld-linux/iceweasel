@@ -29,7 +29,7 @@
  endif # LIBXUL_SDK
 --- mozilla/toolkit/mozapps/installer/packager.mk.orig	2011-03-19 00:34:12.000000000 +0100
 +++ mozilla/toolkit/mozapps/installer/packager.mk	2011-03-22 23:53:43.877485659 +0100
-@@ -496,30 +496,30 @@
+@@ -708,30 +708,30 @@
  endif
  
  stage-package: $(MOZ_PKG_MANIFEST) $(MOZ_PKG_REMOVALS_GEN) elfhack
@@ -49,8 +49,8 @@
 -	  "$(call core_abspath,$(DIST)/$(MOZ_PKG_DIR))", \
 +	  "$(call core_abspath,$(DESTDIR)/$(MOZ_PKG_DIR))", \
  	  "$(MOZ_PKG_MANIFEST)", "$(PKGCP_OS)", 1, 0, 1)
--	$(PERL) $(MOZILLA_DIR)/xpinstall/packager/xptlink.pl -s $(DIST) -d $(DIST)/xpt -f $(DIST)/$(MOZ_PKG_DIR)/$(_BINPATH)/components -v -x "$(XPIDL_LINK)"
-+	$(PERL) $(MOZILLA_DIR)/xpinstall/packager/xptlink.pl -s $(DIST) -d $(DIST)/xpt -f $(DESTDIR)/$(MOZ_PKG_DIR)/$(_BINPATH)/components -v -x "$(XPIDL_LINK)"
+-	$(PERL) $(MOZILLA_DIR)/toolkit/mozapps/installer/xptlink.pl -s $(DIST) -d $(DIST)/xpt -f $(DIST)/$(MOZ_PKG_DIR)/$(_BINPATH)/components -v -x "$(XPIDL_LINK)"
++	$(PERL) $(MOZILLA_DIR)/toolkit/mozapps/installer/xptlink.pl -s $(DIST) -d $(DIST)/xpt -f $(DESTDIR)/$(MOZ_PKG_DIR)/$(_BINPATH)/components -v -x "$(XPIDL_LINK)"
  	$(PYTHON) $(MOZILLA_DIR)/toolkit/mozapps/installer/link-manifests.py \
 -	  $(DIST)/$(MOZ_PKG_DIR)/$(_BINPATH)/components/components.manifest \
 +	  $(DESTDIR)/$(MOZ_PKG_DIR)/$(_BINPATH)/components/components.manifest \
@@ -68,7 +68,7 @@
  else # !MOZ_PKG_MANIFEST
  ifeq ($(MOZ_PKG_FORMAT),DMG)
  ifndef STAGE_SDK
-@@ -529,10 +529,10 @@
+@@ -741,10 +741,10 @@
  	@$(NSINSTALL) -D $(DIST)/xpt
  	@($(XPIDL_LINK) $(DIST)/xpt/$(MOZ_PKG_APPNAME).xpt $(DIST)/$(STAGEPATH)$(MOZ_PKG_DIR)$(_BINPATH)/components/*.xpt && rm -f $(DIST)/$(STAGEPATH)$(MOZ_PKG_DIR)$(_BINPATH)/components/*.xpt && cp $(DIST)/xpt/$(MOZ_PKG_APPNAME).xpt $(DIST)/$(STAGEPATH)$(MOZ_PKG_DIR)$(_BINPATH)/components && printf "interfaces $(MOZ_PKG_APPNAME).xpt\n" >$(DIST)/$(STAGEPATH)$(MOZ_PKG_DIR)$(_BINPATH)/components/interfaces.manifest) || echo No *.xpt files found in: $(DIST)/$(STAGEPATH)$(MOZ_PKG_DIR)$(_BINPATH)/components/.  Continuing...
  else
@@ -81,7 +81,7 @@
  	@echo "Linking XPT files..."
  	@rm -rf $(DIST)/xpt
  	@$(NSINSTALL) -D $(DIST)/xpt
-@@ -620,7 +620,7 @@
+@@ -830,7 +830,7 @@
  	cd $(DIST)/$(STAGEPATH)$(MOZ_PKG_DIR)$(_BINPATH) && $(PACK_OMNIJAR)
  endif
  	$(NSINSTALL) -D $(DESTDIR)$(installdir)
