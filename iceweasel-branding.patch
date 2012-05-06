@@ -113,15 +113,17 @@ diff -urN mozilla.orig/browser/locales/en-US/searchplugins/google.xml mozilla/br
  <Url type="text/html" method="GET" template="http://www.google.com/search">
    <Param name="q" value="{searchTerms}"/>
    <Param name="ie" value="utf-8"/>
-@@ -11,7 +11,7 @@
-   <Param name="aq" value="t"/>
-   <!-- Dynamic parameters -->
-   <Param name="rls" value="{moz:distributionID}:{moz:locale}:{moz:official}"/>
--  <MozParam name="client" condition="defaultEngine" trueValue="firefox-a" falseValue="firefox"/>
-+  <MozParam name="client" condition="defaultEngine" trueValue="iceweasel-a" falseValue="iceweasel"/>
- </Url>
- <SearchForm>http://www.google.com/</SearchForm>
- </SearchPlugin>
+--- mozilla.org/browser/locales/en-US/searchplugins/google.xml~	2012-05-06 12:29:28.000000000 +0200
++++ mozilla/browser/locales/en-US/searchplugins/google.xml	2012-05-06 12:30:22.178143572 +0200
+@@ -6,7 +6,7 @@
+ #elif MOZ_UPDATE_CHANNEL == nightly
+ #define GOOGLE_CLIENT_PARAM <MozParam name="client" condition="defaultEngine" trueValue="firefox-nightly" falseValue="firefox"/>
+ #else
+-#define GOOGLE_CLIENT_PARAM <MozParam name="client" condition="defaultEngine" trueValue="firefox-a" falseValue="firefox"/>
++#define GOOGLE_CLIENT_PARAM <MozParam name="client" condition="defaultEngine" trueValue="iceweasel-a" falseValue="iceweasel"/>
+ #endif
+ <SearchPlugin xmlns="http://www.mozilla.org/2006/browser/search/">
+ <ShortName>Google</ShortName>
 diff -urN mozilla.orig/toolkit/xre/nsAppRunner.cpp mozilla/toolkit/xre/nsAppRunner.cpp
 --- mozilla.orig/toolkit/xre/nsAppRunner.cpp	2010-02-04 15:47:20.000000000 +0100
 +++ mozilla/toolkit/xre/nsAppRunner.cpp	2010-02-04 15:48:50.000000000 +0100
@@ -138,13 +140,13 @@ diff -urN mozilla.orig/toolkit/xre/nsAppRunner.cpp mozilla/toolkit/xre/nsAppRunn
 --- mozilla/browser/branding/nightly/pref/firefox-branding.js~	2011-03-19 00:33:32.000000000 +0100
 +++ mozilla/browser/branding/nightly/pref/firefox-branding.js	2011-03-22 22:31:41.133961031 +0100
 @@ -1,5 +1,5 @@
--pref("startup.homepage_override_url","http://www.mozilla.org/projects/%APP%/%VERSION%/whatsnew/");
+-pref("startup.homepage_override_url","http://www.mozilla.org/projects/%APP%/%VERSION%/whatsnew/?oldversion=%OLD_VERSION%");
 -pref("startup.homepage_welcome_url","http://www.mozilla.org/projects/%APP%/%VERSION%/firstrun/");
-+pref("startup.homepage_override_url","http://www.mozilla.org/projects/firefox/%VERSION%/whatsnew/");
++pref("startup.homepage_override_url","http://www.mozilla.org/projects/firefox/%VERSION%/whatsnew/?oldversion=%OLD_VERSION%");
 +pref("startup.homepage_welcome_url","http://www.mozilla.org/projects/firefox/%VERSION%/firstrun/");
  // The time interval between checks for a new version (in seconds)
- // nightly=8 hours, official=24 hours
- pref("app.update.interval", 28800);
+ pref("app.update.interval", 7200); // 2 hours
+ // The time interval between the downloading of mar file chunks in the
 @@ -12,11 +12,11 @@
  pref("app.update.url.manual", "http://nightly.mozilla.org/");
  // A default value for the "More information about this update" link

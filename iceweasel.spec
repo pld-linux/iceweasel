@@ -15,8 +15,8 @@
 %endif
 
 # convert firefox release number to platform version: 9.0.x -> 9.0.x
-%define		xulrunner_main	11.0
-%define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#11.0})
+%define		xulrunner_main	12.0
+%define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#12.0})
 
 %if %{without xulrunner}
 # The actual sqlite version (see RHBZ#480989):
@@ -27,12 +27,12 @@ Summary:	Iceweasel web browser
 Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
-Version:	11.0
+Version:	12.0
 Release:	1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
-# Source0-md5:	4b07acf47857aff72776d805409cdd1b
+# Source0-md5:	80c3e5927274de7f181fb5f931ac5fd4
 Source1:	%{name}-branding.tar.bz2
 # Source1-md5:	7ab5e80db1ffe8784f1cb55dc5651e2f
 Source2:	%{name}-rm_nonfree.sh
@@ -147,9 +147,6 @@ mv -f mozilla-release mozilla
 %setup -q -T -D -a1
 cd mozilla
 /bin/sh %{SOURCE2}
-
-# libvpx fix
-grep -q VPX_CODEC_USE_INPUT_PARTITION configure.in && sed -i 's#VPX_CODEC_USE_INPUT_PARTITION#VPX_CODEC_USE_INPUT_FRAGMENTS#' configure || exit 1
 
 %patch0 -p1
 %patch1 -p1
@@ -415,6 +412,7 @@ fi
 %{_libdir}/%{name}/components/ChromeProfileMigrator.js
 %{_libdir}/%{name}/components/FeedConverter.js
 %{_libdir}/%{name}/components/FeedWriter.js
+%{_libdir}/%{name}/components/FirefoxProfileMigrator.js
 %{_libdir}/%{name}/components/PlacesProtocolHandler.js
 %{_libdir}/%{name}/components/Weave.js
 %{_libdir}/%{name}/components/WebContentConverter.js
@@ -428,9 +426,13 @@ fi
 %{_libdir}/%{name}/components/nsSessionStore.js
 %{_libdir}/%{name}/components/nsSetDefaultBrowser.js
 %{_libdir}/%{name}/components/nsSidebar.js
+%{_libdir}/%{name}/components/PageThumbsProtocol.js
+%{_libdir}/%{name}/components/ProfileMigrator.js
 
 %{_libdir}/%{name}/components/components.manifest
 %{_libdir}/%{name}/components/interfaces.manifest
+
+%{_libdir}/%{name}/update-settings.ini
 
 %if %{without xulrunner}
 %{_libdir}/%{name}/platform.ini
