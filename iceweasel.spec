@@ -82,7 +82,7 @@ BuildRequires:	pkgconfig(libffi) >= 3.0.9
 BuildRequires:	python-modules
 BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	rpmbuild(macros) >= 1.601
-BuildRequires:	sqlite3-devel >= 3.7.7.1
+BuildRequires:	sqlite3-devel >= 3.7.10
 BuildRequires:	startup-notification-devel >= 0.8
 BuildRequires:	xorg-lib-libXScrnSaver-devel
 BuildRequires:	xorg-lib-libXext-devel
