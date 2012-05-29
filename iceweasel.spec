@@ -48,6 +48,7 @@ Patch6:		%{name}-nss_cflags.patch
 Patch7:		%{name}-prefs.patch
 Patch8:		%{name}-pld-branding.patch
 Patch9:		%{name}-no-subshell.patch
+Patch10:	%{name}-bug-722975-workaround.patch
 URL:		http://www.pld-linux.org/Packages/Iceweasel
 BuildRequires:	GConf2-devel >= 1.2.1
 BuildRequires:	OpenGL-devel
@@ -125,8 +126,10 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 # don't satisfy other packages
 %define		_noautoprovfiles	%{_libdir}/%{name}
+%if %{without xulrunner}
 # and as we don't provide them, don't require either
-%define		_noautoreq	libmozjs.so libxpcom.so libxul.so %{!?with_xulrunner:libmozalloc.so}
+%define		_noautoreq	libmozalloc.so libmozjs.so libxpcom.so libxul.so
+%endif
 
 %description
 Iceweasel is an open-source web browser, designed for standards
@@ -171,6 +174,7 @@ cd mozilla
 %patch7 -p1
 %patch8 -p1
 %patch9 -p2
+%patch10 -p1
 
 # config/rules.mk is patched by us and js/src/config/rules.mk
 # is supposed to be exact copy
@@ -310,6 +314,8 @@ ln -s ../../share/%{name}/res $RPM_BUILD_ROOT%{_libdir}/%{name}/res
 %if %{without xulrunner}
 %{__rm} -r $RPM_BUILD_ROOT%{_libdir}/%{name}/dictionaries
 ln -s %{_datadir}/myspell $RPM_BUILD_ROOT%{_libdir}/%{name}/dictionaries
+%{__rm} -r $RPM_BUILD_ROOT%{_libdir}/%{name}/hyphenation
+ln -s %{_datadir}/myspell $RPM_BUILD_ROOT%{_libdir}/%{name}/hyphenation
 %endif
 
 sed 's,@LIBDIR@,%{_libdir},' %{SOURCE4} > $RPM_BUILD_ROOT%{_bindir}/iceweasel
@@ -392,7 +398,10 @@ fi
 
 %dir %{_libdir}/%{name}
 %if %{without xulrunner}
-%attr(755,root,root) %{_libdir}/%{name}/*.so
+%attr(755,root,root) %{_libdir}/%{name}/libmozalloc.so
+%attr(755,root,root) %{_libdir}/%{name}/libmozjs.so
+%attr(755,root,root) %{_libdir}/%{name}/libxpcom.so
+%attr(755,root,root) %{_libdir}/%{name}/libxul.so
 %endif
 %{_libdir}/%{name}/blocklist.xml
 
@@ -473,7 +482,6 @@ fi
 %{_libdir}/%{name}/components/nsSearchService.js
 %{_libdir}/%{name}/components/nsSearchSuggestions.js
 %{_libdir}/%{name}/components/nsTaggingService.js
-%{_libdir}/%{name}/components/nsTryToClose.js
 %{_libdir}/%{name}/components/nsURLFormatter.js
 %{_libdir}/%{name}/components/nsUpdateTimerManager.js
 %{_libdir}/%{name}/components/nsUrlClassifierHashCompleter.js
@@ -517,6 +525,7 @@ fi
 %{_libdir}/%{name}/xulrunner
 %else
 %{_libdir}/%{name}/dictionaries
+%{_libdir}/%{name}/hyphenation
 %{_libdir}/%{name}/greprefs.js
 %{_libdir}/%{name}/res
 %endif
