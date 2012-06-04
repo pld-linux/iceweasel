@@ -1,3 +1,5 @@
+# TODO:
+#  - provide proper $DISPLAY for PGO (Xvfb, Xdummy...) for unattended builds
 #
 # Conditional build:
 %bcond_with	tests		# enable tests (whatever they check)
@@ -7,8 +9,9 @@
 %if "%{pld_release}" == "ti"
 %bcond_with	xulrunner	# build with system xulrunner
 %else
-%bcond_without	xulrunner	# build with system xulrunner
+%bcond_without	xulrunner	# build without system xulrunner
 %endif
+%bcond_with	pgo		# PGO-enabled build (requires working $DISPLAY == :100)
 
 %if %{without gnome}
 %undefine	with_gnomeui
@@ -81,6 +84,7 @@ BuildRequires:	perl-modules >= 5.004
 BuildRequires:	pkgconfig
 BuildRequires:	pkgconfig(libffi) >= 3.0.9
 BuildRequires:	python-modules
+%{?with_pgo:BuildRequires:	python-modules-sqlite}
 BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	rpmbuild(macros) >= 1.601
 BuildRequires:	sqlite3-devel >= 3.7.10
@@ -180,6 +184,10 @@ cd mozilla
 # is supposed to be exact copy
 cp -a config/rules.mk js/src/config/rules.mk
 
+%if %{with pgo}
+sed -i -e 's@__BROWSER_PATH__@"../../dist/bin/iceweasel-bin"@' build/automation.py.in
+%endif
+
 %build
 cd mozilla
 cp -f %{_datadir}/automake/config.* build/autoconf
@@ -188,6 +196,8 @@ cat << EOF > .mozconfig
 . \$topsrcdir/browser/config/mozconfig
 
 mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/obj-%{_target_cpu}
+mk_add_options MOZ_MAKE_FLAGS=%{_smp_mflags}
+mk_add_options PROFILE_GEN_SCRIPT='@PYTHON@ @MOZ_OBJDIR@/_profile/pgo/profileserver.py'
 
 # Options for 'configure' (same as command-line options).
 ac_add_options --prefix=%{_prefix}
@@ -259,10 +269,19 @@ ac_add_options --with-system-zlib
 ac_add_options --with-default-mozilla-five-home=%{_libdir}/%{name}
 EOF
 
+%if %{with pgo}
+export DISPLAY=:100 
+%{__make} -f client.mk profiledbuild \
+	DESTDIR=obj-%{_target_cpu}/dist \
+	STRIP="/bin/true" \
+	CC="%{__cc}" \
+	CXX="%{__cxx}"
+%else
 %{__make} -f client.mk build \
 	STRIP="/bin/true" \
 	CC="%{__cc}" \
 	CXX="%{__cxx}"
+%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
