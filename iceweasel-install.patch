@@ -29,7 +29,7 @@
  endif # LIBXUL_SDK
 --- mozilla/toolkit/mozapps/installer/packager.mk.orig	2011-03-19 00:34:12.000000000 +0100
 +++ mozilla/toolkit/mozapps/installer/packager.mk	2011-03-22 23:53:43.877485659 +0100
-@@ -708,30 +708,30 @@
+@@ -708,35 +708,35 @@
  endif
  
  stage-package: $(MOZ_PKG_MANIFEST) $(MOZ_PKG_REMOVALS_GEN) elfhack
@@ -49,6 +49,12 @@
 -	  "$(call core_abspath,$(DIST)/$(MOZ_PKG_DIR))", \
 +	  "$(call core_abspath,$(DESTDIR)/$(MOZ_PKG_DIR))", \
  	  "$(MOZ_PKG_MANIFEST)", "$(PKGCP_OS)", 1, 0, 1)
+ ifeq (DMG, $(MOZ_PKG_FORMAT))
+ ifeq (dmg, $(filter dmg, $(MOZ_INTERNAL_SIGNING_FORMAT)))
+-	@cd $(DIST)/$(_APPNAME)/Contents && ln -sf _CodeSignature/CodeResources CodeResources
++	@cd $(DESTDIR)/$(_APPNAME)/Contents && ln -sf _CodeSignature/CodeResources CodeResources
+ endif
+ endif
 -	$(PERL) $(MOZILLA_DIR)/toolkit/mozapps/installer/xptlink.pl -s $(DIST) -d $(DIST)/xpt -f $(DIST)/$(MOZ_PKG_DIR)/$(_BINPATH)/components -v -x "$(XPIDL_LINK)"
 +	$(PERL) $(MOZILLA_DIR)/toolkit/mozapps/installer/xptlink.pl -s $(DIST) -d $(DIST)/xpt -f $(DESTDIR)/$(MOZ_PKG_DIR)/$(_BINPATH)/components -v -x "$(XPIDL_LINK)"
  	$(PYTHON) $(MOZILLA_DIR)/toolkit/mozapps/installer/link-manifests.py \
