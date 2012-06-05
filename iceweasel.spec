@@ -18,8 +18,8 @@
 %endif
 
 # convert firefox release number to platform version: 9.0.x -> 9.0.x
-%define		xulrunner_main	12.0
-%define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#12.0})
+%define		xulrunner_main	13.0
+%define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#13.0})
 
 %if %{without xulrunner}
 # The actual sqlite version (see RHBZ#480989):
