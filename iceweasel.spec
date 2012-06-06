@@ -31,7 +31,7 @@ Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
 Version:	13.0
-Release:	1
+Release:	2
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
@@ -52,6 +52,7 @@ Patch7:		%{name}-prefs.patch
 Patch8:		%{name}-pld-branding.patch
 Patch9:		%{name}-no-subshell.patch
 Patch10:	system-cairo.patch
+Patch11:	%{name}-middle_click_paste.patch
 URL:		http://www.pld-linux.org/Packages/Iceweasel
 BuildRequires:	GConf2-devel >= 1.2.1
 BuildRequires:	OpenGL-devel
@@ -179,6 +180,7 @@ cd mozilla
 %patch8 -p1
 %patch9 -p2
 %patch10 -p2
+%patch11 -p2
 
 # config/rules.mk is patched by us and js/src/config/rules.mk
 # is supposed to be exact copy

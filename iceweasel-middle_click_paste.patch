@@ -1,0 +1,18 @@
+--- iceweasel-13.0/mozilla/browser/base/content/browser.js.orig	2012-06-06 11:12:17.021562264 +0200
++++ iceweasel-13.0/mozilla/browser/base/content/browser.js	2012-06-06 11:21:37.000000000 +0200
+@@ -5953,12 +5953,9 @@
+ 
+   let mayInheritPrincipal = { value: false };
+   let url = getShortcutOrURI(clipboard, mayInheritPrincipal);
+-  try {
+-    makeURI(url);
+-  } catch (ex) {
+-    // Not a valid URI.
+-    return;
+-  }
++  var URIFixup = Components.classes["@mozilla.org/docshell/urifixup;1"].getService(Components.interfaces.nsIURIFixup);
++  url = URIFixup.createFixupURI(url, 1).spec;
++  // 1 is FIXUP_FLAG_ALLOW_KEYWORD_LOOKUP
+ 
+   try {
+     addToUrlbarHistory(url);
