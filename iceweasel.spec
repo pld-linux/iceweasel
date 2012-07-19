@@ -52,6 +52,7 @@ Patch8:		%{name}-pld-branding.patch
 Patch9:		%{name}-no-subshell.patch
 Patch10:	system-cairo.patch
 Patch11:	%{name}-middle_click_paste.patch
+Patch12:	%{name}-packaging.patch
 URL:		http://www.pld-linux.org/Packages/Iceweasel
 BuildRequires:	GConf2-devel >= 1.2.1
 BuildRequires:	OpenGL-devel
@@ -179,6 +180,7 @@ cd mozilla
 %patch9 -p2
 %patch10 -p2
 %patch11 -p2
+%patch12 -p2
 
 # config/rules.mk is patched by us and js/src/config/rules.mk
 # is supposed to be exact copy
@@ -456,11 +458,11 @@ fi
 %{_libdir}/%{name}/components/nsSidebar.js
 %{_libdir}/%{name}/components/PageThumbsProtocol.js
 %{_libdir}/%{name}/components/ProfileMigrator.js
+%{_libdir}/%{name}/components/DownloadsStartup.js
+%{_libdir}/%{name}/components/DownloadsUI.js
 
 %{_libdir}/%{name}/components/components.manifest
 %{_libdir}/%{name}/components/interfaces.manifest
-
-%{_libdir}/%{name}/update-settings.ini
 
 %if %{without xulrunner}
 %{_libdir}/%{name}/platform.ini

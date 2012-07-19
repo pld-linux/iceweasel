@@ -1,0 +1,397 @@
+--- iceweasel-14.0.1/mozilla/browser/installer/package-manifest.in.orig	2012-07-19 11:58:36.967061716 +0200
++++ iceweasel-14.0.1/mozilla/browser/installer/package-manifest.in	2012-07-19 12:54:12.645284513 +0200
+@@ -43,32 +43,39 @@
+ #endif
+ 
+ [xpcom]
++#ifndef LIBXUL_SDK
+ @BINPATH@/dependentlibs.list
++#endif
+ #ifdef XP_WIN32
+ @BINPATH@/@DLL_PREFIX@gkmedias@DLL_SUFFIX@
+ #endif
++#ifndef LIBXUL_SDK
+ @BINPATH@/@DLL_PREFIX@mozalloc@DLL_SUFFIX@
++#endif
+ #ifdef MOZ_SHARED_MOZGLUE
+ @BINPATH@/@DLL_PREFIX@mozglue@DLL_SUFFIX@
+ #endif
++#ifndef LIBXUL_SDK
+ #ifndef MOZ_STATIC_JS
+ @BINPATH@/@DLL_PREFIX@mozjs@DLL_SUFFIX@
+ #endif
+-@BINPATH@/@DLL_PREFIX@nspr4@DLL_SUFFIX@
+-@BINPATH@/@DLL_PREFIX@plc4@DLL_SUFFIX@
+-@BINPATH@/@DLL_PREFIX@plds4@DLL_SUFFIX@
++#endif
++#ifndef LIBXUL_SDK
+ @BINPATH@/@DLL_PREFIX@xpcom@DLL_SUFFIX@
+ #ifdef XP_MACOSX
+ @BINPATH@/XUL
+ #else
+ @BINPATH@/@DLL_PREFIX@xul@DLL_SUFFIX@
+ #endif
++#endif
+ #ifdef XP_MACOSX
+ @BINPATH@/@MOZ_CHILD_PROCESS_NAME@.app/
+ @BINPATH@/@DLL_PREFIX@plugin_child_interpose@DLL_SUFFIX@
+ #else
++#ifndef LIBXUL_SDK
+ @BINPATH@/@MOZ_CHILD_PROCESS_NAME@
+ #endif
++#endif
+ #ifdef XP_WIN32
+ #ifndef MOZ_DEBUG
+ #if MOZ_MSVC_REDIST == 1400
+@@ -96,43 +103,56 @@
+ #ifndef XP_UNIX
+ @BINPATH@/@MOZ_APP_NAME@.exe
+ #else
++#ifndef LIBXUL_SDK
+ @BINPATH@/@MOZ_APP_NAME@-bin
++#endif
+ @BINPATH@/@MOZ_APP_NAME@
+ #endif
+ @BINPATH@/application.ini
+ #ifdef MOZ_UPDATER
+ @BINPATH@/update-settings.ini
+ #endif
++#ifndef LIBXUL_SDK
+ @BINPATH@/platform.ini
+ #ifndef XP_OS2
+ @BINPATH@/@DLL_PREFIX@mozsqlite3@DLL_SUFFIX@
+ #else
+ @BINPATH@/mozsqlt3@DLL_SUFFIX@
+ #endif
++#endif
+ @BINPATH@/blocklist.xml
+ #ifdef XP_UNIX
+ @BINPATH@/run-mozilla.sh
+ #ifndef XP_MACOSX
++#ifndef LIBXUL_SDK
+ @BINPATH@/mozilla-xremote-client
+ #endif
+ #endif
++#endif
+ 
+ ; [Components]
+ @BINPATH@/components/components.manifest
++#ifndef LIBXUL_SDK
+ @BINPATH@/components/alerts.xpt
++#endif
+ #ifdef ACCESSIBILITY
+ #ifdef XP_WIN32
+ @BINPATH@/AccessibleMarshal.dll
+ @BINPATH@/components/accessibility-msaa.xpt
+ #endif
++#ifndef LIBXUL_SDK
+ @BINPATH@/components/accessibility.xpt
+ #endif
++#endif
++#ifndef LIBXUL_SDK
+ @BINPATH@/components/appshell.xpt
+ @BINPATH@/components/appstartup.xpt
+ @BINPATH@/components/autocomplete.xpt
+ @BINPATH@/components/autoconfig.xpt
++#endif
+ @BINPATH@/components/browsercompsbase.xpt
+ @BINPATH@/components/browser-feeds.xpt
++#ifndef LIBXUL_SDK
+ @BINPATH@/components/caps.xpt
+ @BINPATH@/components/chrome.xpt
+ @BINPATH@/components/commandhandler.xpt
+@@ -150,15 +170,19 @@
+ @BINPATH@/components/docshell.xpt
+ @BINPATH@/components/dom.xpt
+ @BINPATH@/components/dom_base.xpt
++#endif
+ #ifdef MOZ_B2G_RIL
+ @BINPATH@/components/dom_telephony.xpt
+ @BINPATH@/components/dom_wifi.xpt
+ @BINPATH@/components/dom_system_gonk.xpt
+ #endif
++#ifndef LIBXUL_SDK
+ @BINPATH@/components/dom_battery.xpt
++#endif
+ #ifdef MOZ_B2G_BT
+ @BINPATH@/components/dom_bluetooth.xpt
+ #endif
++#ifndef LIBXUL_SDK
+ @BINPATH@/components/dom_canvas.xpt
+ @BINPATH@/components/dom_contacts.xpt
+ @BINPATH@/components/dom_core.xpt
+@@ -195,7 +219,9 @@
+ @BINPATH@/components/filepicker.xpt
+ #endif
+ @BINPATH@/components/find.xpt
++#endif
+ @BINPATH@/components/fuel.xpt
++#ifndef LIBXUL_SDK
+ @BINPATH@/components/gfx.xpt
+ @BINPATH@/components/html5.xpt
+ @BINPATH@/components/htmlparser.xpt
+@@ -218,7 +244,9 @@
+ @BINPATH@/components/layout_xul.xpt
+ @BINPATH@/components/locale.xpt
+ @BINPATH@/components/lwbrk.xpt
++#endif
+ @BINPATH@/components/migration.xpt
++#ifndef LIBXUL_SDK
+ @BINPATH@/components/mimetype.xpt
+ @BINPATH@/components/mozfind.xpt
+ @BINPATH@/components/necko_about.xpt
+@@ -250,9 +278,13 @@
+ @BINPATH@/components/rdf.xpt
+ @BINPATH@/components/satchel.xpt
+ @BINPATH@/components/saxparser.xpt
++#endif
+ @BINPATH@/components/sessionstore.xpt
++#ifndef LIBXUL_SDK
+ @BINPATH@/components/services-crypto-component.xpt
++#endif
+ @BINPATH@/components/shellservice.xpt
++#ifndef LIBXUL_SDK
+ @BINPATH@/components/shistory.xpt
+ @BINPATH@/components/spellchecker.xpt
+ @BINPATH@/components/storage.xpt
+@@ -270,9 +302,11 @@
+ @BINPATH@/components/webBrowser_core.xpt
+ @BINPATH@/components/webbrowserpersist.xpt
+ @BINPATH@/components/widget.xpt
++#endif
+ #ifdef XP_MACOSX
+ @BINPATH@/components/widget_cocoa.xpt
+ #endif
++#ifndef LIBXUL_SDK
+ @BINPATH@/components/windowds.xpt
+ @BINPATH@/components/windowwatcher.xpt
+ @BINPATH@/components/xpcom_base.xpt
+@@ -289,14 +323,17 @@
+ @BINPATH@/components/xultmpl.xpt
+ @BINPATH@/components/zipwriter.xpt
+ @BINPATH@/components/telemetry.xpt
++#endif
+ 
+ ; JavaScript components
++#ifndef LIBXUL_SDK
+ @BINPATH@/components/ConsoleAPI.manifest
+ @BINPATH@/components/ConsoleAPI.js
+ @BINPATH@/components/BrowserElementAPI.manifest
+ @BINPATH@/components/BrowserElementAPI.js
+ @BINPATH@/components/FeedProcessor.manifest
+ @BINPATH@/components/FeedProcessor.js
++#endif
+ @BINPATH@/components/BrowserFeeds.manifest
+ @BINPATH@/components/FeedConverter.js
+ @BINPATH@/components/FeedWriter.js
+@@ -315,6 +352,7 @@
+ @BINPATH@/components/BrowserPageThumbs.manifest
+ @BINPATH@/components/nsPrivateBrowsingService.manifest
+ @BINPATH@/components/nsPrivateBrowsingService.js
++#ifndef LIBXUL_SDK
+ @BINPATH@/components/toolkitsearch.manifest
+ @BINPATH@/components/nsSearchService.js
+ @BINPATH@/components/nsSearchSuggestions.js
+@@ -341,31 +379,39 @@
+ @BINPATH@/components/NetworkGeolocationProvider.js
+ @BINPATH@/components/GPSDGeolocationProvider.manifest
+ @BINPATH@/components/GPSDGeolocationProvider.js
++#endif
+ @BINPATH@/components/nsSidebar.manifest
+ @BINPATH@/components/nsSidebar.js
++#ifndef LIBXUL_SDK
+ @BINPATH@/components/extensions.manifest
+ @BINPATH@/components/addonManager.js
+ @BINPATH@/components/amContentHandler.js
+ @BINPATH@/components/amWebInstallListener.js
+ @BINPATH@/components/nsBlocklistService.js
++#endif
+ #ifdef MOZ_UPDATER
+ @BINPATH@/components/nsUpdateService.manifest
+ @BINPATH@/components/nsUpdateService.js
+ @BINPATH@/components/nsUpdateServiceStub.js
+-#endif
+ @BINPATH@/components/nsUpdateTimerManager.manifest
+ @BINPATH@/components/nsUpdateTimerManager.js
++#endif
++#ifndef LIBXUL_SDK
+ @BINPATH@/components/pluginGlue.manifest
++#endif
+ @BINPATH@/components/nsSessionStore.manifest
+ @BINPATH@/components/nsSessionStartup.js
+ @BINPATH@/components/nsSessionStore.js
++#ifndef LIBXUL_SDK
+ @BINPATH@/components/nsURLFormatter.manifest
+ @BINPATH@/components/nsURLFormatter.js
++#endif
+ #ifndef XP_OS2
+ @BINPATH@/components/@DLL_PREFIX@browsercomps@DLL_SUFFIX@
+ #else
+ @BINPATH@/components/brwsrcmp@DLL_SUFFIX@
+ #endif
++#ifndef LIBXUL_SDK
+ @BINPATH@/components/txEXSLTRegExFunctions.manifest
+ @BINPATH@/components/txEXSLTRegExFunctions.js
+ @BINPATH@/components/toolkitplaces.manifest
+@@ -374,9 +420,13 @@
+ @BINPATH@/components/nsPlacesAutoComplete.manifest
+ @BINPATH@/components/nsPlacesAutoComplete.js
+ @BINPATH@/components/nsPlacesExpiration.js
++#endif
+ @BINPATH@/components/PlacesProtocolHandler.js
++#ifndef LIBXUL_SDK
+ @BINPATH@/components/PlacesCategoriesStarter.js
++#endif
+ @BINPATH@/components/PageThumbsProtocol.js
++#ifndef LIBXUL_SDK
+ @BINPATH@/components/nsDefaultCLH.manifest
+ @BINPATH@/components/nsDefaultCLH.js
+ @BINPATH@/components/nsContentPrefService.manifest
+@@ -397,6 +447,7 @@
+ @BINPATH@/components/contentSecurityPolicy.js
+ @BINPATH@/components/contentAreaDropListener.manifest
+ @BINPATH@/components/contentAreaDropListener.js
++#endif
+ #ifdef MOZ_B2G_RIL
+ @BINPATH@/components/RadioInterfaceLayer.manifest
+ @BINPATH@/components/RadioInterfaceLayer.js
+@@ -420,6 +471,7 @@
+ @BINPATH@/components/SafariProfileMigrator.js
+ @BINPATH@/components/libalerts.dylib
+ #endif
++#ifndef LIBXUL_SDK
+ #ifdef MOZ_ENABLE_DBUS
+ @BINPATH@/components/@DLL_PREFIX@dbusservice@DLL_SUFFIX@
+ #endif
+@@ -427,10 +479,12 @@
+ @BINPATH@/components/nsINIProcessor.js
+ @BINPATH@/components/nsPrompter.manifest
+ @BINPATH@/components/nsPrompter.js
++#endif
+ #ifdef MOZ_SERVICES_SYNC
+ @BINPATH@/components/SyncComponents.manifest
+ @BINPATH@/components/Weave.js
+ #endif
++#ifndef LIBXUL_SDK
+ @BINPATH@/components/TelemetryPing.js
+ @BINPATH@/components/TelemetryPing.manifest
+ @BINPATH@/components/messageWakeupService.js
+@@ -440,6 +494,7 @@
+ 
+ @BINPATH@/components/ContactManager.js
+ @BINPATH@/components/ContactManager.manifest
++#endif
+ 
+ ; Modules
+ @BINPATH@/modules/*
+@@ -448,17 +503,21 @@
+ #ifdef MOZ_SAFE_BROWSING
+ @BINPATH@/components/nsSafebrowsingApplication.manifest
+ @BINPATH@/components/nsSafebrowsingApplication.js
++#ifndef LIBXUL_SDK
+ @BINPATH@/components/nsURLClassifier.manifest
+ @BINPATH@/components/nsUrlClassifierHashCompleter.js
+ @BINPATH@/components/nsUrlClassifierListManager.js
+ @BINPATH@/components/nsUrlClassifierLib.js
+ @BINPATH@/components/url-classifier.xpt
+ #endif
++#endif
+ 
+ ; GNOME hooks
++#ifndef LIBXUL_SDK
+ #ifdef MOZ_ENABLE_GNOME_COMPONENT
+ @BINPATH@/components/@DLL_PREFIX@mozgnome@DLL_SUFFIX@
+ #endif
++#endif
+ 
+ ; ANGLE GLES-on-D3D rendering library
+ #ifdef MOZ_ANGLE
+@@ -477,8 +536,10 @@
+ #ifdef SHIP_FEEDBACK
+ @BINPATH@/distribution/extensions/testpilot@labs.mozilla.com.xpi
+ #endif
++#ifndef LIBXUL_SDK
+ @BINPATH@/chrome/toolkit@JAREXT@
+ @BINPATH@/chrome/toolkit.manifest
++#endif
+ #ifdef MOZ_GTK2
+ @BINPATH@/chrome/icons/default/default16.png
+ @BINPATH@/chrome/icons/default/default32.png
+@@ -496,13 +557,17 @@
+ ; [Default Preferences]
+ ; All the pref files must be part of base to prevent migration bugs
+ @BINPATH@/@PREF_DIR@/firefox.js
++#ifndef LIBXUL_SDK
+ @BINPATH@/@PREF_DIR@/firefox-branding.js
++#endif
+ #ifdef MOZ_SERVICES_SYNC
+ @BINPATH@/@PREF_DIR@/services-sync.js
+ #endif
++#ifndef LIBXUL_SDK
+ @BINPATH@/greprefs.js
+ @BINPATH@/defaults/autoconfig/platform.js
+ @BINPATH@/defaults/autoconfig/prefcalls.js
++#endif
+ #ifndef LIBXUL_SDK
+ ; Warning: changing the path to channel-prefs.js can cause bugs (Bug 756325)
+ @BINPATH@/defaults/pref/channel-prefs.js
+@@ -513,6 +578,7 @@
+ 
+ ; [Layout Engine Resources]
+ ; Style Sheets, Graphics and other Resources used by the layout engine. 
++#ifndef LIBXUL_SDK
+ @BINPATH@/res/EditorOverride.css
+ @BINPATH@/res/contenteditable.css
+ @BINPATH@/res/designmode.css
+@@ -537,44 +603,41 @@
+ @BINPATH@/res/table-remove-row-hover.gif
+ @BINPATH@/res/table-remove-row.gif
+ @BINPATH@/res/grabber.gif
++#endif
+ #ifdef XP_MACOSX
+ @BINPATH@/res/cursors/*
+ #endif
+ @BINPATH@/res/fonts/*
+ @BINPATH@/res/dtd/*
+ @BINPATH@/res/html/*
++#ifndef LIBXUL_SDK
+ @BINPATH@/res/langGroups.properties
+ @BINPATH@/res/language.properties
++#endif
+ @BINPATH@/res/entityTables/*
+ #ifdef XP_MACOSX
+ @BINPATH@/res/MainMenu.nib/
+ #endif
+ 
+ ; svg
++#ifndef LIBXUL_SDK
+ @BINPATH@/res/svg.css
+ @BINPATH@/components/dom_svg.xpt
+ @BINPATH@/components/dom_smil.xpt
++#endif
+ 
+ ; [Personal Security Manager]
+ ;
+ ; NSS libraries are signed in the staging directory,
+ ; meaning their .chk files are created there directly.
+ ;
+-@BINPATH@/@DLL_PREFIX@freebl3@DLL_SUFFIX@
+-@BINPATH@/@DLL_PREFIX@nss3@DLL_SUFFIX@
+-@BINPATH@/@DLL_PREFIX@nssckbi@DLL_SUFFIX@
+-#ifndef NSS_DISABLE_DBM
+-@BINPATH@/@DLL_PREFIX@nssdbm3@DLL_SUFFIX@
+-#endif
+-@BINPATH@/@DLL_PREFIX@nssutil3@DLL_SUFFIX@
+-@BINPATH@/@DLL_PREFIX@smime3@DLL_SUFFIX@
+-@BINPATH@/@DLL_PREFIX@softokn3@DLL_SUFFIX@
+-@BINPATH@/@DLL_PREFIX@ssl3@DLL_SUFFIX@
++#ifndef LIBXUL_SDK
+ @BINPATH@/chrome/pippki@JAREXT@
+ @BINPATH@/chrome/pippki.manifest
+ @BINPATH@/components/pipboot.xpt
+ @BINPATH@/components/pipnss.xpt
+ @BINPATH@/components/pippki.xpt
++#endif
+ 
+ ; for Solaris SPARC
+ #ifdef SOLARIS
