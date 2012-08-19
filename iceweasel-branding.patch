@@ -1,43 +1,3 @@
-diff -urN mozilla.orig/build/application.ini.in mozilla/build/application.ini.in
---- mozilla.orig/build/application.ini.in	2010-02-04 15:47:13.000000000 +0100
-+++ mozilla/build/application.ini.in	2010-02-04 15:48:46.000000000 +0100
-@@ -43,8 +43,8 @@
- #endif
- #filter substitution
- [App]
--Vendor=@MOZ_APP_VENDOR@
--Name=@MOZ_APP_BASENAME@
-+Vendor=
-+Name=Iceweasel
- Version=@MOZ_APP_VERSION@
- #ifdef MOZ_APP_PROFILE
- Profile=@MOZ_APP_PROFILE@
-diff -urN mozilla.orig/browser/app/profile/firefox.js mozilla/browser/app/profile/firefox.js
---- mozilla.orig/browser/app/profile/firefox.js	2010-02-04 15:47:13.000000000 +0100
-+++ mozilla/browser/app/profile/firefox.js	2010-02-04 15:50:15.000000000 +0100
-@@ -758,10 +758,8 @@
- pref("browser.rights.version", 3);
- pref("browser.rights.3.shown", false);
- 
--#ifdef DEBUG
- // Don't show the about:rights notification in debug builds.
- pref("browser.rights.override", true);
--#endif
- 
- #ifdef WINCE
- pref("browser.sessionstore.resume_from_crash", false);
-diff -urN mozilla.orig/browser/components/shell/src/nsWindowsShellService.cpp mozilla/browser/components/shell/src/nsWindowsShellService.cpp
---- mozilla.orig/browser/components/shell/src/nsWindowsShellService.cpp	2010-02-04 15:47:12.000000000 +0100
-+++ mozilla/browser/components/shell/src/nsWindowsShellService.cpp	2010-02-04 15:49:28.000000000 +0100
-@@ -186,7 +186,7 @@
-   char* valueData;
- } SETTING;
- 
--#define APP_REG_NAME L"Firefox"
-+#define APP_REG_NAME L"Iceweasel"
- #define VAL_FILE_ICON "%APPPATH%,1"
- #define VAL_OPEN "\"%APPPATH%\" -osint -url \"%1\""
- #define OLD_VAL_OPEN "\"%APPPATH%\" -requestPending -osint -url \"%1\""
 diff -urN mozilla.orig/browser/confvars.sh mozilla/browser/confvars.sh
 --- mozilla.orig/browser/confvars.sh	2010-02-04 15:47:13.000000000 +0100
 +++ mozilla/browser/confvars.sh	2010-02-04 15:48:50.000000000 +0100
@@ -52,9 +12,161 @@ diff -urN mozilla.orig/browser/confvars.sh mozilla/browser/confvars.sh
  MOZ_UPDATER=1
  MOZ_PHOENIX=1
  
-diff -urN mozilla.orig/browser/locales/en-US/chrome/overrides/appstrings.properties mozilla/browser/locales/en-US/chrome/overrides/appstrings.properties
---- mozilla.orig/browser/locales/en-US/chrome/overrides/appstrings.properties	2010-02-04 15:47:13.000000000 +0100
-+++ mozilla/browser/locales/en-US/chrome/overrides/appstrings.properties	2010-02-04 15:48:50.000000000 +0100
+From: Mike Hommey <mh@glandium.org>
+Date: Thu, 1 Apr 2010 15:34:59 +0200
+Subject: Determine which phishing shavar to use depending on
+ MOZ_OFFICIAL_BRANDING
+
+---
+ browser/app/Makefile.in                                |    4 ++++
+ browser/app/profile/firefox.js                         |    4 ++++
+ browser/components/safebrowsing/Makefile.in            |    4 ++++
+ browser/components/safebrowsing/content/application.js |    4 ++++
+ 4 files changed, 16 insertions(+)
+
+diff --git a/browser/app/Makefile.in b/browser/app/Makefile.in
+index 33728ad..b9be2ef 100644
+--- a/browser/app/Makefile.in
++++ b/browser/app/Makefile.in
+@@ -161,6 +161,10 @@ endif
+ 
+ endif #} LIBXUL_SDK
+ 
++ifdef MOZ_OFFICIAL_BRANDING
++DEFINES += -DMOZ_OFFICIAL_BRANDING
++endif
++
+ ifeq ($(MOZ_WIDGET_TOOLKIT),gtk2)
+ libs::
+ 	$(INSTALL) $(IFLAGS1) $(DIST)/branding/mozicon128.png $(DIST)/bin/icons
+diff --git a/browser/app/profile/firefox.js b/browser/app/profile/firefox.js
+index 6ef79ef..e00195a 100644
+--- a/browser/app/profile/firefox.js
++++ b/browser/app/profile/firefox.js
+@@ -777,7 +777,11 @@ pref("urlclassifier.alternate_error_page", "blocked");
+ pref("urlclassifier.gethashnoise", 4);
+ 
+ // The list of tables that use the gethash request to confirm partial results.
++#ifdef MOZ_OFFICIAL_BRANDING
+ pref("urlclassifier.gethashtables", "goog-phish-shavar,goog-malware-shavar");
++#else
++pref("urlclassifier.gethashtables", "googpub-phish-shavar,goog-malware-shavar");
++#endif
+ 
+ // If an urlclassifier table has not been updated in this number of seconds,
+ // a gethash request will be forced to check that the result is still in
+diff --git a/browser/components/safebrowsing/Makefile.in b/browser/components/safebrowsing/Makefile.in
+index 3833814..51b55df 100644
+--- a/browser/components/safebrowsing/Makefile.in
++++ b/browser/components/safebrowsing/Makefile.in
+@@ -49,6 +49,10 @@ ifdef MOZILLA_OFFICIAL
+ DEFINES += -DOFFICIAL_BUILD=1
+ endif
+ 
++ifdef MOZ_OFFICIAL_BRANDING
++DEFINES += -DMOZ_OFFICIAL_BRANDING
++endif
++
+ EXTRA_COMPONENTS = \
+   src/nsSafebrowsingApplication.manifest \
+   $(NULL)
+diff --git a/browser/components/safebrowsing/content/application.js b/browser/components/safebrowsing/content/application.js
+index d353cbc..ec32c92 100644
+--- a/browser/components/safebrowsing/content/application.js
++++ b/browser/components/safebrowsing/content/application.js
+@@ -109,7 +109,11 @@ PROT_Application.prototype.initialize = function() {
+   this.malwareWarden.maybeToggleUpdateChecking();
+ 
+   this.phishWarden = new PROT_PhishingWarden();
++#ifdef MOZ_OFFICIAL_BRANDING
+   this.phishWarden.registerBlackTable("goog-phish-shavar");
++#else
++  this.phishWarden.registerBlackTable("googpub-phish-shavar");
++#endif
+   this.phishWarden.maybeToggleUpdateChecking();
+ }
+ 
+From: Mike Hommey <mh@glandium.org>
+Date: Sat, 19 Feb 2011 11:04:53 +0100
+Subject: Modify search plugins depending on MOZ_APP_NAME
+
+---
+ browser/locales/Makefile.in                     |    1 +
+ browser/locales/en-US/searchplugins/answers.xml |    2 +-
+ browser/locales/en-US/searchplugins/google.xml  |    5 +++++
+ 3 files changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/browser/locales/Makefile.in b/browser/locales/Makefile.in
+index 340bb5f..dd0761f 100644
+--- a/browser/locales/Makefile.in
++++ b/browser/locales/Makefile.in
+@@ -167,6 +167,7 @@ libs:: $(addsuffix .xml,$(SEARCH_PLUGINS))
+ 	for SEARCH_PLUGIN in $^; do\
+ 	  SEARCH_PLUGIN_BASE=`basename $$SEARCH_PLUGIN`;\
+ 	  $(PYTHON) $(topsrcdir)/config/Preprocessor.py $(DEFINES) $(ACDEFINES) \
++        -DMOZ_APP_NAME=$(MOZ_APP_NAME) \
+ 	    $$SEARCH_PLUGIN > $(FINAL_TARGET)/searchplugins/$$SEARCH_PLUGIN_BASE; \
+ 	done
+ 
+diff --git a/browser/locales/en-US/searchplugins/answers.xml b/browser/locales/en-US/searchplugins/answers.xml
+index ea32303..2da83aa 100644
+--- a/browser/locales/en-US/searchplugins/answers.xml
++++ b/browser/locales/en-US/searchplugins/answers.xml
+@@ -8,6 +8,6 @@
+   <Param name="gwp" value="13"/>
+ </Url>
+ <Url type="application/x-suggestions+json" method="GET"
+-     template="http://www.answers.com/main/startswith?output=json&amp;client=firefox&amp;s={searchTerms}"/>
++#expand     template="http://www.answers.com/main/startswith?output=json&amp;client=__MOZ_APP_NAME__&amp;s={searchTerms}"/>
+ <SearchForm>http://www.answers.com/</SearchForm>
+ </SearchPlugin>
+diff --git a/browser/locales/en-US/searchplugins/google.xml b/browser/locales/en-US/searchplugins/google.xml
+index 1ccd459..b87c867 100644
+--- a/browser/locales/en-US/searchplugins/google.xml
++++ b/browser/locales/en-US/searchplugins/google.xml
+@@ -1,4 +1,6 @@
++#filter substitution
+ #define GOOGLE_PARAMS <Param name="q" value="{searchTerms}"/><Param name="ie" value="utf-8"/><Param name="oe" value="utf-8"/><Param name="aq" value="t"/><Param name="rls" value="{moz:distributionID}:{moz:locale}:{moz:official}"/>
++#if MOZ_APP_NAME==firefox
+ #if MOZ_UPDATE_CHANNEL == beta
+ #define GOOGLE_CLIENT_PARAM <MozParam name="client" condition="defaultEngine" trueValue="firefox-beta" falseValue="firefox"/>
+ #elif MOZ_UPDATE_CHANNEL == aurora
+@@ -8,6 +10,9 @@
+ #else
+ #define GOOGLE_CLIENT_PARAM <MozParam name="client" condition="defaultEngine" trueValue="firefox-a" falseValue="firefox"/>
+ #endif
++#else
++#define GOOGLE_CLIENT_PARAM <MozParam name="client" condition="defaultEngine" trueValue="@MOZ_APP_NAME@-a" falseValue="@MOZ_APP_NAME@"/>
++#endif
+ <SearchPlugin xmlns="http://www.mozilla.org/2006/browser/search/">
+ <ShortName>Google</ShortName>
+ <Description>Google Search</Description>
+From: Mike Hommey <mh@glandium.org>
+Date: Sat, 19 Feb 2011 11:02:30 +0100
+Subject: Use MOZ_APP_DISPLAYNAME to fill appstrings.properties
+
+---
+ browser/locales/Makefile.in                        |    2 ++
+ .../en-US/chrome/overrides/appstrings.properties   |   20 ++++++++++----------
+ 2 files changed, 12 insertions(+), 10 deletions(-)
+
+diff --git a/browser/locales/Makefile.in b/browser/locales/Makefile.in
+index c5a09d2..340bb5f 100644
+--- a/browser/locales/Makefile.in
++++ b/browser/locales/Makefile.in
+@@ -69,6 +69,8 @@ SUBMAKEFILES += \
+ 	$(DEPTH)/$(MOZ_BRANDING_DIRECTORY)/locales/Makefile \
+ 	$(NULL)
+ 
++DEFINES += -DMOZ_APP_DISPLAYNAME=$(MOZ_APP_DISPLAYNAME)
++
+ # This makefile uses variable overrides from the libs-% target to
+ # build non-default locales to non-default dist/ locations. Be aware!
+ 
+diff --git a/browser/locales/en-US/chrome/overrides/appstrings.properties b/browser/locales/en-US/chrome/overrides/appstrings.properties
+index 87e9538..ac979f9 100644
+--- a/browser/locales/en-US/chrome/overrides/appstrings.properties
++++ b/browser/locales/en-US/chrome/overrides/appstrings.properties
 @@ -35,24 +35,24 @@
  # ***** END LICENSE BLOCK *****
  
@@ -63,128 +175,30 @@ diff -urN mozilla.orig/browser/locales/en-US/chrome/overrides/appstrings.propert
 -dnsNotFound=Firefox can't find the server at %S.
 -protocolNotFound=Firefox doesn't know how to open this address, because the protocol (%S) isn't associated with any program.
 -connectionFailure=Firefox can't establish a connection to the server at %S.
-+fileNotFound=Iceweasel can't find the file at %S.
-+dnsNotFound=Iceweasel can't find the server at %S.
-+protocolNotFound=Iceweasel doesn't know how to open this address, because the protocol (%S) isn't associated with any program.
-+connectionFailure=Iceweasel can't establish a connection to the server at %S.
++#expand fileNotFound=__MOZ_APP_DISPLAYNAME__ can't find the file at %S.
++#expand dnsNotFound=__MOZ_APP_DISPLAYNAME__ can't find the server at %S.
++#expand protocolNotFound=__MOZ_APP_DISPLAYNAME__ doesn't know how to open this address, because the protocol (%S) isn't associated with any program.
++#expand connectionFailure=__MOZ_APP_DISPLAYNAME__ can't establish a connection to the server at %S.
  netInterrupt=The connection to %S was interrupted while the page was loading.
  netTimeout=The server at %S is taking too long to respond.
 -redirectLoop=Firefox has detected that the server is redirecting the request for this address in a way that will never complete.
-+redirectLoop=Iceweasel has detected that the server is redirecting the request for this address in a way that will never complete.
++#expand redirectLoop=__MOZ_APP_DISPLAYNAME__ has detected that the server is redirecting the request for this address in a way that will never complete.
  ## LOCALIZATION NOTE (confirmRepostPrompt): In this item, don't translate "%S"
  confirmRepostPrompt=To display this page, %S must send information that will repeat any action (such as a search or order confirmation) that was performed earlier.
  resendButton.label=Resend
 -unknownSocketType=Firefox doesn't know how to communicate with the server.
-+unknownSocketType=Iceweasel doesn't know how to communicate with the server.
++#expand unknownSocketType=__MOZ_APP_DISPLAYNAME__ doesn't know how to communicate with the server.
  netReset=The connection to the server was reset while the page was loading.
  notCached=This document is no longer available.
 -netOffline=Firefox is currently in offline mode and can't browse the Web.
-+netOffline=Iceweasel is currently in offline mode and can't browse the Web.
++#expand netOffline=__MOZ_APP_DISPLAYNAME__ is currently in offline mode and can't browse the Web.
  isprinting=The document cannot change while Printing or in Print Preview.
 -deniedPortAccess=This address uses a network port which is normally used for purposes other than Web browsing. Firefox has canceled the request for your protection.
 -proxyResolveFailure=Firefox is configured to use a proxy server that can't be found.
 -proxyConnectFailure=Firefox is configured to use a proxy server that is refusing connections.
-+deniedPortAccess=This address uses a network port which is normally used for purposes other than Web browsing. Iceweasel has canceled the request for your protection.
-+proxyResolveFailure=Iceweasel is configured to use a proxy server that can't be found.
-+proxyConnectFailure=Iceweasel is configured to use a proxy server that is refusing connections.
++#expand deniedPortAccess=This address uses a network port which is normally used for purposes other than Web browsing. __MOZ_APP_DISPLAYNAME__ has canceled the request for your protection.
++#expand proxyResolveFailure=__MOZ_APP_DISPLAYNAME__ is configured to use a proxy server that can't be found.
++#expand proxyConnectFailure=__MOZ_APP_DISPLAYNAME__ is configured to use a proxy server that is refusing connections.
  contentEncodingError=The page you are trying to view cannot be shown because it uses an invalid or unsupported form of compression.
  unsafeContentType=The page you are trying to view cannot be shown because it is contained in a file type that may not be safe to open. Please contact the website owners to inform them of this problem.
  externalProtocolTitle=External Protocol Request
-diff -urN mozilla.orig/browser/locales/en-US/searchplugins/answers.xml mozilla/browser/locales/en-US/searchplugins/answers.xml
---- mozilla.orig/browser/locales/en-US/searchplugins/answers.xml	2010-02-04 15:47:13.000000000 +0100
-+++ mozilla/browser/locales/en-US/searchplugins/answers.xml	2010-02-04 15:48:50.000000000 +0100
-@@ -8,6 +8,6 @@
-   <Param name="gwp" value="13"/>
- </Url>
- <Url type="application/x-suggestions+json" method="GET"
--     template="http://www.answers.com/main/startswith?output=json&amp;client=firefox&amp;s={searchTerms}"/>
-+     template="http://www.answers.com/main/startswith?output=json&amp;client=iceweasel&amp;s={searchTerms}"/>
- <SearchForm>http://www.answers.com/</SearchForm>
- </SearchPlugin>
-diff -urN mozilla.orig/browser/locales/en-US/searchplugins/google.xml mozilla/browser/locales/en-US/searchplugins/google.xml
---- mozilla.orig/browser/locales/en-US/searchplugins/google.xml	2010-02-04 15:47:13.000000000 +0100
-+++ mozilla/browser/locales/en-US/searchplugins/google.xml	2010-02-04 15:48:50.000000000 +0100
-@@ -6,14 +6,14 @@
- #elif MOZ_UPDATE_CHANNEL == nightly
- #define GOOGLE_CLIENT_PARAM <MozParam name="client" condition="defaultEngine" trueValue="firefox-nightly" falseValue="firefox"/>
- #else
--#define GOOGLE_CLIENT_PARAM <MozParam name="client" condition="defaultEngine" trueValue="firefox-a" falseValue="firefox"/>
-+#define GOOGLE_CLIENT_PARAM <MozParam name="client" condition="defaultEngine" trueValue="iceweasel-a" falseValue="iceweasel"/>
- #endif
- <SearchPlugin xmlns="http://www.mozilla.org/2006/browser/search/">
- <ShortName>Google</ShortName>
- <Description>Google Search</Description>
- <InputEncoding>UTF-8</InputEncoding>
- <Image width="16" height="16">data:image/png;base64,AAABAAEAEBAAAAEAGABoAwAAFgAAACgAAAAQAAAAIAAAAAEAGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADs9Pt8xetPtu9FsfFNtu%2BTzvb2%2B%2Fne4dFJeBw0egA%2FfAJAfAA8ewBBegAAAAD%2B%2FPtft98Mp%2BwWsfAVsvEbs%2FQeqvF8xO7%2F%2F%2F63yqkxdgM7gwE%2FggM%2BfQA%2BegBDeQDe7PIbotgQufcMufEPtfIPsvAbs%2FQvq%2Bfz%2Bf%2F%2B%2B%2FZKhR05hgBBhQI8hgBAgAI9ewD0%2B%2Fg3pswAtO8Cxf4Kw%2FsJvvYAqupKsNv%2B%2Fv7%2F%2FP5VkSU0iQA7jQA9hgBDgQU%2BfQH%2F%2Ff%2FQ6fM4sM4KsN8AteMCruIqqdbZ7PH8%2Fv%2Fg6Nc%2Fhg05kAA8jAM9iQI%2BhQA%2BgQDQu6b97uv%2F%2F%2F7V8Pqw3eiWz97q8%2Ff%2F%2F%2F%2F7%2FPptpkkqjQE4kwA7kAA5iwI8iAA8hQCOSSKdXjiyflbAkG7u2s%2F%2B%2F%2F39%2F%2F7r8utrqEYtjQE8lgA7kwA7kwA9jwA9igA9hACiWSekVRyeSgiYSBHx6N%2F%2B%2Fv7k7OFRmiYtlAA5lwI7lwI4lAA7kgI9jwE9iwI4iQCoVhWcTxCmb0K%2BooT8%2Fv%2F7%2F%2F%2FJ2r8fdwI1mwA3mQA3mgA8lAE8lAE4jwA9iwE%2BhwGfXifWvqz%2B%2Ff%2F58u%2Fev6Dt4tr%2B%2F%2F2ZuIUsggA7mgM6mAM3lgA5lgA6kQE%2FkwBChwHt4dv%2F%2F%2F728ei1bCi7VAC5XQ7kz7n%2F%2F%2F6bsZkgcB03lQA9lgM7kwA2iQktZToPK4r9%2F%2F%2F9%2F%2F%2FSqYK5UwDKZAS9WALIkFn%2B%2F%2F3%2F%2BP8oKccGGcIRJrERILYFEMwAAuEAAdX%2F%2Ff7%2F%2FP%2B%2BfDvGXQLIZgLEWgLOjlf7%2F%2F%2F%2F%2F%2F9QU90EAPQAAf8DAP0AAfMAAOUDAtr%2F%2F%2F%2F7%2B%2Fu2bCTIYwDPZgDBWQDSr4P%2F%2Fv%2F%2F%2FP5GRuABAPkAA%2FwBAfkDAPAAAesAAN%2F%2F%2B%2Fz%2F%2F%2F64g1C5VwDMYwK8Yg7y5tz8%2Fv%2FV1PYKDOcAAP0DAf4AAf0AAfYEAOwAAuAAAAD%2F%2FPvi28ymXyChTATRrIb8%2F%2F3v8fk6P8MAAdUCAvoAAP0CAP0AAfYAAO4AAACAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAQAA</Image>
--<Url type="application/x-suggestions+json" method="GET" template="https://www.google.com/complete/search?client=firefox&amp;q={searchTerms}"/>
-+<Url type="application/x-suggestions+json" method="GET" template="https://www.google.com/complete/search?client=iceweasel&amp;q={searchTerms}"/>
- <Url type="text/html" method="GET" template="https://www.google.com/search">
- #expand   __GOOGLE_PARAMS__
- #expand   __GOOGLE_CLIENT_PARAM__
-diff -urN mozilla.orig/toolkit/xre/nsAppRunner.cpp mozilla/toolkit/xre/nsAppRunner.cpp
---- mozilla.orig/toolkit/xre/nsAppRunner.cpp	2010-02-04 15:47:20.000000000 +0100
-+++ mozilla/toolkit/xre/nsAppRunner.cpp	2010-02-04 15:48:50.000000000 +0100
-@@ -1314,8 +1314,7 @@
- static inline void
- DumpVersion()
- {
--  printf("%s %s %s", 
--         gAppData->vendor ? gAppData->vendor : "", gAppData->name, gAppData->version);
-+  printf("%s %s", gAppData->name, gAppData->version);
-   if (gAppData->copyright)
-       printf(", %s", gAppData->copyright);
-   printf("\n");
---- mozilla/browser/branding/nightly/pref/firefox-branding.js~	2011-03-19 00:33:32.000000000 +0100
-+++ mozilla/browser/branding/nightly/pref/firefox-branding.js	2011-03-22 22:31:41.133961031 +0100
-@@ -1,5 +1,5 @@
--pref("startup.homepage_override_url","http://www.mozilla.org/projects/%APP%/%VERSION%/whatsnew/?oldversion=%OLD_VERSION%");
--pref("startup.homepage_welcome_url","http://www.mozilla.org/projects/%APP%/%VERSION%/firstrun/");
-+pref("startup.homepage_override_url","http://www.mozilla.org/projects/firefox/%VERSION%/whatsnew/?oldversion=%OLD_VERSION%");
-+pref("startup.homepage_welcome_url","http://www.mozilla.org/projects/firefox/%VERSION%/firstrun/");
- // The time interval between checks for a new version (in seconds)
- pref("app.update.interval", 7200); // 2 hours
- // The time interval between the downloading of mar file chunks in the
-@@ -12,11 +12,11 @@
- pref("app.update.url.manual", "http://nightly.mozilla.org/");
- // A default value for the "More information about this update" link
- // supplied in the "An update is available" page of the update wizard. 
--pref("app.update.url.details", "http://www.mozilla.org/projects/%APP%/");
-+pref("app.update.url.details", "http://www.mozilla.org/projects/firefox/");
- 
- // Release notes and vendor URLs
--pref("app.releaseNotesURL", "http://www.mozilla.org/projects/%APP%/%VERSION%/releasenotes/");
--pref("app.vendorURL", "http://www.mozilla.org/projects/%APP%/");
-+pref("app.releaseNotesURL", "http://www.mozilla.org/projects/firefox/%VERSION%/releasenotes/");
-+pref("app.vendorURL", "http://www.mozilla.org/projects/firefox/");
- 
- // Search codes belong only in builds with official branding
- pref("browser.search.param.yahoo-fr", "");
---- mozilla/browser/branding/unofficial/pref/firefox-branding.js~	2011-03-19 00:33:32.000000000 +0100
-+++ mozilla/browser/branding/unofficial/pref/firefox-branding.js	2011-03-22 22:32:15.552191452 +0100
-@@ -1,5 +1,5 @@
--pref("startup.homepage_override_url","http://www.mozilla.org/projects/%APP%/%VERSION%/whatsnew/");
--pref("startup.homepage_welcome_url","http://www.mozilla.org/projects/%APP%/%VERSION%/firstrun/");
-+pref("startup.homepage_override_url","http://www.mozilla.org/projects/firefox/%VERSION%/whatsnew/");
-+pref("startup.homepage_welcome_url","http://www.mozilla.org/projects/firefox/%VERSION%/firstrun/");
- // The time interval between checks for a new version (in seconds)
- // nightly=8 hours, official=24 hours
- pref("app.update.interval", 28800);
-@@ -9,14 +9,14 @@
- pref("app.update.download.backgroundInterval", 60);
- // URL user can browse to manually if for some reason all update installation
- // attempts fail.
--pref("app.update.url.manual", "http://www.mozilla.org/products/%APP%/");
-+pref("app.update.url.manual", "http://www.mozilla.org/products/firefox/");
- // A default value for the "More information about this update" link
- // supplied in the "An update is available" page of the update wizard. 
--pref("app.update.url.details", "http://www.mozilla.org/projects/%APP%/");
-+pref("app.update.url.details", "http://www.mozilla.org/projects/firefox/");
- 
- // Release notes and vendor URLs
--pref("app.releaseNotesURL", "http://www.mozilla.org/projects/%APP%/%VERSION%/releasenotes/");
--pref("app.vendorURL", "http://www.mozilla.org/projects/%APP%/");
-+pref("app.releaseNotesURL", "http://www.mozilla.org/projects/firefox/%VERSION%/releasenotes/");
-+pref("app.vendorURL", "http://www.mozilla.org/projects/firefox/");
- 
- // Search codes belong only in builds with official branding
- pref("browser.search.param.yahoo-fr", "");

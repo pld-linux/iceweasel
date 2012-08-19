@@ -6,11 +6,7 @@
 %bcond_without	gnomeui		# disable gnomeui support
 %bcond_without	gnome		# synonym for gnomeui (gconf, libnotify and gio are still enabled)
 %bcond_without	kerberos	# disable krb5 support
-%if "%{pld_release}" == "ti"
-%bcond_with	xulrunner	# build with system xulrunner
-%else
 %bcond_without	xulrunner	# build without system xulrunner
-%endif
 %bcond_with	pgo		# PGO-enabled build (requires working $DISPLAY == :100)
 
 %if %{without gnome}
@@ -31,22 +27,21 @@ Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
 Version:	14.0.1
-Release:	1
+Release:	2
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
 # Source0-md5:	c2f884f0f6c41c65cf20f678a1ee7191
 Source1:	%{name}-branding.tar.bz2
-# Source1-md5:	7ab5e80db1ffe8784f1cb55dc5651e2f
+# Source1-md5:	5f4f43f1a77e44dcf931edae46e3f396
 Source2:	%{name}-rm_nonfree.sh
 Source3:	%{name}.desktop
 Source4:	%{name}.sh
+Source5:	vendor.js
+Source6:	vendor-ac.js
 Patch0:		%{name}-branding.patch
 Patch1:		%{name}-install.patch
 Patch2:		%{name}-gcc3.patch
-Patch3:		%{name}-agent.patch
-Patch4:		%{name}-ac-agent.patch
-Patch5:		%{name}-ti-agent.patch
 Patch7:		%{name}-prefs.patch
 Patch8:		%{name}-pld-branding.patch
 Patch9:		%{name}-no-subshell.patch
@@ -161,18 +156,6 @@ cd mozilla
 
 %if "%{cc_version}" < "3.4"
 %patch2 -p2
-%endif
-
-%if "%{pld_release}" == "th"
-%patch3 -p1
-%endif
-
-%if "%{pld_release}" == "ac"
-%patch4 -p1
-%endif
-
-%if "%{pld_release}" == "ti"
-%patch5 -p1
 %endif
 
 %patch7 -p1
@@ -345,14 +328,21 @@ ln -s iceweasel $RPM_BUILD_ROOT%{_bindir}/firefox
 ln -s iceweasel $RPM_BUILD_ROOT%{_bindir}/mozilla-firefox
 
 # install icons and desktop file
-cp iceweasel/branding/{mozicon,default}128.png
+cp obj-%{_target_cpu}/iceweasel/branding/{mozicon,default}128.png
 for i in 16 32 48 64 128; do
 	install -d $RPM_BUILD_ROOT%{_iconsdir}/hicolor/${i}x${i}/apps
-	cp -a iceweasel/branding/default${i}.png \
+	cp -a obj-%{_target_cpu}/iceweasel/branding/default${i}.png \
 		$RPM_BUILD_ROOT%{_iconsdir}/hicolor/${i}x${i}/apps/iceweasel.png
 done
 
 cp -a %{SOURCE3} $RPM_BUILD_ROOT%{_desktopdir}/%{name}.desktop
+
+# install our settings
+cp -a %{SOURCE5} $RPM_BUILD_ROOT%{_datadir}/%{name}/defaults/preferences/vendor.js
+
+%if "%{pld_release}" == "ac"
+cp -a %{SOURCE6} $RPM_BUILD_ROOT%{_datadir}/%{name}/defaults/preferences/vendor.js
+%endif
 
 # files created by iceweasel -register
 touch $RPM_BUILD_ROOT%{_libdir}/%{name}/components/compreg.dat
