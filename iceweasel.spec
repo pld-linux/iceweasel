@@ -27,7 +27,7 @@ Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
 Version:	14.0.1
-Release:	3
+Release:	4
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
@@ -181,7 +181,8 @@ cat << EOF > .mozconfig
 . \$topsrcdir/browser/config/mozconfig
 
 mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/obj-%{_target_cpu}
-mk_add_options MOZ_MAKE_FLAGS=%{_smp_mflags}
+# parallel build fails on _xpidlgen/
+# mk_add_options MOZ_MAKE_FLAGS=%{_smp_mflags}
 mk_add_options PROFILE_GEN_SCRIPT='@PYTHON@ @MOZ_OBJDIR@/_profile/pgo/profileserver.py'
 
 # Options for 'configure' (same as command-line options).

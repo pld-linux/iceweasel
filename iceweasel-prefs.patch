@@ -1,7 +1,16 @@
 diff -ur mozilla.orig/browser/app/profile/firefox.js mozilla/browser/app/profile/firefox.js
 --- mozilla.orig/browser/app/profile/firefox.js	2008-06-21 12:55:30.000000000 +0200
 +++ mozilla/browser/app/profile/firefox.js	2008-06-21 15:25:48.000000000 +0200
-@@ -89,12 +89,12 @@
+@@ -94,7 +94,7 @@ pref("extensions.hotfix.certs.1.sha1Fingerprint", "F1:DB:F9:6A:7B:B8:04:FA:48:3C
+ // Disable add-ons installed into the shared user and shared system areas by
+ // default. This does not include the application directory. See the SCOPE
+ // constants in AddonManager.jsm for values to use here
+-pref("extensions.autoDisableScopes", 15);
++pref("extensions.autoDisableScopes", 3);
+ 
+ // Dictionary download preference
+ pref("browser.dictionaries.download.url", "https://addons.mozilla.org/%LOCALE%/firefox/dictionaries/");
+@@ -157,12 +157,12 @@
  pref("app.update.certs.2.commonName", "aus3.mozilla.org");
  
  // Whether or not app updates are enabled
@@ -16,7 +25,7 @@ diff -ur mozilla.orig/browser/app/profile/firefox.js mozilla/browser/app/profile
  
  // Defines how the Application Update Service notifies the user about updates:
  //
-@@ -249,7 +249,7 @@
+@@ -252,7 +252,7 @@
  #endif
  
  // At startup, check if we're the default browser and prompt user if not.
@@ -25,7 +34,7 @@ diff -ur mozilla.orig/browser/app/profile/firefox.js mozilla/browser/app/profile
  
  // 0 = blank, 1 = home (browser.startup.homepage), 2 = last visited page, 3 = resume previous browser session
  // The behavior of option 3 is detailed at: http://wiki.mozilla.org/Session_Restore
-@@ -391,6 +394,8 @@
+@@ -448,6 +448,8 @@
  //  0: no backups created (and deletes all existing backups)
  pref("browser.bookmarks.max_backups",             10);
  
@@ -34,7 +43,7 @@ diff -ur mozilla.orig/browser/app/profile/firefox.js mozilla/browser/app/profile
  // Scripts & Windows prefs
  pref("dom.disable_open_during_load",              true);
  pref("javascript.options.showInConsole",          true);
-@@ -445,7 +445,7 @@
+@@ -574,7 +576,7 @@
  pref("alerts.totalOpenTime", 4000);
  
  pref("browser.xul.error_pages.enabled", true);
@@ -54,3 +63,14 @@ diff -ur mozilla.orig/browser/locales/en-US/chrome/overrides/netError.dtd mozill
  <button id='exceptionDialogButton'>&securityOverride.exceptionButtonLabel;</button>
 +<button id='getMeOutOfHereButton'>&securityOverride.getMeOutOfHereButton;</button>
  ">
+--- a/modules/libpref/src/init/all.js
++++ b/modules/libpref/src/init/all.js
+@@ -1510,7 +1510,7 @@ pref("layout.css.visited_links_enabled", true);
+ // A value of 0 means use the system DPI. A positive value is used as the DPI.
+ // This sets the physical size of a device pixel and thus controls the
+ // interpretation of physical units such as "pt".
+-pref("layout.css.dpi", -1);
++pref("layout.css.dpi", 0);
+ 
+ // Set the number of device pixels per CSS pixel. A value <= 0 means choose
+ // automatically based on user settings for the platform (e.g., "UI scale factor"
