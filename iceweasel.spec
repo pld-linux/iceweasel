@@ -440,6 +440,7 @@ fi
 %{_libdir}/%{name}/components/FirefoxProfileMigrator.js
 %{_libdir}/%{name}/components/PlacesProtocolHandler.js
 %{_libdir}/%{name}/components/Weave.js
+%{_libdir}/%{name}/components/Aitc.js
 %{_libdir}/%{name}/components/WebContentConverter.js
 %{_libdir}/%{name}/components/browser.xpt
 %{_libdir}/%{name}/components/fuelApplication.js
