@@ -48,6 +48,8 @@ Patch9:		%{name}-no-subshell.patch
 Patch10:	system-cairo.patch
 Patch11:	%{name}-middle_click_paste.patch
 Patch12:	%{name}-packaging.patch
+# Edit patch below and restore --system-site-packages when system virtualenv gets 1.7 upgrade
+Patch13:	system-virtualenv.patch
 URL:		http://www.pld-linux.org/Packages/Iceweasel
 BuildRequires:	GConf2-devel >= 1.2.1
 BuildRequires:	OpenGL-devel
@@ -81,6 +83,7 @@ BuildRequires:	pkgconfig
 BuildRequires:	pkgconfig(libffi) >= 3.0.9
 BuildRequires:	python-modules
 %{?with_pgo:BuildRequires:	python-modules-sqlite}
+BuildRequires:	python-virtualenv
 BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	rpmbuild(macros) >= 1.601
 BuildRequires:	sqlite3-devel >= 3.7.10
@@ -164,6 +167,7 @@ cd mozilla
 %patch10 -p2
 %patch11 -p2
 %patch12 -p2
+%patch13 -p2
 
 # config/rules.mk is patched by us and js/src/config/rules.mk
 # is supposed to be exact copy
