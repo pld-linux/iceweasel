@@ -176,8 +176,8 @@
 +#ifndef LIBXUL_SDK
  @BINPATH@/components/ConsoleAPI.manifest
  @BINPATH@/components/ConsoleAPI.js
- @BINPATH@/components/BrowserElementAPI.manifest
- @BINPATH@/components/BrowserElementAPI.js
+ @BINPATH@/components/BrowserElementParent.manifest
+ @BINPATH@/components/BrowserElementParent.js
  @BINPATH@/components/FeedProcessor.manifest
  @BINPATH@/components/FeedProcessor.js
 +#endif
@@ -263,14 +263,16 @@
  #ifdef MOZ_ENABLE_DBUS
  @BINPATH@/components/@DLL_PREFIX@dbusservice@DLL_SUFFIX@
  #endif
-@@ -427,10 +479,12 @@
+@@ -427,12 +479,14 @@
  @BINPATH@/components/nsINIProcessor.js
  @BINPATH@/components/nsPrompter.manifest
  @BINPATH@/components/nsPrompter.js
 +#endif
  #ifdef MOZ_SERVICES_SYNC
  @BINPATH@/components/SyncComponents.manifest
+ @BINPATH@/components/AitcComponents.manifest
  @BINPATH@/components/Weave.js
+ @BINPATH@/components/Aitc.js
  #endif
 +#ifndef LIBXUL_SDK
  @BINPATH@/components/TelemetryPing.js
@@ -317,7 +319,7 @@
  #ifdef MOZ_GTK2
  @BINPATH@/chrome/icons/default/default16.png
  @BINPATH@/chrome/icons/default/default32.png
-@@ -496,13 +557,17 @@
+@@ -496,14 +557,18 @@
  ; [Default Preferences]
  ; All the pref files must be part of base to prevent migration bugs
  @BINPATH@/@PREF_DIR@/firefox.js
@@ -326,6 +328,7 @@
 +#endif
  #ifdef MOZ_SERVICES_SYNC
  @BINPATH@/@PREF_DIR@/services-sync.js
+ @BINPATH@/@PREF_DIR@/services-aitc.js
  #endif
 +#ifndef LIBXUL_SDK
  @BINPATH@/greprefs.js
