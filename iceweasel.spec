@@ -185,8 +185,9 @@ cat << EOF > .mozconfig
 . \$topsrcdir/browser/config/mozconfig
 
 mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/obj-%{_target_cpu}
-# parallel build fails on _xpidlgen/
-# mk_add_options MOZ_MAKE_FLAGS=%{_smp_mflags}
+%if %{without xulrunner}
+mk_add_options MOZ_MAKE_FLAGS=%{_smp_mflags}
+%endif
 mk_add_options PROFILE_GEN_SCRIPT='@PYTHON@ @MOZ_OBJDIR@/_profile/pgo/profileserver.py'
 
 # Options for 'configure' (same as command-line options).
