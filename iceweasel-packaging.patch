@@ -1,6 +1,6 @@
---- iceweasel-14.0.1/mozilla/browser/installer/package-manifest.in.orig	2012-07-19 11:58:36.967061716 +0200
-+++ iceweasel-14.0.1/mozilla/browser/installer/package-manifest.in	2012-07-19 12:54:12.645284513 +0200
-@@ -43,32 +43,39 @@
+--- iceweasel-15.0/mozilla/browser/installer/package-manifest.in.orig	2012-08-25 00:55:18.000000000 +0200
++++ iceweasel-15.0/mozilla/browser/installer/package-manifest.in	2012-08-31 22:54:46.698032451 +0200
+@@ -47,32 +47,39 @@
  #endif
  
  [xpcom]
@@ -43,7 +43,7 @@
  #ifdef XP_WIN32
  #ifndef MOZ_DEBUG
  #if MOZ_MSVC_REDIST == 1400
-@@ -96,43 +103,56 @@
+@@ -100,43 +107,56 @@
  #ifndef XP_UNIX
  @BINPATH@/@MOZ_APP_NAME@.exe
  #else
@@ -59,7 +59,8 @@
 +#ifndef LIBXUL_SDK
  @BINPATH@/platform.ini
  #ifndef XP_OS2
- @BINPATH@/@DLL_PREFIX@mozsqlite3@DLL_SUFFIX@
+-@BINPATH@/@DLL_PREFIX@mozsqlite3@DLL_SUFFIX@
++; @BINPATH@/@DLL_PREFIX@mozsqlite3@DLL_SUFFIX@
  #else
  @BINPATH@/mozsqlt3@DLL_SUFFIX@
  #endif
@@ -100,9 +101,9 @@
  @BINPATH@/components/caps.xpt
  @BINPATH@/components/chrome.xpt
  @BINPATH@/components/commandhandler.xpt
-@@ -150,15 +170,19 @@
- @BINPATH@/components/docshell.xpt
+@@ -155,15 +175,19 @@
  @BINPATH@/components/dom.xpt
+ @BINPATH@/components/dom_apps.xpt
  @BINPATH@/components/dom_base.xpt
 +#endif
  #ifdef MOZ_B2G_RIL
@@ -120,7 +121,7 @@
  @BINPATH@/components/dom_canvas.xpt
  @BINPATH@/components/dom_contacts.xpt
  @BINPATH@/components/dom_core.xpt
-@@ -195,7 +219,9 @@
+@@ -206,7 +230,9 @@
  @BINPATH@/components/filepicker.xpt
  #endif
  @BINPATH@/components/find.xpt
@@ -130,7 +131,7 @@
  @BINPATH@/components/gfx.xpt
  @BINPATH@/components/html5.xpt
  @BINPATH@/components/htmlparser.xpt
-@@ -218,7 +244,9 @@
+@@ -229,7 +255,9 @@
  @BINPATH@/components/layout_xul.xpt
  @BINPATH@/components/locale.xpt
  @BINPATH@/components/lwbrk.xpt
@@ -140,7 +141,7 @@
  @BINPATH@/components/mimetype.xpt
  @BINPATH@/components/mozfind.xpt
  @BINPATH@/components/necko_about.xpt
-@@ -250,9 +278,13 @@
+@@ -261,9 +289,13 @@
  @BINPATH@/components/rdf.xpt
  @BINPATH@/components/satchel.xpt
  @BINPATH@/components/saxparser.xpt
@@ -154,7 +155,7 @@
  @BINPATH@/components/shistory.xpt
  @BINPATH@/components/spellchecker.xpt
  @BINPATH@/components/storage.xpt
-@@ -270,9 +302,11 @@
+@@ -281,9 +313,11 @@
  @BINPATH@/components/webBrowser_core.xpt
  @BINPATH@/components/webbrowserpersist.xpt
  @BINPATH@/components/widget.xpt
@@ -166,7 +167,7 @@
  @BINPATH@/components/windowds.xpt
  @BINPATH@/components/windowwatcher.xpt
  @BINPATH@/components/xpcom_base.xpt
-@@ -289,14 +323,17 @@
+@@ -300,14 +334,17 @@
  @BINPATH@/components/xultmpl.xpt
  @BINPATH@/components/zipwriter.xpt
  @BINPATH@/components/telemetry.xpt
@@ -184,7 +185,7 @@
  @BINPATH@/components/BrowserFeeds.manifest
  @BINPATH@/components/FeedConverter.js
  @BINPATH@/components/FeedWriter.js
-@@ -315,6 +352,7 @@
+@@ -326,6 +363,7 @@
  @BINPATH@/components/BrowserPageThumbs.manifest
  @BINPATH@/components/nsPrivateBrowsingService.manifest
  @BINPATH@/components/nsPrivateBrowsingService.js
@@ -192,7 +193,7 @@
  @BINPATH@/components/toolkitsearch.manifest
  @BINPATH@/components/nsSearchService.js
  @BINPATH@/components/nsSearchSuggestions.js
-@@ -341,31 +379,39 @@
+@@ -352,31 +390,39 @@
  @BINPATH@/components/NetworkGeolocationProvider.js
  @BINPATH@/components/GPSDGeolocationProvider.manifest
  @BINPATH@/components/GPSDGeolocationProvider.js
@@ -233,7 +234,7 @@
  @BINPATH@/components/txEXSLTRegExFunctions.manifest
  @BINPATH@/components/txEXSLTRegExFunctions.js
  @BINPATH@/components/toolkitplaces.manifest
-@@ -374,9 +420,13 @@
+@@ -385,9 +431,13 @@
  @BINPATH@/components/nsPlacesAutoComplete.manifest
  @BINPATH@/components/nsPlacesAutoComplete.js
  @BINPATH@/components/nsPlacesExpiration.js
@@ -247,7 +248,7 @@
  @BINPATH@/components/nsDefaultCLH.manifest
  @BINPATH@/components/nsDefaultCLH.js
  @BINPATH@/components/nsContentPrefService.manifest
-@@ -397,6 +447,7 @@
+@@ -408,6 +458,7 @@
  @BINPATH@/components/contentSecurityPolicy.js
  @BINPATH@/components/contentAreaDropListener.manifest
  @BINPATH@/components/contentAreaDropListener.js
@@ -255,7 +256,7 @@
  #ifdef MOZ_B2G_RIL
  @BINPATH@/components/RadioInterfaceLayer.manifest
  @BINPATH@/components/RadioInterfaceLayer.js
-@@ -420,6 +471,7 @@
+@@ -433,6 +484,7 @@
  @BINPATH@/components/SafariProfileMigrator.js
  @BINPATH@/components/libalerts.dylib
  #endif
@@ -263,7 +264,7 @@
  #ifdef MOZ_ENABLE_DBUS
  @BINPATH@/components/@DLL_PREFIX@dbusservice@DLL_SUFFIX@
  #endif
-@@ -427,12 +479,14 @@
+@@ -440,12 +492,14 @@
  @BINPATH@/components/nsINIProcessor.js
  @BINPATH@/components/nsPrompter.manifest
  @BINPATH@/components/nsPrompter.js
@@ -278,7 +279,7 @@
  @BINPATH@/components/TelemetryPing.js
  @BINPATH@/components/TelemetryPing.manifest
  @BINPATH@/components/messageWakeupService.js
-@@ -440,6 +494,7 @@
+@@ -457,6 +511,7 @@
  
  @BINPATH@/components/ContactManager.js
  @BINPATH@/components/ContactManager.manifest
@@ -286,7 +287,7 @@
  
  ; Modules
  @BINPATH@/modules/*
-@@ -448,17 +503,21 @@
+@@ -465,17 +520,21 @@
  #ifdef MOZ_SAFE_BROWSING
  @BINPATH@/components/nsSafebrowsingApplication.manifest
  @BINPATH@/components/nsSafebrowsingApplication.js
@@ -308,7 +309,7 @@
  
  ; ANGLE GLES-on-D3D rendering library
  #ifdef MOZ_ANGLE
-@@ -477,8 +536,10 @@
+@@ -495,8 +554,10 @@
  #ifdef SHIP_FEEDBACK
  @BINPATH@/distribution/extensions/testpilot@labs.mozilla.com.xpi
  #endif
@@ -319,7 +320,7 @@
  #ifdef MOZ_GTK2
  @BINPATH@/chrome/icons/default/default16.png
  @BINPATH@/chrome/icons/default/default32.png
-@@ -496,14 +557,18 @@
+@@ -514,14 +575,18 @@
  ; [Default Preferences]
  ; All the pref files must be part of base to prevent migration bugs
  @BINPATH@/@PREF_DIR@/firefox.js
@@ -338,7 +339,7 @@
  #ifndef LIBXUL_SDK
  ; Warning: changing the path to channel-prefs.js can cause bugs (Bug 756325)
  @BINPATH@/defaults/pref/channel-prefs.js
-@@ -513,6 +578,7 @@
+@@ -532,6 +597,7 @@
  
  ; [Layout Engine Resources]
  ; Style Sheets, Graphics and other Resources used by the layout engine. 
@@ -346,7 +347,7 @@
  @BINPATH@/res/EditorOverride.css
  @BINPATH@/res/contenteditable.css
  @BINPATH@/res/designmode.css
-@@ -537,44 +603,41 @@
+@@ -556,44 +622,41 @@
  @BINPATH@/res/table-remove-row-hover.gif
  @BINPATH@/res/table-remove-row.gif
  @BINPATH@/res/grabber.gif

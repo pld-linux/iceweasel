@@ -461,12 +461,17 @@ fi
 %{_libdir}/%{name}/components/interfaces.manifest
 
 %if %{without xulrunner}
+%{_libdir}/%{name}/dependentlibs.list
 %{_libdir}/%{name}/platform.ini
+%{_libdir}/%{name}/components/AppsService.js
+%{_libdir}/%{name}/components/BrowserElementParent.js
 %{_libdir}/%{name}/components/ConsoleAPI.js
+%{_libdir}/%{name}/components/ContactManager.js
 %{_libdir}/%{name}/components/FeedProcessor.js
 %{_libdir}/%{name}/components/GPSDGeolocationProvider.js
 %{_libdir}/%{name}/components/NetworkGeolocationProvider.js
 %{_libdir}/%{name}/components/PlacesCategoriesStarter.js
+%{_libdir}/%{name}/components/SettingsManager.js
 %{_libdir}/%{name}/components/TelemetryPing.js
 %{_libdir}/%{name}/components/addonManager.js
 %{_libdir}/%{name}/components/amContentHandler.js
@@ -475,6 +480,7 @@ fi
 %{_libdir}/%{name}/components/contentSecurityPolicy.js
 %{_libdir}/%{name}/components/crypto-SDR.js
 %{_libdir}/%{name}/components/jsconsole-clhandler.js
+%{_libdir}/%{name}/components/messageWakeupService.js
 %{_libdir}/%{name}/components/nsBadCertHandler.js
 %{_libdir}/%{name}/components/nsBlocklistService.js
 %{_libdir}/%{name}/components/nsContentDispatchChooser.js
@@ -500,7 +506,6 @@ fi
 %{_libdir}/%{name}/components/nsSearchSuggestions.js
 %{_libdir}/%{name}/components/nsTaggingService.js
 %{_libdir}/%{name}/components/nsURLFormatter.js
-%{_libdir}/%{name}/components/nsUpdateTimerManager.js
 %{_libdir}/%{name}/components/nsUrlClassifierHashCompleter.js
 %{_libdir}/%{name}/components/nsUrlClassifierLib.js
 %{_libdir}/%{name}/components/nsUrlClassifierListManager.js
