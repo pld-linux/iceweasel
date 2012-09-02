@@ -185,6 +185,7 @@ cat << EOF > .mozconfig
 . \$topsrcdir/browser/config/mozconfig
 
 mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/obj-%{_target_cpu}
+# parallel build fails on _xpidlgen/
 %if %{without xulrunner}
 mk_add_options MOZ_MAKE_FLAGS=%{_smp_mflags}
 %endif
