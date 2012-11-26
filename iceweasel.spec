@@ -14,8 +14,8 @@
 %endif
 
 # convert firefox release number to platform version: 9.0.x -> 9.0.x
-%define		xulrunner_main	15.0
-%define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#15.0})
+%define		xulrunner_main	17.0
+%define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#16.0})
 
 %if %{without xulrunner}
 # The actual sqlite version (see RHBZ#480989):
@@ -26,12 +26,12 @@ Summary:	Iceweasel web browser
 Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
-Version:	15.0
-Release:	1
+Version:	17.0
+Release:	0.1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
-# Source0-md5:	64220887a349515f16e5aa990acb4db3
+# Source0-md5:	3d9d2f6420344ff47a8af3a35ac4bdd6
 Source1:	%{name}-branding.tar.bz2
 # Source1-md5:	816d926bd2c76a5bba5108979ba776ac
 Source2:	%{name}-rm_nonfree.sh
@@ -166,7 +166,7 @@ cd mozilla
 %patch9 -p2
 %patch10 -p2
 %patch11 -p2
-%patch12 -p2
+#%patch12 -p2
 %patch13 -p2
 
 # config/rules.mk is patched by us and js/src/config/rules.mk

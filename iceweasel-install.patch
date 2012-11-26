@@ -29,7 +29,7 @@
  endif #} LIBXUL_SDK
 --- mozilla/toolkit/mozapps/installer/packager.mk.orig	2011-03-19 00:34:12.000000000 +0100
 +++ mozilla/toolkit/mozapps/installer/packager.mk	2011-03-22 23:53:43.877485659 +0100
-@@ -708,37 +708,37 @@
+@@ -708,41 +708,41 @@
  endif
  
  stage-package: $(MOZ_PKG_MANIFEST) $(MOZ_PKG_REMOVALS_GEN) elfhack
@@ -72,6 +72,12 @@
 -	  $(DIST)/$(MOZ_PKG_DIR)/$(_BINPATH)/chrome/localized.manifest \
 +	  $(DESTDIR)/$(MOZ_PKG_DIR)/$(_BINPATH)/chrome/localized.manifest \
  	  $(patsubst %,$(DIST)/manifests/%/chrome,$(MOZ_LOCALIZED_PKG_LIST))
+ ifdef MOZ_WEBAPP_RUNTIME
+-	mv $(DIST)/$(MOZ_PKG_DIR)/$(_BINPATH)/webapprt/chrome/$(AB_CD).manifest $(DIST)/$(MOZ_PKG_DIR)/$(_BINPATH)/webapprt/chrome/localized.manifest
+-	sed 's/$(AB_CD)/localized/' $(DIST)/bin/webapprt/chrome.manifest > $(DIST)/$(MOZ_PKG_DIR)/$(_BINPATH)/webapprt/chrome.manifest
++	mv $(DESTDIR)/$(MOZ_PKG_DIR)/$(_BINPATH)/webapprt/chrome/$(AB_CD).manifest $(DESTDIR)/$(MOZ_PKG_DIR)/$(_BINPATH)/webapprt/chrome/localized.manifest
++	sed 's/$(AB_CD)/localized/' $(DESTDIR)/bin/webapprt/chrome.manifest > $(DESTDIR)/$(MOZ_PKG_DIR)/$(_BINPATH)/webapprt/chrome.manifest
+ endif
 -	printf "manifest components/interfaces.manifest\nmanifest components/components.manifest\nmanifest chrome/nonlocalized.manifest\nmanifest chrome/localized.manifest\n" > $(DIST)/$(MOZ_PKG_DIR)/$(_BINPATH)/chrome.manifest
 +	printf "manifest components/interfaces.manifest\nmanifest components/components.manifest\nmanifest chrome/nonlocalized.manifest\nmanifest chrome/localized.manifest\n" > $(DESTDIR)/$(MOZ_PKG_DIR)/$(_BINPATH)/chrome.manifest
  else # !MOZ_PKG_MANIFEST
