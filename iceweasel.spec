@@ -449,7 +449,6 @@ fi
 %{_libdir}/%{name}/components/nsBrowserContentHandler.js
 %{_libdir}/%{name}/components/nsBrowserGlue.js
 %{_libdir}/%{name}/components/nsPrivateBrowsingService.js
-%{_libdir}/%{name}/components/nsSafebrowsingApplication.js
 %{_libdir}/%{name}/components/nsSessionStartup.js
 %{_libdir}/%{name}/components/nsSessionStore.js
 %{_libdir}/%{name}/components/nsSetDefaultBrowser.js
@@ -516,6 +515,9 @@ fi
 %{_libdir}/%{name}/components/storage-mozStorage.js
 %{_libdir}/%{name}/components/txEXSLTRegExFunctions.js
 %endif
+
+%{_libdir}/%{name}/webapprt
+%attr(755,root,root) %{_libdir}/%{name}/webapprt-stub
 
 %attr(755,root,root) %{_libdir}/%{name}/components/libbrowsercomps.so
 %if %{without xulrunner}
