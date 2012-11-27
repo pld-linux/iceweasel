@@ -166,7 +166,7 @@ cd mozilla
 %patch9 -p2
 %patch10 -p2
 %patch11 -p2
-#%patch12 -p2
+%patch12 -p2
 %patch13 -p2
 
 # config/rules.mk is patched by us and js/src/config/rules.mk
