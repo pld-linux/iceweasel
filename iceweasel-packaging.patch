@@ -64,11 +64,12 @@
  #ifndef XP_OS2
  #ifndef MOZ_NATIVE_SQLITE
  @BINPATH@/@DLL_PREFIX@mozsqlite3@DLL_SUFFIX@
-@@ -126,12 +140,15 @@
+@@ -126,13 +140,16 @@
+ @BINPATH@/blocklist.xml
  #ifdef XP_UNIX
- @BINPATH@/run-mozilla.sh
  #ifndef XP_MACOSX
 +#ifndef LIBXUL_SDK
+ @BINPATH@/run-mozilla.sh
  @BINPATH@/mozilla-xremote-client
  #endif
  #endif
