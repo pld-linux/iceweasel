@@ -229,10 +229,17 @@
  @BINPATH@/components/TelemetryPing.js
  @BINPATH@/components/TelemetryPing.manifest
  @BINPATH@/components/messageWakeupService.js
-@@ -488,6 +533,7 @@
+@@ -488,11 +533,14 @@
  @BINPATH@/components/AlarmsManager.manifest
  @BINPATH@/components/TCPSocket.js
  @BINPATH@/components/TCPSocket.manifest
++#endif
+ 
++#ifndef LIBXUL_SDK
+ #ifdef MOZ_WEBRTC
+ @BINPATH@/components/PeerConnection.js
+ @BINPATH@/components/PeerConnection.manifest
+ #endif
 +#endif
  
  #ifdef ENABLE_MARIONETTE
