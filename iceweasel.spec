@@ -358,10 +358,6 @@ cp -a %{SOURCE6} $RPM_BUILD_ROOT%{_datadir}/%{name}/defaults/preferences/vendor.
 touch $RPM_BUILD_ROOT%{_libdir}/%{name}/components/compreg.dat
 touch $RPM_BUILD_ROOT%{_libdir}/%{name}/components/xpti.dat
 
-%if %{with xulrunner}
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/run-mozilla.sh
-%endif
-
 cat << 'EOF' > $RPM_BUILD_ROOT%{_sbindir}/%{name}-chrome+xpcom-generate
 #!/bin/sh
 umask 022
