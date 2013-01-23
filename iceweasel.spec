@@ -57,6 +57,7 @@ URL:		http://www.pld-linux.org/Packages/Iceweasel
 BuildRequires:	GConf2-devel >= 1.2.1
 BuildRequires:	OpenGL-devel
 BuildRequires:	ImageMagick
+BuildRequires:	ImageMagick-coder-png
 BuildRequires:	alsa-lib-devel
 BuildRequires:	automake
 BuildRequires:	bzip2-devel
