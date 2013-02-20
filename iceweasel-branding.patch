@@ -68,10 +68,10 @@ index 8585a34..3aceb9f 100644
 +endif
 +
  include $(topsrcdir)/config/rules.mk
-diff --git a/browser/components/safebrowsing/SafeBrowsing.jsm b/browser/components/safebrowsing/SafeBrowsing.jsm
+diff --git a/toolkit/components/url-classifier/SafeBrowsing.jsm b/toolkit/components/url-classifier/SafeBrowsing.jsm
 index 313ac48..ba9b6f4 100644
---- a/browser/components/safebrowsing/SafeBrowsing.jsm
-+++ b/browser/components/safebrowsing/SafeBrowsing.jsm
+--- a/toolkit/components/url-classifier/SafeBrowsing.jsm
++++ b/toolkit/components/url-classifier/SafeBrowsing.jsm
 @@ -10,7 +10,11 @@ const Cu = Components.utils;
  
  Cu.import("resource://gre/modules/Services.jsm");

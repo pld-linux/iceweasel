@@ -14,27 +14,27 @@
 %endif
 
 # convert firefox release number to platform version: 9.0.x -> 9.0.x
-%define		xulrunner_main	18.0
-%define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#18.0})
+%define		xulrunner_main	19.0
+%define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#19.0})
 
 %if %{without xulrunner}
 # The actual sqlite version (see RHBZ#480989):
 %define		sqlite_build_version %(pkg-config --silence-errors --modversion sqlite3 2>/dev/null || echo ERROR)
 %endif
 
-%define		nspr_ver	4.9.3
-%define		nss_ver		3.14.1
+%define		nspr_ver	4.9.5
+%define		nss_ver		3.14.3
 
 Summary:	Iceweasel web browser
 Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
-Version:	18.0.1
-Release:	1
+Version:	19.0
+Release:	0.1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
-# Source0-md5:	8b400555fc7063163e3b99472d0c92a1
+# Source0-md5:	3dc732b6ce177792b43324f4bc7164d8
 Source1:	%{name}-branding.tar.bz2
 # Source1-md5:	816d926bd2c76a5bba5108979ba776ac
 Source2:	%{name}-rm_nonfree.sh

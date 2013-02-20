@@ -1,24 +1,53 @@
 Restore --system-site-packages when system virtualenv gets 1.7 upgrade
 
---- xulrunner-15.0/mozilla/configure.in~	2012-08-29 11:06:34.517985819 +0200
-+++ xulrunner-15.0/mozilla/configure.in	2012-08-29 11:23:47.234616054 +0200
-@@ -9069,7 +9069,7 @@
- AC_MSG_RESULT([Creating Python virtualenv])
- rm -rf _virtualenv
- mkdir -p _virtualenv
--MACOSX_DEPLOYMENT_TARGET= PYTHONDONTWRITEBYTECODE= $PYTHON $_topsrcdir/python/virtualenv/virtualenv.py --system-site-packages ./_virtualenv
-+MACOSX_DEPLOYMENT_TARGET= PYTHONDONTWRITEBYTECODE= /usr/bin/virtualenv ./_virtualenv
+--- a/mozilla/configure.in~	2013-02-15 22:14:45.000000000 +0100
++++ a/mozilla/configure.in	2013-02-20 17:05:55.258742791 +0100
+@@ -141,7 +141,7 @@
+     PYTHON=`cd $MOZ_BUILD_ROOT && pwd -W`/_virtualenv/Scripts/python.exe
+     ;;
+ *)
+-    PYTHON=$MOZ_BUILD_ROOT/_virtualenv/bin/python
++    PYTHON=/usr/bin/virtualenv
+     ;;
+ esac
+ 
+--- a/mozilla/configure~	2013-02-15 22:15:48.000000000 +0100
++++ a/mozilla/configure	2013-02-20 17:06:11.479134735 +0100
+@@ -1344,7 +1344,7 @@
+     PYTHON=`cd $MOZ_BUILD_ROOT && pwd -W`/_virtualenv/Scripts/python.exe
+     ;;
+ *)
+-    PYTHON=$MOZ_BUILD_ROOT/_virtualenv/bin/python
++    PYTHON=/usr/bin/virtualenv
+     ;;
+ esac
+ 
+--- iceweasel-19.0/mozilla/configure.in~	2013-02-20 17:11:35.849980531 +0100
++++ iceweasel-19.0/mozilla/configure.in	2013-02-20 17:18:24.806617099 +0100
+@@ -128,13 +128,6 @@
+     AC_MSG_ERROR([python was not found in \$PATH])
+ fi
+ 
+-AC_MSG_RESULT([Creating Python environment])
+-dnl This verifies our Python version is sane and ensures the Python
+-dnl virtualenv is present and up to date. It sanitizes the environment
+-dnl for us, so we don't need to clean anything out.
+-$PYTHON $_topsrcdir/build/virtualenv/populate_virtualenv.py \
+-    $_topsrcdir $MOZ_BUILD_ROOT/_virtualenv || exit 1
+-
+ dnl Create a virtualenv where we can install local Python packages
  case "$host_os" in
  mingw*)
-     PYTHON=`pwd`/_virtualenv/Scripts/python.exe
---- xulrunner-15.0/mozilla/configure~	2012-08-29 11:25:28.121279162 +0200
-+++ xulrunner-15.0/mozilla/configure	2012-08-29 11:27:27.981274936 +0200
-@@ -25468,7 +25468,7 @@
- echo "$ac_t""Creating Python virtualenv" 1>&6
- rm -rf _virtualenv
- mkdir -p _virtualenv
--MACOSX_DEPLOYMENT_TARGET= PYTHONDONTWRITEBYTECODE= $PYTHON $_topsrcdir/python/virtualenv/virtualenv.py --system-site-packages ./_virtualenv
-+MACOSX_DEPLOYMENT_TARGET= PYTHONDONTWRITEBYTECODE= /usr/bin/virtualenv ./_virtualenv
+--- iceweasel-19.0/mozilla/configure~	2013-02-20 17:11:35.853313949 +0100
++++ iceweasel-19.0/mozilla/configure	2013-02-20 17:17:59.639339399 +0100
+@@ -1335,10 +1335,6 @@
+     { echo "configure: error: python was not found in \$PATH" 1>&2; exit 1; }
+ fi
+ 
+-echo "$ac_t""Creating Python environment" 1>&6
+-$PYTHON $_topsrcdir/build/virtualenv/populate_virtualenv.py \
+-    $_topsrcdir $MOZ_BUILD_ROOT/_virtualenv || exit 1
+-
  case "$host_os" in
  mingw*)
-     PYTHON=`pwd`/_virtualenv/Scripts/python.exe
+     PYTHON=`cd $MOZ_BUILD_ROOT && pwd -W`/_virtualenv/Scripts/python.exe
