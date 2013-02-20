@@ -7,7 +7,7 @@ Restore --system-site-packages when system virtualenv gets 1.7 upgrade
      ;;
  *)
 -    PYTHON=$MOZ_BUILD_ROOT/_virtualenv/bin/python
-+    PYTHON=/usr/bin/virtualenv
++    PYTHON=/usr/bin/python
      ;;
  esac
  
@@ -18,7 +18,7 @@ Restore --system-site-packages when system virtualenv gets 1.7 upgrade
      ;;
  *)
 -    PYTHON=$MOZ_BUILD_ROOT/_virtualenv/bin/python
-+    PYTHON=/usr/bin/virtualenv
++    PYTHON=/usr/bin/python
      ;;
  esac
  
