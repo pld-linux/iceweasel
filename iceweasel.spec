@@ -7,11 +7,7 @@
 %bcond_without	gnomevfs	# disable GNOME comp. (gconf+libgnome+gnomevfs) and gnomevfs ext.
 %bcond_without	gnome		# disable all GNOME components (gnome+gnomeui+gnomevfs)
 %bcond_without	kerberos	# disable krb5 support
-%if "%{pld_release}" == "ti"
 %bcond_with	xulrunner	# build with system xulrunner
-%else
-%bcond_without	xulrunner	# build with system xulrunner
-%endif
 
 %if %{without gnome}
 %undefine	with_gnomeui
@@ -30,12 +26,12 @@ Summary:	Iceweasel web browser
 Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
-Version:	3.5.7
+Version:	3.5.19
 Release:	1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
-# Source0-md5:	82e6f568ddeaae52e85aa089277f5d14
+# Source0-md5:	c1fe589014480419d528766adc460aed
 Source1:	%{name}-branding.tar.bz2
 # Source1-md5:	b49feae9f6434eca8a749776160c15a8
 Source2:	%{name}-rm_nonfree.sh
@@ -50,7 +46,6 @@ Patch5:		%{name}-ti-agent.patch
 Patch6:		%{name}-nss_cflags.patch
 Patch7:		%{name}-prefs.patch
 Patch8:		%{name}-pld-branding.patch
-Patch9:		%{name}-gcc44.patch
 Patch10:	%{name}-no-subshell.patch
 Patch11:	%{name}-ppc.patch
 URL:		http://www.pld-linux.org/Packages/Iceweasel
@@ -168,7 +163,6 @@ cd mozilla
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
-%patch9 -p1
 %patch10 -p2
 %patch11 -p1
 
@@ -205,7 +199,7 @@ ac_add_options --enable-crash-on-assert
 ac_add_options --disable-debug
 ac_add_options --disable-debug-modules
 ac_add_options --disable-logging
-ac_add_options --enable-optimize="%{rpmcflags} -Os"
+ac_add_options --enable-optimize="%{rpmcflags} -Os -fpermissive -Wno-error=format-security"
 %endif
 ac_add_options --disable-strip
 ac_add_options --disable-strip-libs
@@ -241,7 +235,7 @@ ac_add_options --enable-xinerama
 ac_add_options --with-distribution-id=org.pld-linux
 ac_add_options --with-branding=iceweasel/branding
 %if %{with xulrunner}
-ac_add_options --with-libxul-sdk=%{_libdir}/xulrunner-sdk
+ac_add_options --with-libxul-sdk=$(pkg-config --variable=sdkdir libxul)
 %endif
 ac_add_options --with-pthreads
 ac_add_options --with-system-bz2

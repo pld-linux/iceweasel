@@ -39,9 +39,8 @@ diff -urN mozilla-1.9.1.orig/browser/app/firefox-branding.js mozilla-1.9.1/brows
  
  // Search codes belong only in builds with official branding
  pref("browser.search.param.yahoo-fr", "");
-diff -urN mozilla-1.9.1.orig/browser/app/profile/firefox.js mozilla-1.9.1/browser/app/profile/firefox.js
---- mozilla-1.9.1.orig/browser/app/profile/firefox.js	2009-06-24 10:20:27.000000000 +0200
-+++ mozilla-1.9.1/browser/app/profile/firefox.js	2009-06-28 14:15:29.000000000 +0200
+--- iceweasel-3.5.19/browser/app/profile/firefox.js~	2013-02-22 18:04:45.000000000 +0200
++++ iceweasel-3.5.19/browser/app/profile/firefox.js	2013-02-22 18:05:47.691454691 +0200
 @@ -70,12 +70,12 @@
  
  // Preferences for the Get Add-ons pane
@@ -50,9 +49,9 @@ diff -urN mozilla-1.9.1.orig/browser/app/profile/firefox.js mozilla-1.9.1/browse
 +pref("extensions.getAddons.browseAddons", "https://%LOCALE%.add-ons.mozilla.com/%LOCALE%/firefox");
  pref("extensions.getAddons.maxResults", 5);
 -pref("extensions.getAddons.recommended.browseURL", "https://%LOCALE%.add-ons.mozilla.com/%LOCALE%/%APP%/recommended");
--pref("extensions.getAddons.recommended.url", "https://services.addons.mozilla.org/%LOCALE%/%APP%/api/%API_VERSION%/list/featured/all/10/%OS%/%VERSION%");
+-pref("extensions.getAddons.recommended.url", "https://services.addons.mozilla.org/%LOCALE%/%APP%/api/%API_VERSION%/list/featured/all/10/%OS%/%VERSION%?src=firefox");
 -pref("extensions.getAddons.search.browseURL", "https://%LOCALE%.add-ons.mozilla.com/%LOCALE%/%APP%/search?q=%TERMS%");
--pref("extensions.getAddons.search.url", "https://services.addons.mozilla.org/%LOCALE%/%APP%/api/%API_VERSION%/search/%TERMS%/all/10/%OS%/%VERSION%");
+-pref("extensions.getAddons.search.url", "https://services.addons.mozilla.org/%LOCALE%/%APP%/api/%API_VERSION%/search/%TERMS%/all/10/%OS%/%VERSION%?src=firefox");
 +pref("extensions.getAddons.recommended.browseURL", "https://%LOCALE%.add-ons.mozilla.com/%LOCALE%/firefox/recommended");
 +pref("extensions.getAddons.recommended.url", "https://services.addons.mozilla.org/%LOCALE%/firefox/api/%API_VERSION%/list/featured/all/10/%OS%/%VERSION%");
 +pref("extensions.getAddons.search.browseURL", "https://%LOCALE%.add-ons.mozilla.com/%LOCALE%/firefox/search?q=%TERMS%");
@@ -121,7 +120,6 @@ diff -urN mozilla-1.9.1.orig/browser/base/content/baseMenuOverlay.xul mozilla-1.
          <menuitem id="checkForUpdates"
 diff -urN mozilla-1.9.1.orig/browser/base/content/credits.xhtml mozilla-1.9.1/browser/base/content/credits.xhtml
 --- mozilla-1.9.1.orig/browser/base/content/credits.xhtml	2009-06-24 10:20:27.000000000 +0200
-+++ mozilla-1.9.1/browser/base/content/credits.xhtml	2009-06-28 14:18:00.000000000 +0200
 @@ -209,7 +209,7 @@
      </div>
  
@@ -135,8 +133,8 @@ diff -urN mozilla-1.9.1.orig/browser/base/content/credits.xhtml mozilla-1.9.1/br
          <p id="gecko" class="center" dir="&locale.dir;">&credit.poweredByGeckoReg;</p>
  
          <p class="footnote" dir="&locale.dir;">
--          &brandFullName;&trade; &license.part0; &copy;1998-2009 &license.part1;
-+          &brandFullName; &license.part0; &copy;1998-2009 &license.part1;
+-          &brandFullName;&trade; &license.part0; &copy;1998-2011 &license.part1;
++          &brandFullName; &license.part0; &copy;1998-2011 &license.part1;
            <a href="" link="about:credits" onclick="visitLink(event);">&license.contrib;</a>,
            &license.part2;
            <a href="" link="about:license" onclick="visitLink(event);">about:license</a>
@@ -321,4 +319,5 @@ diff -urN mozilla-1.9.1.orig/toolkit/xre/nsAppRunner.cpp mozilla-1.9.1/toolkit/x
 +  printf("%s %s", gAppData->name, gAppData->version);
    if (gAppData->copyright)
        printf(", %s", gAppData->copyright);
+   printf("\n");
    printf("\n");
