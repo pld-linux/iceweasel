@@ -13,7 +13,7 @@
 %undefine	with_gnomeui
 %endif
 
-# convert firefox release number to platform version: 9.0.x -> 9.0.x
+# convert firefox release number to platform version: 19.0.x -> 19.0.x
 %define		xulrunner_main	19.0
 %define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#19.0})
 
@@ -63,7 +63,7 @@ BuildRequires:	automake
 BuildRequires:	bzip2-devel
 BuildRequires:	cairo-devel >= 1.10.2-5
 BuildRequires:	dbus-glib-devel >= 0.60
-BuildRequires:	glib2-devel >= 1:2.18
+BuildRequires:	glib2-devel >= 1:2.20
 BuildRequires:	gtk+2-devel >= 2:2.14
 %{?with_kerberos:BuildRequires:	heimdal-devel >= 0.7.1}
 BuildRequires:	hunspell-devel
@@ -79,7 +79,7 @@ BuildRequires:	libjpeg-devel >= 6b
 BuildRequires:	libjpeg-turbo-devel
 BuildRequires:	libnotify-devel >= 0.4
 BuildRequires:	libpng(APNG)-devel >= 0.10
-BuildRequires:	libpng-devel >= 1.4.1
+BuildRequires:	libpng-devel >= 1.5.13
 BuildRequires:	libstdc++-devel
 BuildRequires:	libvpx-devel >= 1.0.0
 BuildRequires:	nspr-devel >= 1:%{nspr_ver}
@@ -93,7 +93,7 @@ BuildRequires:	python-modules
 BuildRequires:	python-virtualenv
 BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	rpmbuild(macros) >= 1.601
-BuildRequires:	sqlite3-devel >= 3.7.10
+BuildRequires:	sqlite3-devel >= 3.7.14.1
 BuildRequires:	startup-notification-devel >= 0.8
 BuildRequires:	xorg-lib-libXScrnSaver-devel
 BuildRequires:	xorg-lib-libXext-devel
@@ -113,10 +113,10 @@ Requires:	hicolor-icon-theme
 Requires:	browser-plugins >= 2.0
 Requires:	cairo >= 1.10.2-5
 Requires:	dbus-glib >= 0.60
-Requires:	glib2 >= 1:2.18
+Requires:	glib2 >= 1:2.20
 Requires:	gtk+2 >= 2:2.14
 Requires:	libjpeg-turbo
-Requires:	libpng >= 1.4.1
+Requires:	libpng >= 1.5.13
 Requires:	libpng(APNG) >= 0.10
 Requires:	myspell-common
 Requires:	nspr >= 1:%{nspr_ver}
