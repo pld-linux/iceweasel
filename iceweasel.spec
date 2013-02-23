@@ -33,7 +33,7 @@ Version:	19.0
 Release:	1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
-Source0:	ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
+Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
 # Source0-md5:	3dc732b6ce177792b43324f4bc7164d8
 Source1:	%{name}-branding.tar.bz2
 # Source1-md5:	816d926bd2c76a5bba5108979ba776ac
@@ -338,7 +338,7 @@ ln -s %{_datadir}/myspell $RPM_BUILD_ROOT%{_libdir}/%{name}/hyphenation
 %endif
 
 sed 's,@LIBDIR@,%{_libdir},' %{SOURCE4} > $RPM_BUILD_ROOT%{_bindir}/iceweasel
-chmod a+rx $RPM_BUILD_ROOT%{_bindir}/iceweasel
+chmod 755 $RPM_BUILD_ROOT%{_bindir}/iceweasel
 ln -s iceweasel $RPM_BUILD_ROOT%{_bindir}/firefox
 ln -s iceweasel $RPM_BUILD_ROOT%{_bindir}/mozilla-firefox
 
@@ -440,13 +440,17 @@ fi
 
 %dir %{_libdir}/%{name}/components
 
+%{_libdir}/%{name}/components/Aitc.js
 %{_libdir}/%{name}/components/ChromeProfileMigrator.js
+%{_libdir}/%{name}/components/DownloadsStartup.js
+%{_libdir}/%{name}/components/DownloadsUI.js
 %{_libdir}/%{name}/components/FeedConverter.js
 %{_libdir}/%{name}/components/FeedWriter.js
 %{_libdir}/%{name}/components/FirefoxProfileMigrator.js
+%{_libdir}/%{name}/components/PageThumbsProtocol.js
 %{_libdir}/%{name}/components/PlacesProtocolHandler.js
+%{_libdir}/%{name}/components/ProfileMigrator.js
 %{_libdir}/%{name}/components/Weave.js
-%{_libdir}/%{name}/components/Aitc.js
 %{_libdir}/%{name}/components/WebContentConverter.js
 %{_libdir}/%{name}/components/browser.xpt
 %{_libdir}/%{name}/components/fuelApplication.js
@@ -457,10 +461,6 @@ fi
 %{_libdir}/%{name}/components/nsSessionStore.js
 %{_libdir}/%{name}/components/nsSetDefaultBrowser.js
 %{_libdir}/%{name}/components/nsSidebar.js
-%{_libdir}/%{name}/components/PageThumbsProtocol.js
-%{_libdir}/%{name}/components/ProfileMigrator.js
-%{_libdir}/%{name}/components/DownloadsStartup.js
-%{_libdir}/%{name}/components/DownloadsUI.js
 
 %{_libdir}/%{name}/components/components.manifest
 %{_libdir}/%{name}/components/interfaces.manifest
