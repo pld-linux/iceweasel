@@ -14,8 +14,8 @@
 %endif
 
 # convert firefox release number to platform version: 19.0.x -> 19.0.x
-%define		xulrunner_main	19.0
-%define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#19.0})
+%define		xulrunner_main	20.0
+%define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#20.0})
 
 %if %{without xulrunner}
 # The actual sqlite version (see RHBZ#480989):
@@ -29,12 +29,12 @@ Summary:	Iceweasel web browser
 Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
-Version:	19.0
+Version:	20.0.1
 Release:	1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
-# Source0-md5:	3dc732b6ce177792b43324f4bc7164d8
+# Source0-md5:	b822ff4b2348410587dec563235d9320
 Source1:	%{name}-branding.tar.bz2
 # Source1-md5:	816d926bd2c76a5bba5108979ba776ac
 Source2:	%{name}-rm_nonfree.sh
@@ -93,7 +93,7 @@ BuildRequires:	python-modules
 BuildRequires:	python-virtualenv
 BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	rpmbuild(macros) >= 1.601
-BuildRequires:	sqlite3-devel >= 3.7.14.1
+BuildRequires:	sqlite3-devel >= 3.7.15.2
 BuildRequires:	startup-notification-devel >= 0.8
 BuildRequires:	xorg-lib-libXScrnSaver-devel
 BuildRequires:	xorg-lib-libXext-devel
