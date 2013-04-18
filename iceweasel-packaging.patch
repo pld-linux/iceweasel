@@ -214,21 +214,21 @@
  @BINPATH@/components/@DLL_PREFIX@dbusservice@DLL_SUFFIX@
  #endif
 @@ -457,6 +500,7 @@
- @BINPATH@/components/nsINIProcessor.js
- @BINPATH@/components/nsPrompter.manifest
- @BINPATH@/components/nsPrompter.js
-+#endif
- #ifdef MOZ_SERVICES_AITC
  @BINPATH@/components/AitcComponents.manifest
  @BINPATH@/components/Aitc.js
+ #endif
++#endif
+ #ifdef MOZ_DATA_REPORTING
+ @BINPATH@/components/DataReporting.manifest
+ @BINPATH@/components/DataReportingService.js
 @@ -468,6 +512,7 @@
- @BINPATH@/components/SyncComponents.manifest
- @BINPATH@/components/Weave.js
+ #ifdef MOZ_SERVICES_HEALTHREPORT
+ @BINPATH@/components/HealthReportComponents.manifest
  #endif
 +#ifndef LIBXUL_SDK
- @BINPATH@/components/servicesComponents.manifest
- @BINPATH@/components/cryptoComponents.manifest
- @BINPATH@/components/TelemetryPing.js
+ #ifdef MOZ_SERVICES_SYNC
+ @BINPATH@/components/SyncComponents.manifest
+ @BINPATH@/components/Weave.js
 @@ -488,11 +533,14 @@
  @BINPATH@/components/AlarmsManager.manifest
  @BINPATH@/components/TCPSocket.js
@@ -287,6 +287,26 @@
  ; Warning: changing the path to channel-prefs.js can cause bugs (Bug 756325)
  @BINPATH@/defaults/pref/channel-prefs.js
  #else
+@@ -566,15 +616,19 @@
+ #endif
+ 
+ ; Services (gre) prefs
++#ifndef LIBXUL_SDK
+ #ifdef MOZ_SERVICES_AITC
+ @BINPATH@/defaults/pref/services-aitc.js
+ #endif
++#endif
+ #ifdef MOZ_SERVICES_NOTIFICATIONS
+ @BINPATH@/defaults/pref/services-notifications.js
+ #endif
++#ifndef LIBXUL_SDK
+ #ifdef MOZ_SERVICES_SYNC
+ @BINPATH@/defaults/pref/services-sync.js
+ #endif
++#endif
+ 
+ ; [Layout Engine Resources]
+ ; Style Sheets, Graphics and other Resources used by the layout engine. 
 @@ -573,6 +623,7 @@
  
  ; [Layout Engine Resources]
