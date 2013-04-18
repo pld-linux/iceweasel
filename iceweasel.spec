@@ -43,7 +43,6 @@ Source4:	%{name}.sh
 Source5:	vendor.js
 Source6:	vendor-ac.js
 Patch0:		%{name}-branding.patch
-Patch1:		%{name}-install.patch
 Patch2:		%{name}-gcc3.patch
 Patch7:		%{name}-prefs.patch
 Patch8:		%{name}-pld-branding.patch
@@ -163,7 +162,6 @@ cd mozilla
 /bin/sh %{SOURCE2}
 
 %patch0 -p1
-%patch1 -p1
 
 %if "%{cc_version}" < "3.4"
 %patch2 -p2
@@ -289,18 +287,21 @@ cd mozilla
 install -d \
 	$RPM_BUILD_ROOT{%{_bindir},%{_sbindir},%{_libdir}} \
 	$RPM_BUILD_ROOT%{_desktopdir} \
-	$RPM_BUILD_ROOT%{_datadir}/%{name}
+	$RPM_BUILD_ROOT%{_datadir}/%{name} \
+	$RPM_BUILD_ROOT%{_libdir}/%{name}/plugins
 
 %browser_plugins_add_browser %{name} -p %{_libdir}/%{name}/plugins
 
-%{__make} -C obj-%{_target_cpu}/browser/installer stage-package \
+cd obj-%{_target_cpu}
+%{__make} -C browser/installer stage-package \
 	DESTDIR=$RPM_BUILD_ROOT \
-	MOZ_PKG_APPDIR=%{_libdir}/%{name} \
-	MOZ_PKG_DIR=%{_libdir}/%{name} \
+	installdir=%{_libdir}/%{name} \
 	PKG_SKIP_STRIP=1
 
-install -d \
-	$RPM_BUILD_ROOT%{_libdir}/%{name}/plugins
+%{__make} -C iceweasel/branding install \
+	DESTDIR=$RPM_BUILD_ROOT
+
+cp -a dist/iceweasel/* $RPM_BUILD_ROOT%{_libdir}/%{name}/
 
 %if %{with xulrunner}
 # >= 5.0 seems to require this
@@ -343,10 +344,10 @@ ln -s iceweasel $RPM_BUILD_ROOT%{_bindir}/firefox
 ln -s iceweasel $RPM_BUILD_ROOT%{_bindir}/mozilla-firefox
 
 # install icons and desktop file
-cp obj-%{_target_cpu}/iceweasel/branding/{mozicon,default}128.png
+cp iceweasel/branding/{mozicon,default}128.png
 for i in 16 32 48 64 128; do
 	install -d $RPM_BUILD_ROOT%{_iconsdir}/hicolor/${i}x${i}/apps
-	cp -a obj-%{_target_cpu}/iceweasel/branding/default${i}.png \
+	cp -a iceweasel/branding/default${i}.png \
 		$RPM_BUILD_ROOT%{_iconsdir}/hicolor/${i}x${i}/apps/iceweasel.png
 done
 
@@ -440,7 +441,6 @@ fi
 
 %dir %{_libdir}/%{name}/components
 
-%{_libdir}/%{name}/components/Aitc.js
 %{_libdir}/%{name}/components/ChromeProfileMigrator.js
 %{_libdir}/%{name}/components/DownloadsStartup.js
 %{_libdir}/%{name}/components/DownloadsUI.js
@@ -450,13 +450,12 @@ fi
 %{_libdir}/%{name}/components/PageThumbsProtocol.js
 %{_libdir}/%{name}/components/PlacesProtocolHandler.js
 %{_libdir}/%{name}/components/ProfileMigrator.js
-%{_libdir}/%{name}/components/Weave.js
 %{_libdir}/%{name}/components/WebContentConverter.js
 %{_libdir}/%{name}/components/browser.xpt
 %{_libdir}/%{name}/components/fuelApplication.js
 %{_libdir}/%{name}/components/nsBrowserContentHandler.js
 %{_libdir}/%{name}/components/nsBrowserGlue.js
-%{_libdir}/%{name}/components/nsPrivateBrowsingService.js
+%{_libdir}/%{name}/components/nsPrivateBrowsingServiceObsolete.js
 %{_libdir}/%{name}/components/nsSessionStartup.js
 %{_libdir}/%{name}/components/nsSessionStore.js
 %{_libdir}/%{name}/components/nsSetDefaultBrowser.js

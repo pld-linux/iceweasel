@@ -81,14 +81,13 @@
  @BINPATH@/components/alerts.xpt
  #ifdef ACCESSIBILITY
  #ifdef XP_WIN32
-@@ -144,8 +161,11 @@
+@@ -144,8 +161,10 @@
  @BINPATH@/components/appstartup.xpt
  @BINPATH@/components/autocomplete.xpt
  @BINPATH@/components/autoconfig.xpt
 +#endif
  @BINPATH@/components/browsercompsbase.xpt
  @BINPATH@/components/browser-feeds.xpt
-+@BINPATH@/components/browser.xpt
 +#ifndef LIBXUL_SDK
  @BINPATH@/components/caps.xpt
  @BINPATH@/components/chrome.xpt
@@ -359,13 +358,3 @@
  
  ; for Solaris SPARC
  #ifdef SOLARIS
---- iceweasel-20.0.1/mozilla/browser/installer/removed-files.in~	2013-04-10 05:01:20.000000000 +0200
-+++ iceweasel-20.0.1/mozilla/browser/installer/removed-files.in	2013-04-18 12:30:31.839633055 +0200
-@@ -884,7 +884,6 @@
-   components/addonManager.js
-   components/amContentHandler.js
-   components/amWebInstallListener.js
--  components/browser.xpt
-   components/BrowserElementParent.js
-   components/BrowserElementParent.manifest
-   components/BrowserElementPromptService.jsm
