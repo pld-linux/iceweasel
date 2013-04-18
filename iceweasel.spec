@@ -6,7 +6,7 @@
 %bcond_without	gnomeui		# disable gnomeui support
 %bcond_without	gnome		# synonym for gnomeui (gconf, libnotify and gio are still enabled)
 %bcond_without	kerberos	# disable krb5 support
-%bcond_without	xulrunner	# build without system xulrunner
+%bcond_with	xulrunner	# build without system xulrunner
 %bcond_with	pgo		# PGO-enabled build (requires working $DISPLAY == :100)
 
 %if %{without gnome}
@@ -30,7 +30,7 @@ Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
 Version:	20.0.1
-Release:	1
+Release:	2
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
@@ -354,7 +354,8 @@ done
 cp -a %{SOURCE3} $RPM_BUILD_ROOT%{_desktopdir}/%{name}.desktop
 
 # install our settings
-cp -a %{SOURCE5} $RPM_BUILD_ROOT%{_datadir}/%{name}/defaults/preferences/vendor.js
+#cp -a %{SOURCE5} $RPM_BUILD_ROOT%{_datadir}/%{name}/defaults/preferences/vendor.js
+cp -a %{SOURCE5} $RPM_BUILD_ROOT%{_datadir}/%{name}/defaults/pref/vendor.js
 
 %if "%{pld_release}" == "ac"
 cp -a %{SOURCE6} $RPM_BUILD_ROOT%{_datadir}/%{name}/defaults/preferences/vendor.js
@@ -467,35 +468,37 @@ fi
 %if %{without xulrunner}
 %{_libdir}/%{name}/dependentlibs.list
 %{_libdir}/%{name}/platform.ini
-%{_libdir}/%{name}/components/AppsService.js
-%{_libdir}/%{name}/components/BrowserElementParent.js
-%{_libdir}/%{name}/components/ConsoleAPI.js
-%{_libdir}/%{name}/components/ContactManager.js
-%{_libdir}/%{name}/components/FeedProcessor.js
-%{_libdir}/%{name}/components/GPSDGeolocationProvider.js
-%{_libdir}/%{name}/components/NetworkGeolocationProvider.js
-%{_libdir}/%{name}/components/PlacesCategoriesStarter.js
-%{_libdir}/%{name}/components/SettingsManager.js
-%{_libdir}/%{name}/components/TelemetryPing.js
 %{_libdir}/%{name}/components/addonManager.js
+%{_libdir}/%{name}/components/Aitc.js
+%{_libdir}/%{name}/components/AlarmsManager.js
 %{_libdir}/%{name}/components/amContentHandler.js
 %{_libdir}/%{name}/components/amWebInstallListener.js
+%{_libdir}/%{name}/components/AppsService.js
+%{_libdir}/%{name}/components/BrowserElementParent.js
+%{_libdir}/%{name}/components/ColorAnalyzer.js
+%{_libdir}/%{name}/components/ConsoleAPI.js
+%{_libdir}/%{name}/components/ContactManager.js
 %{_libdir}/%{name}/components/contentAreaDropListener.js
 %{_libdir}/%{name}/components/contentSecurityPolicy.js
 %{_libdir}/%{name}/components/crypto-SDR.js
+%{_libdir}/%{name}/components/FeedProcessor.js
+%{_libdir}/%{name}/components/GPSDGeolocationProvider.js
 %{_libdir}/%{name}/components/jsconsole-clhandler.js
 %{_libdir}/%{name}/components/messageWakeupService.js
+%{_libdir}/%{name}/components/NetworkGeolocationProvider.js
 %{_libdir}/%{name}/components/nsBadCertHandler.js
 %{_libdir}/%{name}/components/nsBlocklistService.js
 %{_libdir}/%{name}/components/nsContentDispatchChooser.js
 %{_libdir}/%{name}/components/nsContentPrefService.js
 %{_libdir}/%{name}/components/nsDefaultCLH.js
+%{_libdir}/%{name}/components/nsDOMIdentity.js
 %{_libdir}/%{name}/components/nsDownloadManagerUI.js
 %{_libdir}/%{name}/components/nsFilePicker.js
 %{_libdir}/%{name}/components/nsFormAutoComplete.js
 %{_libdir}/%{name}/components/nsFormHistory.js
 %{_libdir}/%{name}/components/nsHandlerService.js
 %{_libdir}/%{name}/components/nsHelperAppDlg.js
+%{_libdir}/%{name}/components/nsIDService.js
 %{_libdir}/%{name}/components/nsINIProcessor.js
 %{_libdir}/%{name}/components/nsInputListAutoComplete.js
 %{_libdir}/%{name}/components/nsLivemarkService.js
@@ -505,18 +508,28 @@ fi
 %{_libdir}/%{name}/components/nsPlacesAutoComplete.js
 %{_libdir}/%{name}/components/nsPlacesExpiration.js
 %{_libdir}/%{name}/components/nsPrompter.js
-%{_libdir}/%{name}/components/nsProxyAutoConfig.js
 %{_libdir}/%{name}/components/nsSearchService.js
 %{_libdir}/%{name}/components/nsSearchSuggestions.js
 %{_libdir}/%{name}/components/nsTaggingService.js
-%{_libdir}/%{name}/components/nsURLFormatter.js
+%{_libdir}/%{name}/components/nsUpdateTimerManager.js
 %{_libdir}/%{name}/components/nsUrlClassifierHashCompleter.js
 %{_libdir}/%{name}/components/nsUrlClassifierLib.js
 %{_libdir}/%{name}/components/nsUrlClassifierListManager.js
+%{_libdir}/%{name}/components/nsURLFormatter.js
 %{_libdir}/%{name}/components/nsWebHandlerApp.js
+%{_libdir}/%{name}/components/PeerConnection.js
+%{_libdir}/%{name}/components/PermissionSettings.js
+%{_libdir}/%{name}/components/PlacesCategoriesStarter.js
+%{_libdir}/%{name}/components/SettingsManager.js
+%{_libdir}/%{name}/components/SiteSpecificUserAgent.js
 %{_libdir}/%{name}/components/storage-Legacy.js
 %{_libdir}/%{name}/components/storage-mozStorage.js
+%{_libdir}/%{name}/components/TCPSocket.js
+%{_libdir}/%{name}/components/TCPSocketParentIntermediary.js
+%{_libdir}/%{name}/components/TelemetryPing.js
 %{_libdir}/%{name}/components/txEXSLTRegExFunctions.js
+%{_libdir}/%{name}/components/Weave.js
+%{_libdir}/%{name}/components/Webapps.js
 %endif
 
 %{_libdir}/%{name}/webapprt
