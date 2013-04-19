@@ -356,11 +356,18 @@ done
 cp -a %{SOURCE3} $RPM_BUILD_ROOT%{_desktopdir}/%{name}.desktop
 
 # install our settings
-#cp -a %{SOURCE5} $RPM_BUILD_ROOT%{_datadir}/%{name}/defaults/preferences/vendor.js
+%if %{without xulrunner}
 cp -a %{SOURCE5} $RPM_BUILD_ROOT%{_datadir}/%{name}/defaults/pref/vendor.js
+%else
+cp -a %{SOURCE5} $RPM_BUILD_ROOT%{_datadir}/%{name}/defaults/preferences/vendor.js
+%endif
 
 %if "%{pld_release}" == "ac"
+%if %{without xulrunner}
+cp -a %{SOURCE6} $RPM_BUILD_ROOT%{_datadir}/%{name}/defaults/pref/vendor.js
+%else
 cp -a %{SOURCE6} $RPM_BUILD_ROOT%{_datadir}/%{name}/defaults/preferences/vendor.js
+%endif
 %endif
 
 # files created by iceweasel -register
