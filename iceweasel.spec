@@ -1,4 +1,5 @@
 # TODO:
+#  - fix build with system xulrunner (as of 20.0.1 iceweasel built with system xul doesn't work)
 #  - provide proper $DISPLAY for PGO (Xvfb, Xdummy...) for unattended builds
 #
 # Conditional build:
