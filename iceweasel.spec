@@ -31,7 +31,7 @@ Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
 Version:	20.0.1
-Release:	3
+Release:	4
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
@@ -314,7 +314,6 @@ ln -s ../xulrunner $RPM_BUILD_ROOT%{_libdir}/%{name}/xulrunner
 # move arch independant ones to datadir
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome $RPM_BUILD_ROOT%{_datadir}/%{name}/chrome
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/defaults $RPM_BUILD_ROOT%{_datadir}/%{name}/defaults
-mv $RPM_BUILD_ROOT%{_libdir}/%{name}/extensions $RPM_BUILD_ROOT%{_datadir}/%{name}/extensions
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/icons $RPM_BUILD_ROOT%{_datadir}/%{name}/icons
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/modules $RPM_BUILD_ROOT%{_datadir}/%{name}/modules
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/searchplugins $RPM_BUILD_ROOT%{_datadir}/%{name}/searchplugins
@@ -325,10 +324,10 @@ mv $RPM_BUILD_ROOT%{_libdir}/%{name}/res $RPM_BUILD_ROOT%{_datadir}/%{name}/res
 
 ln -s ../../share/%{name}/chrome $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome
 ln -s ../../share/%{name}/defaults $RPM_BUILD_ROOT%{_libdir}/%{name}/defaults
-ln -s ../../share/%{name}/extensions $RPM_BUILD_ROOT%{_libdir}/%{name}/extensions
 ln -s ../../share/%{name}/modules $RPM_BUILD_ROOT%{_libdir}/%{name}/modules
 ln -s ../../share/%{name}/icons $RPM_BUILD_ROOT%{_libdir}/%{name}/icons
 ln -s ../../share/%{name}/searchplugins $RPM_BUILD_ROOT%{_libdir}/%{name}/searchplugins
+ln -s ../../%{_lib}/%{name}/extensions $RPM_BUILD_ROOT%{_datadir}/%{name}/extensions
 %if %{without xulrunner}
 ln -s ../../share/%{name}/greprefs.js $RPM_BUILD_ROOT%{_libdir}/%{name}/greprefs.js
 ln -s ../../share/%{name}/res $RPM_BUILD_ROOT%{_libdir}/%{name}/res
@@ -396,12 +395,22 @@ chmod 755 $RPM_BUILD_ROOT%{_sbindir}/%{name}-chrome+xpcom-generate
 rm -rf $RPM_BUILD_ROOT
 
 %pretrans
+if [ -d %{_datadir}/%{name}/extensions ] && [ ! -L %{_datadir}/%{name}/extensions ]; then
+	install -d %{_libdir}/%{name}
+	if [ -e %{_libdir}/%{name}/extensions ]; then
+		mv %{_libdir}/%{name}/extensions{,.rpmsave}
+	fi
+	mv %{_datadir}/%{name}/extensions %{_libdir}/%{name}/extensions
+fi
 if [ -d %{_libdir}/%{name}/dictionaries ] && [ ! -L %{_libdir}/%{name}/dictionaries ]; then
 	mv -v %{_libdir}/%{name}/dictionaries{,.rpmsave}
 fi
-for d in chrome defaults extensions greprefs.js icons res searchplugins; do
+for d in chrome defaults greprefs.js icons res searchplugins; do
 	if [ -d %{_libdir}/%{name}/$d ] && [ ! -L %{_libdir}/%{name}/$d ]; then
 		install -d %{_datadir}/%{name}
+		if [ -e %{_datadir}/%{name}/$d ]; then
+			mv %{_datadir}/%{name}/$d{,.rpmsave}
+		fi
 		mv %{_libdir}/%{name}/$d %{_datadir}/%{name}/$d
 	fi
 done
@@ -567,9 +576,9 @@ fi
 %{_desktopdir}/iceweasel.desktop
 
 # symlinks
+%{_datadir}/%{name}/extensions
 %{_libdir}/%{name}/chrome
 %{_libdir}/%{name}/defaults
-%{_libdir}/%{name}/extensions
 %{_libdir}/%{name}/icons
 %{_libdir}/%{name}/modules
 %{_libdir}/%{name}/searchplugins
@@ -593,9 +602,9 @@ fi
 %{_datadir}/%{name}/res
 %endif
 
-%dir %{_datadir}/%{name}/extensions
+%dir %{_libdir}/%{name}/extensions
 # the signature of the default theme
-%{_datadir}/%{name}/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}
+%{_libdir}/%{name}/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}
 
 # files created by iceweasel -register
 %ghost %{_libdir}/%{name}/components/compreg.dat
