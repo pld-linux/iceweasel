@@ -18,33 +18,31 @@ Subject: Determine which phishing shavar to use depending on
  MOZ_OFFICIAL_BRANDING
 
 ---
- browser/app/Makefile.in                          |    4 ++++
- browser/app/profile/firefox.js                   |    4 ++++
- browser/components/safebrowsing/Makefile.in      |    4 ++++
- browser/components/safebrowsing/SafeBrowsing.jsm |    4 ++++
- 4 files changed, 16 insertions(+)
+ browser/app/Makefile.in        | 4 ++++
+ browser/app/profile/firefox.js | 4 ++++
+ 2 files changed, 8 insertions(+)
 
 diff --git a/browser/app/Makefile.in b/browser/app/Makefile.in
-index 5f891ca..e337ef4 100644
+index fdcee86..3c6cb9f 100644
 --- a/browser/app/Makefile.in
 +++ b/browser/app/Makefile.in
-@@ -132,6 +132,10 @@ endif
- 
- endif #} LIBXUL_SDK
+@@ -141,6 +141,10 @@ libs::
+ 	$(INSTALL) $(IFLAGS1) $(DIST)/branding/default48.png  $(FINAL_TARGET)/chrome/icons/default
+ endif
  
 +ifdef MOZ_OFFICIAL_BRANDING
 +DEFINES += -DMOZ_OFFICIAL_BRANDING
 +endif
 +
- ifeq ($(MOZ_WIDGET_TOOLKIT),gtk2)
- libs::
- 	$(INSTALL) $(IFLAGS1) $(DIST)/branding/mozicon128.png $(DIST)/bin/icons
+ libs:: $(srcdir)/profile/prefs.js
+ 	$(INSTALL) $(IFLAGS1) $^ $(FINAL_TARGET)/defaults/profile
+ 
 diff --git a/browser/app/profile/firefox.js b/browser/app/profile/firefox.js
-index d02a1b1..2b0b9fd 100644
+index 02c8e3f..979e01a 100644
 --- a/browser/app/profile/firefox.js
 +++ b/browser/app/profile/firefox.js
-@@ -742,7 +742,11 @@ pref("urlclassifier.gethashnoise", 4);
- pref("urlclassifier.randomizeclient", false);
+@@ -760,7 +760,11 @@ pref("urlclassifier.alternate_error_page", "blocked");
+ pref("urlclassifier.gethashnoise", 4);
  
  // The list of tables that use the gethash request to confirm partial results.
 +#ifdef MOZ_OFFICIAL_BRANDING
@@ -55,62 +53,34 @@ index d02a1b1..2b0b9fd 100644
  
  // If an urlclassifier table has not been updated in this number of seconds,
  // a gethash request will be forced to check that the result is still in
-diff --git a/browser/components/safebrowsing/Makefile.in b/browser/components/safebrowsing/Makefile.in
-index 8585a34..3aceb9f 100644
---- a/browser/components/safebrowsing/Makefile.in
-+++ b/browser/components/safebrowsing/Makefile.in
-@@ -24,4 +24,8 @@ EXTRA_PP_JS_MODULES = \
-   SafeBrowsing.jsm \
-   $(NULL)
- 
-+ifdef MOZ_OFFICIAL_BRANDING
-+DEFINES += -DMOZ_OFFICIAL_BRANDING
-+endif
-+
- include $(topsrcdir)/config/rules.mk
-diff --git a/toolkit/components/url-classifier/SafeBrowsing.jsm b/toolkit/components/url-classifier/SafeBrowsing.jsm
-index 313ac48..ba9b6f4 100644
---- a/toolkit/components/url-classifier/SafeBrowsing.jsm
-+++ b/toolkit/components/url-classifier/SafeBrowsing.jsm
-@@ -10,7 +10,11 @@ const Cu = Components.utils;
- 
- Cu.import("resource://gre/modules/Services.jsm");
- 
-+#ifdef MOZ_OFFICIAL_BRANDING
- const phishingList = "goog-phish-shavar";
-+#else
-+const phishingList = "googpub-phish-shavar";
-+#endif
- const malwareList  = "goog-malware-shavar";
- 
- var debug = false;
 From: Mike Hommey <mh@glandium.org>
 Date: Sat, 19 Feb 2011 11:04:53 +0100
 Subject: Modify search plugins depending on MOZ_APP_NAME
 
 ---
- browser/locales/Makefile.in                     |    1 +
- browser/locales/en-US/searchplugins/answers.xml |    2 +-
- browser/locales/en-US/searchplugins/google.xml  |    5 +++++
- 3 files changed, 7 insertions(+), 1 deletion(-)
+ browser/locales/Makefile.in                     | 2 ++
+ browser/locales/en-US/searchplugins/answers.xml | 2 +-
+ browser/locales/en-US/searchplugins/google.xml  | 5 +++++
+ 3 files changed, 8 insertions(+), 1 deletion(-)
 
 diff --git a/browser/locales/Makefile.in b/browser/locales/Makefile.in
-index 340bb5f..dd0761f 100644
+index 07a105e..fa8ea25 100644
 --- a/browser/locales/Makefile.in
 +++ b/browser/locales/Makefile.in
-@@ -167,6 +167,7 @@ libs:: $(addsuffix .xml,$(SEARCH_PLUGINS))
- 	for SEARCH_PLUGIN in $^; do\
- 	  SEARCH_PLUGIN_BASE=`basename $$SEARCH_PLUGIN`;\
- 	  $(PYTHON) $(topsrcdir)/config/Preprocessor.py $(DEFINES) $(ACDEFINES) \
-+        -DMOZ_APP_NAME=$(MOZ_APP_NAME) \
- 	    $$SEARCH_PLUGIN > $(FINAL_TARGET)/searchplugins/$$SEARCH_PLUGIN_BASE; \
- 	done
+@@ -83,6 +83,8 @@ SEARCHPLUGINS_PATH := $(FINAL_TARGET)/searchplugins
+ SEARCHPLUGINS := $(addsuffix .xml,$(SEARCHPLUGINS_NAMES))
+ PP_TARGETS += SEARCHPLUGINS
  
++DEFINES += -DMOZ_APP_NAME=$(MOZ_APP_NAME)
++
+ # Required for l10n.mk - defines a list of app sub dirs that should
+ # be included in langpack xpis.
+ ifdef MOZ_METRO
 diff --git a/browser/locales/en-US/searchplugins/answers.xml b/browser/locales/en-US/searchplugins/answers.xml
-index ea32303..2da83aa 100644
+index f131ea6..357d42e 100644
 --- a/browser/locales/en-US/searchplugins/answers.xml
 +++ b/browser/locales/en-US/searchplugins/answers.xml
-@@ -8,6 +8,6 @@
+@@ -12,6 +12,6 @@
    <Param name="gwp" value="13"/>
  </Url>
  <Url type="application/x-suggestions+json" method="GET"
@@ -119,43 +89,49 @@ index ea32303..2da83aa 100644
  <SearchForm>http://www.answers.com/</SearchForm>
  </SearchPlugin>
 diff --git a/browser/locales/en-US/searchplugins/google.xml b/browser/locales/en-US/searchplugins/google.xml
-index 1ccd459..b87c867 100644
+index 10ba30b..f23b99e 100644
 --- a/browser/locales/en-US/searchplugins/google.xml
 +++ b/browser/locales/en-US/searchplugins/google.xml
-@@ -1,7 +1,9 @@
+@@ -2,6 +2,7 @@
     - License, v. 2.0. If a copy of the MPL was not distributed with this
     - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
  
 +#filter substitution
- #define GOOGLE_PARAMS <Param name="q" value="{searchTerms}"/><Param name="ie" value="utf-8"/><Param name="oe" value="utf-8"/><Param name="aq" value="t"/><Param name="rls" value="{moz:distributionID}:{moz:locale}:{moz:official}"/>
-+#if MOZ_APP_NAME==firefox
- #if MOZ_UPDATE_CHANNEL == beta
- #define GOOGLE_CLIENT_PARAM <MozParam name="client" condition="defaultEngine" trueValue="firefox-beta" falseValue="firefox"/>
- #elif MOZ_UPDATE_CHANNEL == aurora
-@@ -8,6 +10,9 @@
- #else
- #define GOOGLE_CLIENT_PARAM <MozParam name="client" condition="defaultEngine" trueValue="firefox-a" falseValue="firefox"/>
- #endif
-+#else
-+#define GOOGLE_CLIENT_PARAM <MozParam name="client" condition="defaultEngine" trueValue="@MOZ_APP_NAME@-a" falseValue="@MOZ_APP_NAME@"/>
-+#endif
  <SearchPlugin xmlns="http://www.mozilla.org/2006/browser/search/">
  <ShortName>Google</ShortName>
  <Description>Google Search</Description>
+@@ -14,6 +15,7 @@
+   <Param name="oe" value="utf-8"/>
+   <Param name="aq" value="t"/>
+   <Param name="rls" value="{moz:distributionID}:{moz:locale}:{moz:official}"/>
++#if MOZ_APP_NAME==firefox
+ #if MOZ_UPDATE_CHANNEL == beta
+   <MozParam name="client" condition="defaultEngine" trueValue="firefox-beta" falseValue="firefox"/>
+ #elif MOZ_UPDATE_CHANNEL == aurora
+@@ -23,6 +25,9 @@
+ #else
+   <MozParam name="client" condition="defaultEngine" trueValue="firefox-a" falseValue="firefox"/>
+ #endif
++#else
++  <MozParam name="client" condition="defaultEngine" trueValue="@MOZ_APP_NAME@-a" falseValue="@MOZ_APP_NAME@"/>
++#endif
+   <MozParam name="channel" condition="purpose" purpose="contextmenu" value="rcs"/>
+   <MozParam name="channel" condition="purpose" purpose="keyword" value="fflb"/>
+   <MozParam name="channel" condition="purpose" purpose="homepage" value="np"/>
 From: Mike Hommey <mh@glandium.org>
 Date: Sat, 19 Feb 2011 11:02:30 +0100
 Subject: Use MOZ_APP_DISPLAYNAME to fill appstrings.properties
 
 ---
- browser/locales/Makefile.in                        |    2 ++
- .../en-US/chrome/overrides/appstrings.properties   |   20 ++++++++++----------
+ browser/locales/Makefile.in                          |  2 ++
+ .../en-US/chrome/overrides/appstrings.properties     | 20 ++++++++++----------
  2 files changed, 12 insertions(+), 10 deletions(-)
 
 diff --git a/browser/locales/Makefile.in b/browser/locales/Makefile.in
-index c5a09d2..340bb5f 100644
+index cfaa3db..07a105e 100644
 --- a/browser/locales/Makefile.in
 +++ b/browser/locales/Makefile.in
-@@ -69,6 +69,8 @@ SUBMAKEFILES += \
+@@ -37,6 +37,8 @@ SUBMAKEFILES += \
  	$(DEPTH)/$(MOZ_BRANDING_DIRECTORY)/locales/Makefile \
  	$(NULL)
  
@@ -165,11 +141,11 @@ index c5a09d2..340bb5f 100644
  # build non-default locales to non-default dist/ locations. Be aware!
  
 diff --git a/browser/locales/en-US/chrome/overrides/appstrings.properties b/browser/locales/en-US/chrome/overrides/appstrings.properties
-index 87e9538..ac979f9 100644
+index 1de0093..8c77825 100644
 --- a/browser/locales/en-US/chrome/overrides/appstrings.properties
 +++ b/browser/locales/en-US/chrome/overrides/appstrings.properties
-@@ -35,24 +35,24 @@
- # ***** END LICENSE BLOCK *****
+@@ -3,24 +3,24 @@
+ # file, You can obtain one at http://mozilla.org/MPL/2.0/.
  
  malformedURI=The URL is not valid and cannot be loaded.
 -fileNotFound=Firefox can't find the file at %S.

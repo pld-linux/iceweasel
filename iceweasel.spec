@@ -7,7 +7,7 @@
 %bcond_without	gnomeui		# disable gnomeui support
 %bcond_without	gnome		# synonym for gnomeui (gconf, libnotify and gio are still enabled)
 %bcond_without	kerberos	# disable krb5 support
-%bcond_with	xulrunner	# build without system xulrunner
+%bcond_without	xulrunner	# build without system xulrunner
 %bcond_with	pgo		# PGO-enabled build (requires working $DISPLAY == :100)
 
 %if %{without gnome}
@@ -15,8 +15,8 @@
 %endif
 
 # convert firefox release number to platform version: 19.0.x -> 19.0.x
-%define		xulrunner_main	20.0
-%define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#20.0})
+%define		xulrunner_main	22.0
+%define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#22.0})
 
 %if %{without xulrunner}
 # The actual sqlite version (see RHBZ#480989):
@@ -30,14 +30,14 @@ Summary:	Iceweasel web browser
 Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
-Version:	20.0.1
-Release:	4
+Version:	22.0
+Release:	0.1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
-# Source0-md5:	b822ff4b2348410587dec563235d9320
+# Source0-md5:	4ffb6d1c1a04ca8e3dbca23df09626dd
 Source1:	%{name}-branding.tar.bz2
-# Source1-md5:	816d926bd2c76a5bba5108979ba776ac
+# Source1-md5:	513af080c920d916362b607a872adf00
 Source2:	%{name}-rm_nonfree.sh
 Source3:	%{name}.desktop
 Source4:	%{name}.sh
