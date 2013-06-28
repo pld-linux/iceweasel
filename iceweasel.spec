@@ -31,7 +31,7 @@ Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
 Version:	22.0
-Release:	0.1
+Release:	1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
@@ -290,10 +290,10 @@ cd mozilla
 install -d \
 	$RPM_BUILD_ROOT{%{_bindir},%{_sbindir},%{_libdir}} \
 	$RPM_BUILD_ROOT%{_desktopdir} \
-	$RPM_BUILD_ROOT%{_datadir}/%{name} \
-	$RPM_BUILD_ROOT%{_libdir}/%{name}/plugins
+	$RPM_BUILD_ROOT%{_datadir}/%{name}/browser \
+	$RPM_BUILD_ROOT%{_libdir}/%{name}/browser/plugins \
 
-%browser_plugins_add_browser %{name} -p %{_libdir}/%{name}/plugins
+%browser_plugins_add_browser %{name} -p %{_libdir}/%{name}/browser/plugins
 
 cd obj-%{_target_cpu}
 %{__make} -C browser/installer stage-package \
@@ -312,25 +312,23 @@ ln -s ../xulrunner $RPM_BUILD_ROOT%{_libdir}/%{name}/xulrunner
 %endif
 
 # move arch independant ones to datadir
-mv $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome $RPM_BUILD_ROOT%{_datadir}/%{name}/chrome
-mv $RPM_BUILD_ROOT%{_libdir}/%{name}/defaults $RPM_BUILD_ROOT%{_datadir}/%{name}/defaults
-mv $RPM_BUILD_ROOT%{_libdir}/%{name}/icons $RPM_BUILD_ROOT%{_datadir}/%{name}/icons
-mv $RPM_BUILD_ROOT%{_libdir}/%{name}/modules $RPM_BUILD_ROOT%{_datadir}/%{name}/modules
-mv $RPM_BUILD_ROOT%{_libdir}/%{name}/searchplugins $RPM_BUILD_ROOT%{_datadir}/%{name}/searchplugins
+mv $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/chrome $RPM_BUILD_ROOT%{_datadir}/%{name}/browser/chrome
+mv $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/defaults $RPM_BUILD_ROOT%{_datadir}/%{name}/browser/defaults
+mv $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/icons $RPM_BUILD_ROOT%{_datadir}/%{name}/browser/icons
+mv $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/searchplugins $RPM_BUILD_ROOT%{_datadir}/%{name}/browser/searchplugins
 %if %{without xulrunner}
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/greprefs.js $RPM_BUILD_ROOT%{_datadir}/%{name}/greprefs.js
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/res $RPM_BUILD_ROOT%{_datadir}/%{name}/res
 %endif
 
-ln -s ../../share/%{name}/chrome $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome
-ln -s ../../share/%{name}/defaults $RPM_BUILD_ROOT%{_libdir}/%{name}/defaults
-ln -s ../../share/%{name}/modules $RPM_BUILD_ROOT%{_libdir}/%{name}/modules
-ln -s ../../share/%{name}/icons $RPM_BUILD_ROOT%{_libdir}/%{name}/icons
-ln -s ../../share/%{name}/searchplugins $RPM_BUILD_ROOT%{_libdir}/%{name}/searchplugins
-ln -s ../../%{_lib}/%{name}/extensions $RPM_BUILD_ROOT%{_datadir}/%{name}/extensions
+ln -s ../../../share/%{name}/browser/chrome $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/chrome
+ln -s ../../../share/%{name}/browser/defaults $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/defaults
+ln -s ../../../share/%{name}/browser/icons $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/icons
+ln -s ../../../share/%{name}/browser/searchplugins $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/searchplugins
+ln -s ../../../%{_lib}/%{name}/browser/extensions $RPM_BUILD_ROOT%{_datadir}/%{name}/browser/extensions
 %if %{without xulrunner}
-ln -s ../../share/%{name}/greprefs.js $RPM_BUILD_ROOT%{_libdir}/%{name}/greprefs.js
-ln -s ../../share/%{name}/res $RPM_BUILD_ROOT%{_libdir}/%{name}/res
+ln -s ../../../share/%{name}/greprefs.js $RPM_BUILD_ROOT%{_libdir}/%{name}/greprefs.js
+ln -s ../../../share/%{name}/res $RPM_BUILD_ROOT%{_libdir}/%{name}/res
 %endif
 
 %if %{without xulrunner}
@@ -359,25 +357,25 @@ cp -a %{SOURCE3} $RPM_BUILD_ROOT%{_desktopdir}/%{name}.desktop
 %if %{without xulrunner}
 cp -a %{SOURCE5} $RPM_BUILD_ROOT%{_datadir}/%{name}/defaults/pref/vendor.js
 %else
-cp -a %{SOURCE5} $RPM_BUILD_ROOT%{_datadir}/%{name}/defaults/preferences/vendor.js
+cp -a %{SOURCE5} $RPM_BUILD_ROOT%{_datadir}/%{name}/browser/defaults/preferences/vendor.js
 %endif
 
 %if "%{pld_release}" == "ac"
 %if %{without xulrunner}
 cp -a %{SOURCE6} $RPM_BUILD_ROOT%{_datadir}/%{name}/defaults/pref/vendor.js
 %else
-cp -a %{SOURCE6} $RPM_BUILD_ROOT%{_datadir}/%{name}/defaults/preferences/vendor.js
+cp -a %{SOURCE6} $RPM_BUILD_ROOT%{_datadir}/%{name}/browser/defaults/preferences/vendor.js
 %endif
 %endif
 
 # files created by iceweasel -register
-touch $RPM_BUILD_ROOT%{_libdir}/%{name}/components/compreg.dat
-touch $RPM_BUILD_ROOT%{_libdir}/%{name}/components/xpti.dat
+touch $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/components/compreg.dat
+touch $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/components/xpti.dat
 
 cat << 'EOF' > $RPM_BUILD_ROOT%{_sbindir}/%{name}-chrome+xpcom-generate
 #!/bin/sh
 umask 022
-rm -f %{_libdir}/%{name}/components/{compreg,xpti}.dat
+rm -f %{_libdir}/%{name}/browser/components/{compreg,xpti}.dat
 
 # it attempts to touch files in $HOME/.mozilla
 # beware if you run this with sudo!!!
@@ -395,23 +393,17 @@ chmod 755 $RPM_BUILD_ROOT%{_sbindir}/%{name}-chrome+xpcom-generate
 rm -rf $RPM_BUILD_ROOT
 
 %pretrans
-if [ -d %{_datadir}/%{name}/extensions ] && [ ! -L %{_datadir}/%{name}/extensions ]; then
-	install -d %{_libdir}/%{name}
-	if [ -e %{_libdir}/%{name}/extensions ]; then
-		mv %{_libdir}/%{name}/extensions{,.rpmsave}
-	fi
-	mv %{_datadir}/%{name}/extensions %{_libdir}/%{name}/extensions
+if [ -d %{_datadir}/%{name}/extensions ] && [ ! -L %{_datadir}/%{name}/browser/extensions ]; then
+	install -d %{_libdir}/%{name}/browser
+	mv -v %{_datadir}/%{name}/extensions %{_libdir}/%{name}/browser/extensions
 fi
 if [ -d %{_libdir}/%{name}/dictionaries ] && [ ! -L %{_libdir}/%{name}/dictionaries ]; then
 	mv -v %{_libdir}/%{name}/dictionaries{,.rpmsave}
 fi
-for d in chrome defaults greprefs.js icons res searchplugins; do
+for d in chrome defaults icons searchplugins res greprefs.js; do
 	if [ -d %{_libdir}/%{name}/$d ] && [ ! -L %{_libdir}/%{name}/$d ]; then
-		install -d %{_datadir}/%{name}
-		if [ -e %{_datadir}/%{name}/$d ]; then
-			mv %{_datadir}/%{name}/$d{,.rpmsave}
-		fi
-		mv %{_libdir}/%{name}/$d %{_datadir}/%{name}/$d
+		install -d %{_datadir}/%{name}/browser
+		mv %{_libdir}/%{name}/$d %{_datadir}/%{name}/browser/$d
 	fi
 done
 exit 0
@@ -440,13 +432,46 @@ fi
 %config(noreplace) %verify(not md5 mtime size) %{_browserpluginsconfdir}/blacklist.d/%{name}.*.blacklist
 
 %dir %{_libdir}/%{name}
-%if %{without xulrunner}
-%attr(755,root,root) %{_libdir}/%{name}/libmozalloc.so
-%attr(755,root,root) %{_libdir}/%{name}/libmozjs.so
-%attr(755,root,root) %{_libdir}/%{name}/libxpcom.so
-%attr(755,root,root) %{_libdir}/%{name}/libxul.so
+%dir %{_libdir}/%{name}/browser
+%dir %{_libdir}/%{name}/browser/components
+%dir %{_libdir}/%{name}/browser/extensions
+%dir %{_libdir}/%{name}/browser/plugins
+
+%dir %{_datadir}/%{name}
+%dir %{_datadir}/%{name}/browser
+%{_datadir}/%{name}/browser/chrome
+%{_datadir}/%{name}/browser/icons
+%{_datadir}/%{name}/browser/searchplugins
+%{_datadir}/%{name}/browser/defaults
+
+# symlinks
+%{_datadir}/%{name}/browser/extensions
+%{_libdir}/%{name}/browser/chrome
+%{_libdir}/%{name}/browser/icons
+%{_libdir}/%{name}/browser/searchplugins
+%{_libdir}/%{name}/browser/defaults
+%if %{with xulrunner}
+%{_libdir}/%{name}/xulrunner
 %endif
-%{_libdir}/%{name}/blocklist.xml
+
+%{_libdir}/%{name}/application.ini
+%{_libdir}/%{name}/browser/blocklist.xml
+%{_libdir}/%{name}/browser/chrome.manifest
+# the signature of the default theme
+%{_libdir}/%{name}/browser/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}
+%{_libdir}/%{name}/browser/omni.ja
+%{_libdir}/%{name}/browser/components/components.manifest
+%attr(755,root,root) %{_libdir}/%{name}/browser/components/libbrowsercomps.so
+%attr(755,root,root) %{_libdir}/%{name}/iceweasel
+%{_libdir}/%{name}/webapprt
+%attr(755,root,root) %{_libdir}/%{name}/webapprt-stub
+
+%{_iconsdir}/hicolor/*/*/iceweasel.png
+%{_desktopdir}/iceweasel.desktop
+
+# files created by iceweasel -register
+%ghost %{_libdir}/%{name}/browser/components/compreg.dat
+%ghost %{_libdir}/%{name}/browser/components/xpti.dat
 
 %if %{with crashreporter}
 %{_libdir}/%{name}/crashreporter
@@ -454,35 +479,6 @@ fi
 %{_libdir}/%{name}/crashreporter.ini
 %{_libdir}/%{name}/Throbber-small.gif
 %endif
-
-# config?
-%{_libdir}/%{name}/application.ini
-%{_libdir}/%{name}/chrome.manifest
-
-%dir %{_libdir}/%{name}/components
-
-%{_libdir}/%{name}/components/ChromeProfileMigrator.js
-%{_libdir}/%{name}/components/DownloadsStartup.js
-%{_libdir}/%{name}/components/DownloadsUI.js
-%{_libdir}/%{name}/components/FeedConverter.js
-%{_libdir}/%{name}/components/FeedWriter.js
-%{_libdir}/%{name}/components/FirefoxProfileMigrator.js
-%{_libdir}/%{name}/components/PageThumbsProtocol.js
-%{_libdir}/%{name}/components/PlacesProtocolHandler.js
-%{_libdir}/%{name}/components/ProfileMigrator.js
-%{_libdir}/%{name}/components/WebContentConverter.js
-%{_libdir}/%{name}/components/browser.xpt
-%{_libdir}/%{name}/components/fuelApplication.js
-%{_libdir}/%{name}/components/nsBrowserContentHandler.js
-%{_libdir}/%{name}/components/nsBrowserGlue.js
-%{_libdir}/%{name}/components/nsPrivateBrowsingServiceObsolete.js
-%{_libdir}/%{name}/components/nsSessionStartup.js
-%{_libdir}/%{name}/components/nsSessionStore.js
-%{_libdir}/%{name}/components/nsSetDefaultBrowser.js
-%{_libdir}/%{name}/components/nsSidebar.js
-
-%{_libdir}/%{name}/components/components.manifest
-%{_libdir}/%{name}/components/interfaces.manifest
 
 %if %{without xulrunner}
 %{_libdir}/%{name}/dependentlibs.list
@@ -549,63 +545,19 @@ fi
 %{_libdir}/%{name}/components/txEXSLTRegExFunctions.js
 %{_libdir}/%{name}/components/Weave.js
 %{_libdir}/%{name}/components/Webapps.js
-%endif
-
-%{_libdir}/%{name}/webapprt
-%attr(755,root,root) %{_libdir}/%{name}/webapprt-stub
-
-%attr(755,root,root) %{_libdir}/%{name}/components/libbrowsercomps.so
-%if %{without xulrunner}
-%attr(755,root,root) %{_libdir}/%{name}/components/libdbusservice.so
-%endif
-
-%if %{without xulrunner}
-%attr(755,root,root) %{_libdir}/%{name}/components/libmozgnome.so
-%endif
-
-%attr(755,root,root) %{_libdir}/%{name}/iceweasel
-%dir %{_libdir}/%{name}/plugins
-%if %{without xulrunner}
-%attr(755,root,root) %{_libdir}/%{name}/run-mozilla.sh
+%attr(755,root,root) %{_libdir}/%{name}/browser/components/libdbusservice.so
+%attr(755,root,root) %{_libdir}/%{name}/browser/components/libmozgnome.so
 %attr(755,root,root) %{_libdir}/%{name}/iceweasel-bin
+%attr(755,root,root) %{_libdir}/%{name}/libmozalloc.so
+%attr(755,root,root) %{_libdir}/%{name}/libmozjs.so
+%attr(755,root,root) %{_libdir}/%{name}/libxul.so
 %attr(755,root,root) %{_libdir}/%{name}/mozilla-xremote-client
 %attr(755,root,root) %{_libdir}/%{name}/plugin-container
-%endif
-
-%{_iconsdir}/hicolor/*/*/iceweasel.png
-%{_desktopdir}/iceweasel.desktop
-
-# symlinks
-%{_datadir}/%{name}/extensions
-%{_libdir}/%{name}/chrome
-%{_libdir}/%{name}/defaults
-%{_libdir}/%{name}/icons
-%{_libdir}/%{name}/modules
-%{_libdir}/%{name}/searchplugins
-%if %{with xulrunner}
-%{_libdir}/%{name}/xulrunner
-%else
+%attr(755,root,root) %{_libdir}/%{name}/run-mozilla.sh
 %{_libdir}/%{name}/dictionaries
 %{_libdir}/%{name}/hyphenation
 %{_libdir}/%{name}/greprefs.js
 %{_libdir}/%{name}/res
-%endif
-
-%dir %{_datadir}/%{name}
-%{_datadir}/%{name}/chrome
-%{_datadir}/%{name}/defaults
-%{_datadir}/%{name}/icons
-%{_datadir}/%{name}/modules
-%{_datadir}/%{name}/searchplugins
-%if %{without xulrunner}
 %{_datadir}/%{name}/greprefs.js
 %{_datadir}/%{name}/res
 %endif
-
-%dir %{_libdir}/%{name}/extensions
-# the signature of the default theme
-%{_libdir}/%{name}/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}
-
-# files created by iceweasel -register
-%ghost %{_libdir}/%{name}/components/compreg.dat
-%ghost %{_libdir}/%{name}/components/xpti.dat
