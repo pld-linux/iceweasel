@@ -1,5 +1,5 @@
 # TODO:
-#  - fix build with system xulrunner (as of 20.0.1 iceweasel built with system xul doesn't work)
+#  - fix build with system xulrunner (22.0 build with system xul causes unresponsive searchbar)
 #  - provide proper $DISPLAY for PGO (Xvfb, Xdummy...) for unattended builds
 #
 # Conditional build:
@@ -31,7 +31,7 @@ Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
 Version:	22.0
-Release:	1
+Release:	2
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
@@ -313,29 +313,27 @@ ln -s ../xulrunner $RPM_BUILD_ROOT%{_libdir}/%{name}/xulrunner
 
 # move arch independant ones to datadir
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/chrome $RPM_BUILD_ROOT%{_datadir}/%{name}/browser/chrome
-mv $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/defaults $RPM_BUILD_ROOT%{_datadir}/%{name}/browser/defaults
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/icons $RPM_BUILD_ROOT%{_datadir}/%{name}/browser/icons
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/searchplugins $RPM_BUILD_ROOT%{_datadir}/%{name}/browser/searchplugins
 %if %{without xulrunner}
-mv $RPM_BUILD_ROOT%{_libdir}/%{name}/greprefs.js $RPM_BUILD_ROOT%{_datadir}/%{name}/greprefs.js
-mv $RPM_BUILD_ROOT%{_libdir}/%{name}/res $RPM_BUILD_ROOT%{_datadir}/%{name}/res
+mv $RPM_BUILD_ROOT%{_libdir}/%{name}/defaults $RPM_BUILD_ROOT%{_datadir}/%{name}/defaults
+%else
+mv $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/defaults $RPM_BUILD_ROOT%{_datadir}/%{name}/browser/defaults
 %endif
 
 ln -s ../../../share/%{name}/browser/chrome $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/chrome
-ln -s ../../../share/%{name}/browser/defaults $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/defaults
 ln -s ../../../share/%{name}/browser/icons $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/icons
 ln -s ../../../share/%{name}/browser/searchplugins $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/searchplugins
 ln -s ../../../%{_lib}/%{name}/browser/extensions $RPM_BUILD_ROOT%{_datadir}/%{name}/browser/extensions
 %if %{without xulrunner}
-ln -s ../../../share/%{name}/greprefs.js $RPM_BUILD_ROOT%{_libdir}/%{name}/greprefs.js
-ln -s ../../../share/%{name}/res $RPM_BUILD_ROOT%{_libdir}/%{name}/res
+ln -s ../../../share/%{name}/defaults $RPM_BUILD_ROOT%{_libdir}/%{name}/defaults
+%else
+ln -s ../../../share/%{name}/browser/defaults $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/defaults
 %endif
 
 %if %{without xulrunner}
 %{__rm} -r $RPM_BUILD_ROOT%{_libdir}/%{name}/dictionaries
 ln -s %{_datadir}/myspell $RPM_BUILD_ROOT%{_libdir}/%{name}/dictionaries
-%{__rm} -r $RPM_BUILD_ROOT%{_libdir}/%{name}/hyphenation
-ln -s %{_datadir}/myspell $RPM_BUILD_ROOT%{_libdir}/%{name}/hyphenation
 %endif
 
 sed 's,@LIBDIR@,%{_libdir},' %{SOURCE4} > $RPM_BUILD_ROOT%{_bindir}/iceweasel
@@ -400,12 +398,21 @@ fi
 if [ -d %{_libdir}/%{name}/dictionaries ] && [ ! -L %{_libdir}/%{name}/dictionaries ]; then
 	mv -v %{_libdir}/%{name}/dictionaries{,.rpmsave}
 fi
-for d in chrome defaults icons searchplugins res greprefs.js; do
+for d in chrome icons searchplugins res greprefs.js; do
 	if [ -d %{_libdir}/%{name}/$d ] && [ ! -L %{_libdir}/%{name}/$d ]; then
 		install -d %{_datadir}/%{name}/browser
 		mv %{_libdir}/%{name}/$d %{_datadir}/%{name}/browser/$d
 	fi
 done
+if [ -d %{_libdir}/%{name}/defaults ] && [ ! -L %{_libdir}/%{name}/defaults ]; then
+%if %{without xulrunner}
+	install -d %{_datadir}/%{name}
+	mv %{_libdir}/%{name}/defaults %{_datadir}/%{name}/defaults
+%else
+	install -d %{_datadir}/%{name}/browser
+	mv %{_libdir}/%{name}/defaults %{_datadir}/%{name}/browser/defaults
+%endif
+fi
 exit 0
 
 %post
@@ -442,16 +449,19 @@ fi
 %{_datadir}/%{name}/browser/chrome
 %{_datadir}/%{name}/browser/icons
 %{_datadir}/%{name}/browser/searchplugins
-%{_datadir}/%{name}/browser/defaults
 
 # symlinks
 %{_datadir}/%{name}/browser/extensions
 %{_libdir}/%{name}/browser/chrome
 %{_libdir}/%{name}/browser/icons
 %{_libdir}/%{name}/browser/searchplugins
-%{_libdir}/%{name}/browser/defaults
 %if %{with xulrunner}
 %{_libdir}/%{name}/xulrunner
+%{_libdir}/%{name}/browser/defaults
+%{_datadir}/%{name}/browser/defaults
+%else
+%{_libdir}/%{name}/defaults
+%{_datadir}/%{name}/defaults
 %endif
 
 %{_libdir}/%{name}/application.ini
@@ -483,70 +493,10 @@ fi
 %if %{without xulrunner}
 %{_libdir}/%{name}/dependentlibs.list
 %{_libdir}/%{name}/platform.ini
-%{_libdir}/%{name}/components/addonManager.js
-%{_libdir}/%{name}/components/Aitc.js
-%{_libdir}/%{name}/components/AlarmsManager.js
-%{_libdir}/%{name}/components/amContentHandler.js
-%{_libdir}/%{name}/components/amWebInstallListener.js
-%{_libdir}/%{name}/components/AppsService.js
-%{_libdir}/%{name}/components/BrowserElementParent.js
-%{_libdir}/%{name}/components/ColorAnalyzer.js
-%{_libdir}/%{name}/components/ConsoleAPI.js
-%{_libdir}/%{name}/components/ContactManager.js
-%{_libdir}/%{name}/components/contentAreaDropListener.js
-%{_libdir}/%{name}/components/contentSecurityPolicy.js
-%{_libdir}/%{name}/components/crypto-SDR.js
-%{_libdir}/%{name}/components/FeedProcessor.js
-%{_libdir}/%{name}/components/GPSDGeolocationProvider.js
-%{_libdir}/%{name}/components/jsconsole-clhandler.js
-%{_libdir}/%{name}/components/messageWakeupService.js
-%{_libdir}/%{name}/components/NetworkGeolocationProvider.js
-%{_libdir}/%{name}/components/nsBadCertHandler.js
-%{_libdir}/%{name}/components/nsBlocklistService.js
-%{_libdir}/%{name}/components/nsContentDispatchChooser.js
-%{_libdir}/%{name}/components/nsContentPrefService.js
-%{_libdir}/%{name}/components/nsDefaultCLH.js
-%{_libdir}/%{name}/components/nsDOMIdentity.js
-%{_libdir}/%{name}/components/nsDownloadManagerUI.js
-%{_libdir}/%{name}/components/nsFilePicker.js
-%{_libdir}/%{name}/components/nsFormAutoComplete.js
-%{_libdir}/%{name}/components/nsFormHistory.js
-%{_libdir}/%{name}/components/nsHandlerService.js
-%{_libdir}/%{name}/components/nsHelperAppDlg.js
-%{_libdir}/%{name}/components/nsIDService.js
-%{_libdir}/%{name}/components/nsINIProcessor.js
-%{_libdir}/%{name}/components/nsInputListAutoComplete.js
-%{_libdir}/%{name}/components/nsLivemarkService.js
-%{_libdir}/%{name}/components/nsLoginInfo.js
-%{_libdir}/%{name}/components/nsLoginManager.js
-%{_libdir}/%{name}/components/nsLoginManagerPrompter.js
-%{_libdir}/%{name}/components/nsPlacesAutoComplete.js
-%{_libdir}/%{name}/components/nsPlacesExpiration.js
-%{_libdir}/%{name}/components/nsPrompter.js
-%{_libdir}/%{name}/components/nsSearchService.js
-%{_libdir}/%{name}/components/nsSearchSuggestions.js
-%{_libdir}/%{name}/components/nsTaggingService.js
-%{_libdir}/%{name}/components/nsUpdateTimerManager.js
-%{_libdir}/%{name}/components/nsUrlClassifierHashCompleter.js
-%{_libdir}/%{name}/components/nsUrlClassifierLib.js
-%{_libdir}/%{name}/components/nsUrlClassifierListManager.js
-%{_libdir}/%{name}/components/nsURLFormatter.js
-%{_libdir}/%{name}/components/nsWebHandlerApp.js
-%{_libdir}/%{name}/components/PeerConnection.js
-%{_libdir}/%{name}/components/PermissionSettings.js
-%{_libdir}/%{name}/components/PlacesCategoriesStarter.js
-%{_libdir}/%{name}/components/SettingsManager.js
-%{_libdir}/%{name}/components/SiteSpecificUserAgent.js
-%{_libdir}/%{name}/components/storage-Legacy.js
-%{_libdir}/%{name}/components/storage-mozStorage.js
-%{_libdir}/%{name}/components/TCPSocket.js
-%{_libdir}/%{name}/components/TCPSocketParentIntermediary.js
-%{_libdir}/%{name}/components/TelemetryPing.js
-%{_libdir}/%{name}/components/txEXSLTRegExFunctions.js
-%{_libdir}/%{name}/components/Weave.js
-%{_libdir}/%{name}/components/Webapps.js
-%attr(755,root,root) %{_libdir}/%{name}/browser/components/libdbusservice.so
-%attr(755,root,root) %{_libdir}/%{name}/browser/components/libmozgnome.so
+%dir %{_libdir}/%{name}/components
+%{_libdir}/%{name}/components/components.manifest
+%attr(755,root,root) %{_libdir}/%{name}/components/libdbusservice.so
+%attr(755,root,root) %{_libdir}/%{name}/components/libmozgnome.so
 %attr(755,root,root) %{_libdir}/%{name}/iceweasel-bin
 %attr(755,root,root) %{_libdir}/%{name}/libmozalloc.so
 %attr(755,root,root) %{_libdir}/%{name}/libmozjs.so
@@ -555,9 +505,6 @@ fi
 %attr(755,root,root) %{_libdir}/%{name}/plugin-container
 %attr(755,root,root) %{_libdir}/%{name}/run-mozilla.sh
 %{_libdir}/%{name}/dictionaries
-%{_libdir}/%{name}/hyphenation
-%{_libdir}/%{name}/greprefs.js
-%{_libdir}/%{name}/res
-%{_datadir}/%{name}/greprefs.js
-%{_datadir}/%{name}/res
+%{_libdir}/%{name}/chrome.manifest
+%{_libdir}/%{name}/omni.ja
 %endif
