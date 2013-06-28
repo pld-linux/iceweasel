@@ -31,7 +31,7 @@ Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
 Version:	22.0
-Release:	2
+Release:	3
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
@@ -397,21 +397,6 @@ if [ -d %{_datadir}/%{name}/extensions ] && [ ! -L %{_datadir}/%{name}/browser/e
 fi
 if [ -d %{_libdir}/%{name}/dictionaries ] && [ ! -L %{_libdir}/%{name}/dictionaries ]; then
 	mv -v %{_libdir}/%{name}/dictionaries{,.rpmsave}
-fi
-for d in chrome icons searchplugins res greprefs.js; do
-	if [ -d %{_libdir}/%{name}/$d ] && [ ! -L %{_libdir}/%{name}/$d ]; then
-		install -d %{_datadir}/%{name}/browser
-		mv %{_libdir}/%{name}/$d %{_datadir}/%{name}/browser/$d
-	fi
-done
-if [ -d %{_libdir}/%{name}/defaults ] && [ ! -L %{_libdir}/%{name}/defaults ]; then
-%if %{without xulrunner}
-	install -d %{_datadir}/%{name}
-	mv %{_libdir}/%{name}/defaults %{_datadir}/%{name}/defaults
-%else
-	install -d %{_datadir}/%{name}/browser
-	mv %{_libdir}/%{name}/defaults %{_datadir}/%{name}/browser/defaults
-%endif
 fi
 exit 0
 
