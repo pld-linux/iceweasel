@@ -7,7 +7,7 @@
 %bcond_without	gnomeui		# disable gnomeui support
 %bcond_without	gnome		# synonym for gnomeui (gconf, libnotify and gio are still enabled)
 %bcond_without	kerberos	# disable krb5 support
-%bcond_without	xulrunner	# build without system xulrunner
+%bcond_with	xulrunner	# build with system xulrunner
 %bcond_with	pgo		# PGO-enabled build (requires working $DISPLAY == :100)
 
 %if %{without gnome}
