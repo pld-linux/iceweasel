@@ -31,7 +31,7 @@ Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
 Version:	22.0
-Release:	3
+Release:	4
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
@@ -316,7 +316,8 @@ mv $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/chrome $RPM_BUILD_ROOT%{_datadir}/%
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/icons $RPM_BUILD_ROOT%{_datadir}/%{name}/browser/icons
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/searchplugins $RPM_BUILD_ROOT%{_datadir}/%{name}/browser/searchplugins
 %if %{without xulrunner}
-mv $RPM_BUILD_ROOT%{_libdir}/%{name}/defaults $RPM_BUILD_ROOT%{_datadir}/%{name}/defaults
+mv $RPM_BUILD_ROOT%{_libdir}/%{name}/defaults $RPM_BUILD_ROOT%{_datadir}/%{name}/browser/defaults
+mv $RPM_BUILD_ROOT%{_datadir}/%{name}/browser/defaults/{pref,preferences}
 %else
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/defaults $RPM_BUILD_ROOT%{_datadir}/%{name}/browser/defaults
 %endif
@@ -325,11 +326,7 @@ ln -s ../../../share/%{name}/browser/chrome $RPM_BUILD_ROOT%{_libdir}/%{name}/br
 ln -s ../../../share/%{name}/browser/icons $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/icons
 ln -s ../../../share/%{name}/browser/searchplugins $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/searchplugins
 ln -s ../../../%{_lib}/%{name}/browser/extensions $RPM_BUILD_ROOT%{_datadir}/%{name}/browser/extensions
-%if %{without xulrunner}
-ln -s ../../../share/%{name}/defaults $RPM_BUILD_ROOT%{_libdir}/%{name}/defaults
-%else
 ln -s ../../../share/%{name}/browser/defaults $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/defaults
-%endif
 
 %if %{without xulrunner}
 %{__rm} -r $RPM_BUILD_ROOT%{_libdir}/%{name}/dictionaries
@@ -352,18 +349,10 @@ done
 cp -a %{SOURCE3} $RPM_BUILD_ROOT%{_desktopdir}/%{name}.desktop
 
 # install our settings
-%if %{without xulrunner}
-cp -a %{SOURCE5} $RPM_BUILD_ROOT%{_datadir}/%{name}/defaults/pref/vendor.js
-%else
 cp -a %{SOURCE5} $RPM_BUILD_ROOT%{_datadir}/%{name}/browser/defaults/preferences/vendor.js
-%endif
 
 %if "%{pld_release}" == "ac"
-%if %{without xulrunner}
-cp -a %{SOURCE6} $RPM_BUILD_ROOT%{_datadir}/%{name}/defaults/pref/vendor.js
-%else
 cp -a %{SOURCE6} $RPM_BUILD_ROOT%{_datadir}/%{name}/browser/defaults/preferences/vendor.js
-%endif
 %endif
 
 # files created by iceweasel -register
@@ -442,12 +431,9 @@ fi
 %{_libdir}/%{name}/browser/searchplugins
 %if %{with xulrunner}
 %{_libdir}/%{name}/xulrunner
+%endif
 %{_libdir}/%{name}/browser/defaults
 %{_datadir}/%{name}/browser/defaults
-%else
-%{_libdir}/%{name}/defaults
-%{_datadir}/%{name}/defaults
-%endif
 
 %{_libdir}/%{name}/application.ini
 %{_libdir}/%{name}/browser/blocklist.xml
