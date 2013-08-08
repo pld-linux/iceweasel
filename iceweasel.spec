@@ -4,15 +4,9 @@
 #
 # Conditional build:
 %bcond_with	tests		# enable tests (whatever they check)
-%bcond_without	gnomeui		# disable gnomeui support
-%bcond_without	gnome		# synonym for gnomeui (gconf, libnotify and gio are still enabled)
 %bcond_without	kerberos	# disable krb5 support
 %bcond_with	xulrunner	# build with system xulrunner
 %bcond_with	pgo		# PGO-enabled build (requires working $DISPLAY == :100)
-
-%if %{without gnome}
-%undefine	with_gnomeui
-%endif
 
 # convert firefox release number to platform version: 19.0.x -> 19.0.x
 %define		xulrunner_main	23.0
@@ -31,7 +25,7 @@ Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
 Version:	23.0
-Release:	1
+Release:	2
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
@@ -73,7 +67,6 @@ BuildRequires:	libdnet-devel
 BuildRequires:	libevent-devel >= 1.4.7
 # standalone libffi 3.0.9 or gcc's from 4.5(?)+
 BuildRequires:	libffi-devel >= 6:3.0.9
-%{?with_gnomeui:BuildRequires:	libgnomeui-devel >= 2.2.0}
 BuildRequires:	libiw-devel
 # requires libjpeg-turbo implementing at least libjpeg 6b API
 BuildRequires:	libjpeg-devel >= 6b
@@ -201,6 +194,8 @@ mk_add_options MOZ_MAKE_FLAGS=%{_smp_mflags}
 mk_add_options PROFILE_GEN_SCRIPT='@PYTHON@ @MOZ_OBJDIR@/_profile/pgo/profileserver.py'
 
 # Options for 'configure' (same as command-line options).
+ac_add_options --build=%{_target_platform}
+ac_add_options --host=%{_target_platform}
 ac_add_options --prefix=%{_prefix}
 ac_add_options --exec-prefix=%{_exec_prefix}
 ac_add_options --bindir=%{_bindir}
@@ -229,49 +224,60 @@ ac_add_options --enable-optimize="%{rpmcflags} -Os"
 %endif
 ac_add_options --disable-strip
 ac_add_options --disable-strip-libs
+ac_add_options --disable-install-strip
 %if %{with tests}
 ac_add_options --enable-tests
 %else
 ac_add_options --disable-tests
 %endif
-%if %{with gnomeui}
-ac_add_options --enable-gnomeui
-%else
-ac_add_options --disable-gnomeui
-%endif
-ac_add_options --disable-gnomevfs
-ac_add_options --disable-crashreporter
-ac_add_options --disable-installer
-ac_add_options --disable-javaxpcom
-ac_add_options --disable-updater
-ac_add_options --enable-gio
-ac_add_options --enable-libxul
-ac_add_options --enable-pango
-ac_add_options --enable-shared-js
-ac_add_options --enable-startup-notification
-ac_add_options --enable-system-cairo
-ac_add_options --enable-system-hunspell
-ac_add_options --enable-system-sqlite
-ac_add_options --with-distribution-id=org.pld-linux
-ac_add_options --with-branding=iceweasel/branding
 %if %{with xulrunner}
 ac_add_options --with-libxul-sdk=$(pkg-config --variable=sdkdir libxul)
 %endif
+ac_add_options --disable-crashreporter
+ac_add_options --disable-elf-dynstr-gc
+ac_add_options --disable-gconf
+ac_add_options --disable-gnomeui
+ac_add_options --disable-gnomevfs
+ac_add_options --disable-installer
+ac_add_options --disable-javaxpcom
+ac_add_options --disable-long-long-warning
+ac_add_options --disable-pedantic
+ac_add_options --disable-updater
+ac_add_options --disable-xterm-updates
+ac_add_options --enable-canvas
+ac_add_options --enable-default-toolkit=cairo-gtk2
+ac_add_options --enable-extensions=default
+ac_add_options --enable-gio
+ac_add_options --enable-libxul
+ac_add_options --enable-mathml
+ac_add_options --enable-pango
+ac_add_options --enable-readline
+ac_add_options --enable-shared-js
+ac_add_options --enable-startup-notification
+ac_add_options --enable-svg
+ac_add_options --enable-system-cairo
+ac_add_options --enable-system-ffi
+ac_add_options --enable-system-hunspell
+ac_add_options --enable-system-sqlite
+ac_add_options --enable-url-classifier
+ac_add_options --with-branding=iceweasel/branding
+ac_add_options --with-default-mozilla-five-home=%{_libdir}/%{name}
+ac_add_options --with-distribution-id=org.pld-linux
 ac_add_options --with-pthreads
 ac_add_options --with-system-bz2
-ac_add_options --with-system-ffi
 ac_add_options --with-system-jpeg
 ac_add_options --with-system-libevent
 ac_add_options --with-system-libvpx
 ac_add_options --with-system-nspr
 ac_add_options --with-system-nss
+ac_add_options --with-system-ply
 ac_add_options --with-system-png
 ac_add_options --with-system-zlib
-ac_add_options --with-default-mozilla-five-home=%{_libdir}/%{name}
+ac_add_options --with-x
 EOF
 
 %if %{with pgo}
-export DISPLAY=:100 
+export DISPLAY=:100
 %{__make} -f client.mk profiledbuild \
 	DESTDIR=obj-%{_target_cpu}/dist \
 	STRIP="/bin/true" \
