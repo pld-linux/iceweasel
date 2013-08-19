@@ -1,16 +1,15 @@
 # TODO:
-#  - fix build with system xulrunner (23.0 build with system xul causes unresponsive searchbar)
 #  - provide proper $DISPLAY for PGO (Xvfb, Xdummy...) for unattended builds
 #
 # Conditional build:
 %bcond_with	tests		# enable tests (whatever they check)
 %bcond_without	kerberos	# disable krb5 support
-%bcond_with	xulrunner	# build with system xulrunner
+%bcond_without	xulrunner	# build with system xulrunner
 %bcond_with	pgo		# PGO-enabled build (requires working $DISPLAY == :100)
 
 # convert firefox release number to platform version: 19.0.x -> 19.0.x
-%define		xulrunner_main	23.0
-%define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#23.0})
+%define		xulrunner_main	23.0.1
+%define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#23.0.1})
 
 %if %{without xulrunner}
 # The actual sqlite version (see RHBZ#480989):
@@ -24,12 +23,12 @@ Summary:	Iceweasel web browser
 Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
-Version:	23.0
-Release:	2
+Version:	23.0.1
+Release:	1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
-# Source0-md5:	794e0139c4df0392146353c655d94bb9
+# Source0-md5:	0fa25582fb5e0fba37c9f1add8370af2
 Source1:	%{name}-branding.tar.bz2
 # Source1-md5:	513af080c920d916362b607a872adf00
 Source2:	%{name}-rm_nonfree.sh
@@ -48,6 +47,7 @@ Patch12:	%{name}-packaging.patch
 # Edit patch below and restore --system-site-packages when system virtualenv gets 1.7 upgrade
 Patch13:	system-virtualenv.patch
 Patch14:	gyp-slashism.patch
+Patch15:	Disable-Firefox-Health-Report.patch
 URL:		http://www.pld-linux.org/Packages/Iceweasel
 BuildRequires:	GConf2-devel >= 1.2.1
 BuildRequires:	OpenGL-devel
@@ -170,6 +170,7 @@ cd mozilla
 %patch12 -p2
 %patch13 -p2
 %patch14 -p2
+%patch15 -p1
 
 # config/rules.mk is patched by us and js/src/config/rules.mk
 # is supposed to be exact copy
@@ -209,7 +210,6 @@ ac_add_options --localstatedir=%{_localstatedir}
 ac_add_options --sharedstatedir=%{_sharedstatedir}
 ac_add_options --mandir=%{_mandir}
 ac_add_options --infodir=%{_infodir}
-ac_add_options --disable-elf-hack
 %if %{?debug:1}0
 ac_add_options --disable-optimize
 ac_add_options --enable-debug
@@ -246,7 +246,7 @@ ac_add_options --disable-updater
 ac_add_options --disable-xterm-updates
 ac_add_options --enable-canvas
 ac_add_options --enable-default-toolkit=cairo-gtk2
-ac_add_options --enable-extensions=default
+ac_add_options --enable-extensions="default,permissions,gio"
 ac_add_options --enable-gio
 ac_add_options --enable-libxul
 ac_add_options --enable-mathml
@@ -450,6 +450,8 @@ fi
 %{_libdir}/%{name}/browser/components/components.manifest
 %attr(755,root,root) %{_libdir}/%{name}/browser/components/libbrowsercomps.so
 %attr(755,root,root) %{_libdir}/%{name}/iceweasel
+%attr(755,root,root) %{_libdir}/%{name}/iceweasel-bin
+%attr(755,root,root) %{_libdir}/%{name}/run-mozilla.sh
 %{_libdir}/%{name}/webapprt
 %attr(755,root,root) %{_libdir}/%{name}/webapprt-stub
 
@@ -474,13 +476,11 @@ fi
 %{_libdir}/%{name}/components/components.manifest
 %attr(755,root,root) %{_libdir}/%{name}/components/libdbusservice.so
 %attr(755,root,root) %{_libdir}/%{name}/components/libmozgnome.so
-%attr(755,root,root) %{_libdir}/%{name}/iceweasel-bin
 %attr(755,root,root) %{_libdir}/%{name}/libmozalloc.so
 %attr(755,root,root) %{_libdir}/%{name}/libmozjs.so
 %attr(755,root,root) %{_libdir}/%{name}/libxul.so
 %attr(755,root,root) %{_libdir}/%{name}/mozilla-xremote-client
 %attr(755,root,root) %{_libdir}/%{name}/plugin-container
-%attr(755,root,root) %{_libdir}/%{name}/run-mozilla.sh
 %{_libdir}/%{name}/dictionaries
 %{_libdir}/%{name}/chrome.manifest
 %{_libdir}/%{name}/omni.ja

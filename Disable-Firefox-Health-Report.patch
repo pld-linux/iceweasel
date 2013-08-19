@@ -1,0 +1,21 @@
+From: Mike Hommey <mh@glandium.org>
+Date: Fri, 15 Mar 2013 17:08:40 +0100
+Subject: Disable Firefox Health Report
+
+---
+ browser/confvars.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/browser/confvars.sh b/browser/confvars.sh
+index 35cbdac..906de7a 100644
+--- a/browser/confvars.sh
++++ b/browser/confvars.sh
+@@ -27,7 +27,7 @@ MOZ_CHROME_FILE_FORMAT=omni
+ MOZ_SAFE_BROWSING=1
+ MOZ_SERVICES_COMMON=1
+ MOZ_SERVICES_CRYPTO=1
+-MOZ_SERVICES_HEALTHREPORT=1
++MOZ_SERVICES_HEALTHREPORT=
+ MOZ_SERVICES_METRICS=1
+ MOZ_SERVICES_SYNC=1
+ MOZ_APP_VERSION=$FIREFOX_VERSION
