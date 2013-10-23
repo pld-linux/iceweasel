@@ -23,12 +23,12 @@ Summary:	Iceweasel web browser
 Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
-Version:	23.0.1
+Version:	24.0
 Release:	1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
-# Source0-md5:	0fa25582fb5e0fba37c9f1add8370af2
+# Source0-md5:	06a4c0fe8d3a979aea2fce8d0fdbf328
 Source1:	%{name}-branding.tar.bz2
 # Source1-md5:	513af080c920d916362b607a872adf00
 Source2:	%{name}-rm_nonfree.sh
@@ -41,7 +41,7 @@ Patch2:		%{name}-gcc3.patch
 Patch7:		%{name}-prefs.patch
 Patch8:		%{name}-pld-branding.patch
 Patch9:		%{name}-no-subshell.patch
-Patch10:	system-cairo.patch
+
 Patch11:	%{name}-middle_click_paste.patch
 Patch12:	%{name}-packaging.patch
 # Edit patch below and restore --system-site-packages when system virtualenv gets 1.7 upgrade
@@ -165,7 +165,7 @@ cd mozilla
 %patch7 -p1
 %patch8 -p1
 %patch9 -p2
-%patch10 -p2
+
 %patch11 -p2
 %patch12 -p2
 %patch13 -p2
