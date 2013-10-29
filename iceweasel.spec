@@ -72,6 +72,8 @@ BuildRequires:	libiw-devel
 BuildRequires:	libjpeg-devel >= 6b
 BuildRequires:	libjpeg-turbo-devel
 BuildRequires:	libnotify-devel >= 0.4
+# for rsvg-convert
+BuildRequires:	librsvg
 BuildRequires:	libpng(APNG)-devel >= 0.10
 BuildRequires:	libpng-devel >= 1.5.13
 BuildRequires:	libstdc++-devel
