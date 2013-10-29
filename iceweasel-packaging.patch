@@ -116,13 +116,7 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  #ifdef MOZ_B2G_RIL
  @BINPATH@/components/dom_telephony.xpt
  @BINPATH@/components/dom_voicemail.xpt
-@@ -177,10 +203,13 @@
- @BINPATH@/components/dom_icc.xpt
- @BINPATH@/components/dom_wappush.xpt
- #endif
-+#ifndef LIBXUL_SDK
- @BINPATH@/components/dom_battery.xpt
-+#endif
+@@ -212,6 +212,7 @@
  #ifdef MOZ_B2G_BT
  @BINPATH@/components/dom_bluetooth.xpt
  #endif
@@ -130,7 +124,7 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  @BINPATH@/components/dom_camera.xpt
  @BINPATH@/components/dom_canvas.xpt
  @BINPATH@/components/dom_contacts.xpt
-@@ -216,6 +245,8 @@
+@@ -216,6 +243,8 @@
  @BINPATH@/components/dom_xbl.xpt
  @BINPATH@/components/dom_xpath.xpt
  @BINPATH@/components/dom_xul.xpt
@@ -139,7 +133,7 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  #ifdef MOZ_GAMEPAD
  @BINPATH@/components/dom_gamepad.xpt
  #endif
-@@ -231,7 +262,9 @@
+@@ -231,7 +260,9 @@
  @BINPATH@/components/filepicker.xpt
  #endif
  @BINPATH@/components/find.xpt
@@ -149,7 +143,7 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  @BINPATH@/components/gfx.xpt
  @BINPATH@/components/html5.xpt
  @BINPATH@/components/htmlparser.xpt
-@@ -254,7 +287,9 @@
+@@ -254,7 +285,9 @@
  @BINPATH@/components/layout_xul.xpt
  @BINPATH@/components/locale.xpt
  @BINPATH@/components/lwbrk.xpt
@@ -159,7 +153,7 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  @BINPATH@/components/mimetype.xpt
  @BINPATH@/components/mozfind.xpt
  @BINPATH@/components/necko_about.xpt
-@@ -289,12 +324,16 @@
+@@ -289,12 +322,16 @@
  @BINPATH@/components/rdf.xpt
  @BINPATH@/components/satchel.xpt
  @BINPATH@/components/saxparser.xpt
@@ -176,7 +170,7 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  @BINPATH@/components/shistory.xpt
  @BINPATH@/components/spellchecker.xpt
  @BINPATH@/components/storage.xpt
-@@ -312,9 +351,11 @@
+@@ -312,9 +349,11 @@
  @BINPATH@/components/webBrowser_core.xpt
  @BINPATH@/components/webbrowserpersist.xpt
  @BINPATH@/components/widget.xpt
@@ -188,7 +182,7 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  @BINPATH@/components/windowds.xpt
  @BINPATH@/components/windowwatcher.xpt
  @BINPATH@/components/xpcom_base.xpt
-@@ -339,6 +380,7 @@
+@@ -339,6 +378,7 @@
  @BINPATH@/components/BrowserElementParent.js
  @BINPATH@/components/FeedProcessor.manifest
  @BINPATH@/components/FeedProcessor.js
@@ -196,7 +190,7 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  @BINPATH@/browser/components/BrowserFeeds.manifest
  @BINPATH@/browser/components/FeedConverter.js
  @BINPATH@/browser/components/FeedWriter.js
-@@ -354,6 +396,7 @@
+@@ -354,6 +394,7 @@
  @BINPATH@/browser/components/DownloadsStartup.js
  @BINPATH@/browser/components/DownloadsUI.js
  @BINPATH@/browser/components/BrowserPlaces.manifest
@@ -204,7 +198,7 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  @BINPATH@/components/Downloads.manifest
  @BINPATH@/components/DownloadLegacy.js
  @BINPATH@/components/BrowserPageThumbs.manifest
-@@ -381,31 +424,39 @@
+@@ -381,31 +422,39 @@
  @BINPATH@/components/nsDownloadManagerUI.js
  @BINPATH@/components/NetworkGeolocationProvider.manifest
  @BINPATH@/components/NetworkGeolocationProvider.js
@@ -244,7 +238,7 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  @BINPATH@/components/txEXSLTRegExFunctions.manifest
  @BINPATH@/components/txEXSLTRegExFunctions.js
  @BINPATH@/components/toolkitplaces.manifest
-@@ -414,7 +465,9 @@
+@@ -414,7 +463,9 @@
  @BINPATH@/components/nsPlacesAutoComplete.manifest
  @BINPATH@/components/nsPlacesAutoComplete.js
  @BINPATH@/components/nsPlacesExpiration.js
@@ -254,7 +248,7 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  @BINPATH@/components/PlacesCategoriesStarter.js
  @BINPATH@/components/ColorAnalyzer.js
  @BINPATH@/components/PageThumbsProtocol.js
-@@ -437,6 +490,7 @@
+@@ -437,6 +488,7 @@
  @BINPATH@/components/contentSecurityPolicy.js
  @BINPATH@/components/contentAreaDropListener.manifest
  @BINPATH@/components/contentAreaDropListener.js
@@ -262,7 +256,7 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  #ifdef MOZ_B2G_RIL
  @BINPATH@/components/RadioInterfaceLayer.manifest
  @BINPATH@/components/RadioInterfaceLayer.js
-@@ -462,17 +516,24 @@
+@@ -462,17 +514,24 @@
  @BINPATH@/browser/components/SafariProfileMigrator.js
  #endif
  #ifdef MOZ_ENABLE_DBUS
@@ -287,7 +281,7 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  @BINPATH@/components/nsINIProcessor.manifest
  @BINPATH@/components/nsINIProcessor.js
  @BINPATH@/components/nsPrompter.manifest
-@@ -488,10 +549,12 @@
+@@ -488,10 +547,12 @@
  @BINPATH@/components/SyncComponents.manifest
  @BINPATH@/components/Weave.js
  #endif
@@ -300,7 +294,7 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  @BINPATH@/components/servicesComponents.manifest
  @BINPATH@/components/cryptoComponents.manifest
  @BINPATH@/components/TelemetryPing.js
-@@ -532,28 +595,37 @@
+@@ -532,28 +593,37 @@
  @BINPATH@/components/PeerConnection.js
  @BINPATH@/components/PeerConnection.manifest
  #endif
@@ -338,7 +332,7 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  
  ; ANGLE GLES-on-D3D rendering library
  #ifdef MOZ_ANGLE_RENDERER
-@@ -570,10 +642,12 @@
+@@ -570,10 +640,12 @@
  @BINPATH@/browser/chrome/pdfjs/*
  @BINPATH@/browser/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}/install.rdf
  @BINPATH@/browser/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}/icon.png
@@ -351,7 +345,7 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  #ifdef MOZ_GTK
  @BINPATH@/browser/chrome/icons/default/default16.png
  @BINPATH@/browser/chrome/icons/default/default32.png
-@@ -596,9 +670,11 @@
+@@ -596,9 +668,11 @@
  ; All the pref files must be part of base to prevent migration bugs
  @BINPATH@/browser/@PREF_DIR@/firefox.js
  @BINPATH@/browser/@PREF_DIR@/firefox-branding.js
@@ -363,7 +357,7 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  @BINPATH@/browser/defaults/profile/prefs.js
  
  #ifndef LIBXUL_SDK
-@@ -608,7 +684,7 @@
+@@ -608,7 +682,7 @@
  @BINPATH@/defaults/pref/channel-prefs.js
  #else
  ; For Fx-on-xr, channel-prefs lives with the app preferences. (Bug 762588)
@@ -372,7 +366,7 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  #endif
  
  ; Services (gre) prefs
-@@ -616,11 +692,14 @@
+@@ -616,11 +690,14 @@
  @BINPATH@/defaults/pref/services-notifications.js
  #endif
  #ifdef MOZ_SERVICES_SYNC
@@ -387,7 +381,7 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  @BINPATH@/res/EditorOverride.css
  @BINPATH@/res/contenteditable.css
  @BINPATH@/res/designmode.css
-@@ -663,6 +742,7 @@
+@@ -663,6 +740,7 @@
  @BINPATH@/res/svg.css
  @BINPATH@/components/dom_svg.xpt
  @BINPATH@/components/dom_smil.xpt
@@ -395,7 +389,7 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  
  ; [Personal Security Manager]
  ;
-@@ -683,11 +763,13 @@
+@@ -683,11 +761,13 @@
  #endif
  @BINPATH@/@DLL_PREFIX@softokn3@DLL_SUFFIX@
  #endif

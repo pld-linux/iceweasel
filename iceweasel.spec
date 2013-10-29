@@ -23,12 +23,12 @@ Summary:	Iceweasel web browser
 Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
-Version:	24.0
+Version:	25.0
 Release:	1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
-# Source0-md5:	06a4c0fe8d3a979aea2fce8d0fdbf328
+# Source0-md5:	90ac047e83079a9046192c732e195329
 Source1:	%{name}-branding.tar.bz2
 # Source1-md5:	513af080c920d916362b607a872adf00
 Source2:	%{name}-rm_nonfree.sh
