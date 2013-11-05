@@ -11,7 +11,7 @@
 -      return;
 -    }
 +    var URIFixup = Components.classes["@mozilla.org/docshell/urifixup;1"].getService(Components.interfaces.nsIURIFixup);
-+    url = URIFixup.createFixupURI(url, 1).spec;
++    data.url = URIFixup.createFixupURI(data.url, 1).spec;
 +    // 1 is FIXUP_FLAG_ALLOW_KEYWORD_LOOKUP
  
      try {
