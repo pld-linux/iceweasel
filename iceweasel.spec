@@ -7,17 +7,17 @@
 %bcond_without	xulrunner	# build with system xulrunner
 %bcond_with	pgo		# PGO-enabled build (requires working $DISPLAY == :100)
 
-# convert firefox release number to platform version: 19.0.x -> 19.0.x
-%define		xulrunner_main	23.0.1
-%define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#23.0.1})
+# convert firefox release number to platform version: 15.0.x -> 15.0.x
+%define		xulrunner_main	25.0
+%define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#25.0})
 
 %if %{without xulrunner}
 # The actual sqlite version (see RHBZ#480989):
 %define		sqlite_build_version %(pkg-config --silence-errors --modversion sqlite3 2>/dev/null || echo ERROR)
 %endif
 
-%define		nspr_ver	4.9.5
-%define		nss_ver		3.14.3
+%define		nspr_ver	4.9.6
+%define		nss_ver		3.15
 
 Summary:	Iceweasel web browser
 Summary(hu.UTF-8):	Iceweasel web böngésző
@@ -58,6 +58,7 @@ BuildRequires:	automake
 BuildRequires:	bzip2-devel
 BuildRequires:	cairo-devel >= 1.10.2-5
 BuildRequires:	dbus-glib-devel >= 0.60
+BuildRequires:	gcc-c++ >= 6:4.4
 BuildRequires:	glib2-devel >= 1:2.20
 BuildRequires:	gtk+2-devel >= 2:2.14
 %{?with_kerberos:BuildRequires:	heimdal-devel >= 0.7.1}
@@ -76,7 +77,7 @@ BuildRequires:	libnotify-devel >= 0.4
 BuildRequires:	librsvg
 BuildRequires:	libpng(APNG)-devel >= 0.10
 BuildRequires:	libpng-devel >= 1.5.13
-BuildRequires:	libstdc++-devel
+BuildRequires:	libstdc++-devel >= 6:4.4
 BuildRequires:	libvpx-devel >= 1.0.0
 BuildRequires:	nspr-devel >= 1:%{nspr_ver}
 BuildRequires:	nss-devel >= 1:%{nss_ver}
@@ -89,7 +90,7 @@ BuildRequires:	python-modules
 BuildRequires:	python-virtualenv
 BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	rpmbuild(macros) >= 1.601
-BuildRequires:	sqlite3-devel >= 3.7.15.2
+BuildRequires:	sqlite3-devel >= 3.7.17
 BuildRequires:	startup-notification-devel >= 0.8
 BuildRequires:	xorg-lib-libXScrnSaver-devel
 BuildRequires:	xorg-lib-libXext-devel
