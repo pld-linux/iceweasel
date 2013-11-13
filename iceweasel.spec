@@ -1,10 +1,11 @@
 # TODO:
-#  - provide proper $DISPLAY for PGO (Xvfb, Xdummy...) for unattended builds
+# - /usr/share/iceweasel/browser/extensions symlink is arch-dependent (is it needed at all?)
+# - provide proper $DISPLAY for PGO (Xvfb, Xdummy...) for unattended builds
 #
 # Conditional build:
 %bcond_with	tests		# enable tests (whatever they check)
 %bcond_without	kerberos	# disable krb5 support
-%bcond_without	xulrunner	# build with system xulrunner
+%bcond_without	xulrunner	# system xulrunner
 %bcond_with	pgo		# PGO-enabled build (requires working $DISPLAY == :100)
 
 # convert firefox release number to platform version: 15.0.x -> 15.0.x
@@ -37,14 +38,11 @@ Source4:	%{name}.sh
 Source5:	vendor.js
 Source6:	vendor-ac.js
 Patch0:		%{name}-branding.patch
-Patch2:		%{name}-gcc3.patch
 Patch7:		%{name}-prefs.patch
 Patch8:		%{name}-pld-branding.patch
 Patch9:		%{name}-no-subshell.patch
-
 Patch11:	%{name}-middle_click_paste.patch
 Patch12:	%{name}-packaging.patch
-# Edit patch below and restore --system-site-packages when system virtualenv gets 1.7 upgrade
 Patch13:	system-virtualenv.patch
 Patch14:	gyp-slashism.patch
 Patch15:	Disable-Firefox-Health-Report.patch
@@ -160,15 +158,9 @@ cd mozilla
 /bin/sh %{SOURCE2}
 
 %patch0 -p1
-
-%if "%{cc_version}" < "3.4"
-%patch2 -p2
-%endif
-
 %patch7 -p1
 %patch8 -p1
 %patch9 -p2
-
 %patch11 -p2
 %patch12 -p2
 %patch13 -p2
@@ -233,9 +225,6 @@ ac_add_options --enable-tests
 %else
 ac_add_options --disable-tests
 %endif
-%if %{with xulrunner}
-ac_add_options --with-libxul-sdk=$(pkg-config --variable=sdkdir libxul)
-%endif
 ac_add_options --disable-crashreporter
 ac_add_options --disable-elf-dynstr-gc
 ac_add_options --disable-gconf
@@ -266,6 +255,9 @@ ac_add_options --enable-url-classifier
 ac_add_options --with-branding=iceweasel/branding
 ac_add_options --with-default-mozilla-five-home=%{_libdir}/%{name}
 ac_add_options --with-distribution-id=org.pld-linux
+%if %{with xulrunner}
+ac_add_options --with-libxul-sdk=$(pkg-config --variable=sdkdir libxul)
+%endif
 ac_add_options --with-pthreads
 ac_add_options --with-system-bz2
 ac_add_options --with-system-jpeg
@@ -300,7 +292,7 @@ install -d \
 	$RPM_BUILD_ROOT{%{_bindir},%{_sbindir},%{_libdir}} \
 	$RPM_BUILD_ROOT%{_desktopdir} \
 	$RPM_BUILD_ROOT%{_datadir}/%{name}/browser \
-	$RPM_BUILD_ROOT%{_libdir}/%{name}/browser/plugins \
+	$RPM_BUILD_ROOT%{_libdir}/%{name}/browser/plugins
 
 %browser_plugins_add_browser %{name} -p %{_libdir}/%{name}/browser/plugins
 
@@ -332,10 +324,10 @@ mv $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/defaults $RPM_BUILD_ROOT%{_datadir}
 %endif
 
 ln -s ../../../share/%{name}/browser/chrome $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/chrome
+ln -s ../../../share/%{name}/browser/defaults $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/defaults
 ln -s ../../../share/%{name}/browser/icons $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/icons
 ln -s ../../../share/%{name}/browser/searchplugins $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/searchplugins
 ln -s ../../../%{_lib}/%{name}/browser/extensions $RPM_BUILD_ROOT%{_datadir}/%{name}/browser/extensions
-ln -s ../../../share/%{name}/browser/defaults $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/defaults
 
 %if %{without xulrunner}
 %{__rm} -r $RPM_BUILD_ROOT%{_libdir}/%{name}/dictionaries
@@ -358,10 +350,10 @@ done
 cp -a %{SOURCE3} $RPM_BUILD_ROOT%{_desktopdir}/%{name}.desktop
 
 # install our settings
-cp -a %{SOURCE5} $RPM_BUILD_ROOT%{_datadir}/%{name}/browser/defaults/preferences/vendor.js
-
 %if "%{pld_release}" == "ac"
 cp -a %{SOURCE6} $RPM_BUILD_ROOT%{_datadir}/%{name}/browser/defaults/preferences/vendor.js
+%else
+cp -a %{SOURCE5} $RPM_BUILD_ROOT%{_datadir}/%{name}/browser/defaults/preferences/vendor.js
 %endif
 
 # files created by iceweasel -register
@@ -417,6 +409,9 @@ fi
 %attr(755,root,root) %{_bindir}/mozilla-firefox
 %attr(755,root,root) %{_sbindir}/%{name}-chrome+xpcom-generate
 
+%{_desktopdir}/iceweasel.desktop
+%{_iconsdir}/hicolor/*/apps/iceweasel.png
+
 # browser plugins v2
 %{_browserpluginsconfdir}/browsers.d/%{name}.*
 %config(noreplace) %verify(not md5 mtime size) %{_browserpluginsconfdir}/blacklist.d/%{name}.*.blacklist
@@ -430,6 +425,7 @@ fi
 %dir %{_datadir}/%{name}
 %dir %{_datadir}/%{name}/browser
 %{_datadir}/%{name}/browser/chrome
+%{_datadir}/%{name}/browser/defaults
 %{_datadir}/%{name}/browser/icons
 %{_datadir}/%{name}/browser/searchplugins
 
@@ -442,37 +438,27 @@ fi
 %{_libdir}/%{name}/xulrunner
 %endif
 %{_libdir}/%{name}/browser/defaults
-%{_datadir}/%{name}/browser/defaults
 
-%{_libdir}/%{name}/application.ini
-%{_libdir}/%{name}/browser/blocklist.xml
-%{_libdir}/%{name}/browser/chrome.manifest
-# the signature of the default theme
-%{_libdir}/%{name}/browser/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}
-%{_libdir}/%{name}/browser/omni.ja
-%{_libdir}/%{name}/browser/components/components.manifest
-%attr(755,root,root) %{_libdir}/%{name}/browser/components/libbrowsercomps.so
 %attr(755,root,root) %{_libdir}/%{name}/iceweasel
 %attr(755,root,root) %{_libdir}/%{name}/iceweasel-bin
 %attr(755,root,root) %{_libdir}/%{name}/run-mozilla.sh
+%{_libdir}/%{name}/application.ini
+%{_libdir}/%{name}/browser/blocklist.xml
+%{_libdir}/%{name}/browser/chrome.manifest
+%{_libdir}/%{name}/browser/components/components.manifest
+%attr(755,root,root) %{_libdir}/%{name}/browser/components/libbrowsercomps.so
+# the signature of the default theme
+%{_libdir}/%{name}/browser/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}
+%{_libdir}/%{name}/browser/omni.ja
 %{_libdir}/%{name}/webapprt
 %attr(755,root,root) %{_libdir}/%{name}/webapprt-stub
-
-%{_iconsdir}/hicolor/*/*/iceweasel.png
-%{_desktopdir}/iceweasel.desktop
 
 # files created by iceweasel -register
 %ghost %{_libdir}/%{name}/browser/components/compreg.dat
 %ghost %{_libdir}/%{name}/browser/components/xpti.dat
 
-%if %{with crashreporter}
-%{_libdir}/%{name}/crashreporter
-%{_libdir}/%{name}/crashreporter-override.ini
-%{_libdir}/%{name}/crashreporter.ini
-%{_libdir}/%{name}/Throbber-small.gif
-%endif
-
 %if %{without xulrunner}
+# private xulrunner instance
 %{_libdir}/%{name}/dependentlibs.list
 %{_libdir}/%{name}/platform.ini
 %dir %{_libdir}/%{name}/components
