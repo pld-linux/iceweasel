@@ -38,6 +38,7 @@ Source4:	%{name}.sh
 Source5:	vendor.js
 Source6:	vendor-ac.js
 Patch0:		%{name}-branding.patch
+Patch1:		941837.patch
 Patch7:		%{name}-prefs.patch
 Patch8:		%{name}-pld-branding.patch
 Patch9:		%{name}-no-subshell.patch
@@ -158,6 +159,7 @@ cd mozilla
 /bin/sh %{SOURCE2}
 
 %patch0 -p1
+%patch1 -p1
 %patch7 -p1
 %patch8 -p1
 %patch9 -p2
