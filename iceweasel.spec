@@ -17,19 +17,19 @@
 %define		sqlite_build_version %(pkg-config --silence-errors --modversion sqlite3 2>/dev/null || echo ERROR)
 %endif
 
-%define		nspr_ver	4.9.6
+%define		nspr_ver	4.10.2
 %define		nss_ver		3.15
 
 Summary:	Iceweasel web browser
 Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
-Version:	25.0.1
+Version:	26.0
 Release:	1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
-# Source0-md5:	b5b57d3ea937a339e0ed7ebea604b430
+# Source0-md5:	91ce51cc6474f1269484e5327643a59c
 Source1:	%{name}-branding.tar.bz2
 # Source1-md5:	513af080c920d916362b607a872adf00
 Source2:	%{name}-rm_nonfree.sh
@@ -38,7 +38,7 @@ Source4:	%{name}.sh
 Source5:	vendor.js
 Source6:	vendor-ac.js
 Patch0:		%{name}-branding.patch
-Patch1:		941837.patch
+
 Patch7:		%{name}-prefs.patch
 Patch8:		%{name}-pld-branding.patch
 Patch9:		%{name}-no-subshell.patch
@@ -159,7 +159,7 @@ cd mozilla
 /bin/sh %{SOURCE2}
 
 %patch0 -p1
-%patch1 -p1
+
 %patch7 -p1
 %patch8 -p1
 %patch9 -p2

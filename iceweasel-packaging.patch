@@ -113,9 +113,9 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  @BINPATH@/components/dom_base.xpt
  @BINPATH@/components/dom_system.xpt
 +#endif
- #ifdef MOZ_B2G_RIL
- @BINPATH@/components/dom_telephony.xpt
- @BINPATH@/components/dom_voicemail.xpt
+ #ifdef MOZ_B2G_BT
+ @BINPATH@/components/dom_bluetooth.xpt
+ #endif
 @@ -212,6 +212,7 @@
  #ifdef MOZ_B2G_BT
  @BINPATH@/components/dom_bluetooth.xpt
@@ -253,9 +253,9 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  @BINPATH@/components/contentAreaDropListener.manifest
  @BINPATH@/components/contentAreaDropListener.js
 +#endif
- #ifdef MOZ_B2G_RIL
- @BINPATH@/components/RadioInterfaceLayer.manifest
- @BINPATH@/components/RadioInterfaceLayer.js
+ @BINPATH@/browser/components/BrowserProfileMigrators.manifest
+ @BINPATH@/browser/components/ProfileMigrator.js
+ @BINPATH@/browser/components/ChromeProfileMigrator.js
 @@ -462,17 +514,24 @@
  @BINPATH@/browser/components/SafariProfileMigrator.js
  #endif
@@ -294,7 +294,7 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  @BINPATH@/components/servicesComponents.manifest
  @BINPATH@/components/cryptoComponents.manifest
  @BINPATH@/components/TelemetryPing.js
-@@ -532,28 +593,37 @@
+@@ -581,7 +581,9 @@
  @BINPATH@/components/PeerConnection.js
  @BINPATH@/components/PeerConnection.manifest
  #endif
@@ -304,14 +304,15 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  @BINPATH@/chrome/marionette@JAREXT@
  @BINPATH@/chrome/marionette.manifest
  @BINPATH@/components/MarionetteComponents.manifest
- @BINPATH@/components/marionettecomponent.js
+@@ -594,6 +596,7 @@
+ ; InputMethod API
+ @BINPATH@/components/MozKeyboard.js
+ @BINPATH@/components/InputMethod.manifest
 +#endif
  
- #ifdef MOZ_WEBSPEECH
-+#ifndef LIBXUL_SDK
- @BINPATH@/components/dom_webspeechsynth.xpt
- #endif
-+#endif
+ ; Modules
+ @BINPATH@/browser/modules/*
+@@ -597,16 +600,20 @@
  
  ; Modules
  @BINPATH@/browser/modules/*
