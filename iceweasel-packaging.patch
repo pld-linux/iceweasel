@@ -27,7 +27,7 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
 +#ifndef LIBXUL_SDK
  @BINPATH@/dependentlibs.list
 +#endif
- #ifdef XP_WIN32
+ #ifdef GKMEDIAS_SHARED_LIBRARY
  @BINPATH@/@DLL_PREFIX@gkmedias@DLL_SUFFIX@
  #endif
 +#ifndef LIBXUL_SDK
@@ -191,9 +191,9 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  @BINPATH@/browser/components/FeedConverter.js
  @BINPATH@/browser/components/FeedWriter.js
 @@ -354,6 +394,7 @@
- @BINPATH@/browser/components/DownloadsStartup.js
- @BINPATH@/browser/components/DownloadsUI.js
  @BINPATH@/browser/components/BrowserPlaces.manifest
+ @BINPATH@/browser/components/devtools-clhandler.manifest
+ @BINPATH@/browser/components/devtools-clhandler.js
 +#ifndef LIBXUL_SDK
  @BINPATH@/components/Downloads.manifest
  @BINPATH@/components/DownloadLegacy.js
@@ -294,11 +294,14 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  @BINPATH@/components/servicesComponents.manifest
  @BINPATH@/components/cryptoComponents.manifest
  @BINPATH@/components/TelemetryPing.js
-@@ -581,7 +581,9 @@
+@@ -581,10 +581,12 @@
  @BINPATH@/components/PeerConnection.js
  @BINPATH@/components/PeerConnection.manifest
  #endif
 +#endif
+ 
+ @BINPATH@/components/HttpDataUsage.manifest
+ @BINPATH@/components/HttpDataUsage.js
  
 +#ifndef LIBXUL_SDK
  @BINPATH@/chrome/marionette@JAREXT@

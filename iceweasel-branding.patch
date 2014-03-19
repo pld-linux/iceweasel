@@ -18,41 +18,41 @@ Subject: Determine which phishing shavar to use depending on
  MOZ_OFFICIAL_BRANDING
 
 ---
- browser/app/Makefile.in        | 4 ++++
- browser/app/profile/firefox.js | 4 ++++
+ modules/libpref/src/Makefile.in | 4 ++++
+ modules/libpref/src/init/all.js | 4 ++++
  2 files changed, 8 insertions(+)
 
-diff --git a/browser/app/Makefile.in b/browser/app/Makefile.in
-index fdcee86..3c6cb9f 100644
---- a/browser/app/Makefile.in
-+++ b/browser/app/Makefile.in
-@@ -141,6 +141,10 @@ libs::
- 	$(INSTALL) $(IFLAGS1) $(DIST)/branding/default48.png  $(FINAL_TARGET)/chrome/icons/default
- endif
+diff --git a/modules/libpref/src/Makefile.in b/modules/libpref/src/Makefile.in
+index 31333bc..e833ecd 100644
+--- a/modules/libpref/src/Makefile.in
++++ b/modules/libpref/src/Makefile.in
+@@ -7,6 +7,10 @@ DEFINES += -DOS_ARCH=$(OS_ARCH) \
+            -DMOZ_WIDGET_TOOLKIT=$(MOZ_WIDGET_TOOLKIT) \
+            $(NULL)
  
 +ifdef MOZ_OFFICIAL_BRANDING
 +DEFINES += -DMOZ_OFFICIAL_BRANDING
 +endif
 +
- libs:: $(srcdir)/profile/prefs.js
- 	$(INSTALL) $(IFLAGS1) $^ $(FINAL_TARGET)/defaults/profile
+ include $(topsrcdir)/config/rules.mk
  
-diff --git a/browser/app/profile/firefox.js b/browser/app/profile/firefox.js
-index 02c8e3f..979e01a 100644
---- a/browser/app/profile/firefox.js
-+++ b/browser/app/profile/firefox.js
-@@ -760,7 +760,11 @@ pref("urlclassifier.alternate_error_page", "blocked");
- pref("urlclassifier.gethashnoise", 4);
+ GARBAGE		+= $(addprefix $(DIST)/bin/defaults/pref/, \
+diff --git a/modules/libpref/src/init/all.js b/modules/libpref/src/init/all.js
+index 24f1574..9c98f3e 100644
+--- a/modules/libpref/src/init/all.js
++++ b/modules/libpref/src/init/all.js
+@@ -4538,7 +4538,11 @@ pref("dom.inter-app-communication-api.enabled", false);
  
- // The list of tables that use the gethash request to confirm partial results.
+ // The tables used for Safebrowsing phishing and malware checks.
+ pref("urlclassifier.malware_table", "goog-malware-shavar");
 +#ifdef MOZ_OFFICIAL_BRANDING
- pref("urlclassifier.gethashtables", "goog-phish-shavar,goog-malware-shavar");
+ pref("urlclassifier.phish_table", "goog-phish-shavar");
 +#else
-+pref("urlclassifier.gethashtables", "googpub-phish-shavar,goog-malware-shavar");
++pref("urlclassifier.phish_table", "googpub-phish-shavar");
 +#endif
+ pref("urlclassifier.download_block_table", "");
+ pref("urlclassifier.download_allow_table", "");
  
- // If an urlclassifier table has not been updated in this number of seconds,
- // a gethash request will be forced to check that the result is still in
 From: Mike Hommey <mh@glandium.org>
 Date: Sat, 19 Feb 2011 11:04:53 +0100
 Subject: Modify search plugins depending on MOZ_APP_NAME
@@ -64,10 +64,10 @@ Subject: Modify search plugins depending on MOZ_APP_NAME
  3 files changed, 8 insertions(+), 1 deletion(-)
 
 diff --git a/browser/locales/Makefile.in b/browser/locales/Makefile.in
-index 07a105e..fa8ea25 100644
+index 9b6fdee..e254d99 100644
 --- a/browser/locales/Makefile.in
 +++ b/browser/locales/Makefile.in
-@@ -83,6 +83,8 @@ SEARCHPLUGINS_PATH := $(FINAL_TARGET)/searchplugins
+@@ -79,6 +79,8 @@ SEARCHPLUGINS_PATH := $(FINAL_TARGET)/searchplugins
  SEARCHPLUGINS := $(addsuffix .xml,$(SEARCHPLUGINS_NAMES))
  PP_TARGETS += SEARCHPLUGINS
  
@@ -89,7 +89,7 @@ index f131ea6..357d42e 100644
  <SearchForm>http://www.answers.com/</SearchForm>
  </SearchPlugin>
 diff --git a/browser/locales/en-US/searchplugins/google.xml b/browser/locales/en-US/searchplugins/google.xml
-index 10ba30b..f23b99e 100644
+index 668643f..cd56936 100644
 --- a/browser/locales/en-US/searchplugins/google.xml
 +++ b/browser/locales/en-US/searchplugins/google.xml
 @@ -2,6 +2,7 @@
@@ -117,7 +117,7 @@ index 10ba30b..f23b99e 100644
 +#endif
    <MozParam name="channel" condition="purpose" purpose="contextmenu" value="rcs"/>
    <MozParam name="channel" condition="purpose" purpose="keyword" value="fflb"/>
-   <MozParam name="channel" condition="purpose" purpose="homepage" value="np"/>
+   <MozParam name="channel" condition="purpose" purpose="searchbar" value="sb"/>
 From: Mike Hommey <mh@glandium.org>
 Date: Sat, 19 Feb 2011 11:02:30 +0100
 Subject: Use MOZ_APP_DISPLAYNAME to fill appstrings.properties
@@ -128,10 +128,10 @@ Subject: Use MOZ_APP_DISPLAYNAME to fill appstrings.properties
  2 files changed, 12 insertions(+), 10 deletions(-)
 
 diff --git a/browser/locales/Makefile.in b/browser/locales/Makefile.in
-index cfaa3db..07a105e 100644
+index 570485b..9b6fdee 100644
 --- a/browser/locales/Makefile.in
 +++ b/browser/locales/Makefile.in
-@@ -37,6 +37,8 @@ SUBMAKEFILES += \
+@@ -29,6 +29,8 @@ SUBMAKEFILES += \
  	$(DEPTH)/$(MOZ_BRANDING_DIRECTORY)/locales/Makefile \
  	$(NULL)
  
