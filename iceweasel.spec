@@ -24,12 +24,12 @@ Summary:	Iceweasel web browser
 Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
-Version:	26.0
+Version:	28.0
 Release:	1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
-# Source0-md5:	91ce51cc6474f1269484e5327643a59c
+# Source0-md5:	db06b6da6b826cfc6a49c15bca115a6b
 Source1:	%{name}-branding.tar.bz2
 # Source1-md5:	513af080c920d916362b607a872adf00
 Source2:	%{name}-rm_nonfree.sh
@@ -75,7 +75,7 @@ BuildRequires:	libnotify-devel >= 0.4
 # for rsvg-convert
 BuildRequires:	librsvg
 BuildRequires:	libpng(APNG)-devel >= 0.10
-BuildRequires:	libpng-devel >= 1.5.13
+BuildRequires:	libpng-devel >= 1.6.7
 BuildRequires:	libstdc++-devel >= 6:4.4
 BuildRequires:	libvpx-devel >= 1.0.0
 BuildRequires:	nspr-devel >= 1:%{nspr_ver}
@@ -112,7 +112,7 @@ Requires:	dbus-glib >= 0.60
 Requires:	glib2 >= 1:2.20
 Requires:	gtk+2 >= 2:2.14
 Requires:	libjpeg-turbo
-Requires:	libpng >= 1.5.13
+Requires:	libpng >= 1.6.7
 Requires:	libpng(APNG) >= 0.10
 Requires:	myspell-common
 Requires:	nspr >= 1:%{nspr_ver}
@@ -224,9 +224,12 @@ ac_add_options --disable-strip-libs
 ac_add_options --disable-install-strip
 %if %{with tests}
 ac_add_options --enable-tests
+ac_add_options --enable-mochitest
 %else
 ac_add_options --disable-tests
+ac_add_options --disable-mochitest
 %endif
+ac_add_options --disable-cpp-exceptions
 ac_add_options --disable-crashreporter
 ac_add_options --disable-elf-dynstr-gc
 ac_add_options --disable-gconf
@@ -235,17 +238,21 @@ ac_add_options --disable-gnomevfs
 ac_add_options --disable-installer
 ac_add_options --disable-javaxpcom
 ac_add_options --disable-long-long-warning
+ac_add_options --disable-necko-wifi
 ac_add_options --disable-pedantic
 ac_add_options --disable-updater
 ac_add_options --disable-xterm-updates
 ac_add_options --enable-canvas
+ac_add_options --enable-chrome-format=omni
 ac_add_options --enable-default-toolkit=cairo-gtk2
 ac_add_options --enable-extensions="default,permissions,gio"
 ac_add_options --enable-gio
+ac_add_options --enable-libnotify
 ac_add_options --enable-libxul
 ac_add_options --enable-mathml
 ac_add_options --enable-pango
 ac_add_options --enable-readline
+ac_add_options --enable-safe-browsing
 ac_add_options --enable-shared-js
 ac_add_options --enable-startup-notification
 ac_add_options --enable-svg
@@ -254,6 +261,7 @@ ac_add_options --enable-system-ffi
 ac_add_options --enable-system-hunspell
 ac_add_options --enable-system-sqlite
 ac_add_options --enable-url-classifier
+ac_add_options --enable-xinerama
 ac_add_options --with-branding=iceweasel/branding
 ac_add_options --with-default-mozilla-five-home=%{_libdir}/%{name}
 ac_add_options --with-distribution-id=org.pld-linux
