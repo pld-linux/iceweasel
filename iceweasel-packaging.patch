@@ -294,14 +294,11 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  @BINPATH@/components/servicesComponents.manifest
  @BINPATH@/components/cryptoComponents.manifest
  @BINPATH@/components/TelemetryPing.js
-@@ -581,10 +581,12 @@
- @BINPATH@/components/PeerConnection.js
- @BINPATH@/components/PeerConnection.manifest
- #endif
-+#endif
+@@ -581,7 +581,9 @@
  
  @BINPATH@/components/HttpDataUsage.manifest
  @BINPATH@/components/HttpDataUsage.js
++#endif
  
 +#ifndef LIBXUL_SDK
  @BINPATH@/chrome/marionette@JAREXT@
@@ -407,3 +404,15 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  
  ; for Solaris SPARC
  #ifdef SOLARIS
+@@ -907,9 +907,11 @@
+ @BINPATH@/metro/modules
+ #endif
+ 
++#ifndef LIBXUL_SDK
+ @BINPATH@/components/DataStore.manifest
+ @BINPATH@/components/DataStoreService.js
+ @BINPATH@/components/dom_datastore.xpt
++#endif
+ 
+ 
+ #ifdef MOZ_ASAN
