@@ -245,7 +245,7 @@ ac_add_options --disable-xterm-updates
 ac_add_options --enable-canvas
 ac_add_options --enable-chrome-format=omni
 ac_add_options --enable-default-toolkit=cairo-gtk2
-ac_add_options --enable-extensions="default,permissions,gio"
+ac_add_options --enable-extensions="default,gio"
 ac_add_options --enable-gio
 ac_add_options --enable-libnotify
 ac_add_options --enable-libxul
