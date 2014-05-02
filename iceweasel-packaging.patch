@@ -20,7 +20,7 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  @BINPATH@/browser/@PREF_DIR@/firefox-l10n.js
  @BINPATH@/browser/searchplugins/*
  #ifdef XP_WIN32
-@@ -51,17 +55,23 @@
+@@ -51,20 +55,26 @@
  #endif
  
  [xpcom]
@@ -41,6 +41,9 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  @BINPATH@/@DLL_PREFIX@mozjs@DLL_SUFFIX@
  #endif
 +#endif
+ #ifdef MOZ_DMD
+ @BINPATH@/@DLL_PREFIX@dmd@DLL_SUFFIX@
+ #endif
  #ifndef MOZ_NATIVE_NSPR
  #ifndef MOZ_FOLD_LIBS
  @BINPATH@/@DLL_PREFIX@nspr4@DLL_SUFFIX@

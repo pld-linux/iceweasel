@@ -9,8 +9,8 @@
 %bcond_with	pgo		# PGO-enabled build (requires working $DISPLAY == :100)
 
 # convert firefox release number to platform version: 15.0.x -> 15.0.x
-%define		xulrunner_main	25.0
-%define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#25.0})
+%define		xulrunner_main	29.0
+%define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#29.0})
 
 %if %{without xulrunner}
 # The actual sqlite version (see RHBZ#480989):
@@ -24,14 +24,14 @@ Summary:	Iceweasel web browser
 Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
-Version:	28.0
+Version:	29.0
 Release:	1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
-# Source0-md5:	db06b6da6b826cfc6a49c15bca115a6b
+# Source0-md5:	07c515fc487824f107a947d23f420e9d
 Source1:	%{name}-branding.tar.bz2
-# Source1-md5:	22b0d377cabb6567dd0330f9ab669120
+# Source1-md5:	26e1aa664d0196552792104fa5f8a1e0
 Source2:	%{name}-rm_nonfree.sh
 Source3:	%{name}.desktop
 Source4:	%{name}.sh
@@ -45,7 +45,6 @@ Patch9:		%{name}-no-subshell.patch
 Patch11:	%{name}-middle_click_paste.patch
 Patch12:	%{name}-packaging.patch
 Patch13:	system-virtualenv.patch
-Patch14:	gyp-slashism.patch
 Patch15:	Disable-Firefox-Health-Report.patch
 URL:		http://www.pld-linux.org/Packages/Iceweasel
 BuildRequires:	GConf2-devel >= 1.2.1
@@ -67,6 +66,7 @@ BuildRequires:	libdnet-devel
 BuildRequires:	libevent-devel >= 1.4.7
 # standalone libffi 3.0.9 or gcc's from 4.5(?)+
 BuildRequires:	libffi-devel >= 6:3.0.9
+BuildRequires:	libicu-devel
 BuildRequires:	libiw-devel
 # requires libjpeg-turbo implementing at least libjpeg 6b API
 BuildRequires:	libjpeg-devel >= 6b
@@ -166,12 +166,7 @@ cd mozilla
 %patch11 -p2
 %patch12 -p2
 %patch13 -p2
-%patch14 -p2
 %patch15 -p1
-
-# config/rules.mk is patched by us and js/src/config/rules.mk
-# is supposed to be exact copy
-cp -a config/rules.mk js/src/config/rules.mk
 
 %if %{with pgo}
 sed -i -e 's@__BROWSER_PATH__@"../../dist/bin/iceweasel-bin"@' build/automation.py.in
@@ -278,6 +273,7 @@ ac_add_options --with-system-nss
 ac_add_options --with-system-ply
 ac_add_options --with-system-png
 ac_add_options --with-system-zlib
+ac_add_options --with-system-icu
 ac_add_options --with-x
 EOF
 
