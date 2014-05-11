@@ -25,7 +25,7 @@ Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
 Version:	29.0.1
-Release:	1
+Release:	2
 License:	MPL v2.0
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
@@ -391,9 +391,12 @@ chmod 755 $RPM_BUILD_ROOT%{_sbindir}/%{name}-chrome+xpcom-generate
 rm -rf $RPM_BUILD_ROOT
 
 %pretrans
-if [ -d %{_libdir}/%{name}/extensions ] && [ ! -L %{_libdir}/%{name}/browser/extensions ]; then
+if [ -d %{_libdir}/%{name}/browser/extensions ] && [ ! -L %{_libdir}/%{name}/browser/extensions ]; then
 	install -d %{_datadir}/%{name}/browser
-	mv -v %{_libdir}/%{name}/extensions %{_datadir}/%{name}/browser/extensions
+	if [ -e %{_datadir}/%{name}/browser/extensions ]; then
+		mv %{_datadir}/%{name}/browser/extensions{,.rpmsave}
+	fi
+	mv -v %{_libdir}/%{name}/browser/extensions %{_datadir}/%{name}/browser/extensions
 fi
 if [ -d %{_libdir}/%{name}/dictionaries ] && [ ! -L %{_libdir}/%{name}/dictionaries ]; then
 	mv -v %{_libdir}/%{name}/dictionaries{,.rpmsave}
