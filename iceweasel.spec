@@ -4,11 +4,12 @@
 #
 # Conditional build:
 %bcond_with	tests		# enable tests (whatever they check)
+%bcond_with	gtk3		# GTK+ 3.x instead of 2.x
 %bcond_without	kerberos	# disable krb5 support
 %bcond_without	xulrunner	# system xulrunner
 %bcond_with	pgo		# PGO-enabled build (requires working $DISPLAY == :100)
 
-# convert firefox release number to platform version: 15.0.x -> 15.0.x
+# convert firefox release number to platform version: 29.0.x -> 29.0.x
 %define		xulrunner_main	29.0
 %define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#29.0})
 
@@ -17,19 +18,19 @@
 %define		sqlite_build_version %(pkg-config --silence-errors --modversion sqlite3 2>/dev/null || echo ERROR)
 %endif
 
-%define		nspr_ver	4.10.2
-%define		nss_ver		3.15
+%define		nspr_ver	4.10.3
+%define		nss_ver		3.16
 
 Summary:	Iceweasel web browser
 Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
-Version:	29.0
+Version:	29.0.1
 Release:	1
-License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
+License:	MPL v2.0
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
-# Source0-md5:	07c515fc487824f107a947d23f420e9d
+# Source0-md5:	ca37addc3a69ef30247e00375dd93cd0
 Source1:	%{name}-branding.tar.bz2
 # Source1-md5:	26e1aa664d0196552792104fa5f8a1e0
 Source2:	%{name}-rm_nonfree.sh
@@ -58,7 +59,8 @@ BuildRequires:	cairo-devel >= 1.10.2-5
 BuildRequires:	dbus-glib-devel >= 0.60
 BuildRequires:	gcc-c++ >= 6:4.4
 BuildRequires:	glib2-devel >= 1:2.20
-BuildRequires:	gtk+2-devel >= 2:2.14
+%{!?with_gtk3:BuildRequires:	gtk+2-devel >= 2:2.14}
+%{?with_gtk3:BuildRequires:	gtk+3-devel >= 3.0.0}
 %{?with_kerberos:BuildRequires:	heimdal-devel >= 0.7.1}
 BuildRequires:	hunspell-devel
 BuildRequires:	libIDL-devel >= 0.8.0
@@ -66,8 +68,7 @@ BuildRequires:	libdnet-devel
 BuildRequires:	libevent-devel >= 1.4.7
 # standalone libffi 3.0.9 or gcc's from 4.5(?)+
 BuildRequires:	libffi-devel >= 6:3.0.9
-BuildRequires:	libicu-devel
-BuildRequires:	libiw-devel
+BuildRequires:	libicu-devel >= 50.1
 # requires libjpeg-turbo implementing at least libjpeg 6b API
 BuildRequires:	libjpeg-devel >= 6b
 BuildRequires:	libjpeg-turbo-devel
@@ -77,10 +78,11 @@ BuildRequires:	librsvg
 BuildRequires:	libpng(APNG)-devel >= 0.10
 BuildRequires:	libpng-devel >= 1.6.7
 BuildRequires:	libstdc++-devel >= 6:4.4
-BuildRequires:	libvpx-devel >= 1.0.0
+BuildRequires:	libvpx-devel >= 1.3.0
 BuildRequires:	nspr-devel >= 1:%{nspr_ver}
 BuildRequires:	nss-devel >= 1:%{nss_ver}
 BuildRequires:	pango-devel >= 1:1.14.0
+BuildRequires:	pixman-devel >= 0.19.2
 BuildRequires:	perl-modules >= 5.004
 BuildRequires:	pkgconfig
 BuildRequires:	pkgconfig(libffi) >= 3.0.9
@@ -89,7 +91,7 @@ BuildRequires:	python-modules
 BuildRequires:	python-virtualenv
 BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	rpmbuild(macros) >= 1.601
-BuildRequires:	sqlite3-devel >= 3.7.17
+BuildRequires:	sqlite3-devel >= 3.8.2
 BuildRequires:	startup-notification-devel >= 0.8
 BuildRequires:	xorg-lib-libXScrnSaver-devel
 BuildRequires:	xorg-lib-libXext-devel
@@ -110,10 +112,12 @@ Requires:	browser-plugins >= 2.0
 Requires:	cairo >= 1.10.2-5
 Requires:	dbus-glib >= 0.60
 Requires:	glib2 >= 1:2.20
-Requires:	gtk+2 >= 2:2.14
+%{!?with_gtk3:Requires:	gtk+2 >= 2:2.14}
+%{?with_gtk3:Requires:	gtk+3 >= 3.0.0}
 Requires:	libjpeg-turbo
 Requires:	libpng >= 1.6.7
 Requires:	libpng(APNG) >= 0.10
+Requires:	libvpx >= 1.3.0
 Requires:	myspell-common
 Requires:	nspr >= 1:%{nspr_ver}
 Requires:	nss >= 1:%{nss_ver}
@@ -239,7 +243,7 @@ ac_add_options --disable-updater
 ac_add_options --disable-xterm-updates
 ac_add_options --enable-canvas
 ac_add_options --enable-chrome-format=omni
-ac_add_options --enable-default-toolkit=cairo-gtk2
+ac_add_options --enable-default-toolkit=%{?with_gtk3:cairo-gtk3}%{!?with_gtk3:cairo-gtk2}
 ac_add_options --enable-extensions="default,gio"
 ac_add_options --enable-gio
 ac_add_options --enable-libnotify
