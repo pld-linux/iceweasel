@@ -1,5 +1,4 @@
 # TODO:
-# - /usr/share/iceweasel/browser/extensions symlink is arch-dependent (is it needed at all?)
 # - provide proper $DISPLAY for PGO (Xvfb, Xdummy...) for unattended builds
 #
 # Conditional build:
@@ -324,6 +323,7 @@ ln -s ../xulrunner $RPM_BUILD_ROOT%{_libdir}/%{name}/xulrunner
 
 # move arch independant ones to datadir
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/chrome $RPM_BUILD_ROOT%{_datadir}/%{name}/browser/chrome
+mv $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/extensions $RPM_BUILD_ROOT%{_datadir}/%{name}/browser/extensions
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/icons $RPM_BUILD_ROOT%{_datadir}/%{name}/browser/icons
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/searchplugins $RPM_BUILD_ROOT%{_datadir}/%{name}/browser/searchplugins
 %if %{without xulrunner}
@@ -335,9 +335,9 @@ mv $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/defaults $RPM_BUILD_ROOT%{_datadir}
 
 ln -s ../../../share/%{name}/browser/chrome $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/chrome
 ln -s ../../../share/%{name}/browser/defaults $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/defaults
+ln -s ../../../share/%{name}/browser/extensions $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/extensions
 ln -s ../../../share/%{name}/browser/icons $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/icons
 ln -s ../../../share/%{name}/browser/searchplugins $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/searchplugins
-ln -s ../../../%{_lib}/%{name}/browser/extensions $RPM_BUILD_ROOT%{_datadir}/%{name}/browser/extensions
 
 %if %{without xulrunner}
 %{__rm} -r $RPM_BUILD_ROOT%{_libdir}/%{name}/dictionaries
@@ -391,9 +391,9 @@ chmod 755 $RPM_BUILD_ROOT%{_sbindir}/%{name}-chrome+xpcom-generate
 rm -rf $RPM_BUILD_ROOT
 
 %pretrans
-if [ -d %{_datadir}/%{name}/extensions ] && [ ! -L %{_datadir}/%{name}/browser/extensions ]; then
-	install -d %{_libdir}/%{name}/browser
-	mv -v %{_datadir}/%{name}/extensions %{_libdir}/%{name}/browser/extensions
+if [ -d %{_libdir}/%{name}/extensions ] && [ ! -L %{_libdir}/%{name}/browser/extensions ]; then
+	install -d %{_datadir}/%{name}/browser
+	mv -v %{_libdir}/%{name}/extensions %{_datadir}/%{name}/browser/extensions
 fi
 if [ -d %{_libdir}/%{name}/dictionaries ] && [ ! -L %{_libdir}/%{name}/dictionaries ]; then
 	mv -v %{_libdir}/%{name}/dictionaries{,.rpmsave}
@@ -429,18 +429,18 @@ fi
 %dir %{_libdir}/%{name}
 %dir %{_libdir}/%{name}/browser
 %dir %{_libdir}/%{name}/browser/components
-%dir %{_libdir}/%{name}/browser/extensions
 %dir %{_libdir}/%{name}/browser/plugins
 
 %dir %{_datadir}/%{name}
 %dir %{_datadir}/%{name}/browser
+%dir %{_datadir}/%{name}/browser/extensions
 %{_datadir}/%{name}/browser/chrome
 %{_datadir}/%{name}/browser/defaults
 %{_datadir}/%{name}/browser/icons
 %{_datadir}/%{name}/browser/searchplugins
 
 # symlinks
-%{_datadir}/%{name}/browser/extensions
+%{_libdir}/%{name}/browser/extensions
 %{_libdir}/%{name}/browser/chrome
 %{_libdir}/%{name}/browser/icons
 %{_libdir}/%{name}/browser/searchplugins
@@ -458,7 +458,7 @@ fi
 %{_libdir}/%{name}/browser/components/components.manifest
 %attr(755,root,root) %{_libdir}/%{name}/browser/components/libbrowsercomps.so
 # the signature of the default theme
-%{_libdir}/%{name}/browser/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}
+%{_datadir}/%{name}/browser/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}
 %{_libdir}/%{name}/browser/omni.ja
 %{_libdir}/%{name}/webapprt
 %attr(755,root,root) %{_libdir}/%{name}/webapprt-stub
