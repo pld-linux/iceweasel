@@ -1,9 +1,9 @@
 --- iceweasel-13.0/mozilla/browser/base/content/browser.js.orig	2012-06-06 11:12:17.021562264 +0200
 +++ iceweasel-13.0/mozilla/browser/base/content/browser.js	2012-06-06 11:21:37.000000000 +0200
-@@ -5231,12 +5231,9 @@
+@@ -5110,12 +5110,9 @@ function middleMousePaste(event) {
+   }
  
-   Task.spawn(function() {
-     let data = yield getShortcutOrURIAndPostData(clipboard);
+   getShortcutOrURIAndPostData(clipboard, data => {
 -    try {
 -      makeURI(data.url);
 -    } catch (ex) {

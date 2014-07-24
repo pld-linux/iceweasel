@@ -9,8 +9,8 @@
 %bcond_with	pgo		# PGO-enabled build (requires working $DISPLAY == :100)
 
 # convert firefox release number to platform version: 29.0.x -> 29.0.x
-%define		xulrunner_main	29.0
-%define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#29.0})
+%define		xulrunner_main	31.0
+%define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#31.0})
 
 %if %{without xulrunner}
 # The actual sqlite version (see RHBZ#480989):
@@ -24,14 +24,14 @@ Summary:	Iceweasel web browser
 Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
-Version:	29.0.1
-Release:	2
+Version:	31.0
+Release:	0.1
 License:	MPL v2.0
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
-# Source0-md5:	ca37addc3a69ef30247e00375dd93cd0
+# Source0-md5:	499b70a9f08a2291d528e87eaf8804a3
 Source1:	%{name}-branding.tar.bz2
-# Source1-md5:	26e1aa664d0196552792104fa5f8a1e0
+# Source1-md5:	513af080c920d916362b607a872adf00
 Source2:	%{name}-rm_nonfree.sh
 Source3:	%{name}.desktop
 Source4:	%{name}.sh

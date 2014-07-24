@@ -41,17 +41,18 @@ diff --git a/modules/libpref/src/init/all.js b/modules/libpref/src/init/all.js
 index 24f1574..9c98f3e 100644
 --- a/modules/libpref/src/init/all.js
 +++ b/modules/libpref/src/init/all.js
-@@ -4538,7 +4538,11 @@ pref("dom.inter-app-communication-api.enabled", false);
+@@ -4432,7 +4432,11 @@ pref("dom.inter-app-communication-api.en
  
  // The tables used for Safebrowsing phishing and malware checks.
- pref("urlclassifier.malware_table", "goog-malware-shavar");
+ pref("urlclassifier.malware_table", "goog-malware-shavar,test-malware-simple");
 +#ifdef MOZ_OFFICIAL_BRANDING
- pref("urlclassifier.phish_table", "goog-phish-shavar");
+ pref("urlclassifier.phish_table", "goog-phish-shavar,test-phish-simple");
 +#else
-+pref("urlclassifier.phish_table", "googpub-phish-shavar");
++pref("urlclassifier.phish_table", "googpub-phish-shavar,test-phish-simple");
 +#endif
- pref("urlclassifier.download_block_table", "");
- pref("urlclassifier.download_allow_table", "");
+ pref("urlclassifier.downloadBlockTable", "");
+ pref("urlclassifier.downloadAllowTable", "");
+ pref("urlclassifier.disallow_completions", "test-malware-simple,test-phish-simple,goog-downloadwhite-digest256");
  
 From: Mike Hommey <mh@glandium.org>
 Date: Sat, 19 Feb 2011 11:04:53 +0100
@@ -150,11 +151,11 @@ index 1de0093..8c77825 100644
  malformedURI=The URL is not valid and cannot be loaded.
 -fileNotFound=Firefox can't find the file at %S.
 -dnsNotFound=Firefox can't find the server at %S.
--protocolNotFound=Firefox doesn't know how to open this address, because the protocol (%S) isn't associated with any program.
+-unknownProtocolFound=Firefox doesn't know how to open this address, because one of the following protocols (%S) isn't associated with any program or is not allowed in this context.
 -connectionFailure=Firefox can't establish a connection to the server at %S.
 +#expand fileNotFound=__MOZ_APP_DISPLAYNAME__ can't find the file at %S.
 +#expand dnsNotFound=__MOZ_APP_DISPLAYNAME__ can't find the server at %S.
-+#expand protocolNotFound=__MOZ_APP_DISPLAYNAME__ doesn't know how to open this address, because the protocol (%S) isn't associated with any program.
++#expand unknownProtocolFound=__MOZ_APP_DISPLAYNAME__ doesn't know how to open this address, because one of the following protocols (%S) isn't associated with any program or is not allowed in this context.
 +#expand connectionFailure=__MOZ_APP_DISPLAYNAME__ can't establish a connection to the server at %S.
  netInterrupt=The connection to %S was interrupted while the page was loading.
  netTimeout=The server at %S is taking too long to respond.
@@ -179,3 +180,9 @@ index 1de0093..8c77825 100644
  contentEncodingError=The page you are trying to view cannot be shown because it uses an invalid or unsupported form of compression.
  unsafeContentType=The page you are trying to view cannot be shown because it is contained in a file type that may not be safe to open. Please contact the website owners to inform them of this problem.
  externalProtocolTitle=External Protocol Request
+@@ -33,4 +33,4 @@
+ phishingBlocked=The website at %S has been reported as a web forgery designed to trick users into sharing personal or financial information.
+ cspFrameAncestorBlocked=This page has a content security policy that prevents it from being embedded in this way.
+ corruptedContentError=The page you are trying to view cannot be shown because an error in the data transmission was detected.
+-remoteXUL=This page uses an unsupported technology that is no longer available by default in Firefox.
++#expand remoteXUL=This page uses an unsupported technology that is no longer available by default in __MOZ_APP_DISPLAYNAME__.
