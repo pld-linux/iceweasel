@@ -73,9 +73,9 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
 +#ifndef LIBXUL_SDK
  @BINPATH@/platform.ini
 +#endif
- #ifndef XP_OS2
  #ifndef MOZ_NATIVE_SQLITE
  #ifndef MOZ_FOLD_LIBS
+ @BINPATH@/@DLL_PREFIX@mozsqlite3@DLL_SUFFIX@
 @@ -132,25 +148,34 @@
  #ifdef XP_UNIX
  #ifndef XP_MACOSX
@@ -111,7 +111,7 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  @BINPATH@/components/caps.xpt
  @BINPATH@/components/chrome.xpt
  @BINPATH@/components/commandhandler.xpt
-@@ -169,6 +194,7 @@
+@@ -169,9 +194,11 @@
  @BINPATH@/components/dom_apps.xpt
  @BINPATH@/components/dom_base.xpt
  @BINPATH@/components/dom_system.xpt
@@ -119,14 +119,10 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  #ifdef MOZ_B2G_BT
  @BINPATH@/components/dom_bluetooth.xpt
  #endif
-@@ -212,6 +212,7 @@
- #ifdef MOZ_B2G_BT
- @BINPATH@/components/dom_bluetooth.xpt
- #endif
 +#ifndef LIBXUL_SDK
- @BINPATH@/components/dom_camera.xpt
  @BINPATH@/components/dom_canvas.xpt
- @BINPATH@/components/dom_contacts.xpt
+ @BINPATH@/components/dom_alarm.xpt
+ @BINPATH@/components/dom_core.xpt
 @@ -216,6 +243,8 @@
  @BINPATH@/components/dom_xbl.xpt
  @BINPATH@/components/dom_xpath.xpt
@@ -194,14 +190,14 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  @BINPATH@/browser/components/FeedConverter.js
  @BINPATH@/browser/components/FeedWriter.js
 @@ -354,6 +394,7 @@
- @BINPATH@/browser/components/BrowserPlaces.manifest
- @BINPATH@/browser/components/devtools-clhandler.manifest
- @BINPATH@/browser/components/devtools-clhandler.js
+ @BINPATH@/browser/components/Experiments.manifest
+ @BINPATH@/browser/components/ExperimentsService.js
+ @BINPATH@/browser/components/translation.manifest
 +#ifndef LIBXUL_SDK
  @BINPATH@/components/Downloads.manifest
  @BINPATH@/components/DownloadLegacy.js
  @BINPATH@/components/BrowserPageThumbs.manifest
-@@ -381,31 +422,39 @@
+@@ -381,28 +422,36 @@
  @BINPATH@/components/nsDownloadManagerUI.js
  @BINPATH@/components/NetworkGeolocationProvider.manifest
  @BINPATH@/components/NetworkGeolocationProvider.js
@@ -212,6 +208,7 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  @BINPATH@/components/extensions.manifest
  @BINPATH@/components/addonManager.js
  @BINPATH@/components/amContentHandler.js
+ @BINPATH@/components/amInstallTrigger.js
  @BINPATH@/components/amWebInstallListener.js
  @BINPATH@/components/nsBlocklistService.js
 +#endif
@@ -232,11 +229,7 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  @BINPATH@/components/nsURLFormatter.manifest
  @BINPATH@/components/nsURLFormatter.js
 +#endif
- #ifndef XP_OS2
  @BINPATH@/browser/components/@DLL_PREFIX@browsercomps@DLL_SUFFIX@
- #else
- @BINPATH@/browser/components/brwsrcmp@DLL_SUFFIX@
- #endif
 +#ifndef LIBXUL_SDK
  @BINPATH@/components/txEXSLTRegExFunctions.manifest
  @BINPATH@/components/txEXSLTRegExFunctions.js
@@ -298,9 +291,9 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  @BINPATH@/components/cryptoComponents.manifest
  @BINPATH@/components/TelemetryPing.js
 @@ -581,7 +581,9 @@
- 
- @BINPATH@/components/HttpDataUsage.manifest
- @BINPATH@/components/HttpDataUsage.js
+ @BINPATH@/components/PeerConnection.js
+ @BINPATH@/components/PeerConnection.manifest
+ #endif
 +#endif
  
 +#ifndef LIBXUL_SDK
@@ -413,7 +406,7 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  
 +#ifndef LIBXUL_SDK
  @BINPATH@/components/DataStore.manifest
- @BINPATH@/components/DataStoreService.js
+ @BINPATH@/components/DataStoreImpl.js
  @BINPATH@/components/dom_datastore.xpt
 +#endif
  
