@@ -30,8 +30,8 @@ License:	MPL v2.0
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
 # Source0-md5:	618bf992a5cb80f8879435262bdfcee0
-Source1:	%{name}-branding.tar.bz2
-# Source1-md5:	513af080c920d916362b607a872adf00
+Source1:	%{name}-branding.tar.xz
+# Source1-md5:	70951f0d1d17522ebb2a188bf4e78bca
 Source2:	%{name}-rm_nonfree.sh
 Source3:	%{name}.desktop
 Source4:	%{name}.sh
