@@ -31,7 +31,7 @@ Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
 # Source0-md5:	618bf992a5cb80f8879435262bdfcee0
 Source1:	%{name}-branding.tar.xz
-# Source1-md5:	e71562b255d884cd6f1c5e1f23eb4dcf
+# Source1-md5:	6e3c10921c5b243f33241646b7941ce9
 Source2:	%{name}-rm_nonfree.sh
 Source3:	%{name}.desktop
 Source4:	%{name}.sh
