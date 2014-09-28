@@ -7,6 +7,8 @@
 %bcond_without	kerberos	# disable krb5 support
 %bcond_without	xulrunner	# system xulrunner
 %bcond_with	pgo		# PGO-enabled build (requires working $DISPLAY == :100)
+# - disabled shared_js - https://bugzilla.mozilla.org/show_bug.cgi?id=1039964
+%bcond_with	shared_js
 
 # convert firefox release number to platform version: 29.0.x -> 29.0.x
 %define		xulrunner_main	31.0
@@ -17,7 +19,7 @@
 %define		sqlite_build_version %(pkg-config --silence-errors --modversion sqlite3 2>/dev/null || echo ERROR)
 %endif
 
-%define		nspr_ver	4.10.3
+%define		nspr_ver	4.10.6
 %define		nss_ver		3.16
 
 Summary:	Iceweasel web browser
@@ -57,6 +59,8 @@ BuildRequires:	cairo-devel >= 1.10.2-5
 BuildRequires:	dbus-glib-devel >= 0.60
 BuildRequires:	gcc-c++ >= 6:4.4
 BuildRequires:	glib2-devel >= 1:2.20
+BuildRequires:	gstreamer-devel >= 1.0
+BuildRequires:	gstreamer-plugins-base-devel >= 1.0
 %{!?with_gtk3:BuildRequires:	gtk+2-devel >= 2:2.14}
 %{?with_gtk3:BuildRequires:	gtk+3-devel >= 3.0.0}
 %{?with_kerberos:BuildRequires:	heimdal-devel >= 0.7.1}
@@ -88,7 +92,7 @@ BuildRequires:	python-modules
 BuildRequires:	python-virtualenv
 BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	rpmbuild(macros) >= 1.601
-BuildRequires:	sqlite3-devel >= 3.8.2
+BuildRequires:	sqlite3-devel >= 3.8.3.1
 BuildRequires:	startup-notification-devel >= 0.8
 BuildRequires:	xorg-lib-libXScrnSaver-devel
 BuildRequires:	xorg-lib-libXext-devel
@@ -243,12 +247,13 @@ ac_add_options --enable-chrome-format=omni
 ac_add_options --enable-default-toolkit=%{?with_gtk3:cairo-gtk3}%{!?with_gtk3:cairo-gtk2}
 ac_add_options --enable-extensions="default,gio"
 ac_add_options --enable-gio
+ac_add_options --enable-gstreamer=1.0
 ac_add_options --enable-libxul
 ac_add_options --enable-mathml
 ac_add_options --enable-pango
 ac_add_options --enable-readline
 ac_add_options --enable-safe-browsing
-ac_add_options --enable-shared-js
+%{?with_shared_js:ac_add_options --enable-shared-js}
 ac_add_options --enable-startup-notification
 ac_add_options --enable-svg
 ac_add_options --enable-system-cairo
@@ -476,7 +481,7 @@ fi
 %attr(755,root,root) %{_libdir}/%{name}/components/libdbusservice.so
 %attr(755,root,root) %{_libdir}/%{name}/components/libmozgnome.so
 %attr(755,root,root) %{_libdir}/%{name}/libmozalloc.so
-%attr(755,root,root) %{_libdir}/%{name}/libmozjs.so
+%{?with_shared_js:%attr(755,root,root) %{_libdir}/%{name}/libmozjs.so}
 %attr(755,root,root) %{_libdir}/%{name}/libxul.so
 %attr(755,root,root) %{_libdir}/%{name}/mozilla-xremote-client
 %attr(755,root,root) %{_libdir}/%{name}/plugin-container
