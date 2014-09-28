@@ -284,16 +284,16 @@ EOF
 
 %if %{with pgo}
 export DISPLAY=:100
-%{__make} -f client.mk profiledbuild \
+%{__make} -j1 -f client.mk profiledbuild \
 	DESTDIR=obj-%{_target_cpu}/dist \
-	STRIP="/bin/true" \
 	CC="%{__cc}" \
-	CXX="%{__cxx}"
+	CXX="%{__cxx}" \
+	MOZ_MAKE_FLAGS="%{_smp_mflags}"
 %else
-%{__make} -f client.mk build \
-	STRIP="/bin/true" \
+%{__make} -j1 -f client.mk build \
 	CC="%{__cc}" \
-	CXX="%{__cxx}"
+	CXX="%{__cxx}" \
+	MOZ_MAKE_FLAGS="%{_smp_mflags}"
 %endif
 
 %install
