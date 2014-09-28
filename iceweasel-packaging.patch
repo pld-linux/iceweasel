@@ -1,6 +1,5 @@
-diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in iceweasel-24.0/mozilla/browser/installer/package-manifest.in
---- iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in	2013-09-11 01:14:52.000000000 +0200
-+++ iceweasel-24.0/mozilla/browser/installer/package-manifest.in	2013-10-23 08:51:36.788646262 +0200
+--- iceweasel-32.0.3/mozilla/browser/installer/package-manifest.in~	2014-09-24 03:05:09.000000000 +0200
++++ iceweasel-32.0.3/mozilla/browser/installer/package-manifest.in	2014-09-28 03:16:25.047988707 +0200
 @@ -32,14 +32,18 @@
  [@AB_CD@]
  @BINPATH@/browser/chrome/@AB_CD@@JAREXT@
@@ -20,7 +19,7 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  @BINPATH@/browser/@PREF_DIR@/firefox-l10n.js
  @BINPATH@/browser/searchplugins/*
  #ifdef XP_WIN32
-@@ -51,20 +55,26 @@
+@@ -51,17 +55,23 @@
  #endif
  
  [xpcom]
@@ -44,10 +43,7 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  #ifdef MOZ_DMD
  @BINPATH@/@DLL_PREFIX@dmd@DLL_SUFFIX@
  #endif
- #ifndef MOZ_NATIVE_NSPR
- #ifndef MOZ_FOLD_LIBS
- @BINPATH@/@DLL_PREFIX@nspr4@DLL_SUFFIX@
-@@ -72,14 +82,18 @@
+@@ -75,14 +85,18 @@
  #ifdef XP_MACOSX
  @BINPATH@/XUL
  #else
@@ -65,8 +61,8 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
 +#endif
  #ifdef XP_WIN32
  @BINPATH@/plugin-hang-ui@BIN_SUFFIX@
- #ifndef MOZ_DEBUG
-@@ -118,7 +132,9 @@
+ #if MOZ_MSVC_REDIST == 1600
+@@ -135,7 +149,9 @@
  #ifdef MOZ_UPDATER
  @BINPATH@/update-settings.ini
  #endif
@@ -76,7 +72,7 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  #ifndef MOZ_NATIVE_SQLITE
  #ifndef MOZ_FOLD_LIBS
  @BINPATH@/@DLL_PREFIX@mozsqlite3@DLL_SUFFIX@
-@@ -132,25 +148,34 @@
+@@ -145,12 +161,15 @@
  #ifdef XP_UNIX
  #ifndef XP_MACOSX
  @BINPATH@/run-mozilla.sh
@@ -90,17 +86,9 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  @BINPATH@/browser/components/components.manifest
 +#ifndef LIBXUL_SDK
  @BINPATH@/components/alerts.xpt
-+#endif
  #ifdef ACCESSIBILITY
  #ifdef XP_WIN32
- @BINPATH@/AccessibleMarshal.dll
- #endif
-+#ifndef LIBXUL_SDK
- @BINPATH@/components/accessibility.xpt
- #endif
-+#endif
-+#ifndef LIBXUL_SDK
- @BINPATH@/components/appshell.xpt
+@@ -162,8 +181,10 @@
  @BINPATH@/components/appstartup.xpt
  @BINPATH@/components/autocomplete.xpt
  @BINPATH@/components/autoconfig.xpt
@@ -111,28 +99,7 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  @BINPATH@/components/caps.xpt
  @BINPATH@/components/chrome.xpt
  @BINPATH@/components/commandhandler.xpt
-@@ -169,9 +194,11 @@
- @BINPATH@/components/dom_apps.xpt
- @BINPATH@/components/dom_base.xpt
- @BINPATH@/components/dom_system.xpt
-+#endif
- #ifdef MOZ_B2G_BT
- @BINPATH@/components/dom_bluetooth.xpt
- #endif
-+#ifndef LIBXUL_SDK
- @BINPATH@/components/dom_canvas.xpt
- @BINPATH@/components/dom_alarm.xpt
- @BINPATH@/components/dom_core.xpt
-@@ -216,6 +243,8 @@
- @BINPATH@/components/dom_xbl.xpt
- @BINPATH@/components/dom_xpath.xpt
- @BINPATH@/components/dom_xul.xpt
-+#endif
-+#ifndef LIBXUL_SDK
- #ifdef MOZ_GAMEPAD
- @BINPATH@/components/dom_gamepad.xpt
- #endif
-@@ -231,7 +260,9 @@
+@@ -238,7 +259,9 @@
  @BINPATH@/components/filepicker.xpt
  #endif
  @BINPATH@/components/find.xpt
@@ -142,7 +109,7 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  @BINPATH@/components/gfx.xpt
  @BINPATH@/components/html5.xpt
  @BINPATH@/components/htmlparser.xpt
-@@ -254,7 +285,9 @@
+@@ -262,7 +285,9 @@
  @BINPATH@/components/layout_xul.xpt
  @BINPATH@/components/locale.xpt
  @BINPATH@/components/lwbrk.xpt
@@ -152,7 +119,7 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  @BINPATH@/components/mimetype.xpt
  @BINPATH@/components/mozfind.xpt
  @BINPATH@/components/necko_about.xpt
-@@ -289,12 +322,16 @@
+@@ -299,12 +324,16 @@
  @BINPATH@/components/rdf.xpt
  @BINPATH@/components/satchel.xpt
  @BINPATH@/components/saxparser.xpt
@@ -160,28 +127,27 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  @BINPATH@/browser/components/sessionstore.xpt
 +#ifndef LIBXUL_SDK
  @BINPATH@/components/services-crypto-component.xpt
-+#endif
  #ifdef MOZ_CAPTIVEDETECT
  @BINPATH@/components/captivedetect.xpt
  #endif
++#endif
  @BINPATH@/browser/components/shellservice.xpt
 +#ifndef LIBXUL_SDK
  @BINPATH@/components/shistory.xpt
  @BINPATH@/components/spellchecker.xpt
  @BINPATH@/components/storage.xpt
-@@ -312,9 +349,11 @@
- @BINPATH@/components/webBrowser_core.xpt
- @BINPATH@/components/webbrowserpersist.xpt
- @BINPATH@/components/widget.xpt
+@@ -343,8 +372,10 @@
+ @BINPATH@/components/xultmpl.xpt
+ @BINPATH@/components/zipwriter.xpt
+ @BINPATH@/components/telemetry.xpt
 +#endif
- #ifdef XP_MACOSX
- @BINPATH@/components/widget_cocoa.xpt
- #endif
+ 
+ ; JavaScript components
 +#ifndef LIBXUL_SDK
- @BINPATH@/components/windowds.xpt
- @BINPATH@/components/windowwatcher.xpt
- @BINPATH@/components/xpcom_base.xpt
-@@ -339,6 +378,7 @@
+ @BINPATH@/components/ChromeNotifications.js
+ @BINPATH@/components/ChromeNotifications.manifest
+ @BINPATH@/components/ConsoleAPI.manifest
+@@ -353,6 +384,7 @@
  @BINPATH@/components/BrowserElementParent.js
  @BINPATH@/components/FeedProcessor.manifest
  @BINPATH@/components/FeedProcessor.js
@@ -189,7 +155,7 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  @BINPATH@/browser/components/BrowserFeeds.manifest
  @BINPATH@/browser/components/FeedConverter.js
  @BINPATH@/browser/components/FeedWriter.js
-@@ -354,6 +394,7 @@
+@@ -373,6 +405,7 @@
  @BINPATH@/browser/components/Experiments.manifest
  @BINPATH@/browser/components/ExperimentsService.js
  @BINPATH@/browser/components/translation.manifest
@@ -197,7 +163,7 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  @BINPATH@/components/Downloads.manifest
  @BINPATH@/components/DownloadLegacy.js
  @BINPATH@/components/BrowserPageThumbs.manifest
-@@ -381,28 +422,36 @@
+@@ -404,8 +437,10 @@
  @BINPATH@/components/nsDownloadManagerUI.js
  @BINPATH@/components/NetworkGeolocationProvider.manifest
  @BINPATH@/components/NetworkGeolocationProvider.js
@@ -208,16 +174,7 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  @BINPATH@/components/extensions.manifest
  @BINPATH@/components/addonManager.js
  @BINPATH@/components/amContentHandler.js
- @BINPATH@/components/amInstallTrigger.js
- @BINPATH@/components/amWebInstallListener.js
- @BINPATH@/components/nsBlocklistService.js
-+#endif
- #ifdef MOZ_UPDATER
- @BINPATH@/components/nsUpdateService.manifest
- @BINPATH@/components/nsUpdateService.js
- @BINPATH@/components/nsUpdateServiceStub.js
- #endif
-+#ifndef LIBXUL_SDK
+@@ -420,12 +455,16 @@
  @BINPATH@/components/nsUpdateTimerManager.manifest
  @BINPATH@/components/nsUpdateTimerManager.js
  @BINPATH@/components/pluginGlue.manifest
@@ -234,9 +191,9 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  @BINPATH@/components/txEXSLTRegExFunctions.manifest
  @BINPATH@/components/txEXSLTRegExFunctions.js
  @BINPATH@/components/toolkitplaces.manifest
-@@ -414,7 +463,9 @@
- @BINPATH@/components/nsPlacesAutoComplete.manifest
- @BINPATH@/components/nsPlacesAutoComplete.js
+@@ -436,7 +475,9 @@
+ @BINPATH@/components/UnifiedComplete.manifest
+ @BINPATH@/components/UnifiedComplete.js
  @BINPATH@/components/nsPlacesExpiration.js
 +#endif
  @BINPATH@/browser/components/PlacesProtocolHandler.js
@@ -244,7 +201,7 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  @BINPATH@/components/PlacesCategoriesStarter.js
  @BINPATH@/components/ColorAnalyzer.js
  @BINPATH@/components/PageThumbsProtocol.js
-@@ -437,6 +488,7 @@
+@@ -461,6 +502,7 @@
  @BINPATH@/components/contentSecurityPolicy.js
  @BINPATH@/components/contentAreaDropListener.manifest
  @BINPATH@/components/contentAreaDropListener.js
@@ -252,63 +209,19 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  @BINPATH@/browser/components/BrowserProfileMigrators.manifest
  @BINPATH@/browser/components/ProfileMigrator.js
  @BINPATH@/browser/components/ChromeProfileMigrator.js
-@@ -462,17 +514,24 @@
+@@ -472,6 +514,7 @@
+ #ifdef XP_MACOSX
  @BINPATH@/browser/components/SafariProfileMigrator.js
  #endif
- #ifdef MOZ_ENABLE_DBUS
 +#ifndef LIBXUL_SDK
+ #ifdef MOZ_ENABLE_DBUS
  @BINPATH@/components/@DLL_PREFIX@dbusservice@DLL_SUFFIX@
  #endif
-+#endif
- #ifdef MOZ_ENABLE_GNOME_COMPONENT
-+#ifndef LIBXUL_SDK
- @BINPATH@/components/@DLL_PREFIX@mozgnome@DLL_SUFFIX@
+@@ -588,19 +631,24 @@
+ @BINPATH@/components/TestInterfaceJS.js
+ @BINPATH@/components/TestInterfaceJS.manifest
  #endif
 +#endif
- #ifdef MOZ_ENABLE_GNOMEVFS
- @BINPATH@/components/@DLL_PREFIX@nkgnomevfs@DLL_SUFFIX@
- #endif
- #if defined(MOZ_ENABLE_DBUS) || defined(MOZ_ENABLE_GNOME_COMPONENT) || defined(MOZ_ENABLE_GNOMEVFS)
-+#ifndef LIBXUL_SDK
- @BINPATH@/components/components.manifest
- #endif
-+#endif
-+#ifndef LIBXUL_SDK
- @BINPATH@/components/nsINIProcessor.manifest
- @BINPATH@/components/nsINIProcessor.js
- @BINPATH@/components/nsPrompter.manifest
-@@ -488,10 +547,12 @@
- @BINPATH@/components/SyncComponents.manifest
- @BINPATH@/components/Weave.js
- #endif
-+#endif
- #ifdef MOZ_CAPTIVEDETECT
- @BINPATH@/components/CaptivePortalDetectComponents.manifest
- @BINPATH@/components/captivedetect.js
- #endif
-+#ifndef LIBXUL_SDK
- @BINPATH@/components/servicesComponents.manifest
- @BINPATH@/components/cryptoComponents.manifest
- @BINPATH@/components/TelemetryPing.js
-@@ -581,7 +581,9 @@
- @BINPATH@/components/PeerConnection.js
- @BINPATH@/components/PeerConnection.manifest
- #endif
-+#endif
- 
-+#ifndef LIBXUL_SDK
- @BINPATH@/chrome/marionette@JAREXT@
- @BINPATH@/chrome/marionette.manifest
- @BINPATH@/components/MarionetteComponents.manifest
-@@ -594,6 +596,7 @@
- ; InputMethod API
- @BINPATH@/components/MozKeyboard.js
- @BINPATH@/components/InputMethod.manifest
-+#endif
- 
- ; Modules
- @BINPATH@/browser/modules/*
-@@ -597,16 +600,20 @@
  
  ; Modules
  @BINPATH@/browser/modules/*
@@ -329,8 +242,8 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  
  ; ANGLE GLES-on-D3D rendering library
  #ifdef MOZ_ANGLE_RENDERER
-@@ -570,10 +640,12 @@
- @BINPATH@/browser/chrome/pdfjs/*
+@@ -628,10 +676,12 @@
+ #endif
  @BINPATH@/browser/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}/install.rdf
  @BINPATH@/browser/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}/icon.png
 +#ifndef LIBXUL_SDK
@@ -342,7 +255,7 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  #ifdef MOZ_GTK
  @BINPATH@/browser/chrome/icons/default/default16.png
  @BINPATH@/browser/chrome/icons/default/default32.png
-@@ -596,9 +668,11 @@
+@@ -661,9 +711,11 @@
  ; All the pref files must be part of base to prevent migration bugs
  @BINPATH@/browser/@PREF_DIR@/firefox.js
  @BINPATH@/browser/@PREF_DIR@/firefox-branding.js
@@ -354,7 +267,7 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  @BINPATH@/browser/defaults/profile/prefs.js
  
  #ifndef LIBXUL_SDK
-@@ -608,7 +682,7 @@
+@@ -673,7 +725,7 @@
  @BINPATH@/defaults/pref/channel-prefs.js
  #else
  ; For Fx-on-xr, channel-prefs lives with the app preferences. (Bug 762588)
@@ -363,7 +276,7 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  #endif
  
  ; Services (gre) prefs
-@@ -616,11 +690,14 @@
+@@ -681,11 +733,14 @@
  @BINPATH@/defaults/pref/services-notifications.js
  #endif
  #ifdef MOZ_SERVICES_SYNC
@@ -378,7 +291,14 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  @BINPATH@/res/EditorOverride.css
  @BINPATH@/res/contenteditable.css
  @BINPATH@/res/designmode.css
-@@ -663,6 +740,7 @@
+@@ -723,11 +778,14 @@
+ #ifdef XP_MACOSX
+ @BINPATH@/res/MainMenu.nib/
+ #endif
++#endif
+ 
+ ; svg
++#ifndef LIBXUL_SDK
  @BINPATH@/res/svg.css
  @BINPATH@/components/dom_svg.xpt
  @BINPATH@/components/dom_smil.xpt
@@ -386,7 +306,7 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  
  ; [Personal Security Manager]
  ;
-@@ -683,11 +761,13 @@
+@@ -748,11 +806,13 @@
  #endif
  @BINPATH@/@DLL_PREFIX@softokn3@DLL_SUFFIX@
  #endif
@@ -398,9 +318,9 @@ diff -ur iceweasel-24.0.org/mozilla/browser/installer/package-manifest.in icewea
  @BINPATH@/components/pippki.xpt
 +#endif
  
- ; for Solaris SPARC
- #ifdef SOLARIS
-@@ -907,9 +907,11 @@
+ ; For content sandboxing
+ #if defined(XP_WIN) && defined(MOZ_CONTENT_SANDBOX)
+@@ -859,9 +919,11 @@
  @BINPATH@/metro/modules
  #endif
  
