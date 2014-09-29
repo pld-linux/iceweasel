@@ -179,17 +179,12 @@ sed -i -e 's@__BROWSER_PATH__@"../../dist/bin/iceweasel-bin"@' build/automation.
 
 %build
 cd mozilla
-cp -f %{_datadir}/automake/config.* build/autoconf
+cp -p %{_datadir}/automake/config.* build/autoconf
 
-cat << EOF > .mozconfig
-. \$topsrcdir/browser/config/mozconfig
+cat << 'EOF' > .mozconfig
+. $topsrcdir/browser/config/mozconfig
 
 mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/obj-%{_target_cpu}
-# parallel build fails on _xpidlgen/
-%if %{without xulrunner}
-mk_add_options MOZ_MAKE_FLAGS=%{_smp_mflags}
-%endif
-mk_add_options PROFILE_GEN_SCRIPT='@PYTHON@ @MOZ_OBJDIR@/_profile/pgo/profileserver.py'
 
 # Options for 'configure' (same as command-line options).
 ac_add_options --build=%{_target_platform}
@@ -245,7 +240,7 @@ ac_add_options --disable-xterm-updates
 ac_add_options --enable-canvas
 ac_add_options --enable-chrome-format=omni
 ac_add_options --enable-default-toolkit=%{?with_gtk3:cairo-gtk3}%{!?with_gtk3:cairo-gtk2}
-ac_add_options --enable-extensions="default,gio"
+ac_add_options --enable-extensions=default
 ac_add_options --enable-gio
 ac_add_options --enable-gstreamer=1.0
 ac_add_options --enable-libxul
