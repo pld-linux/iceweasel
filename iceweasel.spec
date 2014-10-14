@@ -26,12 +26,12 @@ Summary:	Iceweasel web browser
 Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
-Version:	32.0.3
-Release:	3
+Version:	33.0
+Release:	1
 License:	MPL v2.0
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
-# Source0-md5:	618bf992a5cb80f8879435262bdfcee0
+# Source0-md5:	b0e793898bddf4f2bc46e42a331f3383
 Source1:	%{name}-branding.tar.xz
 # Source1-md5:	6e3c10921c5b243f33241646b7941ce9
 Source2:	%{name}-rm_nonfree.sh
@@ -87,9 +87,11 @@ BuildRequires:	pixman-devel >= 0.19.2
 BuildRequires:	perl-modules >= 5.004
 BuildRequires:	pkgconfig
 BuildRequires:	pkgconfig(libffi) >= 3.0.9
+BuildRequires:	pulseaudio-devel
 BuildRequires:	python-modules
 %{?with_pgo:BuildRequires:	python-modules-sqlite}
 BuildRequires:	python-virtualenv
+BuildRequires:	readline-devel
 BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	rpmbuild(macros) >= 1.601
 BuildRequires:	sqlite3-devel >= 3.8.3.1
