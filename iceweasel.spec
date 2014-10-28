@@ -5,14 +5,14 @@
 %bcond_with	tests		# enable tests (whatever they check)
 %bcond_with	gtk3		# GTK+ 3.x instead of 2.x
 %bcond_without	kerberos	# disable krb5 support
-%bcond_with	xulrunner	# system xulrunner
+%bcond_with	xulrunner	# system xulrunner [no longer supported]
 %bcond_with	pgo		# PGO-enabled build (requires working $DISPLAY == :100)
 # - disabled shared_js - https://bugzilla.mozilla.org/show_bug.cgi?id=1039964
 %bcond_with	shared_js
 
-# convert firefox release number to platform version: 29.0.x -> 29.0.x
-%define		xulrunner_main	31.0
-%define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#31.0})
+# convert firefox release number to platform version: 33.0.x -> 33.0.x
+%define		xulrunner_main	33.0
+%define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#33.0})
 
 %if %{without xulrunner}
 # The actual sqlite version (see RHBZ#480989):
@@ -20,18 +20,18 @@
 %endif
 
 %define		nspr_ver	4.10.6
-%define		nss_ver		3.16
+%define		nss_ver		3.17.1
 
 Summary:	Iceweasel web browser
 Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
-Version:	33.0
-Release:	2
+Version:	33.0.1
+Release:	1
 License:	MPL v2.0
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
-# Source0-md5:	b0e793898bddf4f2bc46e42a331f3383
+# Source0-md5:	5a1c4b0b2349e3db94b45bd3f03f9288
 Source1:	%{name}-branding.tar.xz
 # Source1-md5:	6e3c10921c5b243f33241646b7941ce9
 Source2:	%{name}-rm_nonfree.sh
@@ -77,12 +77,12 @@ BuildRequires:	libjpeg-turbo-devel
 # for rsvg-convert
 BuildRequires:	librsvg
 BuildRequires:	libpng(APNG)-devel >= 0.10
-BuildRequires:	libpng-devel >= 2:1.6.7
+BuildRequires:	libpng-devel >= 2:1.6.10
 BuildRequires:	libstdc++-devel >= 6:4.4
 BuildRequires:	libvpx-devel >= 1.3.0
 BuildRequires:	nspr-devel >= 1:%{nspr_ver}
 BuildRequires:	nss-devel >= 1:%{nss_ver}
-BuildRequires:	pango-devel >= 1:1.14.0
+BuildRequires:	pango-devel >= 1:1.22.0
 BuildRequires:	pixman-devel >= 0.19.2
 BuildRequires:	perl-modules >= 5.004
 BuildRequires:	pkgconfig
@@ -94,7 +94,7 @@ BuildRequires:	python-virtualenv
 BuildRequires:	readline-devel
 BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	rpmbuild(macros) >= 1.601
-BuildRequires:	sqlite3-devel >= 3.8.3.1
+BuildRequires:	sqlite3-devel >= 3.8.5
 BuildRequires:	startup-notification-devel >= 0.8
 BuildRequires:	xorg-lib-libXScrnSaver-devel
 BuildRequires:	xorg-lib-libXext-devel
@@ -118,13 +118,13 @@ Requires:	glib2 >= 1:2.20
 %{!?with_gtk3:Requires:	gtk+2 >= 2:2.14}
 %{?with_gtk3:Requires:	gtk+3 >= 3.0.0}
 Requires:	libjpeg-turbo
-Requires:	libpng >= 2:1.6.7
+Requires:	libpng >= 2:1.6.10
 Requires:	libpng(APNG) >= 0.10
 Requires:	libvpx >= 1.3.0
 Requires:	myspell-common
 Requires:	nspr >= 1:%{nspr_ver}
 Requires:	nss >= 1:%{nss_ver}
-Requires:	pango >= 1:1.14.0
+Requires:	pango >= 1:1.22.0
 Requires:	sqlite3 >= %{sqlite_build_version}
 Requires:	startup-notification >= 0.8
 %endif
