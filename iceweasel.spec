@@ -8,7 +8,7 @@
 %bcond_with	xulrunner	# system xulrunner [no longer supported]
 %bcond_with	pgo		# PGO-enabled build (requires working $DISPLAY == :100)
 # - disabled shared_js - https://bugzilla.mozilla.org/show_bug.cgi?id=1039964
-%bcond_with	shared_js
+%bcond_with	shared_js	# shared libmozjs library [broken]
 
 # convert firefox release number to platform version: 33.0.x -> 33.0.x
 %define		xulrunner_main	33.0
@@ -57,6 +57,7 @@ BuildRequires:	automake
 BuildRequires:	bzip2-devel
 BuildRequires:	cairo-devel >= 1.10.2-5
 BuildRequires:	dbus-glib-devel >= 0.60
+BuildRequires:	freetype-devel >= 1:2.1.8
 BuildRequires:	gcc-c++ >= 6:4.4
 BuildRequires:	glib2-devel >= 1:2.20
 BuildRequires:	gstreamer-devel >= 1.0
@@ -64,7 +65,7 @@ BuildRequires:	gstreamer-plugins-base-devel >= 1.0
 %{!?with_gtk3:BuildRequires:	gtk+2-devel >= 2:2.14}
 %{?with_gtk3:BuildRequires:	gtk+3-devel >= 3.0.0}
 %{?with_kerberos:BuildRequires:	heimdal-devel >= 0.7.1}
-BuildRequires:	hunspell-devel
+BuildRequires:	hunspell-devel >= 1.2.3
 BuildRequires:	libIDL-devel >= 0.8.0
 BuildRequires:	libdnet-devel
 BuildRequires:	libevent-devel >= 1.4.7
@@ -88,12 +89,13 @@ BuildRequires:	perl-modules >= 5.004
 BuildRequires:	pkgconfig
 BuildRequires:	pkgconfig(libffi) >= 3.0.9
 BuildRequires:	pulseaudio-devel
-BuildRequires:	python-modules
+BuildRequires:	python-modules >= 1:2.5
 %{?with_pgo:BuildRequires:	python-modules-sqlite}
-BuildRequires:	python-virtualenv
+BuildRequires:	python-virtualenv >= 1.9.1-4
 BuildRequires:	readline-devel
 BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	rpmbuild(macros) >= 1.601
+BuildRequires:	sed >= 4.0
 BuildRequires:	sqlite3-devel >= 3.8.5
 BuildRequires:	startup-notification-devel >= 0.8
 BuildRequires:	xorg-lib-libXScrnSaver-devel
