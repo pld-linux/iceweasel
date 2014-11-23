@@ -10,17 +10,13 @@
 # - disabled shared_js - https://bugzilla.mozilla.org/show_bug.cgi?id=1039964
 %bcond_with	shared_js	# shared libmozjs library [broken]
 
-# convert firefox release number to platform version: 33.0.x -> 33.0.x
-%define		xulrunner_main	33.0
-%define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#33.0})
-
 %if %{without xulrunner}
 # The actual sqlite version (see RHBZ#480989):
 %define		sqlite_build_version %(pkg-config --silence-errors --modversion sqlite3 2>/dev/null || echo ERROR)
 %endif
 
 %define		nspr_ver	4.10.6
-%define		nss_ver		3.17.1
+%define		nss_ver		3.17.2
 
 Summary:	Iceweasel web browser
 Summary(hu.UTF-8):	Iceweasel web böngésző
@@ -103,7 +99,7 @@ BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXinerama-devel
 BuildRequires:	xorg-lib-libXt-devel
 %if %{with xulrunner}
-BuildRequires:	xulrunner-devel >= 2:%{xulrunner_ver}
+BuildRequires:	xulrunner-devel >= 2:%{version}
 %endif
 BuildRequires:	zip
 BuildRequires:	zlib-devel >= 1.2.3
