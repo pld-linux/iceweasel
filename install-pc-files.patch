@@ -1,0 +1,59 @@
+--- iceweasel-33.1.1/mozilla/browser/installer/Makefile.in.orig	2014-11-13 23:49:48.000000000 +0100
++++ iceweasel-33.1.1/mozilla/browser/installer/Makefile.in	2014-11-26 21:30:58.839109076 +0100
+@@ -160,6 +160,56 @@
+ 	rm -f $(DIST)/pack-list.txt $(DIST)/bin-list.txt
+ endif
+ 
++# Add pkg-config files to the install:: target
++pkg_config_files = \
++	libxul.pc \
++	libxul-embedding.pc \
++	mozilla-js.pc \
++	mozilla-plugin.pc \
++	$(NULL)
++
++ifdef MOZ_NATIVE_NSPR
++NSPR_NAME=nspr
++NSPR_VERSION=$(shell $(NSPR_CONFIG) --version)
++else
++pkg_config_files += mozilla-nspr.pc
++NSPR_NAME=mozilla-nspr
++FULL_NSPR_CFLAGS=-I\$${includedir}
++FULL_NSPR_LIBS=$(subst $(prefix),\$${sdkdir},$(shell $(DEPTH)/nsprpub/config/nspr-config --libs))
++NSPR_VERSION=$(shell $(DEPTH)/nsprpub/config/nspr-config --version)
++endif
++
++MOZ_XUL_LINK = -lxpcomglue_s -lxul -lmozalloc
++ifdef JS_SHARED_LIBRARY
++MOZ_JS_LINK = -lmozjs
++else
++FINDPATH=bin
++MOZ_JS_LINK = $(MOZ_XUL_LINK)
++endif
++
++%.pc: $(srcdir)/%.pc.in $(GLOBAL_DEPS)
++	cat $< | sed \
++	-e "s|%prefix%|$(prefix)|" \
++	-e "s|%includedir%|$(includedir)|" \
++	-e "s|%idldir%|$(idldir)|" \
++	-e "s|%sdkdir%|$(sdkdir)|" \
++	-e "s|%MOZ_APP_NAME%|$(MOZ_APP_NAME)|" \
++	-e "s|%MOZILLA_VERSION%|$(MOZ_APP_VERSION)|" \
++	-e "s|%WCHAR_CFLAGS%|$(WCHAR_CFLAGS)|" \
++	-e "s|%FULL_NSPR_LIBS%|$(FULL_NSPR_LIBS)|" \
++	-e "s|%FULL_NSPR_CFLAGS%|$(FULL_NSPR_CFLAGS)|" \
++	-e "s|%NSPR_NAME%|$(NSPR_NAME)|" \
++	-e "s|%NSPR_VERSION%|$(NSPR_VERSION)|" \
++	-e "s|%MOZ_XUL_LINK%|$(MOZ_XUL_LINK)|" \
++	-e "s|%MOZ_JS_LINK%|$(MOZ_JS_LINK)|" > $@
++	chmod 644 $@
++
++install:: $(pkg_config_files)
++	@echo pkg_config_file: $(pkg_config_files)
++	$(SYSINSTALL) $(IFLAGS1) $^ $(DESTDIR)$(libdir)/pkgconfig
++
++GARBAGE += $(pkg_config_files)
++
+ installer::
+ ifdef INSTALLER_DIR
+ 	$(MAKE) -C $(INSTALLER_DIR)

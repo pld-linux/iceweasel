@@ -26,8 +26,7 @@ Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
 Version:	33.1.1
-Release:	1
-Epoch:		2
+Release:	0.1
 License:	MPL v2.0
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
@@ -40,7 +39,7 @@ Source4:	%{name}.sh
 Source5:	vendor.js
 Source6:	vendor-ac.js
 Patch0:		%{name}-branding.patch
-
+Patch1:		install-pc-files.patch
 Patch7:		%{name}-prefs.patch
 Patch8:		%{name}-pld-branding.patch
 Patch9:		%{name}-no-subshell.patch
@@ -105,11 +104,26 @@ BuildRequires:	xorg-lib-libXinerama-devel
 BuildRequires:	xorg-lib-libXt-devel
 BuildRequires:	zip
 BuildRequires:	zlib-devel >= 1.2.3
-BuildConflicts:	xulrunner-devel < %{epoch}:%{version}-%{release}
+BuildConflicts:	%{name}-devel < %{version}-%{release}
 Requires(post):	mktemp >= 1.5-18
+Requires:	browser-plugins >= 2.0
+Requires:	cairo >= 1.10.2-5
+Requires:	dbus-glib >= 0.60
 Requires:	desktop-file-utils
+Requires:	glib2 >= 1:2.20
+%{!?with_gtk3:Requires:	gtk+2 >= 2:2.14}
+%{?with_gtk3:Requires:	gtk+3 >= 3.0.0}
 Requires:	hicolor-icon-theme
-Requires:	xulrunner = %{epoch}:%{version}-%{release}
+Requires:	libjpeg-turbo
+Requires:	libpng >= 2:1.6.10
+Requires:	libpng(APNG) >= 0.10
+Requires:	libvpx >= 1.3.0
+Requires:	myspell-common
+Requires:	nspr >= 1:%{nspr_ver}
+Requires:	nss >= 1:%{nss_ver}
+Requires:	pango >= 1:1.22.0
+Requires:	sqlite3 >= %{sqlite_build_version}
+Requires:	startup-notification >= 0.8
 Provides:	wwwbrowser
 Obsoletes:	mozilla-firebird
 Obsoletes:	mozilla-firefox
@@ -139,86 +153,24 @@ Iceweasel jest przeglądarką WWW rozpowszechnianą zgodnie z ideami
 ruchu otwartego oprogramowania oraz tworzoną z myślą o zgodności ze
 standardami, wydajnością i przenośnością.
 
-%package -n xulrunner
-Summary:	XULRunner - Mozilla Runtime Environment for XUL+XPCOM applications
-Summary(pl.UTF-8):	XULRunner - środowisko uruchomieniowe Mozilli dla aplikacji XUL+XPCOM
-Group:		X11/Applications
-Requires(post):	mktemp >= 1.5-18
-Requires:	xulrunner-libs = %{epoch}:%{version}-%{release}
-Requires:	browser-plugins >= 2.0
-Requires:	myspell-common
-Requires:	nspr >= 1:%{nspr_ver}
-Requires:	nss >= 1:%{nss_ver}
-
-%description -n xulrunner
-XULRunner is a Mozilla runtime package that can be used to bootstrap
-XUL+XPCOM applications that are as rich as Firefox and Thunderbird. It
-will provide mechanisms for installing, upgrading, and uninstalling
-these applications. XULRunner will also provide libxul, a solution
-which allows the embedding of Mozilla technologies in other projects
-and products.
-
-%description -n xulrunner -l pl.UTF-8
-XULRunner to pakiet uruchomieniowy Mozilli, którego można użyć do
-uruchamiania aplikacji XUL+XPCOM, nawet takich jak Firefox czy
-Thunderbird. Udostępni mechanizmy do instalowania, uaktualniania i
-odinstalowywania tych aplikacji. XULRunner będzie także dostarczał
-libxul - rozwiązanie umożliwiające osadzanie technologii Mozilli w
-innych projektach i produktach.
-
-%package -n xulrunner-libs
-Summary:	XULRunner shared libraries
-Summary(pl.UTF-8):	Biblioteki współdzielone XULRunnera
-Group:		X11/Libraries
-Requires:	cairo >= 1.10.2-5
-Requires:	dbus-glib >= 0.60
-Requires:	glib2 >= 1:2.20
-%{!?with_gtk3:Requires:	gtk+2 >= 2:2.14}
-%{?with_gtk3:Requires:	gtk+3 >= 3.0.0}
-Requires:	libjpeg-turbo
-Requires:	libpng >= 2:1.6.10
-Requires:	libpng(APNG) >= 0.10
-Requires:	libvpx >= 1.3.0
-Requires:	pango >= 1:1.22.0
-Requires:	sqlite3 >= %{sqlite_build_version}
-Requires:	startup-notification >= 0.8
-
-%description -n xulrunner-libs
-XULRunner shared libraries.
-
-%description -n xulrunner-libs -l pl.UTF-8
-Biblioteki współdzielone XULRunnera.
-
-%package -n xulrunner-devel
-Summary:	Headers for developing programs that will use XULRunner
-Summary(pl.UTF-8):	Pliki nagłówkowe do tworzenia programów używających XULRunnera
+%package devel
+Summary:	Headers for developing programs that will use Iceweasel
+Summary(pl.UTF-8):	Pliki nagłówkowe do tworzenia programów używających Iceweasel
 Group:		X11/Development/Libraries
-Requires:	xulrunner-libs = %{epoch}:%{version}-%{release}
+Requires:	%{name} = %{version}-%{release}
 Requires:	nspr-devel >= 1:%{nspr_ver}
 Requires:	nss-devel >= 1:%{nss_ver}
 Requires:	python-ply
 Obsoletes:	mozilla-devel
 Obsoletes:	mozilla-firefox-devel
 Obsoletes:	seamonkey-devel
+Obsoletes:	xulrunner-devel
 
-%description -n xulrunner-devel
-XULRunner development package.
+%description devel
+Iceweasel development package.
 
-%description -n xulrunner-devel -l pl.UTF-8
-Pakiet programistyczny XULRunnera.
-
-%package -n xulrunner-gnome
-Summary:	GNOME support package for XULRunner
-Summary(pl.UTF-8):	Pakiet wspierający integrację XULRunnera z GNOME
-Group:		X11/Libraries
-Requires:	xulrunner = %{epoch}:%{version}-%{release}
-
-%description -n xulrunner-gnome
-GNOME support package for XULRunner. It integrates DBus and GIO.
-
-%description -n xulrunner-gnome -l pl.UTF-8
-Pakiet wspierający integrację XULRunnera z GNOME. Obejmuje komponenty
-DBus i GIO.
+%description devel -l pl.UTF-8
+Pakiet programistyczny Iceweasela.
 
 %prep
 %setup -qc
@@ -228,6 +180,7 @@ cd mozilla
 /bin/sh %{SOURCE2}
 
 %patch0 -p1
+%patch1 -p1
 
 %patch7 -p1
 %patch8 -p1
@@ -236,6 +189,8 @@ cd mozilla
 %patch12 -p2
 %patch13 -p2
 %patch15 -p1
+
+cp -a xulrunner/installer/*.pc.in browser/installer/
 
 %if %{with pgo}
 sed -i -e 's@__BROWSER_PATH__@"../../dist/bin/iceweasel-bin"@' build/automation.py.in
