@@ -1,19 +1,22 @@
 # TODO:
+# - consider --enable-libproxy
+# - package js-gdb.py for gdb
+# - disabled shared_js - https://bugzilla.mozilla.org/show_bug.cgi?id=1039964
 # - provide proper $DISPLAY for PGO (Xvfb, Xdummy...) for unattended builds
 #
 # Conditional build:
 %bcond_with	tests		# enable tests (whatever they check)
 %bcond_with	gtk3		# GTK+ 3.x instead of 2.x
 %bcond_without	kerberos	# disable krb5 support
-%bcond_with	xulrunner	# system xulrunner [no longer supported]
 %bcond_with	pgo		# PGO-enabled build (requires working $DISPLAY == :100)
 # - disabled shared_js - https://bugzilla.mozilla.org/show_bug.cgi?id=1039964
 %bcond_with	shared_js	# shared libmozjs library [broken]
 
-%if %{without xulrunner}
+# On updating version, grab CVE links from:
+# https://www.mozilla.org/security/known-vulnerabilities/firefox.html
+
 # The actual sqlite version (see RHBZ#480989):
 %define		sqlite_build_version %(pkg-config --silence-errors --modversion sqlite3 2>/dev/null || echo ERROR)
-%endif
 
 %define		nspr_ver	4.10.6
 %define		nss_ver		3.17.2
@@ -24,6 +27,7 @@ Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
 Version:	33.1.1
 Release:	1
+Epoch:		2
 License:	MPL v2.0
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
@@ -87,6 +91,7 @@ BuildRequires:	pkgconfig(libffi) >= 3.0.9
 BuildRequires:	pulseaudio-devel
 BuildRequires:	python-modules >= 1:2.5
 %{?with_pgo:BuildRequires:	python-modules-sqlite}
+BuildRequires:	python-simplejson
 BuildRequires:	python-virtualenv >= 1.9.1-4
 BuildRequires:	readline-devel
 BuildRequires:	rpm >= 4.4.9-56
@@ -98,34 +103,13 @@ BuildRequires:	xorg-lib-libXScrnSaver-devel
 BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXinerama-devel
 BuildRequires:	xorg-lib-libXt-devel
-%if %{with xulrunner}
-BuildRequires:	xulrunner-devel >= 2:%{version}
-%endif
 BuildRequires:	zip
 BuildRequires:	zlib-devel >= 1.2.3
+BuildConflicts:	xulrunner-devel < %{epoch}:%{version}-%{release}
 Requires(post):	mktemp >= 1.5-18
 Requires:	desktop-file-utils
 Requires:	hicolor-icon-theme
-%if %{with xulrunner}
-%requires_eq_to	xulrunner xulrunner-devel
-%else
-Requires:	browser-plugins >= 2.0
-Requires:	cairo >= 1.10.2-5
-Requires:	dbus-glib >= 0.60
-Requires:	glib2 >= 1:2.20
-%{!?with_gtk3:Requires:	gtk+2 >= 2:2.14}
-%{?with_gtk3:Requires:	gtk+3 >= 3.0.0}
-Requires:	libjpeg-turbo
-Requires:	libpng >= 2:1.6.10
-Requires:	libpng(APNG) >= 0.10
-Requires:	libvpx >= 1.3.0
-Requires:	myspell-common
-Requires:	nspr >= 1:%{nspr_ver}
-Requires:	nss >= 1:%{nss_ver}
-Requires:	pango >= 1:1.22.0
-Requires:	sqlite3 >= %{sqlite_build_version}
-Requires:	startup-notification >= 0.8
-%endif
+Requires:	xulrunner = %{epoch}:%{version}-%{release}
 Provides:	wwwbrowser
 Obsoletes:	mozilla-firebird
 Obsoletes:	mozilla-firefox
@@ -138,10 +122,9 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 # don't satisfy other packages
 %define		_noautoprovfiles	%{_libdir}/%{name}
-%if %{without xulrunner}
+
 # and as we don't provide them, don't require either
 %define		_noautoreq	libmozalloc.so libmozjs.so libxpcom.so libxul.so
-%endif
 
 %description
 Iceweasel is an open-source web browser, designed for standards
@@ -155,6 +138,87 @@ hordozhatóságra tervezve.
 Iceweasel jest przeglądarką WWW rozpowszechnianą zgodnie z ideami
 ruchu otwartego oprogramowania oraz tworzoną z myślą o zgodności ze
 standardami, wydajnością i przenośnością.
+
+%package -n xulrunner
+Summary:	XULRunner - Mozilla Runtime Environment for XUL+XPCOM applications
+Summary(pl.UTF-8):	XULRunner - środowisko uruchomieniowe Mozilli dla aplikacji XUL+XPCOM
+Group:		X11/Applications
+Requires(post):	mktemp >= 1.5-18
+Requires:	xulrunner-libs = %{epoch}:%{version}-%{release}
+Requires:	browser-plugins >= 2.0
+Requires:	myspell-common
+Requires:	nspr >= 1:%{nspr_ver}
+Requires:	nss >= 1:%{nss_ver}
+
+%description -n xulrunner
+XULRunner is a Mozilla runtime package that can be used to bootstrap
+XUL+XPCOM applications that are as rich as Firefox and Thunderbird. It
+will provide mechanisms for installing, upgrading, and uninstalling
+these applications. XULRunner will also provide libxul, a solution
+which allows the embedding of Mozilla technologies in other projects
+and products.
+
+%description -n xulrunner -l pl.UTF-8
+XULRunner to pakiet uruchomieniowy Mozilli, którego można użyć do
+uruchamiania aplikacji XUL+XPCOM, nawet takich jak Firefox czy
+Thunderbird. Udostępni mechanizmy do instalowania, uaktualniania i
+odinstalowywania tych aplikacji. XULRunner będzie także dostarczał
+libxul - rozwiązanie umożliwiające osadzanie technologii Mozilli w
+innych projektach i produktach.
+
+%package -n xulrunner-libs
+Summary:	XULRunner shared libraries
+Summary(pl.UTF-8):	Biblioteki współdzielone XULRunnera
+Group:		X11/Libraries
+Requires:	cairo >= 1.10.2-5
+Requires:	dbus-glib >= 0.60
+Requires:	glib2 >= 1:2.20
+%{!?with_gtk3:Requires:	gtk+2 >= 2:2.14}
+%{?with_gtk3:Requires:	gtk+3 >= 3.0.0}
+Requires:	libjpeg-turbo
+Requires:	libpng >= 2:1.6.10
+Requires:	libpng(APNG) >= 0.10
+Requires:	libvpx >= 1.3.0
+Requires:	pango >= 1:1.22.0
+Requires:	sqlite3 >= %{sqlite_build_version}
+Requires:	startup-notification >= 0.8
+
+%description -n xulrunner-libs
+XULRunner shared libraries.
+
+%description -n xulrunner-libs -l pl.UTF-8
+Biblioteki współdzielone XULRunnera.
+
+%package -n xulrunner-devel
+Summary:	Headers for developing programs that will use XULRunner
+Summary(pl.UTF-8):	Pliki nagłówkowe do tworzenia programów używających XULRunnera
+Group:		X11/Development/Libraries
+Requires:	xulrunner-libs = %{epoch}:%{version}-%{release}
+Requires:	nspr-devel >= 1:%{nspr_ver}
+Requires:	nss-devel >= 1:%{nss_ver}
+Requires:	python-ply
+Obsoletes:	mozilla-devel
+Obsoletes:	mozilla-firefox-devel
+Obsoletes:	seamonkey-devel
+
+%description -n xulrunner-devel
+XULRunner development package.
+
+%description -n xulrunner-devel -l pl.UTF-8
+Pakiet programistyczny XULRunnera.
+
+%package -n xulrunner-gnome
+Summary:	GNOME support package for XULRunner
+Summary(pl.UTF-8):	Pakiet wspierający integrację XULRunnera z GNOME
+Group:		X11/Libraries
+Requires:	xulrunner = %{epoch}:%{version}-%{release}
+
+%description -n xulrunner-gnome
+GNOME support package for XULRunner. It integrates DBus and GIO.
+
+%description -n xulrunner-gnome -l pl.UTF-8
+Pakiet wspierający integrację XULRunnera z GNOME. Obejmuje komponenty
+DBus i GIO.
 
 %prep
 %setup -qc
@@ -260,9 +324,6 @@ ac_add_options --enable-xinerama
 ac_add_options --with-branding=iceweasel/branding
 ac_add_options --with-default-mozilla-five-home=%{_libdir}/%{name}
 ac_add_options --with-distribution-id=org.pld-linux
-%if %{with xulrunner}
-ac_add_options --with-libxul-sdk=$(pkg-config --variable=sdkdir libxul)
-%endif
 ac_add_options --with-pthreads
 ac_add_options --with-system-bz2
 ac_add_options --with-system-jpeg
@@ -303,9 +364,10 @@ install -d \
 %browser_plugins_add_browser %{name} -p %{_libdir}/%{name}/browser/plugins
 
 cd obj-%{_target_cpu}
-%{__make} -C browser/installer stage-package \
+%{__make} -C browser/installer stage-package libxul.pc libxul-embedding.pc mozilla-js.pc mozilla-plugin.pc \
 	DESTDIR=$RPM_BUILD_ROOT \
 	installdir=%{_libdir}/%{name} \
+	INSTALL_SDK=1 \
 	PKG_SKIP_STRIP=1
 
 %{__make} -C iceweasel/branding install \
@@ -313,22 +375,13 @@ cd obj-%{_target_cpu}
 
 cp -a dist/iceweasel/* $RPM_BUILD_ROOT%{_libdir}/%{name}/
 
-%if %{with xulrunner}
-# >= 5.0 seems to require this
-ln -s ../xulrunner $RPM_BUILD_ROOT%{_libdir}/%{name}/xulrunner
-%endif
-
 # move arch independant ones to datadir
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/chrome $RPM_BUILD_ROOT%{_datadir}/%{name}/browser/chrome
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/extensions $RPM_BUILD_ROOT%{_datadir}/%{name}/browser/extensions
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/icons $RPM_BUILD_ROOT%{_datadir}/%{name}/browser/icons
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/searchplugins $RPM_BUILD_ROOT%{_datadir}/%{name}/browser/searchplugins
-%if %{without xulrunner}
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/defaults $RPM_BUILD_ROOT%{_datadir}/%{name}/browser/defaults
 mv $RPM_BUILD_ROOT%{_datadir}/%{name}/browser/defaults/{pref,preferences}
-%else
-mv $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/defaults $RPM_BUILD_ROOT%{_datadir}/%{name}/browser/defaults
-%endif
 
 ln -s ../../../share/%{name}/browser/chrome $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/chrome
 ln -s ../../../share/%{name}/browser/defaults $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/defaults
@@ -336,10 +389,8 @@ ln -s ../../../share/%{name}/browser/extensions $RPM_BUILD_ROOT%{_libdir}/%{name
 ln -s ../../../share/%{name}/browser/icons $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/icons
 ln -s ../../../share/%{name}/browser/searchplugins $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/searchplugins
 
-%if %{without xulrunner}
 %{__rm} -r $RPM_BUILD_ROOT%{_libdir}/%{name}/dictionaries
 ln -s %{_datadir}/myspell $RPM_BUILD_ROOT%{_libdir}/%{name}/dictionaries
-%endif
 
 sed 's,@LIBDIR@,%{_libdir},' %{SOURCE4} > $RPM_BUILD_ROOT%{_bindir}/iceweasel
 chmod 755 $RPM_BUILD_ROOT%{_bindir}/iceweasel
@@ -444,9 +495,6 @@ fi
 %{_libdir}/%{name}/browser/chrome
 %{_libdir}/%{name}/browser/icons
 %{_libdir}/%{name}/browser/searchplugins
-%if %{with xulrunner}
-%{_libdir}/%{name}/xulrunner
-%endif
 %{_libdir}/%{name}/browser/defaults
 
 %attr(755,root,root) %{_libdir}/%{name}/iceweasel
@@ -467,7 +515,6 @@ fi
 %ghost %{_libdir}/%{name}/browser/components/compreg.dat
 %ghost %{_libdir}/%{name}/browser/components/xpti.dat
 
-%if %{without xulrunner}
 # private xulrunner instance
 %{_libdir}/%{name}/dependentlibs.list
 %{_libdir}/%{name}/platform.ini
@@ -483,4 +530,3 @@ fi
 %{_libdir}/%{name}/dictionaries
 %{_libdir}/%{name}/chrome.manifest
 %{_libdir}/%{name}/omni.ja
-%endif
