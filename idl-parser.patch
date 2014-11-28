@@ -1,0 +1,56 @@
+--- xulrunner-10.0/mozilla/xpcom/idl-parser/header.py.wiget	2012-02-09 16:26:27.074098583 +0100
++++ xulrunner-10.0/mozilla/xpcom/idl-parser/header.py	2012-02-09 16:28:01.250436455 +0100
+@@ -477,7 +477,7 @@ if __name__ == '__main__':
+     o = OptionParser()
+     o.add_option('-I', action='append', dest='incdirs', default=['.'],
+                  help="Directory to search for imported files")
+-    o.add_option('--cachedir', dest='cachedir', default=None,
++    o.add_option('--cachedir', dest='cachedir', default='',
+                  help="Directory in which to cache lex/parse tables.")
+     o.add_option('-o', dest='outfile', default=None,
+                  help="Output file (default is stdout)")
+@@ -488,7 +488,7 @@ if __name__ == '__main__':
+     options, args = o.parse_args()
+     file = args[0] if args else None
+ 
+-    if options.cachedir is not None:
++    if options.cachedir != '':
+         if not os.path.isdir(options.cachedir):
+             os.mkdir(options.cachedir)
+         sys.path.append(options.cachedir)
+@@ -498,7 +498,7 @@ if __name__ == '__main__':
+ 
+     # The only thing special about a regen is that there are no input files.
+     if options.regen:
+-        if options.cachedir is None:
++        if options.cachedir == '':
+             print >>sys.stderr, "--regen useless without --cachedir"
+         sys.exit(0)
+ 
+--- xulrunner-10.0/mozilla/xpcom/idl-parser/typelib.py.wiget	2012-02-09 16:31:01.826758036 +0100
++++ xulrunner-10.0/mozilla/xpcom/idl-parser/typelib.py	2012-02-09 16:32:26.473475659 +0100
+@@ -276,7 +276,7 @@ if __name__ == '__main__':
+     o = OptionParser()
+     o.add_option('-I', action='append', dest='incdirs', default=['.'],
+                  help="Directory to search for imported files")
+-    o.add_option('--cachedir', dest='cachedir', default=None,
++    o.add_option('--cachedir', dest='cachedir', default='',
+                  help="Directory in which to cache lex/parse tables.")
+     o.add_option('-o', dest='outfile', default=None,
+                  help="Output file")
+@@ -287,13 +287,13 @@ if __name__ == '__main__':
+     options, args = o.parse_args()
+     file = args[0] if args else None
+ 
+-    if options.cachedir is not None:
++    if options.cachedir != '':
+         if not os.path.isdir(options.cachedir):
+             os.mkdir(options.cachedir)
+         sys.path.append(options.cachedir)
+ 
+     if options.regen:
+-        if options.cachedir is None:
++        if options.cachedir == '':
+             print >>sys.stderr, "--regen requires --cachedir"
+             sys.exit(1)
+ 

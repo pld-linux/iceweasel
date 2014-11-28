@@ -1,7 +1,5 @@
 # TODO:
 # - consider --enable-libproxy
-# - package js-gdb.py for gdb
-# - disabled shared_js - https://bugzilla.mozilla.org/show_bug.cgi?id=1039964
 # - provide proper $DISPLAY for PGO (Xvfb, Xdummy...) for unattended builds
 #
 # Conditional build:
@@ -39,14 +37,18 @@ Source4:	%{name}.sh
 Source5:	vendor.js
 Source6:	vendor-ac.js
 Patch0:		%{name}-branding.patch
-Patch1:		install-pc-files.patch
-Patch7:		%{name}-prefs.patch
-Patch8:		%{name}-pld-branding.patch
-Patch9:		%{name}-no-subshell.patch
-Patch11:	%{name}-middle_click_paste.patch
-Patch12:	%{name}-packaging.patch
-Patch13:	system-virtualenv.patch
-Patch15:	Disable-Firefox-Health-Report.patch
+Patch1:		idl-parser.patch
+Patch2:		xulrunner-new-libxul.patch
+Patch3:		xulrunner-paths.patch
+Patch4:		xulrunner-pc.patch
+Patch5:		install-pc-files.patch
+Patch6:		%{name}-prefs.patch
+Patch7:		%{name}-pld-branding.patch
+Patch8:		%{name}-no-subshell.patch
+Patch9:		%{name}-middle_click_paste.patch
+Patch10:	%{name}-packaging.patch
+Patch11:	system-virtualenv.patch
+Patch12:	Disable-Firefox-Health-Report.patch
 URL:		http://www.pld-linux.org/Packages/Iceweasel
 BuildRequires:	OpenGL-devel
 BuildRequires:	ImageMagick
@@ -107,28 +109,19 @@ BuildRequires:	zlib-devel >= 1.2.3
 BuildConflicts:	%{name}-devel < %{version}-%{release}
 Requires(post):	mktemp >= 1.5-18
 Requires:	browser-plugins >= 2.0
-Requires:	cairo >= 1.10.2-5
-Requires:	dbus-glib >= 0.60
 Requires:	desktop-file-utils
-Requires:	glib2 >= 1:2.20
-%{!?with_gtk3:Requires:	gtk+2 >= 2:2.14}
-%{?with_gtk3:Requires:	gtk+3 >= 3.0.0}
 Requires:	hicolor-icon-theme
-Requires:	libjpeg-turbo
-Requires:	libpng >= 2:1.6.10
-Requires:	libpng(APNG) >= 0.10
-Requires:	libvpx >= 1.3.0
 Requires:	myspell-common
 Requires:	nspr >= 1:%{nspr_ver}
 Requires:	nss >= 1:%{nss_ver}
-Requires:	pango >= 1:1.22.0
-Requires:	sqlite3 >= %{sqlite_build_version}
-Requires:	startup-notification >= 0.8
+Requires:	%{name}-libs = %{version}-%{release}
 Provides:	wwwbrowser
 Obsoletes:	mozilla-firebird
 Obsoletes:	mozilla-firefox
 Obsoletes:	mozilla-firefox-lang-en < 2.0.0.8-3
 Obsoletes:	mozilla-firefox-libs
+Obsoletes:	xulrunner
+Obsoletes:	xulrunner-gnome
 Conflicts:	iceweasel-lang-resources < %{version}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -153,11 +146,35 @@ Iceweasel jest przeglądarką WWW rozpowszechnianą zgodnie z ideami
 ruchu otwartego oprogramowania oraz tworzoną z myślą o zgodności ze
 standardami, wydajnością i przenośnością.
 
+%package libs
+Summary:	Iceweasel shared libraries
+Summary(pl.UTF-8):	Biblioteki współdzielone Iceweasela
+Group:		X11/Libraries
+Requires:	cairo >= 1.10.2-5
+Requires:	dbus-glib >= 0.60
+Requires:	glib2 >= 1:2.20
+%{!?with_gtk3:Requires:	gtk+2 >= 2:2.14}
+%{?with_gtk3:Requires:	gtk+3 >= 3.0.0}
+Requires:	libjpeg-turbo
+Requires:	libpng >= 2:1.6.10
+Requires:	libpng(APNG) >= 0.10
+Requires:	libvpx >= 1.3.0
+Requires:	pango >= 1:1.22.0
+Requires:	sqlite3 >= %{sqlite_build_version}
+Requires:	startup-notification >= 0.8
+Obsoletes:	xulrunner-libs
+
+%description libs
+XULRunner shared libraries.
+
+%description libs -l pl.UTF-8
+Biblioteki współdzielone XULRunnera.
+
 %package devel
 Summary:	Headers for developing programs that will use Iceweasel
 Summary(pl.UTF-8):	Pliki nagłówkowe do tworzenia programów używających Iceweasel
 Group:		X11/Development/Libraries
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name}-libs = %{version}-%{release}
 Requires:	nspr-devel >= 1:%{nspr_ver}
 Requires:	nss-devel >= 1:%{nss_ver}
 Requires:	python-ply
@@ -180,15 +197,18 @@ cd mozilla
 /bin/sh %{SOURCE2}
 
 %patch0 -p1
-%patch1 -p1
-
+%patch1 -p2
+%patch2 -p1
+%patch3 -p2
+%patch4 -p1
+%patch5 -p2
+%patch6 -p1
 %patch7 -p1
-%patch8 -p1
+%patch8 -p2
 %patch9 -p2
+%patch10 -p2
 %patch11 -p2
-%patch12 -p2
-%patch13 -p2
-%patch15 -p1
+%patch12 -p1
 
 cp -a xulrunner/installer/*.pc.in browser/installer/
 
@@ -314,7 +334,11 @@ install -d \
 	$RPM_BUILD_ROOT{%{_bindir},%{_sbindir},%{_libdir}} \
 	$RPM_BUILD_ROOT%{_desktopdir} \
 	$RPM_BUILD_ROOT%{_datadir}/%{name}/browser \
-	$RPM_BUILD_ROOT%{_libdir}/%{name}/browser/plugins
+	$RPM_BUILD_ROOT%{_libdir}/%{name}/browser/plugins \
+	$RPM_BUILD_ROOT%{_libdir}/%{name}-devel/sdk/{lib,bin} \
+	$RPM_BUILD_ROOT%{_includedir}/%{name} \
+	$RPM_BUILD_ROOT%{_datadir}/idl/%{name} \
+	$RPM_BUILD_ROOT%{_pkgconfigdir}
 
 %browser_plugins_add_browser %{name} -p %{_libdir}/%{name}/browser/plugins
 
@@ -328,7 +352,26 @@ cd obj-%{_target_cpu}
 %{__make} -C iceweasel/branding install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-cp -a dist/iceweasel/* $RPM_BUILD_ROOT%{_libdir}/%{name}/
+cp -aL browser/installer/*.pc $RPM_BUILD_ROOT%{_pkgconfigdir}
+cp -aL dist/iceweasel/* $RPM_BUILD_ROOT%{_libdir}/%{name}/
+cp -aL dist/idl/* $RPM_BUILD_ROOT%{_datadir}/idl/%{name}
+cp -aL dist/include/* $RPM_BUILD_ROOT%{_includedir}/%{name}
+cp -aL dist/include/xpcom-config.h $RPM_BUILD_ROOT%{_libdir}/%{name}-devel
+cp -aL dist/sdk/lib/* $RPM_BUILD_ROOT%{_libdir}/%{name}-devel/sdk/lib
+cp -aL dist/sdk/bin/* $RPM_BUILD_ROOT%{_libdir}/%{name}-devel/sdk/bin
+find $RPM_BUILD_ROOT%{_libdir}/%{name}-devel/sdk -name "*.pyc" | xargs rm -f
+
+ln -s %{_libdir}/%{name} $RPM_BUILD_ROOT%{_libdir}/%{name}-devel/bin
+ln -s %{_includedir}/%{name} $RPM_BUILD_ROOT%{_libdir}/%{name}-devel/include
+ln -s %{_datadir}/idl/%{name} $RPM_BUILD_ROOT%{_libdir}/%{name}-devel/idl
+ln -s %{_libdir}/%{name}-devel/sdk/lib $RPM_BUILD_ROOT%{_libdir}/%{name}-devel/lib
+
+# replace copies with symlinks
+%{?with_shared_js:ln -sf %{_libdir}/%{name}/libmozjs.so $RPM_BUILD_ROOT%{_libdir}/%{name}-devel/sdk/lib/libmozjs.so}
+ln -sf %{_libdir}/%{name}/libxul.so $RPM_BUILD_ROOT%{_libdir}/%{name}-devel/sdk/lib/libxul.so
+ln -sf %{_libdir}/%{name}/libmozalloc.so $RPM_BUILD_ROOT%{_libdir}/%{name}-devel/sdk/lib/libmozalloc.so
+# temp fix for https://bugzilla.mozilla.org/show_bug.cgi?id=63955
+chmod a+rx $RPM_BUILD_ROOT%{_libdir}/%{name}-devel/sdk/bin/xpt.py
 
 # move arch independant ones to datadir
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/chrome $RPM_BUILD_ROOT%{_datadir}/%{name}/browser/chrome
@@ -432,7 +475,6 @@ fi
 %{_browserpluginsconfdir}/browsers.d/%{name}.*
 %config(noreplace) %verify(not md5 mtime size) %{_browserpluginsconfdir}/blacklist.d/%{name}.*.blacklist
 
-%dir %{_libdir}/%{name}
 %dir %{_libdir}/%{name}/browser
 %dir %{_libdir}/%{name}/browser/components
 %dir %{_libdir}/%{name}/browser/plugins
@@ -471,17 +513,40 @@ fi
 %ghost %{_libdir}/%{name}/browser/components/xpti.dat
 
 # private xulrunner instance
-%{_libdir}/%{name}/dependentlibs.list
-%{_libdir}/%{name}/platform.ini
 %dir %{_libdir}/%{name}/components
 %{_libdir}/%{name}/components/components.manifest
 %attr(755,root,root) %{_libdir}/%{name}/components/libdbusservice.so
 %attr(755,root,root) %{_libdir}/%{name}/components/libmozgnome.so
-%attr(755,root,root) %{_libdir}/%{name}/libmozalloc.so
-%{?with_shared_js:%attr(755,root,root) %{_libdir}/%{name}/libmozjs.so}
-%attr(755,root,root) %{_libdir}/%{name}/libxul.so
 %attr(755,root,root) %{_libdir}/%{name}/mozilla-xremote-client
 %attr(755,root,root) %{_libdir}/%{name}/plugin-container
 %{_libdir}/%{name}/dictionaries
 %{_libdir}/%{name}/chrome.manifest
+
+%files libs
+%defattr(644,root,root,755)
+%dir %{_libdir}/%{name}
+%{_libdir}/%{name}/platform.ini
+%attr(755,root,root) %{_libdir}/%{name}/libmozalloc.so
+%{?with_shared_js:%attr(755,root,root) %{_libdir}/%{name}/libmozjs.so}
+%attr(755,root,root) %{_libdir}/%{name}/libxul.so
+%{_libdir}/%{name}/dependentlibs.list
 %{_libdir}/%{name}/omni.ja
+
+%files devel
+%defattr(644,root,root,755)
+%{_includedir}/%{name}
+%{_datadir}/idl/%{name}
+%dir %{_libdir}/%{name}-devel
+%{_libdir}/%{name}-devel/bin
+%{_libdir}/%{name}-devel/idl
+%{_libdir}/%{name}-devel/lib
+%{_libdir}/%{name}-devel/include
+%{_libdir}/%{name}-devel/*.h
+%dir %{_libdir}/%{name}-devel/sdk
+%{_libdir}/%{name}-devel/sdk/lib
+%dir %{_libdir}/%{name}-devel/sdk/bin
+%attr(755,root,root) %{_libdir}/%{name}-devel/sdk/bin/*
+%{_pkgconfigdir}/libxul.pc
+%{_pkgconfigdir}/libxul-embedding.pc
+%{_pkgconfigdir}/mozilla-js.pc
+%{_pkgconfigdir}/mozilla-plugin.pc
