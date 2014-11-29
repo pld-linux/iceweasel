@@ -261,7 +261,11 @@ ac_add_options --disable-install-strip
 ac_add_options --enable-tests
 ac_add_options --enable-mochitest
 %else
+%if %{with pgo}
+ac_add_options --enable-tests
+%else
 ac_add_options --disable-tests
+%endif
 ac_add_options --disable-mochitest
 %endif
 ac_add_options --disable-cpp-exceptions
