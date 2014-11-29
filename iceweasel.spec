@@ -24,7 +24,7 @@ Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
 Version:	33.1.1
-Release:	1.2
+Release:	1.3
 License:	MPL v2.0
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
@@ -197,6 +197,11 @@ mv -f mozilla-release mozilla
 cd mozilla
 /bin/sh %{SOURCE2}
 
+# avoid using included headers (-I. is before HUNSPELL_CFLAGS)
+%{__rm} extensions/spellcheck/hunspell/src/{*.hxx,hunspell.h}
+# hunspell needed for factory including mozHunspell.h
+echo 'LOCAL_INCLUDES += $(MOZ_HUNSPELL_CFLAGS)' >> extensions/spellcheck/src/Makefile.in
+
 %patch0 -p1
 %patch1 -p2
 %patch2 -p1
@@ -319,14 +324,16 @@ ac_add_options --with-x
 EOF
 
 %if %{with pgo}
-/usr/bin/Xvfb :100 & && XFVB_PID=$! || exit 1
+/usr/bin/Xvfb :100 &
+XVFB_PID=$!
+[ -n "$XVFB_PID" ] || exit 1
 export DISPLAY=:100
 %{__make} -j1 -f client.mk profiledbuild \
 	DESTDIR=obj-%{_target_cpu}/dist \
 	CC="%{__cc}" \
 	CXX="%{__cxx}" \
 	MOZ_MAKE_FLAGS="%{_smp_mflags}"
-kill $XFVB_PID
+kill $XVFB_PID
 %else
 %{__make} -j1 -f client.mk build \
 	CC="%{__cc}" \
