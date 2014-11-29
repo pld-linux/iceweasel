@@ -104,6 +104,7 @@ BuildRequires:	xorg-lib-libXScrnSaver-devel
 BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXinerama-devel
 BuildRequires:	xorg-lib-libXt-devel
+%{?with_pgo:BuildRequires:	xorg-xserver-Xvfb}
 BuildRequires:	zip
 BuildRequires:	zlib-devel >= 1.2.3
 BuildConflicts:	%{name}-devel < %{version}-%{release}
@@ -314,12 +315,14 @@ ac_add_options --with-x
 EOF
 
 %if %{with pgo}
+/usr/bin/Xvfb :100 & && XFVB_PID=$! || exit 1
 export DISPLAY=:100
 %{__make} -j1 -f client.mk profiledbuild \
 	DESTDIR=obj-%{_target_cpu}/dist \
 	CC="%{__cc}" \
 	CXX="%{__cxx}" \
 	MOZ_MAKE_FLAGS="%{_smp_mflags}"
+kill $XFVB_PID
 %else
 %{__make} -j1 -f client.mk build \
 	CC="%{__cc}" \
