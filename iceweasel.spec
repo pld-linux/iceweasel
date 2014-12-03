@@ -1,6 +1,5 @@
 # TODO:
 # - consider --enable-libproxy
-# - provide proper $DISPLAY for PGO (Xvfb, Xdummy...) for unattended builds
 #
 # Conditional build:
 %bcond_with	tests		# enable tests (whatever they check)
@@ -23,12 +22,12 @@ Summary:	Iceweasel web browser
 Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
-Version:	33.1.1
-Release:	1.3
+Version:	34.0.5
+Release:	0.1
 License:	MPL v2.0
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
-# Source0-md5:	2c23350a10d508f1d9b9a5f82df5dd93
+# Source0-md5:	d9b7e4819899e23466f5b0750408f128
 Source1:	%{name}-branding.tar.xz
 # Source1-md5:	67943883323103080d4a312bebb30a6a
 Source2:	%{name}-rm_nonfree.sh
@@ -98,7 +97,7 @@ BuildRequires:	readline-devel
 BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	rpmbuild(macros) >= 1.601
 BuildRequires:	sed >= 4.0
-BuildRequires:	sqlite3-devel >= 3.8.5
+BuildRequires:	sqlite3-devel >= 3.8.6
 BuildRequires:	startup-notification-devel >= 0.8
 BuildRequires:	xorg-lib-libXScrnSaver-devel
 BuildRequires:	xorg-lib-libXext-devel
@@ -541,6 +540,7 @@ fi
 %dir %{_libdir}/%{name}
 %{_libdir}/%{name}/platform.ini
 %attr(755,root,root) %{_libdir}/%{name}/libmozalloc.so
+%attr(755,root,root) %{_libdir}/%{name}/libmozsandbox.so
 %{?with_shared_js:%attr(755,root,root) %{_libdir}/%{name}/libmozjs.so}
 %attr(755,root,root) %{_libdir}/%{name}/libxul.so
 %{_libdir}/%{name}/dependentlibs.list

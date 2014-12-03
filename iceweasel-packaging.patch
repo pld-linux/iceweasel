@@ -19,7 +19,7 @@
  @BINPATH@/browser/@PREF_DIR@/firefox-l10n.js
  @BINPATH@/browser/searchplugins/*
  #ifdef XP_WIN32
-@@ -51,17 +55,23 @@
+@@ -51,28 +55,34 @@
  #endif
  
  [xpcom]
@@ -30,30 +30,41 @@
  @BINPATH@/@DLL_PREFIX@gkmedias@DLL_SUFFIX@
  #endif
 +#ifndef LIBXUL_SDK
+ #ifdef XP_MACOSX
+ @APPNAME@/Contents/MacOS/@DLL_PREFIX@mozalloc@DLL_SUFFIX@
+ #else
  @BINPATH@/@DLL_PREFIX@mozalloc@DLL_SUFFIX@
+ #endif
 +#endif
  #ifdef MOZ_SHARED_MOZGLUE
+ #ifdef XP_MACOSX
+ @APPNAME@/Contents/MacOS/@DLL_PREFIX@mozglue@DLL_SUFFIX@
+ #else
  @BINPATH@/@DLL_PREFIX@mozglue@DLL_SUFFIX@
+ #endif
  #endif
  #ifndef MOZ_STATIC_JS
 +#ifndef LIBXUL_SDK
+ #ifdef XP_MACOSX
+ @APPNAME@/Contents/MacOS/@DLL_PREFIX@mozjs@DLL_SUFFIX@
+ #else
  @BINPATH@/@DLL_PREFIX@mozjs@DLL_SUFFIX@
  #endif
 +#endif
- #ifdef MOZ_DMD
- @BINPATH@/@DLL_PREFIX@dmd@DLL_SUFFIX@
  #endif
+ #ifdef MOZ_DMD
+ #ifdef XP_MACOSX
 @@ -75,14 +85,18 @@
  #ifdef XP_MACOSX
- @BINPATH@/XUL
+ @APPNAME@/Contents/MacOS/XUL
  #else
 +#ifndef LIBXUL_SDK
  @BINPATH@/@DLL_PREFIX@xul@DLL_SUFFIX@
  #endif
 +#endif
  #ifdef XP_MACOSX
- @BINPATH@/@MOZ_CHILD_PROCESS_NAME@.app/
- @BINPATH@/@DLL_PREFIX@plugin_child_interpose@DLL_SUFFIX@
+ @APPNAME@/Contents/MacOS/@MOZ_CHILD_PROCESS_NAME@.app/
+ @APPNAME@/Contents/MacOS/@DLL_PREFIX@plugin_child_interpose@DLL_SUFFIX@
  #else
 +#ifndef LIBXUL_SDK
  @BINPATH@/@MOZ_CHILD_PROCESS_NAME@
@@ -88,13 +99,14 @@
  @BINPATH@/components/alerts.xpt
  #ifdef ACCESSIBILITY
  #ifdef XP_WIN32
-@@ -162,8 +181,10 @@
+@@ -162,9 +181,11 @@
  @BINPATH@/components/appstartup.xpt
  @BINPATH@/components/autocomplete.xpt
  @BINPATH@/components/autoconfig.xpt
 +#endif
  @BINPATH@/browser/components/browsercompsbase.xpt
  @BINPATH@/browser/components/browser-feeds.xpt
+ @BINPATH@/browser/components/browsermodules.manifest
 +#ifndef LIBXUL_SDK
  @BINPATH@/components/caps.xpt
  @BINPATH@/components/chrome.xpt

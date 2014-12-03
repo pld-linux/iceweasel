@@ -63,8 +63,8 @@ diff -ur mozilla.orig/browser/locales/en-US/chrome/overrides/netError.dtd mozill
  <button id='exceptionDialogButton'>&securityOverride.exceptionButtonLabel;</button>
 +<button id='getMeOutOfHereButton'>&securityOverride.getMeOutOfHereButton;</button>
  ">
---- a/modules/libpref/src/init/all.js
-+++ b/modules/libpref/src/init/all.js
+--- a/modules/libpref/init/all.js
++++ b/modules/libpref/init/all.js
 @@ -1510,7 +1510,7 @@ pref("layout.css.visited_links_enabled", true);
  // A value of 0 means use the system DPI. A positive value is used as the DPI.
  // This sets the physical size of a device pixel and thus controls the
