@@ -106,7 +106,8 @@ BuildRequires:	xorg-lib-libXt-devel
 %{?with_pgo:BuildRequires:	xorg-xserver-Xvfb}
 BuildRequires:	zip
 BuildRequires:	zlib-devel >= 1.2.3
-BuildConflicts:	%{name}-devel < %{version}-%{release}
+BuildConflicts:	%{name}-devel
+BuildConflicts:	xulrunner-devel
 Requires(post):	mktemp >= 1.5-18
 Requires:	browser-plugins >= 2.0
 Requires:	desktop-file-utils
