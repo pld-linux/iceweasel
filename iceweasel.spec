@@ -162,6 +162,7 @@ Requires:	libvpx >= 1.3.0
 Requires:	pango >= 1:1.22.0
 Requires:	sqlite3 >= %{sqlite_build_version}
 Requires:	startup-notification >= 0.8
+Provides:	xulrunner-libs = 2:%{version}-%{release}
 Obsoletes:	xulrunner-libs
 
 %description libs
@@ -178,6 +179,7 @@ Requires:	%{name}-libs = %{version}-%{release}
 Requires:	nspr-devel >= 1:%{nspr_ver}
 Requires:	nss-devel >= 1:%{nss_ver}
 Requires:	python-ply
+Provides:	xulrunner-devel = 2:%{version}-%{release}
 Obsoletes:	mozilla-devel
 Obsoletes:	mozilla-firefox-devel
 Obsoletes:	seamonkey-devel
