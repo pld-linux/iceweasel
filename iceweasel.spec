@@ -313,6 +313,7 @@ ac_add_options --with-default-mozilla-five-home=%{_libdir}/%{name}
 ac_add_options --with-distribution-id=org.pld-linux
 ac_add_options --with-pthreads
 ac_add_options --with-system-bz2
+ac_add_options --with-system-icu
 ac_add_options --with-system-jpeg
 ac_add_options --with-system-libevent
 ac_add_options --with-system-libvpx
@@ -321,7 +322,6 @@ ac_add_options --with-system-nss
 ac_add_options --with-system-ply
 ac_add_options --with-system-png
 ac_add_options --with-system-zlib
-ac_add_options --with-system-icu
 ac_add_options --with-x
 EOF
 
