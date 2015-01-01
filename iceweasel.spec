@@ -78,7 +78,7 @@ BuildRequires:	libjpeg-turbo-devel
 # for rsvg-convert
 BuildRequires:	librsvg
 BuildRequires:	libpng(APNG)-devel >= 0.10
-BuildRequires:	libpng-devel >= 2:1.6.10
+BuildRequires:	libpng-devel >= 2:1.6.13
 BuildRequires:	libstdc++-devel >= 6:4.4
 BuildRequires:	libvpx-devel >= 1.3.0
 BuildRequires:	nspr-devel >= 1:%{nspr_ver}
@@ -157,7 +157,7 @@ Requires:	glib2 >= 1:2.20
 %{!?with_gtk3:Requires:	gtk+2 >= 2:2.14}
 %{?with_gtk3:Requires:	gtk+3 >= 3.0.0}
 Requires:	libjpeg-turbo
-Requires:	libpng >= 2:1.6.10
+Requires:	libpng >= 2:1.6.13
 Requires:	libpng(APNG) >= 0.10
 Requires:	libvpx >= 1.3.0
 Requires:	pango >= 1:1.22.0
