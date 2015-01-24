@@ -22,12 +22,12 @@ Summary:	Iceweasel web browser
 Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
-Version:	34.0.5
-Release:	2
+Version:	35.0
+Release:	1
 License:	MPL v2.0
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
-# Source0-md5:	d9b7e4819899e23466f5b0750408f128
+# Source0-md5:	d8ec0cad257e02d379828785e8790e17
 Source1:	%{name}-branding.tar.xz
 # Source1-md5:	67943883323103080d4a312bebb30a6a
 Source2:	%{name}-rm_nonfree.sh
@@ -214,7 +214,7 @@ echo 'LOCAL_INCLUDES += $(MOZ_HUNSPELL_CFLAGS)' >> extensions/spellcheck/src/Mak
 %patch7 -p1
 %patch8 -p2
 %patch9 -p2
-%patch10 -p2
+%patch10 -p1
 %patch11 -p2
 %patch12 -p1
 

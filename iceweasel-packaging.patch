@@ -1,6 +1,7 @@
---- iceweasel-32.0.3/mozilla/browser/installer/package-manifest.in~	2014-09-24 03:05:09.000000000 +0200
-+++ iceweasel-32.0.3/mozilla/browser/installer/package-manifest.in	2014-09-28 03:16:25.047988707 +0200
-@@ -32,14 +32,18 @@
+diff -ruN mozilla-release.orig/browser/installer/package-manifest.in mozilla-release/browser/installer/package-manifest.in
+--- mozilla-release.orig/browser/installer/package-manifest.in	2015-01-09 05:38:16.000000000 +0100
++++ mozilla-release/browser/installer/package-manifest.in	2015-01-24 14:11:47.692555975 +0100
+@@ -31,14 +31,18 @@
  [@AB_CD@]
  @BINPATH@/browser/chrome/@AB_CD@@JAREXT@
  @BINPATH@/browser/chrome/@AB_CD@.manifest
@@ -19,7 +20,7 @@
  @BINPATH@/browser/@PREF_DIR@/firefox-l10n.js
  @BINPATH@/browser/searchplugins/*
  #ifdef XP_WIN32
-@@ -51,28 +55,34 @@
+@@ -50,15 +54,19 @@
  #endif
  
  [xpcom]
@@ -39,8 +40,7 @@
  #ifdef MOZ_SHARED_MOZGLUE
  #ifdef XP_MACOSX
  @APPNAME@/Contents/MacOS/@DLL_PREFIX@mozglue@DLL_SUFFIX@
- #else
- @BINPATH@/@DLL_PREFIX@mozglue@DLL_SUFFIX@
+@@ -67,12 +75,14 @@
  #endif
  #endif
  #ifndef MOZ_STATIC_JS
@@ -50,11 +50,12 @@
  #else
  @BINPATH@/@DLL_PREFIX@mozjs@DLL_SUFFIX@
  #endif
-+#endif
  #endif
++#endif
  #ifdef MOZ_DMD
  #ifdef XP_MACOSX
-@@ -75,14 +85,18 @@
+ @APPNAME@/Contents/MacOS/@DLL_PREFIX@dmd@DLL_SUFFIX@
+@@ -90,14 +100,18 @@
  #ifdef XP_MACOSX
  @APPNAME@/Contents/MacOS/XUL
  #else
@@ -72,8 +73,8 @@
 +#endif
  #ifdef XP_WIN32
  @BINPATH@/plugin-hang-ui@BIN_SUFFIX@
- #if MOZ_MSVC_REDIST == 1600
-@@ -135,7 +149,9 @@
+ #if MOZ_PACKAGE_MSVC_DLLS
+@@ -151,7 +165,9 @@
  #ifdef MOZ_UPDATER
  @BINPATH@/update-settings.ini
  #endif
@@ -83,7 +84,7 @@
  #ifndef MOZ_NATIVE_SQLITE
  #ifndef MOZ_FOLD_LIBS
  @BINPATH@/@DLL_PREFIX@mozsqlite3@DLL_SUFFIX@
-@@ -145,12 +161,15 @@
+@@ -161,12 +177,15 @@
  #ifdef XP_UNIX
  #ifndef XP_MACOSX
  @BINPATH@/run-mozilla.sh
@@ -99,7 +100,7 @@
  @BINPATH@/components/alerts.xpt
  #ifdef ACCESSIBILITY
  #ifdef XP_WIN32
-@@ -162,9 +181,11 @@
+@@ -178,9 +197,11 @@
  @BINPATH@/components/appstartup.xpt
  @BINPATH@/components/autocomplete.xpt
  @BINPATH@/components/autoconfig.xpt
@@ -111,7 +112,7 @@
  @BINPATH@/components/caps.xpt
  @BINPATH@/components/chrome.xpt
  @BINPATH@/components/commandhandler.xpt
-@@ -238,7 +259,9 @@
+@@ -258,7 +279,9 @@
  @BINPATH@/components/filepicker.xpt
  #endif
  @BINPATH@/components/find.xpt
@@ -121,7 +122,7 @@
  @BINPATH@/components/gfx.xpt
  @BINPATH@/components/html5.xpt
  @BINPATH@/components/htmlparser.xpt
-@@ -262,7 +285,9 @@
+@@ -279,7 +302,9 @@
  @BINPATH@/components/layout_xul.xpt
  @BINPATH@/components/locale.xpt
  @BINPATH@/components/lwbrk.xpt
@@ -131,7 +132,7 @@
  @BINPATH@/components/mimetype.xpt
  @BINPATH@/components/mozfind.xpt
  @BINPATH@/components/necko_about.xpt
-@@ -299,12 +324,16 @@
+@@ -316,12 +341,16 @@
  @BINPATH@/components/rdf.xpt
  @BINPATH@/components/satchel.xpt
  @BINPATH@/components/saxparser.xpt
@@ -148,7 +149,7 @@
  @BINPATH@/components/shistory.xpt
  @BINPATH@/components/spellchecker.xpt
  @BINPATH@/components/storage.xpt
-@@ -343,8 +372,10 @@
+@@ -364,8 +393,10 @@
  @BINPATH@/components/xultmpl.xpt
  @BINPATH@/components/zipwriter.xpt
  @BINPATH@/components/telemetry.xpt
@@ -159,7 +160,7 @@
  @BINPATH@/components/ChromeNotifications.js
  @BINPATH@/components/ChromeNotifications.manifest
  @BINPATH@/components/ConsoleAPI.manifest
-@@ -353,6 +384,7 @@
+@@ -374,6 +405,7 @@
  @BINPATH@/components/BrowserElementParent.js
  @BINPATH@/components/FeedProcessor.manifest
  @BINPATH@/components/FeedProcessor.js
@@ -167,7 +168,7 @@
  @BINPATH@/browser/components/BrowserFeeds.manifest
  @BINPATH@/browser/components/FeedConverter.js
  @BINPATH@/browser/components/FeedWriter.js
-@@ -373,6 +405,7 @@
+@@ -396,6 +428,7 @@
  @BINPATH@/browser/components/Experiments.manifest
  @BINPATH@/browser/components/ExperimentsService.js
  @BINPATH@/browser/components/translation.manifest
@@ -175,7 +176,7 @@
  @BINPATH@/components/Downloads.manifest
  @BINPATH@/components/DownloadLegacy.js
  @BINPATH@/components/BrowserPageThumbs.manifest
-@@ -404,8 +437,10 @@
+@@ -427,8 +460,10 @@
  @BINPATH@/components/nsDownloadManagerUI.js
  @BINPATH@/components/NetworkGeolocationProvider.manifest
  @BINPATH@/components/NetworkGeolocationProvider.js
@@ -186,10 +187,10 @@
  @BINPATH@/components/extensions.manifest
  @BINPATH@/components/addonManager.js
  @BINPATH@/components/amContentHandler.js
-@@ -420,12 +455,16 @@
- @BINPATH@/components/nsUpdateTimerManager.manifest
- @BINPATH@/components/nsUpdateTimerManager.js
- @BINPATH@/components/pluginGlue.manifest
+@@ -448,12 +483,16 @@
+ @BINPATH@/components/ProcessSingleton.manifest
+ @BINPATH@/components/MainProcessSingleton.js
+ @BINPATH@/components/ContentProcessSingleton.js
 +#endif
  @BINPATH@/browser/components/nsSessionStore.manifest
  @BINPATH@/browser/components/nsSessionStartup.js
@@ -203,7 +204,7 @@
  @BINPATH@/components/txEXSLTRegExFunctions.manifest
  @BINPATH@/components/txEXSLTRegExFunctions.js
  @BINPATH@/components/toolkitplaces.manifest
-@@ -436,7 +475,9 @@
+@@ -464,7 +503,9 @@
  @BINPATH@/components/UnifiedComplete.manifest
  @BINPATH@/components/UnifiedComplete.js
  @BINPATH@/components/nsPlacesExpiration.js
@@ -213,15 +214,15 @@
  @BINPATH@/components/PlacesCategoriesStarter.js
  @BINPATH@/components/ColorAnalyzer.js
  @BINPATH@/components/PageThumbsProtocol.js
-@@ -461,6 +502,7 @@
- @BINPATH@/components/contentSecurityPolicy.js
+@@ -488,6 +529,7 @@
+ @BINPATH@/components/FormAutofillStartup.js
  @BINPATH@/components/contentAreaDropListener.manifest
  @BINPATH@/components/contentAreaDropListener.js
 +#endif
  @BINPATH@/browser/components/BrowserProfileMigrators.manifest
  @BINPATH@/browser/components/ProfileMigrator.js
  @BINPATH@/browser/components/ChromeProfileMigrator.js
-@@ -472,6 +514,7 @@
+@@ -499,6 +541,7 @@
  #ifdef XP_MACOSX
  @BINPATH@/browser/components/SafariProfileMigrator.js
  #endif
@@ -229,7 +230,7 @@
  #ifdef MOZ_ENABLE_DBUS
  @BINPATH@/components/@DLL_PREFIX@dbusservice@DLL_SUFFIX@
  #endif
-@@ -588,19 +631,24 @@
+@@ -622,19 +665,24 @@
  @BINPATH@/components/TestInterfaceJS.js
  @BINPATH@/components/TestInterfaceJS.manifest
  #endif
@@ -254,7 +255,7 @@
  
  ; ANGLE GLES-on-D3D rendering library
  #ifdef MOZ_ANGLE_RENDERER
-@@ -628,10 +676,12 @@
+@@ -662,10 +710,12 @@
  #endif
  @BINPATH@/browser/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}/install.rdf
  @BINPATH@/browser/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}/icon.png
@@ -267,7 +268,7 @@
  #ifdef MOZ_GTK
  @BINPATH@/browser/chrome/icons/default/default16.png
  @BINPATH@/browser/chrome/icons/default/default32.png
-@@ -661,9 +711,11 @@
+@@ -693,9 +743,11 @@
  ; All the pref files must be part of base to prevent migration bugs
  @BINPATH@/browser/@PREF_DIR@/firefox.js
  @BINPATH@/browser/@PREF_DIR@/firefox-branding.js
@@ -279,7 +280,7 @@
  @BINPATH@/browser/defaults/profile/prefs.js
  
  #ifndef LIBXUL_SDK
-@@ -673,7 +725,7 @@
+@@ -705,7 +757,7 @@
  @BINPATH@/defaults/pref/channel-prefs.js
  #else
  ; For Fx-on-xr, channel-prefs lives with the app preferences. (Bug 762588)
@@ -288,7 +289,7 @@
  #endif
  
  ; Services (gre) prefs
-@@ -681,11 +733,14 @@
+@@ -713,11 +765,14 @@
  @BINPATH@/defaults/pref/services-notifications.js
  #endif
  #ifdef MOZ_SERVICES_SYNC
@@ -303,7 +304,7 @@
  @BINPATH@/res/EditorOverride.css
  @BINPATH@/res/contenteditable.css
  @BINPATH@/res/designmode.css
-@@ -723,11 +778,14 @@
+@@ -755,11 +810,14 @@
  #ifdef XP_MACOSX
  @BINPATH@/res/MainMenu.nib/
  #endif
@@ -318,9 +319,9 @@
  
  ; [Personal Security Manager]
  ;
-@@ -748,11 +806,13 @@
- #endif
+@@ -794,11 +852,13 @@
  @BINPATH@/@DLL_PREFIX@softokn3@DLL_SUFFIX@
+ #endif
  #endif
 +#ifndef LIBXUL_SDK
  @BINPATH@/chrome/pippki@JAREXT@
@@ -330,9 +331,9 @@
  @BINPATH@/components/pippki.xpt
 +#endif
  
- ; For content sandboxing
- #if defined(XP_WIN) && defined(MOZ_CONTENT_SANDBOX)
-@@ -859,9 +919,11 @@
+ ; For process sandboxing
+ #if defined(MOZ_SANDBOX)
+@@ -913,9 +973,11 @@
  @BINPATH@/metro/modules
  #endif
  
