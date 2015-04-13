@@ -1,5 +1,6 @@
 # TODO:
 # - consider --enable-libproxy
+# - package libclearkey.so (where?)
 #
 # Conditional build:
 %bcond_with	tests		# enable tests (whatever they check)
@@ -22,12 +23,12 @@ Summary:	Iceweasel web browser
 Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
-Version:	35.0.1
+Version:	37.0.1
 Release:	1
 License:	MPL v2.0
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
-# Source0-md5:	82eda528e4570b181aadcee602afda2d
+# Source0-md5:	2d466d850ef9b0a71bce3b208f5f884c
 Source1:	%{name}-branding.tar.xz
 # Source1-md5:	67943883323103080d4a312bebb30a6a
 Source2:	%{name}-rm_nonfree.sh
@@ -532,7 +533,6 @@ fi
 %{_libdir}/%{name}/components/components.manifest
 %attr(755,root,root) %{_libdir}/%{name}/components/libdbusservice.so
 %attr(755,root,root) %{_libdir}/%{name}/components/libmozgnome.so
-%attr(755,root,root) %{_libdir}/%{name}/mozilla-xremote-client
 %attr(755,root,root) %{_libdir}/%{name}/plugin-container
 %{_libdir}/%{name}/dictionaries
 %{_libdir}/%{name}/chrome.manifest
@@ -542,7 +542,6 @@ fi
 %dir %{_libdir}/%{name}
 %{_libdir}/%{name}/platform.ini
 %attr(755,root,root) %{_libdir}/%{name}/libmozalloc.so
-%attr(755,root,root) %{_libdir}/%{name}/libmozsandbox.so
 %{?with_shared_js:%attr(755,root,root) %{_libdir}/%{name}/libmozjs.so}
 %attr(755,root,root) %{_libdir}/%{name}/libxul.so
 %{_libdir}/%{name}/dependentlibs.list
