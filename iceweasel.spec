@@ -537,6 +537,11 @@ fi
 %{_libdir}/%{name}/dictionaries
 %{_libdir}/%{name}/chrome.manifest
 
+%dir %{_libdir}/%{name}/gmp-clearkey
+%dir %{_libdir}/%{name}/gmp-clearkey/0.1
+%{_libdir}/%{name}/gmp-clearkey/0.1/clearkey.info
+%attr(755,root,root) %{_libdir}/%{name}/gmp-clearkey/0.1/libclearkey.so
+
 %files libs
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}
@@ -560,7 +565,16 @@ fi
 %dir %{_libdir}/%{name}-devel/sdk
 %{_libdir}/%{name}-devel/sdk/lib
 %dir %{_libdir}/%{name}-devel/sdk/bin
-%attr(755,root,root) %{_libdir}/%{name}-devel/sdk/bin/*
+%attr(755,root,root) %{_libdir}/%{name}-devel/sdk/bin/header.py
+%attr(755,root,root) %{_libdir}/%{name}-devel/sdk/bin/run-mozilla.sh
+%attr(755,root,root) %{_libdir}/%{name}-devel/sdk/bin/typelib.py
+%attr(755,root,root) %{_libdir}/%{name}-devel/sdk/bin/xpcshell
+%attr(755,root,root) %{_libdir}/%{name}-devel/sdk/bin/xpidl.py
+%{_libdir}/%{name}-devel/sdk/bin/xpidllex.py
+%{_libdir}/%{name}-devel/sdk/bin/xpidlyacc.py
+%attr(755,root,root) %{_libdir}/%{name}-devel/sdk/bin/xpt.py
+%{_libdir}/%{name}-devel/sdk/bin/ply
+
 %{_pkgconfigdir}/libxul.pc
 %{_pkgconfigdir}/libxul-embedding.pc
 %{_pkgconfigdir}/mozilla-js.pc
