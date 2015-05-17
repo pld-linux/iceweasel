@@ -1,6 +1,5 @@
 # TODO:
 # - consider --enable-libproxy
-# - package libclearkey.so (where?)
 #
 # Conditional build:
 %bcond_with	tests		# enable tests (whatever they check)
