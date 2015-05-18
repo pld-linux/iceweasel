@@ -325,10 +325,11 @@ ac_add_options --with-x
 EOF
 
 %if %{with pgo}
-/usr/bin/Xvfb :100 &
+D=$(( RANDOM % (200 - 100 + 1 ) + 5 ))
+/usr/bin/Xvfb :${D} &
 XVFB_PID=$!
 [ -n "$XVFB_PID" ] || exit 1
-export DISPLAY=:100
+export DISPLAY=:${D}
 %{__make} -j1 -f client.mk profiledbuild \
 	DESTDIR=obj-%{_target_cpu}/dist \
 	CC="%{__cc}" \
