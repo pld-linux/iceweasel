@@ -160,17 +160,6 @@ diff -ruN mozilla-release.orig/browser/installer/package-manifest.in mozilla-rel
  @RESPATH@/components/Downloads.manifest
  @RESPATH@/components/DownloadLegacy.js
  @RESPATH@/components/BrowserPageThumbs.manifest
-@@ -414,8 +445,10 @@
- @RESPATH@/components/nsHelperAppDlg.js
- @RESPATH@/components/NetworkGeolocationProvider.manifest
- @RESPATH@/components/NetworkGeolocationProvider.js
-+#endif
- @RESPATH@/browser/components/nsSidebar.manifest
- @RESPATH@/browser/components/nsSidebar.js
-+#ifndef LIBXUL_SDK
- @RESPATH@/components/extensions.manifest
- @RESPATH@/components/addonManager.js
- @RESPATH@/components/amContentHandler.js
 @@ -436,12 +469,16 @@
  @RESPATH@/components/ProcessSingleton.manifest
  @RESPATH@/components/MainProcessSingleton.js
@@ -188,16 +177,6 @@ diff -ruN mozilla-release.orig/browser/installer/package-manifest.in mozilla-rel
  @RESPATH@/components/txEXSLTRegExFunctions.manifest
  @RESPATH@/components/txEXSLTRegExFunctions.js
  @RESPATH@/components/toolkitplaces.manifest
-@@ -452,7 +489,9 @@
- @RESPATH@/components/UnifiedComplete.manifest
- @RESPATH@/components/UnifiedComplete.js
- @RESPATH@/components/nsPlacesExpiration.js
-+#endif
- @RESPATH@/browser/components/PlacesProtocolHandler.js
-+#ifndef LIBXUL_SDK
- @RESPATH@/components/PlacesCategoriesStarter.js
- @RESPATH@/components/ColorAnalyzer.js
- @RESPATH@/components/PageThumbsProtocol.js
 @@ -476,6 +515,7 @@
  @RESPATH@/components/FormAutofillStartup.js
  @RESPATH@/components/contentAreaDropListener.manifest

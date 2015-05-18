@@ -71,12 +71,15 @@ diff -ruN mozilla-release.orig/browser/locales/en-US/chrome/overrides/appstrings
  contentEncodingError=The page you are trying to view cannot be shown because it uses an invalid or unsupported form of compression.
  unsafeContentType=The page you are trying to view cannot be shown because it is contained in a file type that may not be safe to open. Please contact the website owners to inform them of this problem.
  externalProtocolTitle=External Protocol Request
-@@ -33,4 +33,4 @@
+@@ -33,6 +33,6 @@
  phishingBlocked=The website at %S has been reported as a web forgery designed to trick users into sharing personal or financial information.
  cspFrameAncestorBlocked=This page has a content security policy that prevents it from being embedded in this way.
  corruptedContentError=The page you are trying to view cannot be shown because an error in the data transmission was detected.
 -remoteXUL=This page uses an unsupported technology that is no longer available by default in Firefox.
 +#expand remoteXUL=This page uses an unsupported technology that is no longer available by default in __MOZ_APP_DISPLAYNAME__.
+ ## LOCALIZATION NOTE (sslv3Used) - Do not translate "%S".
+-sslv3Used=Firefox cannot guarantee the safety of your data on %S because it uses SSLv3, a broken security protocol.
++#expand sslv3Used=__MOZ_APP_DISPLAYNAME__ cannot guarantee the safety of your data on %S because it uses SSLv3, a broken security protocol.
 diff -ruN mozilla-release.orig/browser/locales/en-US/searchplugins/answers.xml mozilla-release/browser/locales/en-US/searchplugins/answers.xml
 --- mozilla-release.orig/browser/locales/en-US/searchplugins/answers.xml	2015-01-09 05:38:16.000000000 +0100
 +++ mozilla-release/browser/locales/en-US/searchplugins/answers.xml	2015-01-24 13:54:51.648931621 +0100
