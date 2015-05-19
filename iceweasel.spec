@@ -16,7 +16,7 @@
 %define		sqlite_build_version %(pkg-config --silence-errors --modversion sqlite3 2>/dev/null || echo ERROR)
 
 %define		nspr_ver	4.10.6
-%define		nss_ver		3.17.2
+%define		nss_ver		3.18.1
 
 Summary:	Iceweasel web browser
 Summary(hu.UTF-8):	Iceweasel web böngésző
@@ -97,7 +97,7 @@ BuildRequires:	readline-devel
 BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	rpmbuild(macros) >= 1.601
 BuildRequires:	sed >= 4.0
-BuildRequires:	sqlite3-devel >= 3.8.6
+BuildRequires:	sqlite3-devel >= 3.8.9
 BuildRequires:	startup-notification-devel >= 0.8
 BuildRequires:	xorg-lib-libXScrnSaver-devel
 BuildRequires:	xorg-lib-libXext-devel
