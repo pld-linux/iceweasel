@@ -132,3 +132,22 @@ diff -ruN mozilla-release.orig/modules/libpref/init/all.js mozilla-release/modul
  pref("urlclassifier.downloadBlockTable", "");
  pref("urlclassifier.downloadAllowTable", "");
  pref("urlclassifier.disallow_completions", "test-malware-simple,test-phish-simple,goog-downloadwhite-digest256,mozpub-track-digest256");
+diff -urN mozilla.org/iceweasel/branding/Makefile.in mozilla/iceweasel/branding/Makefile.in
+--- mozilla.org/iceweasel/branding/Makefile.in	2013-06-26 01:46:34.000000000 +0200
++++ mozilla/iceweasel/branding/Makefile.in	2015-05-19 10:28:01.642979164 +0200
+@@ -10,8 +10,6 @@
+ 
+ include $(DEPTH)/config/autoconf.mk
+ 
+-PREF_JS_EXPORTS += $(srcdir)/firefox-branding.js
+-
+ ifndef BRANDING_TEST
+ EXTRA_COMPONENTS := aboutIce.js aboutIce.manifest
+ else
+diff -urN mozilla.org/iceweasel/branding/moz.build mozilla/iceweasel/branding/moz.build
+--- mozilla.org/iceweasel/branding/moz.build	2014-08-09 02:37:17.000000000 +0200
++++ mozilla/iceweasel/branding/moz.build	2015-05-19 10:28:57.857759768 +0200
+@@ -1,2 +1,3 @@
+ DIRS += ['content', 'locales']
+ JAR_MANIFESTS += ['jar.mn']
++JS_PREFERENCE_FILES += ['firefox-branding.js']
