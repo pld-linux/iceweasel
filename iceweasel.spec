@@ -15,7 +15,7 @@
 # The actual sqlite version (see RHBZ#480989):
 %define		sqlite_build_version %(pkg-config --silence-errors --modversion sqlite3 2>/dev/null || echo ERROR)
 
-%define		nspr_ver	4.10.6
+%define		nspr_ver	4.10.8
 %define		nss_ver		3.18.1
 
 Summary:	Iceweasel web browser
@@ -59,15 +59,16 @@ BuildRequires:	cairo-devel >= 1.10.2-5
 BuildRequires:	dbus-glib-devel >= 0.60
 BuildRequires:	freetype-devel >= 1:2.1.8
 BuildRequires:	gcc-c++ >= 6:4.4
-BuildRequires:	glib2-devel >= 1:2.20
+BuildRequires:	glib2-devel >= 1:2.22
 BuildRequires:	gstreamer-devel >= 1.0
 BuildRequires:	gstreamer-plugins-base-devel >= 1.0
-%{!?with_gtk3:BuildRequires:	gtk+2-devel >= 2:2.14}
-%{?with_gtk3:BuildRequires:	gtk+3-devel >= 3.0.0}
+%{!?with_gtk3:BuildRequires:	gtk+2-devel >= 2:2.18.0}
+%{?with_gtk3:BuildRequires:	gtk+3-devel >= 3.4.0}
 %{?with_kerberos:BuildRequires:	heimdal-devel >= 0.7.1}
 BuildRequires:	hunspell-devel >= 1.2.3
 BuildRequires:	libIDL-devel >= 0.8.0
-BuildRequires:	libdnet-devel
+# DECnet (dnprogs.spec), not dummy net (libdnet.spec)
+#BuildRequires:	libdnet-devel
 BuildRequires:	libevent-devel >= 1.4.7
 # standalone libffi 3.0.9 or gcc's from 4.5(?)+
 BuildRequires:	libffi-devel >= 6:3.0.9
@@ -78,7 +79,7 @@ BuildRequires:	libjpeg-turbo-devel
 # for rsvg-convert
 BuildRequires:	librsvg
 BuildRequires:	libpng(APNG)-devel >= 0.10
-BuildRequires:	libpng-devel >= 2:1.6.13
+BuildRequires:	libpng-devel >= 2:1.6.16
 BuildRequires:	libstdc++-devel >= 6:4.4
 BuildRequires:	libvpx-devel >= 1.3.0
 BuildRequires:	nspr-devel >= 1:%{nspr_ver}
@@ -152,11 +153,11 @@ Summary(pl.UTF-8):	Biblioteki współdzielone Iceweasela
 Group:		X11/Libraries
 Requires:	cairo >= 1.10.2-5
 Requires:	dbus-glib >= 0.60
-Requires:	glib2 >= 1:2.20
-%{!?with_gtk3:Requires:	gtk+2 >= 2:2.14}
-%{?with_gtk3:Requires:	gtk+3 >= 3.0.0}
+Requires:	glib2 >= 1:2.22
+%{!?with_gtk3:Requires:	gtk+2 >= 2:2.18.0}
+%{?with_gtk3:Requires:	gtk+3 >= 3.4.0}
 Requires:	libjpeg-turbo
-Requires:	libpng >= 2:1.6.13
+Requires:	libpng >= 2:1.6.16
 Requires:	libpng(APNG) >= 0.10
 Requires:	libvpx >= 1.3.0
 Requires:	pango >= 1:1.22.0
