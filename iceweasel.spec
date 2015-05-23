@@ -132,7 +132,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_noautoprovfiles	%{_libdir}/%{name}
 
 # and as we don't provide them, don't require either
-%define		_noautoreq	libmozalloc.so libmozjs.so libxpcom.so libxul.so
+%define		_noautoreq	libmozalloc.so libmozjs.so libxul.so
 
 %description
 Iceweasel is an open-source web browser, designed for standards
