@@ -48,6 +48,7 @@ Patch9:		%{name}-middle_click_paste.patch
 Patch10:	%{name}-packaging.patch
 Patch11:	system-virtualenv.patch
 Patch12:	Disable-Firefox-Health-Report.patch
+Patch13:	freetype-2.6.patch
 URL:		http://www.pld-linux.org/Packages/Iceweasel
 BuildRequires:	OpenGL-devel
 BuildRequires:	ImageMagick
@@ -57,7 +58,7 @@ BuildRequires:	automake
 BuildRequires:	bzip2-devel
 BuildRequires:	cairo-devel >= 1.10.2-5
 BuildRequires:	dbus-glib-devel >= 0.60
-BuildRequires:	freetype-devel >= 1:2.1.8
+BuildRequires:	freetype-devel >= 1:2.6
 BuildRequires:	gcc-c++ >= 6:4.4
 BuildRequires:	glib2-devel >= 1:2.22
 BuildRequires:	gstreamer-devel >= 1.0
@@ -217,6 +218,7 @@ echo 'LOCAL_INCLUDES += $(MOZ_HUNSPELL_CFLAGS)' >> extensions/spellcheck/src/Mak
 %patch10 -p1
 %patch11 -p2
 %patch12 -p1
+%patch13 -p1
 
 cp -a xulrunner/installer/*.pc.in browser/installer/
 

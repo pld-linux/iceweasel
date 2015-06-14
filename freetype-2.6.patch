@@ -1,0 +1,31 @@
+--- mozilla/gfx/skia/trunk/src/ports/SkFontHost_FreeType.cpp~	2015-05-25 23:28:39.000000000 +0200
++++ mozilla/gfx/skia/trunk/src/ports/SkFontHost_FreeType.cpp	2015-06-14 11:20:11.673675291 +0200
+@@ -39,7 +39,7 @@
+ #include FT_BITMAP_H
+ // In the past, FT_GlyphSlot_Own_Bitmap was defined in this header file.
+ #include FT_SYNTHESIS_H
+-#include FT_XFREE86_H
++#include FT_FONT_FORMATS_H
+ #ifdef FT_LCD_FILTER_H
+ #include FT_LCD_FILTER_H
+ #endif
+@@ -557,7 +557,7 @@
+     info->fEmSize = 1000;
+ 
+     bool cid = false;
+-    const char* fontType = FT_Get_X11_Font_Format(face);
++    const char* fontType = FT_Get_Font_Format(face);
+     if (strcmp(fontType, "Type 1") == 0) {
+         info->fType = SkAdvancedTypefaceMetrics::kType1_Font;
+     } else if (strcmp(fontType, "CID Type 1") == 0) {
+--- mozilla/gfx/cairo/cairo/src/cairo-ft-font.c~	2015-05-25 23:28:55.000000000 +0200
++++ mozilla/gfx/cairo/cairo/src/cairo-ft-font.c	2015-06-14 11:21:19.521750404 +0200
+@@ -1252,7 +1252,7 @@
+ 
+ 	    align = cairo_format_stride_for_width (format, bitmap->width);
+ 
+-	    FT_Bitmap_New( &tmp );
++	    FT_Bitmap_Init( &tmp );
+ 
+ 	    if (FT_Bitmap_Convert( library, bitmap, &tmp, align ))
+ 		return _cairo_error (CAIRO_STATUS_NO_MEMORY);
