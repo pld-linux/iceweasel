@@ -1,9 +1,9 @@
---- iceweasel-13.0/mozilla/browser/base/content/browser.js.orig	2012-06-06 11:12:17.021562264 +0200
-+++ iceweasel-13.0/mozilla/browser/base/content/browser.js	2012-06-06 11:21:37.000000000 +0200
-@@ -5110,12 +5110,9 @@ function middleMousePaste(event) {
+--- iceweasel-39.0/mozilla/browser/base/content/browser.js.orig	2015-07-01 00:57:52.000000000 +0200
++++ iceweasel-39.0/mozilla/browser/base/content/browser.js	2015-07-06 00:41:46.157143227 +0200
+@@ -5656,12 +5656,9 @@
    }
  
-   getShortcutOrURIAndPostData(clipboard, data => {
+   getShortcutOrURIAndPostData(clipboard).then(data => {
 -    try {
 -      makeURI(data.url);
 -    } catch (ex) {
@@ -16,4 +16,3 @@
  
      try {
        addToUrlbarHistory(data.url);
-

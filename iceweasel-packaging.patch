@@ -1,6 +1,6 @@
 diff -ruN mozilla-release.orig/browser/installer/package-manifest.in mozilla-release/browser/installer/package-manifest.in
---- mozilla-release.orig/browser/installer/package-manifest.in	2015-04-03 04:30:05.000000000 +0200
-+++ mozilla-release/browser/installer/package-manifest.in	2015-04-12 16:46:15.409547636 +0200
+--- mozilla-release.orig/browser/installer/package-manifest.in	2015-07-01 00:57:55.000000000 +0200
++++ mozilla-release/browser/installer/package-manifest.in	2015-07-06 01:01:58.050062162 +0200
 @@ -44,14 +44,18 @@
  [@AB_CD@]
  @RESPATH@/browser/chrome/@AB_CD@@JAREXT@
@@ -65,7 +65,7 @@ diff -ruN mozilla-release.orig/browser/installer/package-manifest.in mozilla-rel
  #ifdef XP_WIN32
  @BINPATH@/plugin-hang-ui@BIN_SUFFIX@
  #if MOZ_PACKAGE_MSVC_DLLS
-@@ -141,7 +155,9 @@
+@@ -147,7 +161,9 @@
  #ifdef MOZ_UPDATER
  @RESPATH@/update-settings.ini
  #endif
@@ -75,7 +75,7 @@ diff -ruN mozilla-release.orig/browser/installer/package-manifest.in mozilla-rel
  #ifndef MOZ_NATIVE_SQLITE
  #ifndef MOZ_FOLD_LIBS
  @BINPATH@/@DLL_PREFIX@mozsqlite3@DLL_SUFFIX@
-@@ -156,6 +172,7 @@
+@@ -162,6 +178,7 @@
  
  ; [Components]
  @RESPATH@/browser/components/components.manifest
@@ -83,7 +83,7 @@ diff -ruN mozilla-release.orig/browser/installer/package-manifest.in mozilla-rel
  @RESPATH@/components/alerts.xpt
  #ifdef ACCESSIBILITY
  #ifdef XP_WIN32
-@@ -167,10 +184,12 @@
+@@ -173,10 +190,12 @@
  @RESPATH@/components/appstartup.xpt
  @RESPATH@/components/autocomplete.xpt
  @RESPATH@/components/autoconfig.xpt
@@ -96,7 +96,7 @@ diff -ruN mozilla-release.orig/browser/installer/package-manifest.in mozilla-rel
  @RESPATH@/components/caps.xpt
  @RESPATH@/components/chrome.xpt
  @RESPATH@/components/commandhandler.xpt
-@@ -249,7 +268,9 @@
+@@ -258,7 +277,9 @@
  @RESPATH@/components/filepicker.xpt
  #endif
  @RESPATH@/components/find.xpt
@@ -106,7 +106,7 @@ diff -ruN mozilla-release.orig/browser/installer/package-manifest.in mozilla-rel
  @RESPATH@/components/gfx.xpt
  @RESPATH@/components/html5.xpt
  @RESPATH@/components/htmlparser.xpt
-@@ -270,7 +291,9 @@
+@@ -278,7 +299,9 @@
  @RESPATH@/components/layout_xul.xpt
  @RESPATH@/components/locale.xpt
  @RESPATH@/components/lwbrk.xpt
@@ -116,7 +116,7 @@ diff -ruN mozilla-release.orig/browser/installer/package-manifest.in mozilla-rel
  @RESPATH@/components/mimetype.xpt
  @RESPATH@/components/mozfind.xpt
  @RESPATH@/components/necko_about.xpt
-@@ -307,12 +330,16 @@
+@@ -315,12 +338,16 @@
  @RESPATH@/components/rdf.xpt
  @RESPATH@/components/satchel.xpt
  @RESPATH@/components/saxparser.xpt
@@ -133,7 +133,7 @@ diff -ruN mozilla-release.orig/browser/installer/package-manifest.in mozilla-rel
  @RESPATH@/components/shistory.xpt
  @RESPATH@/components/spellchecker.xpt
  @RESPATH@/components/storage.xpt
-@@ -354,8 +381,10 @@
+@@ -362,8 +389,10 @@
  @RESPATH@/components/xultmpl.xpt
  @RESPATH@/components/zipwriter.xpt
  @RESPATH@/components/telemetry.xpt
@@ -144,7 +144,7 @@ diff -ruN mozilla-release.orig/browser/installer/package-manifest.in mozilla-rel
  @RESPATH@/components/ChromeNotifications.js
  @RESPATH@/components/ChromeNotifications.manifest
  @RESPATH@/components/ConsoleAPI.manifest
-@@ -364,6 +393,7 @@
+@@ -372,6 +401,7 @@
  @RESPATH@/components/BrowserElementParent.js
  @RESPATH@/components/FeedProcessor.manifest
  @RESPATH@/components/FeedProcessor.js
@@ -152,7 +152,7 @@ diff -ruN mozilla-release.orig/browser/installer/package-manifest.in mozilla-rel
  @RESPATH@/browser/components/BrowserFeeds.manifest
  @RESPATH@/browser/components/FeedConverter.js
  @RESPATH@/browser/components/FeedWriter.js
-@@ -385,6 +415,7 @@
+@@ -390,6 +420,7 @@
  @RESPATH@/browser/components/Experiments.manifest
  @RESPATH@/browser/components/ExperimentsService.js
  @RESPATH@/browser/components/translation.manifest
@@ -160,7 +160,7 @@ diff -ruN mozilla-release.orig/browser/installer/package-manifest.in mozilla-rel
  @RESPATH@/components/Downloads.manifest
  @RESPATH@/components/DownloadLegacy.js
  @RESPATH@/components/BrowserPageThumbs.manifest
-@@ -436,12 +469,16 @@
+@@ -440,12 +471,16 @@
  @RESPATH@/components/ProcessSingleton.manifest
  @RESPATH@/components/MainProcessSingleton.js
  @RESPATH@/components/ContentProcessSingleton.js
@@ -177,15 +177,15 @@ diff -ruN mozilla-release.orig/browser/installer/package-manifest.in mozilla-rel
  @RESPATH@/components/txEXSLTRegExFunctions.manifest
  @RESPATH@/components/txEXSLTRegExFunctions.js
  @RESPATH@/components/toolkitplaces.manifest
-@@ -476,6 +515,7 @@
- @RESPATH@/components/FormAutofillStartup.js
+@@ -481,6 +516,7 @@
+ @RESPATH@/components/CSSUnprefixingService.manifest
  @RESPATH@/components/contentAreaDropListener.manifest
  @RESPATH@/components/contentAreaDropListener.js
 +#endif
  @RESPATH@/browser/components/BrowserProfileMigrators.manifest
  @RESPATH@/browser/components/ProfileMigrator.js
  @RESPATH@/browser/components/ChromeProfileMigrator.js
-@@ -487,6 +527,7 @@
+@@ -492,6 +528,7 @@
  #ifdef XP_MACOSX
  @RESPATH@/browser/components/SafariProfileMigrator.js
  #endif
@@ -193,11 +193,14 @@ diff -ruN mozilla-release.orig/browser/installer/package-manifest.in mozilla-rel
  #ifdef MOZ_ENABLE_DBUS
  @RESPATH@/components/@DLL_PREFIX@dbusservice@DLL_SUFFIX@
  #endif
-@@ -612,19 +653,24 @@
+@@ -619,22 +656,27 @@
  @RESPATH@/components/TestInterfaceJS.js
  @RESPATH@/components/TestInterfaceJS.manifest
  #endif
 +#endif
+ 
+ @RESPATH@/components/PACGenerator.js
+ @RESPATH@/components/PACGenerator.manifest
  
  ; Modules
  @RESPATH@/browser/modules/*
@@ -218,7 +221,7 @@ diff -ruN mozilla-release.orig/browser/installer/package-manifest.in mozilla-rel
  
  ; ANGLE GLES-on-D3D rendering library
  #ifdef MOZ_ANGLE_RENDERER
-@@ -652,10 +698,12 @@
+@@ -662,10 +704,12 @@
  #endif
  @RESPATH@/browser/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}/install.rdf
  @RESPATH@/browser/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}/icon.png
@@ -231,7 +234,7 @@ diff -ruN mozilla-release.orig/browser/installer/package-manifest.in mozilla-rel
  #ifdef MOZ_GTK
  @RESPATH@/browser/chrome/icons/default/default16.png
  @RESPATH@/browser/chrome/icons/default/default32.png
-@@ -683,9 +731,11 @@
+@@ -693,9 +737,11 @@
  ; All the pref files must be part of base to prevent migration bugs
  @RESPATH@/browser/@PREF_DIR@/firefox.js
  @RESPATH@/browser/@PREF_DIR@/firefox-branding.js
@@ -243,7 +246,7 @@ diff -ruN mozilla-release.orig/browser/installer/package-manifest.in mozilla-rel
  @RESPATH@/browser/defaults/profile/prefs.js
  
  #ifndef LIBXUL_SDK
-@@ -695,7 +745,7 @@
+@@ -705,7 +751,7 @@
  @RESPATH@/defaults/pref/channel-prefs.js
  #else
  ; For Fx-on-xr, channel-prefs lives with the app preferences. (Bug 762588)
@@ -252,7 +255,7 @@ diff -ruN mozilla-release.orig/browser/installer/package-manifest.in mozilla-rel
  #endif
  
  ; Services (gre) prefs
-@@ -703,11 +753,14 @@
+@@ -713,11 +759,14 @@
  @RESPATH@/defaults/pref/services-notifications.js
  #endif
  #ifdef MOZ_SERVICES_SYNC
@@ -267,7 +270,7 @@ diff -ruN mozilla-release.orig/browser/installer/package-manifest.in mozilla-rel
  @RESPATH@/res/EditorOverride.css
  @RESPATH@/res/contenteditable.css
  @RESPATH@/res/designmode.css
-@@ -745,11 +798,14 @@
+@@ -770,11 +819,14 @@
  #ifdef XP_MACOSX
  @RESPATH@/res/MainMenu.nib/
  #endif
@@ -282,7 +285,7 @@ diff -ruN mozilla-release.orig/browser/installer/package-manifest.in mozilla-rel
  
  ; [Personal Security Manager]
  ;
-@@ -770,11 +826,13 @@
+@@ -795,11 +847,13 @@
  #endif
  @BINPATH@/@DLL_PREFIX@softokn3@DLL_SUFFIX@
  #endif
@@ -296,7 +299,7 @@ diff -ruN mozilla-release.orig/browser/installer/package-manifest.in mozilla-rel
  
  ; For process sandboxing
  #if defined(MOZ_SANDBOX)
-@@ -887,9 +945,11 @@
+@@ -912,9 +966,11 @@
  @RESPATH@/metro/modules
  #endif
  

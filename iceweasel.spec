@@ -16,18 +16,18 @@
 %define		sqlite_build_version %(pkg-config --silence-errors --modversion sqlite3 2>/dev/null || echo ERROR)
 
 %define		nspr_ver	4.10.8
-%define		nss_ver		3.18.1
+%define		nss_ver		3.19.2
 
 Summary:	Iceweasel web browser
 Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
-Version:	38.0.5
+Version:	39.0
 Release:	1
 License:	MPL v2.0
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.bz2
-# Source0-md5:	60466afbc7105d29dcd18f996c9c67e0
+# Source0-md5:	34d9841bc9b8a85aaf06e311cf1cb263
 Source1:	%{name}-branding.tar.xz
 # Source1-md5:	aacc7e8298a3e6aa3ef2a3613a62f635
 Source2:	%{name}-rm_nonfree.sh
@@ -48,7 +48,6 @@ Patch9:		%{name}-middle_click_paste.patch
 Patch10:	%{name}-packaging.patch
 Patch11:	system-virtualenv.patch
 Patch12:	Disable-Firefox-Health-Report.patch
-Patch13:	freetype-2.6.patch
 URL:		http://www.pld-linux.org/Packages/Iceweasel
 BuildRequires:	OpenGL-devel
 BuildRequires:	ImageMagick
@@ -218,7 +217,6 @@ echo 'LOCAL_INCLUDES += $(MOZ_HUNSPELL_CFLAGS)' >> extensions/spellcheck/src/Mak
 %patch10 -p1
 %patch11 -p2
 %patch12 -p1
-%patch13 -p1
 
 cp -a xulrunner/installer/*.pc.in browser/installer/
 
