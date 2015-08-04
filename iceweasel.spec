@@ -278,7 +278,6 @@ ac_add_options --disable-mochitest
 ac_add_options --disable-cpp-exceptions
 ac_add_options --disable-crashreporter
 ac_add_options --disable-elf-dynstr-gc
-ac_add_options --disable-elf-hack
 ac_add_options --disable-gconf
 ac_add_options --disable-gnomeui
 ac_add_options --disable-gnomevfs
