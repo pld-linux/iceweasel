@@ -1,6 +1,6 @@
 diff -ruN mozilla-release.orig/browser/confvars.sh mozilla-release/browser/confvars.sh
---- mozilla-release.orig/browser/confvars.sh	2015-01-09 05:38:15.000000000 +0100
-+++ mozilla-release/browser/confvars.sh	2015-01-24 13:54:51.645931634 +0100
+--- mozilla-release.orig/browser/confvars.sh	2015-08-07 17:54:08.000000000 +0200
++++ mozilla-release/browser/confvars.sh	2015-08-11 20:16:54.723923188 +0200
 @@ -3,8 +3,8 @@
  # License, v. 2.0. If a copy of the MPL was not distributed with this
  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -13,9 +13,9 @@ diff -ruN mozilla-release.orig/browser/confvars.sh mozilla-release/browser/confv
  MOZ_PHOENIX=1
  
 diff -ruN mozilla-release.orig/browser/locales/Makefile.in mozilla-release/browser/locales/Makefile.in
---- mozilla-release.orig/browser/locales/Makefile.in	2015-01-09 05:38:16.000000000 +0100
-+++ mozilla-release/browser/locales/Makefile.in	2015-01-24 13:54:51.651931608 +0100
-@@ -29,6 +29,8 @@
+--- mozilla-release.orig/browser/locales/Makefile.in	2015-08-07 17:54:09.000000000 +0200
++++ mozilla-release/browser/locales/Makefile.in	2015-08-11 20:16:54.723923188 +0200
+@@ -26,6 +26,8 @@
  	$(DEPTH)/$(MOZ_BRANDING_DIRECTORY)/locales/Makefile \
  	$(NULL)
  
@@ -24,18 +24,18 @@ diff -ruN mozilla-release.orig/browser/locales/Makefile.in mozilla-release/brows
  # This makefile uses variable overrides from the libs-% target to
  # build non-default locales to non-default dist/ locations. Be aware!
  
-@@ -80,6 +82,8 @@
- SEARCHPLUGINS := $(foreach plugin,$(addsuffix .xml,$(SEARCHPLUGINS_NAMES)),$(or $(wildcard $(call MERGE_FILE,searchplugins/$(plugin))),$(info Missing searchplugin: $(plugin))))
- PP_TARGETS += SEARCHPLUGINS
+@@ -82,6 +84,8 @@
+ 
+ libs:: searchplugins
  
 +DEFINES += -DMOZ_APP_NAME=$(MOZ_APP_NAME)
 +
  # Required for l10n.mk - defines a list of app sub dirs that should
  # be included in langpack xpis.
- ifdef MOZ_METRO
+ DIST_SUBDIRS = $(DIST_SUBDIR)
 diff -ruN mozilla-release.orig/browser/locales/en-US/chrome/overrides/appstrings.properties mozilla-release/browser/locales/en-US/chrome/overrides/appstrings.properties
---- mozilla-release.orig/browser/locales/en-US/chrome/overrides/appstrings.properties	2015-01-09 05:38:16.000000000 +0100
-+++ mozilla-release/browser/locales/en-US/chrome/overrides/appstrings.properties	2015-01-24 13:54:51.651931608 +0100
+--- mozilla-release.orig/browser/locales/en-US/chrome/overrides/appstrings.properties	2015-08-07 17:54:09.000000000 +0200
++++ mozilla-release/browser/locales/en-US/chrome/overrides/appstrings.properties	2015-08-11 20:16:54.724923184 +0200
 @@ -3,24 +3,24 @@
  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
  
@@ -71,9 +71,9 @@ diff -ruN mozilla-release.orig/browser/locales/en-US/chrome/overrides/appstrings
  contentEncodingError=The page you are trying to view cannot be shown because it uses an invalid or unsupported form of compression.
  unsafeContentType=The page you are trying to view cannot be shown because it is contained in a file type that may not be safe to open. Please contact the website owners to inform them of this problem.
  externalProtocolTitle=External Protocol Request
-@@ -33,6 +33,6 @@
+@@ -34,6 +34,6 @@
  phishingBlocked=The website at %S has been reported as a web forgery designed to trick users into sharing personal or financial information.
- cspFrameAncestorBlocked=This page has a content security policy that prevents it from being embedded in this way.
+ cspBlocked=This page has a content security policy that prevents it from being loaded in this way.
  corruptedContentError=The page you are trying to view cannot be shown because an error in the data transmission was detected.
 -remoteXUL=This page uses an unsupported technology that is no longer available by default in Firefox.
 +#expand remoteXUL=This page uses an unsupported technology that is no longer available by default in __MOZ_APP_DISPLAYNAME__.
@@ -81,8 +81,8 @@ diff -ruN mozilla-release.orig/browser/locales/en-US/chrome/overrides/appstrings
 -sslv3Used=Firefox cannot guarantee the safety of your data on %S because it uses SSLv3, a broken security protocol.
 +#expand sslv3Used=__MOZ_APP_DISPLAYNAME__ cannot guarantee the safety of your data on %S because it uses SSLv3, a broken security protocol.
 diff -ruN mozilla-release.orig/browser/locales/en-US/searchplugins/answers.xml mozilla-release/browser/locales/en-US/searchplugins/answers.xml
---- mozilla-release.orig/browser/locales/en-US/searchplugins/answers.xml	2015-01-09 05:38:16.000000000 +0100
-+++ mozilla-release/browser/locales/en-US/searchplugins/answers.xml	2015-01-24 13:54:51.648931621 +0100
+--- mozilla-release.orig/browser/locales/en-US/searchplugins/answers.xml	2015-08-07 17:54:09.000000000 +0200
++++ mozilla-release/browser/locales/en-US/searchplugins/answers.xml	2015-08-11 20:16:54.725923180 +0200
 @@ -12,6 +12,6 @@
    <Param name="gwp" value="13"/>
  </Url>
@@ -92,8 +92,8 @@ diff -ruN mozilla-release.orig/browser/locales/en-US/searchplugins/answers.xml m
  <SearchForm>http://www.answers.com/</SearchForm>
  </SearchPlugin>
 diff -ruN mozilla-release.orig/browser/locales/en-US/searchplugins/google.xml mozilla-release/browser/locales/en-US/searchplugins/google.xml
---- mozilla-release.orig/browser/locales/en-US/searchplugins/google.xml	2015-01-09 05:38:16.000000000 +0100
-+++ mozilla-release/browser/locales/en-US/searchplugins/google.xml	2015-01-24 13:57:57.793139022 +0100
+--- mozilla-release.orig/browser/locales/en-US/searchplugins/google.xml	2015-08-07 17:54:09.000000000 +0200
++++ mozilla-release/browser/locales/en-US/searchplugins/google.xml	2015-08-11 20:16:54.726923177 +0200
 @@ -9,7 +9,7 @@
  <Image width="16" height="16">data:image/x-icon;base64,AAABAAIAEBAAAAAAAAB9AQAAJgAAACAgAAAAAAAA8gIAAKMBAACJUE5HDQoaCgAAAA1JSERSAAAAEAAAABAIBgAAAB/z/2EAAAFESURBVDjLpZNJSwNBEIXnt4lE4kHxovgT9BDwJHqPy0HEEOJBiAuCRg+KUdC4QS4KrpC4gCBGE3NQ48JsnZ6eZ3UOM6gjaePhQU93v6+qq2q0pqgeJj2S8EdJT1hr0OxBtKCD5iEd8QxDYpvhvOBAuMDKURX9C9aPu4GA1GEVkzvMg10UBfYveWAWgYAP00V01fa+R9M2bA51wJvhIn3qR+ybt3D3JNQBE5sMjCIOLFpoHzOwdsLRO22qA6R6kiZiWwxUvy/PUQZIhYZ1vFM9cvcOOsYNdcBgysISdSJBnZjJMlR0Fw8vAp0xoz5gao/h+NZBy4i/10XGwrPA+hmvDyhVRG2Avu/LwcrkFADZa16L1h330w1RNgc3DiJzCpPYRm1bpveXX11clQR28xwblHpk1vq1iP/5mcoS0CoXDZiL0vsJ+dzfl+3T/VYAAAAASUVORK5CYIKJUE5HDQoaCgAAAA1JSERSAAAAIAAAACAIBgAAAHN6evQAAAK5SURBVFjDxVfrSxRRFJ9/Jta/oyWjF5XQm6D6EkHRgygIIgjUTcueVgqVWSRRkppEUQYWWB8ye1iGWilWlo/Ude489s7M6Zw7D9dlt53dmd29cFiWvXvO77x+51xpaaUsoSxBaUWZQ4ECy5xji2xKZDyCMlMEw6lCNiOSgwZKJK1SkcKeSealfP64t0mBjl4Ow39MkDUL0p2RSROOtqhZdeUEYM1pBl39XCg/fEeFtWcY7G9W4csvUxjlBkCsQ4Nt9QyWVfvT6RsAKXw3aoDGATZeYIt+W1kjw7cJG0RctWDTRebbKd8A6h5pwsDb70ba3w/eUr3wt/cmwgfw6Yft4TNMQaY7o1P2ncm4FT4ANQH/jQBJ2xv7kqIXEADDql8eS3+n8bku7oxNm+EDIM/dU92upb3T/NJGeaNbDx/AsbsLRUY5Xn92caWXY5d8RV6gWllxSg4fAEnTC90DQW13BLlgXR2D3dcUeDVkwOthA1bXspxILWcm3HdThcfvufB26LcJpkOEAz9NKI/lzqpSEC7feol5EWnpSeSlIxCALUkApmULdjUqxQVAQnl3D/X/yQda4QBEq2TYc12By091MQ17Bg3R88nHKlQbVmHvj89awNBLYrwT9zXY2aBAxTkGFdiSxP/Jp6FLDw+AS7GfsdJTJ2EqSO5khD43nGfBARy/ZxOQgZHe7GPM1jzUvChUtmnBAXQPcKGMJp3fdFGq6NByEhiAO4b/YptFfQJwNyQ/bZkVQGcf90Ja25ndIyrKBOa/f8wIpwi3X1G8UcxNu7ozUS7tiH0jBswwS3RIaF1w6LYKU/ML2+8sGnjygQswtKrVIy/Qd9qQP6LnO64q4fPAKpxyZIymHo1jWk6p1ag2BsdNwQMHcC+M5kHFJX+YlPxpVlbCx2mZ5DzPI04k4kUwHHdskU3pH76iftG8yWlkAAAAAElFTkSuQmCC</Image>
  <Image width="65" height="26">data:image/png;base64,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</Image>
@@ -104,8 +104,8 @@ diff -ruN mozilla-release.orig/browser/locales/en-US/searchplugins/google.xml mo
    <Param name="q" value="{searchTerms}"/>
    <Param name="ie" value="utf-8"/>
 diff -ruN mozilla-release.orig/modules/libpref/Makefile.in mozilla-release/modules/libpref/Makefile.in
---- mozilla-release.orig/modules/libpref/Makefile.in	2015-01-09 05:38:26.000000000 +0100
-+++ mozilla-release/modules/libpref/Makefile.in	2015-01-24 13:54:51.646931629 +0100
+--- mozilla-release.orig/modules/libpref/Makefile.in	2015-08-07 17:54:19.000000000 +0200
++++ mozilla-release/modules/libpref/Makefile.in	2015-08-11 20:16:54.727923173 +0200
 @@ -3,6 +3,10 @@
  # License, v. 2.0. If a copy of the MPL was not distributed with this
  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -118,12 +118,12 @@ diff -ruN mozilla-release.orig/modules/libpref/Makefile.in mozilla-release/modul
  
  GARBAGE		+= $(addprefix $(DIST)/bin/defaults/pref/, \
 diff -ruN mozilla-release.orig/modules/libpref/init/all.js mozilla-release/modules/libpref/init/all.js
---- mozilla-release.orig/modules/libpref/init/all.js	2015-01-09 05:38:26.000000000 +0100
-+++ mozilla-release/modules/libpref/init/all.js	2015-01-24 13:54:51.648931621 +0100
-@@ -4290,7 +4290,11 @@
+--- mozilla-release.orig/modules/libpref/init/all.js	2015-08-07 17:54:19.000000000 +0200
++++ mozilla-release/modules/libpref/init/all.js	2015-08-11 20:18:32.071551505 +0200
+@@ -4525,7 +4525,11 @@
  
  // The tables used for Safebrowsing phishing and malware checks.
- pref("urlclassifier.malwareTable", "goog-malware-shavar,test-malware-simple");
+ pref("urlclassifier.malwareTable", "goog-malware-shavar,goog-unwanted-shavar,test-malware-simple,test-unwanted-simple");
 +#ifdef MOZ_OFFICIAL_BRANDING
  pref("urlclassifier.phishTable", "goog-phish-shavar,test-phish-simple");
 +#else
@@ -131,4 +131,4 @@ diff -ruN mozilla-release.orig/modules/libpref/init/all.js mozilla-release/modul
 +#endif
  pref("urlclassifier.downloadBlockTable", "");
  pref("urlclassifier.downloadAllowTable", "");
- pref("urlclassifier.disallow_completions", "test-malware-simple,test-phish-simple,goog-downloadwhite-digest256,mozpub-track-digest256");
+ pref("urlclassifier.disallow_completions", "test-malware-simple,test-phish-simple,test-unwanted-simple,goog-downloadwhite-digest256,mozpub-track-digest256");
