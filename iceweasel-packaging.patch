@@ -284,14 +284,13 @@ diff -ruN mozilla-release.orig/browser/installer/package-manifest.in mozilla-rel
  
  ; [Personal Security Manager]
  ;
-@@ -800,11 +852,13 @@
+@@ -800,10 +852,12 @@
  #endif
  @BINPATH@/@DLL_PREFIX@softokn3@DLL_SUFFIX@
  #endif
 +#ifndef LIBXUL_SDK
  @RESPATH@/chrome/pippki@JAREXT@
  @RESPATH@/chrome/pippki.manifest
- @RESPATH@/components/pipboot.xpt
  @RESPATH@/components/pipnss.xpt
  @RESPATH@/components/pippki.xpt
 +#endif
