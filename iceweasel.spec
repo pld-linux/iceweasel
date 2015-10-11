@@ -25,12 +25,12 @@ Summary:	Iceweasel web browser
 Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
-Version:	41.0
+Version:	41.0.1
 Release:	0.1
 License:	MPL v2.0
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.xz
-# Source0-md5:	81324515c2f562db8c4800ebafaa5d25
+# Source0-md5:	d53d863642b34b446ee7600bdad000a1
 Source1:	%{name}-branding.tar.xz
 # Source1-md5:	aacc7e8298a3e6aa3ef2a3613a62f635
 Source2:	%{name}-rm_nonfree.sh
@@ -51,6 +51,7 @@ Patch9:		%{name}-middle_click_paste.patch
 Patch10:	%{name}-packaging.patch
 Patch11:	system-virtualenv.patch
 Patch12:	Disable-Firefox-Health-Report.patch
+Patch13:	no-logging.patch
 URL:		http://www.pld-linux.org/Packages/Iceweasel
 BuildRequires:	OpenGL-devel
 BuildRequires:	ImageMagick
@@ -135,7 +136,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_noautoprovfiles	%{_libdir}/%{name}
 
 # and as we don't provide them, don't require either
-%define		_noautoreq	libmozalloc.so libmozjs.so libxul.so
+%define		_noautoreq	libmozjs.so libxul.so
 
 %description
 Iceweasel is an open-source web browser, designed for standards
@@ -220,6 +221,7 @@ echo 'LOCAL_INCLUDES += $(MOZ_HUNSPELL_CFLAGS)' >> extensions/spellcheck/src/Mak
 %patch10 -p1
 %patch11 -p2
 %patch12 -p1
+%patch13 -p2
 
 cp -a xulrunner/installer/*.pc.in browser/installer/
 
@@ -389,7 +391,6 @@ ln -s %{_libdir}/%{name}-devel/sdk/lib $RPM_BUILD_ROOT%{_libdir}/%{name}-devel/l
 # replace copies with symlinks
 %{?with_shared_js:ln -sf %{_libdir}/%{name}/libmozjs.so $RPM_BUILD_ROOT%{_libdir}/%{name}-devel/sdk/lib/libmozjs.so}
 ln -sf %{_libdir}/%{name}/libxul.so $RPM_BUILD_ROOT%{_libdir}/%{name}-devel/sdk/lib/libxul.so
-ln -sf %{_libdir}/%{name}/libmozalloc.so $RPM_BUILD_ROOT%{_libdir}/%{name}-devel/sdk/lib/libmozalloc.so
 # temp fix for https://bugzilla.mozilla.org/show_bug.cgi?id=63955
 chmod a+rx $RPM_BUILD_ROOT%{_libdir}/%{name}-devel/sdk/bin/xpt.py
 
@@ -397,7 +398,6 @@ chmod a+rx $RPM_BUILD_ROOT%{_libdir}/%{name}-devel/sdk/bin/xpt.py
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/chrome $RPM_BUILD_ROOT%{_datadir}/%{name}/browser/chrome
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/extensions $RPM_BUILD_ROOT%{_datadir}/%{name}/browser/extensions
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/icons $RPM_BUILD_ROOT%{_datadir}/%{name}/browser/icons
-mv $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/searchplugins $RPM_BUILD_ROOT%{_datadir}/%{name}/browser/searchplugins
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/defaults $RPM_BUILD_ROOT%{_datadir}/%{name}/browser/defaults
 mv $RPM_BUILD_ROOT%{_datadir}/%{name}/browser/defaults/{pref,preferences}
 
@@ -405,7 +405,6 @@ ln -s ../../../share/%{name}/browser/chrome $RPM_BUILD_ROOT%{_libdir}/%{name}/br
 ln -s ../../../share/%{name}/browser/defaults $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/defaults
 ln -s ../../../share/%{name}/browser/extensions $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/extensions
 ln -s ../../../share/%{name}/browser/icons $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/icons
-ln -s ../../../share/%{name}/browser/searchplugins $RPM_BUILD_ROOT%{_libdir}/%{name}/browser/searchplugins
 
 %{__rm} -r $RPM_BUILD_ROOT%{_libdir}/%{name}/dictionaries
 ln -s %{_datadir}/myspell $RPM_BUILD_ROOT%{_libdir}/%{name}/dictionaries
@@ -505,13 +504,11 @@ fi
 %{_datadir}/%{name}/browser/chrome
 %{_datadir}/%{name}/browser/defaults
 %{_datadir}/%{name}/browser/icons
-%{_datadir}/%{name}/browser/searchplugins
 
 # symlinks
 %{_libdir}/%{name}/browser/extensions
 %{_libdir}/%{name}/browser/chrome
 %{_libdir}/%{name}/browser/icons
-%{_libdir}/%{name}/browser/searchplugins
 %{_libdir}/%{name}/browser/defaults
 
 %attr(755,root,root) %{_libdir}/%{name}/iceweasel
@@ -550,7 +547,6 @@ fi
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}
 %{_libdir}/%{name}/platform.ini
-%attr(755,root,root) %{_libdir}/%{name}/libmozalloc.so
 %{?with_shared_js:%attr(755,root,root) %{_libdir}/%{name}/libmozjs.so}
 %attr(755,root,root) %{_libdir}/%{name}/libxul.so
 %{_libdir}/%{name}/dependentlibs.list
