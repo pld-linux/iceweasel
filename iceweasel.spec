@@ -52,6 +52,7 @@ Patch10:	%{name}-packaging.patch
 Patch11:	system-virtualenv.patch
 Patch12:	Disable-Firefox-Health-Report.patch
 Patch13:	no-logging.patch
+Patch14:	freetype.patch
 URL:		http://www.pld-linux.org/Packages/Iceweasel
 BuildRequires:	OpenGL-devel
 BuildRequires:	ImageMagick
@@ -222,6 +223,7 @@ echo 'LOCAL_INCLUDES += $(MOZ_HUNSPELL_CFLAGS)' >> extensions/spellcheck/src/Mak
 %patch11 -p2
 %patch12 -p1
 %patch13 -p2
+%patch14 -p2
 
 cp -a xulrunner/installer/*.pc.in browser/installer/
 
