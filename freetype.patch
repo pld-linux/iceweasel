@@ -1,11 +1,10 @@
---- iceweasel-41.0.1/mozilla/gfx/skia/trunk/src/ports/SkFontHost_FreeType.cpp~	2015-09-29 23:44:50.000000000 +0200
-+++ iceweasel-41.0.1/mozilla/gfx/skia/trunk/src/ports/SkFontHost_FreeType.cpp	2015-10-12 07:51:10.791980529 +0200
-@@ -557,7 +557,7 @@
-     info->fEmSize = 1000;
- 
-     bool cid = false;
--    const char* fontType = FT_Get_X11_Font_Format(face);
-+    const char* fontType = FT_Get_Font_Format(face);
-     if (strcmp(fontType, "Type 1") == 0) {
-         info->fType = SkAdvancedTypefaceMetrics::kType1_Font;
-     } else if (strcmp(fontType, "CID Type 1") == 0) {
+--- iceweasel-41.0.1/mozilla/config/system-headers~	2015-09-29 23:44:56.000000000 +0200
++++ iceweasel-41.0.1/mozilla/config/system-headers	2015-10-13 22:19:29.758370730 +0200
+@@ -454,6 +454,7 @@
+ frame/log.h
+ frame/req.h
+ freetype/freetype.h
++freetype/ftfntfmt.h
+ freetype/ftcache.h
+ freetype/ftglyph.h
+ freetype/ftsynth.h

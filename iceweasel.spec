@@ -1,8 +1,5 @@
 # TODO:
 # - consider --enable-libproxy
-# - fix compilation errors:
-#   `error: 'PRLogModuleInfo' does not name a type'
-#   and similar
 #
 # Conditional build:
 %bcond_with	tests		# enable tests (whatever they check)
