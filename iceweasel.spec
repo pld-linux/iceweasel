@@ -23,13 +23,13 @@ Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
 Version:	41.0.1
-Release:	1
+Release:	2
 License:	MPL v2.0
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.xz
 # Source0-md5:	d53d863642b34b446ee7600bdad000a1
 Source1:	%{name}-branding.tar.xz
-# Source1-md5:	aacc7e8298a3e6aa3ef2a3613a62f635
+# Source1-md5:	1ac95e1164acae1954f118cddd197aad
 Source2:	%{name}-rm_nonfree.sh
 Source3:	%{name}.desktop
 Source4:	%{name}.sh
@@ -54,6 +54,7 @@ URL:		http://www.pld-linux.org/Packages/Iceweasel
 BuildRequires:	OpenGL-devel
 BuildRequires:	ImageMagick
 BuildRequires:	ImageMagick-coder-png
+BuildRequires:	ImageMagick-coder-svg
 BuildRequires:	alsa-lib-devel
 BuildRequires:	automake
 BuildRequires:	bzip2-devel
