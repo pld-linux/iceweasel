@@ -85,6 +85,7 @@ BuildRequires:	libpng(APNG)-devel >= 0.10
 BuildRequires:	libpng-devel >= 2:1.6.16
 BuildRequires:	libstdc++-devel >= 6:4.4
 BuildRequires:	libvpx-devel >= 1.3.0
+BuildRequires:	libxslt-progs >= 1.1.28
 BuildRequires:	nspr-devel >= 1:%{nspr_ver}
 BuildRequires:	nss-devel >= 1:%{nss_ver}
 BuildRequires:	pango-devel >= 1:1.22.0
