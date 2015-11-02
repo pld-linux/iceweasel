@@ -2,11 +2,11 @@ diff -ruNp mozilla.orig/toolkit/mozapps/installer/packager.py mozilla/toolkit/mo
 --- mozilla.orig/toolkit/mozapps/installer/packager.py	2015-04-03 04:30:06.000000000 +0200
 +++ mozilla/toolkit/mozapps/installer/packager.py	2015-04-10 14:52:45.133163567 +0200
 @@ -152,7 +152,7 @@ def precompile_cache(formatter, source_p
-                             '-e', 'precompile_startupcache("resource://%s/");'
-                                   % resource],
-                            extra_linker_path=gre_path,
--                           extra_env={'MOZ_STARTUP_CACHE': cache}):
-+                           extra_env={'MOZ_STARTUP_CACHE': cache, 'LD_PRELOAD': os.path.join(gre_path, 'libxul.so')}):
-             errors.fatal('Error while running startup cache precompilation')
-             return
-         from mozpack.mozjar import JarReader
+     os.remove(cache)
+ 
+     try:
+-        extra_env = {'MOZ_STARTUP_CACHE': cache}
++        extra_env = {'MOZ_STARTUP_CACHE': cache, 'LD_PRELOAD': os.path.join(gre_path, 'libxul.so')}
+         if buildconfig.substs.get('MOZ_TSAN'):
+             extra_env['TSAN_OPTIONS'] = 'report_bugs=0'
+         if launcher.launch(['xpcshell', '-g', gre_path, '-a', app_path,

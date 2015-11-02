@@ -22,12 +22,12 @@ Summary:	Iceweasel web browser
 Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
-Version:	41.0.2
-Release:	2
+Version:	42.0
+Release:	0.1
 License:	MPL v2.0
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.xz
-# Source0-md5:	d71f0f761c51aeae03e367001afc9f8d
+# Source0-md5:	d610bf10a75afb4734045e1a43d8eba4
 Source1:	%{name}-branding.tar.xz
 # Source1-md5:	1ac95e1164acae1954f118cddd197aad
 Source2:	%{name}-rm_nonfree.sh
@@ -197,10 +197,8 @@ Iceweasel development package.
 Pakiet programistyczny Iceweasela.
 
 %prep
-%setup -qc
-mv -f mozilla-release mozilla
-%setup -q -T -D -a1
-cd mozilla
+%setup -q -a1 -n firefox-%{version}
+mv mozilla/iceweasel ./
 /bin/sh %{SOURCE2}
 
 # avoid using included headers (-I. is before HUNSPELL_CFLAGS)
@@ -231,7 +229,6 @@ sed -i -e 's@__BROWSER_PATH__@"../../dist/bin/iceweasel-bin"@' build/automation.
 %endif
 
 %build
-cd mozilla
 cp -p %{_datadir}/automake/config.* build/autoconf
 
 cat << 'EOF' > .mozconfig
@@ -352,7 +349,6 @@ kill $XVFB_PID
 
 %install
 rm -rf $RPM_BUILD_ROOT
-cd mozilla
 install -d \
 	$RPM_BUILD_ROOT{%{_bindir},%{_sbindir},%{_libdir}} \
 	$RPM_BUILD_ROOT%{_desktopdir} \

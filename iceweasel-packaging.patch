@@ -116,7 +116,7 @@ diff -ruN mozilla-release.orig/browser/installer/package-manifest.in mozilla-rel
  @RESPATH@/components/mimetype.xpt
  @RESPATH@/components/mozfind.xpt
  @RESPATH@/components/necko_about.xpt
-@@ -313,12 +336,16 @@
+@@ -313,10 +336,14 @@
  @RESPATH@/components/rdf.xpt
  @RESPATH@/components/satchel.xpt
  @RESPATH@/components/saxparser.xpt
@@ -124,10 +124,8 @@ diff -ruN mozilla-release.orig/browser/installer/package-manifest.in mozilla-rel
  @RESPATH@/browser/components/sessionstore.xpt
 +#ifndef LIBXUL_SDK
  @RESPATH@/components/services-crypto-component.xpt
- #ifdef MOZ_CAPTIVEDETECT
- @RESPATH@/components/captivedetect.xpt
- #endif
 +#endif
+ @RESPATH@/components/captivedetect.xpt
  @RESPATH@/browser/components/shellservice.xpt
 +#ifndef LIBXUL_SDK
  @RESPATH@/components/shistory.xpt

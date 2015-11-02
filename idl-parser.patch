@@ -1,5 +1,5 @@
---- xulrunner-10.0/mozilla/xpcom/idl-parser/header.py.wiget	2012-02-09 16:26:27.074098583 +0100
-+++ xulrunner-10.0/mozilla/xpcom/idl-parser/header.py	2012-02-09 16:28:01.250436455 +0100
+--- xulrunner-10.0/mozilla/xpcom/idl-parser/xpidl/header.py.wiget	2012-02-09 16:26:27.074098583 +0100
++++ xulrunner-10.0/mozilla/xpcom/idl-parser/xpidl/header.py	2012-02-09 16:28:01.250436455 +0100
 @@ -477,7 +477,7 @@ if __name__ == '__main__':
      o = OptionParser()
      o.add_option('-I', action='append', dest='incdirs', default=['.'],
@@ -27,8 +27,8 @@
              print >>sys.stderr, "--regen useless without --cachedir"
          sys.exit(0)
  
---- xulrunner-10.0/mozilla/xpcom/idl-parser/typelib.py.wiget	2012-02-09 16:31:01.826758036 +0100
-+++ xulrunner-10.0/mozilla/xpcom/idl-parser/typelib.py	2012-02-09 16:32:26.473475659 +0100
+--- xulrunner-10.0/mozilla/xpcom/idl-parser/xpidl/typelib.py.wiget	2012-02-09 16:31:01.826758036 +0100
++++ xulrunner-10.0/mozilla/xpcom/idl-parser/xpidl/typelib.py	2012-02-09 16:32:26.473475659 +0100
 @@ -276,7 +276,7 @@ if __name__ == '__main__':
      o = OptionParser()
      o.add_option('-I', action='append', dest='incdirs', default=['.'],
