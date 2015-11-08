@@ -23,13 +23,13 @@ Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
 Version:	42.0
-Release:	0.1
+Release:	1
 License:	MPL v2.0
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.xz
 # Source0-md5:	d610bf10a75afb4734045e1a43d8eba4
 Source1:	%{name}-branding.tar.xz
-# Source1-md5:	1ac95e1164acae1954f118cddd197aad
+# Source1-md5:	8f25cec142ee276cb516940db12076db
 Source2:	%{name}-rm_nonfree.sh
 Source3:	%{name}.desktop
 Source4:	%{name}.sh
@@ -198,7 +198,6 @@ Pakiet programistyczny Iceweasela.
 
 %prep
 %setup -q -a1 -n firefox-%{version}
-mv mozilla/iceweasel ./
 /bin/sh %{SOURCE2}
 
 # avoid using included headers (-I. is before HUNSPELL_CFLAGS)
@@ -545,6 +544,7 @@ fi
 %dir %{_libdir}/%{name}
 %{_libdir}/%{name}/platform.ini
 %{?with_shared_js:%attr(755,root,root) %{_libdir}/%{name}/libmozjs.so}
+%attr(755,root,root) %{_libdir}/%{name}/liblgpllibs.so
 %attr(755,root,root) %{_libdir}/%{name}/libxul.so
 %{_libdir}/%{name}/dependentlibs.list
 %{_libdir}/%{name}/omni.ja
