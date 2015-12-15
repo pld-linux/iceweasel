@@ -106,11 +106,14 @@ diff -ruN mozilla-release.orig/browser/installer/package-manifest.in mozilla-rel
  @RESPATH@/components/gfx.xpt
  @RESPATH@/components/html5.xpt
  @RESPATH@/components/htmlparser.xpt
-@@ -276,7 +297,9 @@
+@@ -276,10 +297,12 @@
  @RESPATH@/components/layout_xul.xpt
  @RESPATH@/components/locale.xpt
  @RESPATH@/components/lwbrk.xpt
 +#endif
+ #ifdef MOZ_ENABLE_PROFILER_SPS
+ @RESPATH@/components/memory_profiler.xpt
+ #endif
  @RESPATH@/browser/components/migration.xpt
 +#ifndef LIBXUL_SDK
  @RESPATH@/components/mimetype.xpt
@@ -151,9 +154,9 @@ diff -ruN mozilla-release.orig/browser/installer/package-manifest.in mozilla-rel
  @RESPATH@/browser/components/FeedConverter.js
  @RESPATH@/browser/components/FeedWriter.js
 @@ -391,6 +421,7 @@
+ @RESPATH@/browser/components/webideComponents.manifest
  @RESPATH@/browser/components/Experiments.manifest
  @RESPATH@/browser/components/ExperimentsService.js
- @RESPATH@/browser/components/translation.manifest
 +#ifndef LIBXUL_SDK
  @RESPATH@/components/Downloads.manifest
  @RESPATH@/components/DownloadLegacy.js
@@ -184,13 +187,13 @@ diff -ruN mozilla-release.orig/browser/installer/package-manifest.in mozilla-rel
  @RESPATH@/browser/components/ProfileMigrator.js
  @RESPATH@/browser/components/ChromeProfileMigrator.js
 @@ -495,6 +531,7 @@
- #ifdef XP_MACOSX
- @RESPATH@/browser/components/SafariProfileMigrator.js
+ #if defined(MOZ_ENABLE_DBUS) || defined(MOZ_ENABLE_GNOME_COMPONENT)
+ @RESPATH@/components/components.manifest
  #endif
 +#ifndef LIBXUL_SDK
- #ifdef MOZ_ENABLE_DBUS
- @RESPATH@/components/@DLL_PREFIX@dbusservice@DLL_SUFFIX@
- #endif
+ @RESPATH@/components/nsINIProcessor.manifest
+ @RESPATH@/components/nsINIProcessor.js
+ @RESPATH@/components/nsPrompter.manifest
 @@ -624,22 +661,27 @@
  @RESPATH@/components/TestInterfaceJS.js
  @RESPATH@/components/TestInterfaceJS.manifest
