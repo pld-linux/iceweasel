@@ -22,12 +22,12 @@ Summary:	Iceweasel web browser
 Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
-Version:	43.0.3
+Version:	43.0.4
 Release:	1
 License:	MPL v2.0
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.xz
-# Source0-md5:	daa8cb66e5c2bd696d69046ac8cee15b
+# Source0-md5:	a4a5f0d069cf5414ab53afaffc9d1580
 Source1:	%{name}-branding.tar.xz
 # Source1-md5:	8f25cec142ee276cb516940db12076db
 Source2:	%{name}-rm_nonfree.sh
@@ -104,6 +104,7 @@ BuildRequires:	rpmbuild(macros) >= 1.601
 BuildRequires:	sed >= 4.0
 BuildRequires:	sqlite3-devel >= 3.8.11.1-3
 BuildRequires:	startup-notification-devel >= 0.8
+BuildRequires:	virtualenv
 BuildRequires:	xorg-lib-libXScrnSaver-devel
 BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXinerama-devel
