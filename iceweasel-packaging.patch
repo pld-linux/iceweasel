@@ -27,8 +27,8 @@ diff -ruN mozilla-release.orig/browser/installer/package-manifest.in mozilla-rel
 +#ifndef LIBXUL_SDK
  @RESPATH@/dependentlibs.list
 +#endif
- #ifdef GKMEDIAS_SHARED_LIBRARY
- @BINPATH@/@DLL_PREFIX@gkmedias@DLL_SUFFIX@
+ #ifdef MOZ_SHARED_MOZGLUE
+ @BINPATH@/@DLL_PREFIX@mozglue@DLL_SUFFIX@
  #endif
 @@ -70,8 +76,10 @@
  @BINPATH@/@DLL_PREFIX@mozglue@DLL_SUFFIX@
@@ -150,9 +150,9 @@ diff -ruN mozilla-release.orig/browser/installer/package-manifest.in mozilla-rel
  @RESPATH@/components/FeedProcessor.manifest
  @RESPATH@/components/FeedProcessor.js
 +#endif
+ @RESPATH@/components/PackagedAppUtils.js
+ @RESPATH@/components/PackagedAppUtils.manifest
  @RESPATH@/browser/components/BrowserFeeds.manifest
- @RESPATH@/browser/components/FeedConverter.js
- @RESPATH@/browser/components/FeedWriter.js
 @@ -391,6 +421,7 @@
  @RESPATH@/browser/components/webideComponents.manifest
  @RESPATH@/browser/components/Experiments.manifest
@@ -246,15 +246,6 @@ diff -ruN mozilla-release.orig/browser/installer/package-manifest.in mozilla-rel
  @RESPATH@/browser/defaults/profile/prefs.js
  
  #ifndef LIBXUL_SDK
-@@ -710,7 +756,7 @@
- @RESPATH@/defaults/pref/channel-prefs.js
- #else
- ; For Fx-on-xr, channel-prefs lives with the app preferences. (Bug 762588)
--@RESPATH@/@PREF_DIR@/channel-prefs.js
-+@RESPATH@/browser/@PREF_DIR@/channel-prefs.js
- #endif
- 
- ; Services (gre) prefs
 @@ -718,11 +764,14 @@
  @RESPATH@/defaults/pref/services-notifications.js
  #endif

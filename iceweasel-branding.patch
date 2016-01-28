@@ -71,7 +71,7 @@ diff -ruN mozilla-release.orig/browser/locales/en-US/chrome/overrides/appstrings
  contentEncodingError=The page you are trying to view cannot be shown because it uses an invalid or unsupported form of compression.
  unsafeContentType=The page you are trying to view cannot be shown because it is contained in a file type that may not be safe to open. Please contact the website owners to inform them of this problem.
  externalProtocolTitle=External Protocol Request
-@@ -34,6 +34,6 @@
+@@ -34,8 +34,8 @@
  phishingBlocked=The website at %S has been reported as a web forgery designed to trick users into sharing personal or financial information.
  cspBlocked=This page has a content security policy that prevents it from being loaded in this way.
  corruptedContentError=The page you are trying to view cannot be shown because an error in the data transmission was detected.
@@ -80,17 +80,9 @@ diff -ruN mozilla-release.orig/browser/locales/en-US/chrome/overrides/appstrings
  ## LOCALIZATION NOTE (sslv3Used) - Do not translate "%S".
 -sslv3Used=Firefox cannot guarantee the safety of your data on %S because it uses SSLv3, a broken security protocol.
 +#expand sslv3Used=__MOZ_APP_DISPLAYNAME__ cannot guarantee the safety of your data on %S because it uses SSLv3, a broken security protocol.
-diff -ruN mozilla-release.orig/browser/locales/en-US/searchplugins/answers.xml mozilla-release/browser/locales/en-US/searchplugins/answers.xml
---- mozilla-release.orig/browser/locales/en-US/searchplugins/answers.xml	2015-08-07 17:54:09.000000000 +0200
-+++ mozilla-release/browser/locales/en-US/searchplugins/answers.xml	2015-08-11 20:16:54.725923180 +0200
-@@ -12,6 +12,6 @@
-   <Param name="gwp" value="13"/>
- </Url>
- <Url type="application/x-suggestions+json" method="GET"
--     template="http://www.answers.com/main/startswith?output=json&amp;client=firefox&amp;s={searchTerms}"/>
-+#expand     template="http://www.answers.com/main/startswith?output=json&amp;client=__MOZ_APP_NAME__&amp;s={searchTerms}"/>
- <SearchForm>http://www.answers.com/</SearchForm>
- </SearchPlugin>
+ ## LOCALIZATION NOTE (weakCryptoUsed) - Do not translate "%S".
+-weakCryptoUsed=The owner of %S has configured their website improperly. To protect your information from being stolen, Firefox has not connected to this website.
++#expand weakCryptoUsed=The owner of %S has configured their website improperly. To protect your information from being stolen, __MOZ_APP_DISPLAYNAME__ has not connected to this website.
 diff -ruN mozilla-release.orig/browser/locales/en-US/searchplugins/google.xml mozilla-release/browser/locales/en-US/searchplugins/google.xml
 --- mozilla-release.orig/browser/locales/en-US/searchplugins/google.xml	2015-08-07 17:54:09.000000000 +0200
 +++ mozilla-release/browser/locales/en-US/searchplugins/google.xml	2015-08-11 20:16:54.726923177 +0200

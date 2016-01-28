@@ -22,12 +22,12 @@ Summary:	Iceweasel web browser
 Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
-Version:	43.0.4
+Version:	44.0
 Release:	1
 License:	MPL v2.0
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.xz
-# Source0-md5:	a4a5f0d069cf5414ab53afaffc9d1580
+# Source0-md5:	9d940e72f9eaff767fafcfbcc387594d
 Source1:	%{name}-branding.tar.xz
 # Source1-md5:	8f25cec142ee276cb516940db12076db
 Source2:	%{name}-rm_nonfree.sh
@@ -261,7 +261,6 @@ ac_add_options --enable-crash-on-assert
 %else
 ac_add_options --disable-debug
 ac_add_options --disable-debug-modules
-ac_add_options --disable-logging
 ac_add_options --enable-optimize="%{rpmcflags} -Os"
 %endif
 ac_add_options --disable-strip
