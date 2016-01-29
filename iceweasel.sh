@@ -24,33 +24,17 @@ done
 ICEWEASEL="$LIBDIR/iceweasel"
 PWD=${PWD:-$(pwd)}
 
-if [ "$1" = "-remote" ]; then
-	exec $ICEWEASEL "$@"
+if [ -z "$1" ]; then
+	exec $ICEWEASEL
 else
-	if ! $ICEWEASEL -remote 'ping()' 2>/dev/null; then
-		if [ -f "$PWD/$1" ]; then
-			exec $ICEWEASEL "file://$PWD/$1"
-		else
-			exec $ICEWEASEL "$@"
-		fi
+	if [ -f "$PWD/$1" ]; then
+		URL="file://$PWD/$1"
 	else
-		if [ -z "$1" ]; then
-			exec $ICEWEASEL -remote 'xfeDoCommand(openBrowser)'
-		elif [ "$1" = "-mail" ]; then
-			exec $ICEWEASEL -remote 'xfeDoCommand(openInbox)'
-		elif [ "$1" = "-compose" ]; then
-			exec $ICEWEASEL -remote 'xfeDoCommand(composeMessage)'
-		else
-			if [ -f "$PWD/$1" ]; then
-				URL="file://$PWD/$1"
-			else
-				URL="$1"
-			fi
-			if ! grep -q browser.tabs.opentabfor.middleclick.*false ~/.iceweasel/*/prefs.js; then
-				exec $ICEWEASEL -new-tab "$URL"
-			else
-				exec $ICEWEASEL -new-window "$URL"
-			fi
-		fi
+		URL="$1"
+	fi
+	if ! grep -q browser.tabs.opentabfor.middleclick.*false ~/.iceweasel/*/prefs.js; then
+		exec $ICEWEASEL -new-tab "$URL"
+	else
+		exec $ICEWEASEL -new-window "$URL"
 	fi
 fi
