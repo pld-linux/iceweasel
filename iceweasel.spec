@@ -1,3 +1,8 @@
+#
+#
+#          Renamed back to Firefox, see firefox package
+#
+#
 # TODO:
 # - consider --enable-libproxy
 #
@@ -25,7 +30,7 @@ Summary(hu.UTF-8):	Iceweasel web böngésző
 Summary(pl.UTF-8):	Iceweasel - przeglądarka WWW
 Name:		iceweasel
 Version:	44.0.2
-Release:	1
+Release:	1.1
 License:	MPL v2.0
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/firefox/releases/%{version}/source/firefox-%{version}.source.tar.xz
