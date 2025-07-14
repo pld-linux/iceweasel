@@ -213,21 +213,21 @@ Pakiet programistyczny Iceweasela.
 # hunspell needed for factory including mozHunspell.h
 echo 'LOCAL_INCLUDES += $(MOZ_HUNSPELL_CFLAGS)' >> extensions/spellcheck/src/Makefile.in
 
-%patch0 -p1
-%patch1 -p2
-%patch2 -p1
-%patch3 -p2
-%patch4 -p1
-%patch5 -p2
-%patch6 -p1
-%patch7 -p1
-%patch8 -p2
-%patch9 -p2
-%patch10 -p1
-%patch11 -p2
-%patch12 -p1
-%patch13 -p2
-%patch14 -p2
+%patch -P0 -p1
+%patch -P1 -p2
+%patch -P2 -p1
+%patch -P3 -p2
+%patch -P4 -p1
+%patch -P5 -p2
+%patch -P6 -p1
+%patch -P7 -p1
+%patch -P8 -p2
+%patch -P9 -p2
+%patch -P10 -p1
+%patch -P11 -p2
+%patch -P12 -p1
+%patch -P13 -p2
+%patch -P14 -p2
 
 cp -a xulrunner/installer/*.pc.in browser/installer/
 
